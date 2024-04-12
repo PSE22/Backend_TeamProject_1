@@ -6,14 +6,19 @@
   <div class="container">
     <router-view/>
   </div>
+
+  <!-- footer -->
+  <FooterCom />
 </template>
 
 <script>
 import HeaderCom from "./components/common/HeaderCom.vue";
+import FooterCom from "./components/common/FooterCom.vue";
 
 export default {
   components: {
-    HeaderCom
+    HeaderCom,
+    FooterCom
   }
 }
 </script>

@@ -6,9 +6,67 @@
     /* background-color: cyan; */
 }
 
+.main-nav {
+    height: 70px;
+    line-height: 70px;
+
+}
+
+.main-nav-logo {
+    /* background-color: rgb(115, 235, 67); */
+    font-size: 30px;
+    font-weight: bold;
+
+}
+
+.main-nav-search {
+    padding-top: 17px;
+    /* background-color: rgb(29, 103, 37); */
+}
+
+.main-nav-list {
+    /* background-color: rgb(132, 205, 139); */
+}
+
+/* .ul_1 {
+    list-style: none;
+} */
+
+/* .li_inline {
+    display: inline-block;
+} */
+
+.router-link {
+    text-decoration: none;
+    color: black;
+    font-size: 13px;
+}
+
+
+#navbar2 {
+    /* background-color:blueviolet; */
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#logo {
+    display: inline-block;
+    width: auto;
+}
+
+#search-1 {
+    display: flex;
+    width: auto;
+}
+
+#list {
+    display: flex;
+    width: auto;
+}
+
 /* nav #2 탭 */
 .menu-tab {
-    background-color: bisque;
+    /* background-color: bisque; */
     height: 50px;
 }
 
@@ -29,12 +87,35 @@ li a {
     line-height: 50px;
     font-size: 20px;
     margin-top: 50px;
-    background-color: aquamarine;
+    /* background-color: aquamarine; */
 }
 
 /* 메인 페이지 : 추천 상품 목록 */
 #main-products {
     margin: 0px 100px 100px 100px;
     padding-bottom: 30px;
-    background-color: blueviolet;
+    /* background-color: blueviolet; */
+}
+
+
+#footer_box {
+    width: 1140px;
+    margin: 0 auto;
+}
+
+footer {
+    height: 150px;
+    background-color: #c0aba1;
+    margin-top: 30px;
+}
+
+#footer_logo {
+    float: left;
+    margin: 30px 0 0 30px;
+}
+
+#address {
+    float: right;
+    margin: 50px 30px 0 0;
+    color: white;
 }

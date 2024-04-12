@@ -1,60 +1,34 @@
 <template>
   <!-- nav 바 -->
-  <nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Dropdown
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
-          </li>
-        </ul>
-        <form class="d-flex" role="search">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+  <div class="container text-center">
+    <div class="main-nav row">
+      <!-- nav 로고 -->
+      <div class="main-nav-logo col">LOGO</div>
+      <!-- nav 검색창 -->
+      <div class="main-nav-search col-6">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="검색" />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="button-addon2"
+          >
+            검색
+          </button>
+        </div>
+      </div>
+      <!-- nav 마이페이지 -->
+      <div class="main-nav-list col">
+        <div id="myPage">
+            <router-link to="#" class="router-link">로그인</router-link> |
+            <router-link to="#" class="router-link">회원가입</router-link> |
+            <router-link to="#" class="router-link">마이페이지</router-link> |
+            <router-link to="#" class="router-link">장바구니</router-link>
+        </div>
       </div>
     </div>
-  </nav>
+  </div>
+
   <!-- 카테고리/메뉴 탭 -->
   <!-- nav-pills : 여백 채우기 -->
   <!-- nav-justified : 동일한 가로폭 -->
@@ -74,6 +48,6 @@
   </ul>
 </template>
 <script>
-export default {}; 
+export default {};
 </script>
 <style></style>
