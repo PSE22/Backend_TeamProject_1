@@ -26,4 +26,5 @@ export default {
 <style>
 @import "@/assets/css/app.css";
 @import "@/assets/css/home.css";
+@import "@/assets/css/mypage.css";
 </style>
