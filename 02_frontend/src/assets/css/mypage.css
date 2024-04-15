@@ -1,0 +1,80 @@
+/* 마이페이지 */
+/* 정렬 */
+.my-page {
+    position: absolute;
+}
+/* 메뉴 타이틀 */
+.my-page-title {
+margin-top: 100px;
+width: 250px;
+height: 100px;
+
+background-color: #cbcbcb;
+text-align: center;
+line-height: 100px;
+font-size: 20px;
+
+}
+
+/* 첫번째 메뉴 */
+.my-page-menu {
+box-sizing: border-box;
+width: 250px;
+height: 60px;
+
+background: #FFFFFF;
+border: 1px solid #cbcbcb;
+list-style: none;
+
+text-align: center;
+line-height: 60px;
+color: black;
+}
+
+/* 나머지 메뉴 */
+.my-page-menu2{
+box-sizing: border-box;
+width: 250px;
+height: 60px;
+
+background: #FFFFFF;
+border-width: 0px 1px 1px 1px;
+border-style: solid;
+border-color: #cbcbcb;
+
+list-style: none;
+text-align: center;
+line-height: 60px;
+color: black;
+}
+
+/* 첫번째 메뉴 링크 */
+.my-page-menu >a{
+    color: black;
+    text-decoration: none;
+}
+
+/* 나머지 메뉴 링크 */
+.my-page-menu2 >a{
+    color: black;
+    text-decoration: none;
+    display: block;
+}
+.my-page-menu :hover {
+    color: #666666;
+}
+
+.my-page-menu2 :hover {
+    color: #666666;
+}
+
+/* 마이페이지 타이틀 박스 */
+.my-page-title-box {
+    background-color: #f5e2e2;
+    height: 200px;
+    width: 800px;
+    float: right;
+    margin: 100px;
+    float: right;
+}
+
