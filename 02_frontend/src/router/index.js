@@ -4,7 +4,11 @@ const routes = [
   {
     path: '/',
     component: () => import('../views/HomeView.vue')
-  }
+  },
+  {
+    path: "/mypage",
+    component: () => import("../views/MyPageMain.vue"),
+  },
 ]
 
 const router = createRouter({
