@@ -3,7 +3,7 @@
   <HeaderCom />
   
   <!-- 본문 -->
-  <div class="container">
+  <div class="container d-flex flex-column min-vh-100">
     <router-view/>
   </div>
 
@@ -25,6 +25,4 @@ export default {
 
 <style>
 @import "@/assets/css/app.css";
-@import "@/assets/css/home.css";
-@import "@/assets/css/mypage.css";
 </style>

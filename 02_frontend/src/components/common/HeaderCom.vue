@@ -17,10 +17,10 @@
       </div>
       <!-- navbar #1 : 우측 리스트 -->
       <div class="main-nav-list col align-self-center">
-        <router-link to="#" class="router-link">로그인</router-link> |
-        <router-link to="#" class="router-link">회원가입</router-link> |
-        <router-link to="#" class="router-link">마이페이지</router-link> |
-        <router-link to="#" class="router-link">장바구니</router-link>
+        <router-link to="/login" class="router-link">로그인</router-link> |
+        <router-link to="/register" class="router-link">회원가입</router-link> |
+        <router-link to="/mypage" class="router-link">마이페이지</router-link> |
+        <router-link to="/cart" class="router-link">장바구니</router-link>
       </div>
     </div>
   </div>
@@ -49,4 +49,5 @@ export default {};
 </script>
 
 <style>
+@import "@/assets/css/home.css";
 </style>
