@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import MyPageMain from "@/components/common/MyPageMainMenu.vue";
+import MyPageMain from "@/components/mypage/MyPageMainMenu.vue";
 export default {
   components: {
     MyPageMain,
@@ -31,4 +31,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+@import "@/assets/css/mypage.css";
+</style>
