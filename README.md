@@ -1,2 +1,2 @@
 # Backend_TeamProject_1
-branch test
+쇼핑몰 프로젝트입니다.
