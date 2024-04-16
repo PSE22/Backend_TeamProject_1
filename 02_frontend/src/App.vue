@@ -3,7 +3,7 @@
   <HeaderCom />
   
   <!-- 본문 -->
-  <div class="container">
+  <div class="container d-flex flex-column min-vh-100">
     <router-view/>
   </div>
 
