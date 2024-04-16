@@ -68,13 +68,48 @@ color: black;
     color: #666666;
 }
 
+
+
 /* 마이페이지 타이틀 박스 */
-.my-page-title-box {
-    background-color: #f5e2e2;
+ul,li,ol {
+    list-style-type: none;
+}
+
+.myInfoWrap {
     height: 200px;
     width: 800px;
     float: right;
     margin: 100px;
-    float: right;
+}
+
+.mypageTitle {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.orderInfoBox {
+    margin-top: 17px;
+    padding: 12px 0px;
+    background: rgb(246, 246, 246);
+    border-radius: 3px;
+}
+
+.orderInfoBox li {
+    display: inline-block;
+    width: 25%;
+    font-size: 15px;
+    color: rgb(51, 51, 51);
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.orderInfoBox li strong {
+    display: block;
+    margin-bottom: 13px;
+    font-size: 19px;
+    color: rgb(51, 51, 51);
 }
 
