@@ -1,0 +1,52 @@
+<template>
+  <!-- navbar #1 -->
+  <div class="container text-center main-nav1">
+    <div class="row">
+      <!-- navbar #1 : 로고 -->
+      <div class="main-nav-logo col align-self-center">
+        <router-link to="/" class="router-link">서울쥐</router-link>
+      </div>
+      <!-- navbar #1 : 검색창 -->
+      <div class="main-nav-search col-6 ">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="검색" />
+          <button class="btn btn-outline-secondary" type="button">
+            검색
+          </button>
+        </div>
+      </div>
+      <!-- navbar #1 : 우측 리스트 -->
+      <div class="main-nav-list col align-self-center">
+        <router-link to="#" class="router-link">로그인</router-link> |
+        <router-link to="#" class="router-link">회원가입</router-link> |
+        <router-link to="#" class="router-link">마이페이지</router-link> |
+        <router-link to="#" class="router-link">장바구니</router-link>
+      </div>
+    </div>
+  </div>
+
+  <!-- navbar #2 -->
+  <div class="container text-center main-nav2">
+    <div class="row">
+      <div class="col p-0">
+        <router-link to="/category" class="router-link category-menu">카테고리</router-link>
+      </div>
+      <div class="col p-0">
+        <router-link to="/best-item" class="router-link category-menu">베스트</router-link>
+      </div>
+      <div class="col p-0">
+        <router-link to="/event" class="router-link category-menu">이벤트</router-link>
+      </div>
+      <div class="col p-0">
+        <router-link to="/customer" class="router-link category-menu">고객지원</router-link>
+      </div>
+    </div>
+  </div>
+
+</template>
+<script>
+export default {};
+</script>
+
+<style>
+</style>
