@@ -29,23 +29,43 @@
   <div class="container text-center main-nav2">
     <div class="row">
       <div class="col p-0">
-        <router-link to="/category" class="router-link category-menu">카테고리</router-link>
+        <div class="router-link category-menu" id="category-tab" @click="toggleCategory">
+          카테고리
+          <ul class="category-ul" v-if="categoryTab">
+            <li><router-link to="/category/1" class="category-li">카테고리1</router-link></li>
+            <li><router-link to="/category/2" class="category-li">카테고리2</router-link></li>
+            <li><router-link to="/category/3" class="category-li">카테고리3</router-link></li>
+            <li><router-link to="/category/4" class="category-li">카테고리4</router-link></li>
+          </ul>
+        </div>
       </div>
       <div class="col p-0">
         <router-link to="/best-item" class="router-link category-menu">베스트</router-link>
       </div>
       <div class="col p-0">
-        <router-link to="/event" class="router-link category-menu">이벤트</router-link>
+        <router-link to="/new-item" class="router-link category-menu">신상품</router-link>
       </div>
       <div class="col p-0">
-        <router-link to="/customer" class="router-link category-menu">고객지원</router-link>
+        <router-link to="/event" class="router-link category-menu">이벤트</router-link>
       </div>
     </div>
   </div>
 
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      categoryTab: false,
+    }
+  },
+  methods: {
+    // 카테고리 탭 토글
+    toggleCategory() {
+      this.categoryTab = !this.categoryTab;
+    }
+  },
+};
 </script>
 
 <style>

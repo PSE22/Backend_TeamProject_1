@@ -34,7 +34,7 @@
 
 /* navbar #2 */
 .main-nav2 {
-    /* background-color: orange; */
+    background-color: orange;
     height: 50px;
     line-height: 50px;
 }
@@ -44,6 +44,26 @@
     height: 50px;
     line-height: 50px;
     font-weight: 600;
+    display: block;
+}
+
+/* 카테고리 탭  */
+#category-tab {
+    cursor : pointer;
+}
+
+/* 카테고리 탭 펼치면 생기는 ul */
+.category-ul {
+    position: relative;
+    z-index: 999;
+    background-color: #4ac74c;
+    padding-left: 0px;
+    list-style: none;
+}
+
+.category-li {
+    text-decoration: none;
+    color: black;
     display: block;
 }
 
