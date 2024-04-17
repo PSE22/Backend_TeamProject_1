@@ -4,7 +4,9 @@
   </div>
   <div class="container mt-5 login-box">
     <div align="center" class="mb-3">
-      <h2>로고</h2>
+      <div class="logo">
+        <h2>서울쥐</h2>
+      </div>
     </div>
     <form>
       <div class="mb-1">
@@ -13,8 +15,9 @@
         <input 
           type="text" 
           class="form-control" 
-          id="exampleInputEmail1" 
           placeholder="아이디"
+          name="text"
+          v-model="user.id"
         />
         <!-- 비밀번호 박스 -->
       </div>
@@ -23,13 +26,19 @@
         <input
           type="password"
           class="form-control"
-          id="exampleInputPassword1"
           placeholder="비밀번호"
+          name="password"
+          v-model="user.password"
         />
       </div>
       <!-- 아이디 저장 체크박스 -->
       <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+        <input 
+          type="checkbox" 
+          class="form-check-input"
+          placeholder="체크박스"
+          name="rememId"
+        />
         <label class="form-check-label" for="exampleCheck1">아이디 저장</label>
       </div>
       <!-- 로그인 박스 -->
@@ -46,9 +55,7 @@
 
       <!-- 소셜 페이지 로그인 기능 연동 -->
       <div class="social-container" align="center">
-        <router-link href="#" class="social" to="facebook"
-          >facebook</router-link
-        >
+        <router-link href="#" class="social" to="facebook">facebook</router-link>
         <router-link href="#" class="social" to="google">google</router-link>
         <router-link href="#" class="social" to="kakao">kakao</router-link>
       </div>
@@ -57,10 +64,38 @@
   </div>
 </template>
 <script>
+import LoginService from '@/services/login/LoginService';
+
 export default {
+  // 데이터 바인딩 속성
   data() {
-    return {};
+    return {
+      user: {
+        id: "",
+        password: "",
+      },
+    }
   },
+
+  // 함수 정의
+  async handleLogin() {
+    try {
+      let response = await LoginService.login(this.user);
+      console.log(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data))
+      this.$store.commit("loginSucces", response.data);
+      this.$router.push("/");
+    } catch(e) {
+      this.$store.commit("loginFailure");
+      console.log(e);
+    }
+  },
+  // TODO: 화면이 뜰때 실행되는 함수
+  mounted() {
+    if(this.$store.state.loggedIn == true) {
+      this.$router.push("/");
+    }
+  }
 };
 </script>
 <style>
@@ -85,5 +120,18 @@ export default {
   margin: 0 20px;
   height: 60px;
   width: 60px;
+}
+
+@font-face {
+    font-family: 'YClover-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/YClover-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+.logo {
+    /* background-color: rgb(115, 235, 67); */
+    font-size: 30px;
+    font-family: 'YClover-Bold';
 }
 </style>
