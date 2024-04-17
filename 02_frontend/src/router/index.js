@@ -39,6 +39,22 @@ const routes = [
     path: "/mypage",
     component: () => import("../views/MyPageMain.vue"),
   },
+  // 관리자 메인
+  {
+    path: "/admin-page",
+    component: () => import("../views/AdminView.vue"),
+  },
+  // 카테고리 상세
+  {
+    path: "/category",
+    component: () => import("../views/CategoryDetail.vue"),
+  },
+  
+  // 마이페이지 -> 주문조회
+  {
+    path: "/order",
+    component: () => import("../views/MyPageOrder.vue"),
+  },
 ];
 
 const router = createRouter({
