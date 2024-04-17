@@ -49,6 +49,11 @@ const routes = [
     path: "/category",
     component: () => import("../views/CategoryDetail.vue"),
   },
+  // 마이페이지 -> 주문조회
+  {
+    path: "/order",
+    component: () => import("../views/MyPageOrder.vue"),
+  },
 ];
 
 const router = createRouter({
