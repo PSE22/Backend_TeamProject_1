@@ -39,6 +39,11 @@ const routes = [
     path: "/mypage",
     component: () => import("../views/MyPageMain.vue"),
   },
+  // 관리자 메인
+  {
+    path: "/admin-page",
+    component: () => import("../views/AdminView.vue"),
+  },
 ];
 
 const router = createRouter({

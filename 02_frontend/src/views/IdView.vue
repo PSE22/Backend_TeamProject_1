@@ -4,7 +4,9 @@
   </div>
   <div class="container mt-5 id-box">
     <div align="center" class="mb-3">
-      <h2>로고</h2>
+      <div class="logo">
+        <h2>서울쥐</h2>
+      </div>
     </div>
     <form>
       <div class="mb-1">
@@ -45,5 +47,18 @@ export default {};
   border: 3px solid #505050;
   width: 500px;
   height: 400px;
+}
+
+@font-face {
+    font-family: 'YClover-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/YClover-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+.logo {
+    /* background-color: rgb(115, 235, 67); */
+    font-size: 30px;
+    font-family: 'YClover-Bold';
 }
 </style>
