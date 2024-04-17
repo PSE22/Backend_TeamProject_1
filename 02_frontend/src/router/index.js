@@ -39,6 +39,12 @@ const routes = [
     path: "/mypage",
     component: () => import("../views/MyPageMain.vue"),
   },
+  // 카테고리 상세
+  {
+    path: "/category",
+    component: () => import("../views/CategoryDetail.vue"),
+  },
+  
 ];
 
 const router = createRouter({
