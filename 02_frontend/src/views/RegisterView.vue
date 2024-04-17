@@ -4,22 +4,24 @@
   </div>
   <div class="container mt-5 register-box">
     <div align="center">
-      <h2>로고</h2>
+      <div class="logo">
+        <h2>서울쥐</h2>
+      </div>
     </div>
     <!-- 회원가입 폼 -->
-    <form>
+    <form class="user" @submit.prevent="handleRegister">
       <!-- 아이디 -->
       <div align="center">
         <div class="row">
           <div class="col-9">
             <label for="userid"></label>
-
             <input
               type="text"
               class="form-control"
               id="userid"
               placeholder="아이디"
               name="userid"
+              v-model="user.id"
             />
           </div>
 
@@ -36,27 +38,26 @@
       <!-- 비밀번호 -->
       <div align="center">
         <div class="form-group col">
-          <label for="pwd"></label>
+          <label for="password"></label>
           <input
             type="password"
             class="form-control"
-            id="pwd"
             placeholder="비밀번호"
-            name="pwd"
+            name="password"
+            v-model="user.password"
           />
         </div>
       </div>
 
       <div align="center">
         <div class="form-group col">
-          <label for="pwd_check"></label>
-
+          <label for="password_check"></label>
           <input
             type="password"
             class="form-control"
-            id="pwd_check"
             placeholder="비밀번호 재확인"
-            name="pwd_check"
+            name="password_check"
+            v-model="user.repassword"
           />
         </div>
       </div>
@@ -65,13 +66,12 @@
       <div align="center">
         <div class="form-group col">
           <label for="name"></label>
-
           <input
             type="text"
             class="form-control"
-            id="name"
             placeholder="이름"
             name="name"
+            v-model="user.name"
           />
         </div>
       </div>
@@ -81,13 +81,12 @@
         <div class="row">
           <div class="col-5">
             <label for="email"></label>
-
             <input
               type="text"
               class="form-control"
-              id="email"
               placeholder="이메일"
               name="email"
+              v-model="user.email"
             />
           </div>
 
@@ -107,7 +106,7 @@
 
           <div class="col align-self-end">
             <div align="right">
-            <button type="button" id="phonecheck" class="btn btn-secondary">
+            <button type="button" class="btn btn-secondary">
               중복확인
             </button>
           </div>
@@ -120,13 +119,12 @@
         <div class="row">
           <div class="col-10">
             <label for="phone"></label>
-
             <input
               type="text"
               class="form-control"
-              id="phone"
               placeholder="휴대폰 번호"
               name="phone"
+              v-model="user.phone"
             />
           </div>
 
@@ -143,16 +141,56 @@
       <!-- 회원가입 -->
       <br />
       <div align="center">
-        <button id="register" class="btn btn-primary mt-3 col-12">
+        <button type="submit" class="btn btn-primary btn-user mt-3 col-12">
           회원가입
         </button>
       </div>
       <router-view />
     </form>
+    <p v-if="message" class="alert alert-success" role="alert">
+      {{ message }} 
+    </p>
   </div>
 </template>
 <script>
-export default {};
+import LoginService from '@/services/login/LoginService';
+
+export default {
+  // 데이터 바인딩
+  data() {
+    return {
+      user: {
+                id: "",
+                password: "",
+                repassword: "",
+                name: "",
+                email: "",
+                phone: "",
+            },
+            message: "",      // 성공메세지 화면 출력속성
+    }
+  },
+  // TODO: 함수 정의
+  methods: {
+    async handleRegister() {
+      this.message = "";
+      try {
+        // TODO: 공통 사용자등록 서비스 함수 실행
+        let response = await LoginService.register(this.user);
+        // 공유저장소의 register 성공함수 실행
+        this.$store.commit("registerSuccess");
+        this.message = "사용자가 등록되었습니다.";
+        // 로깅 
+        console.log(response.data);
+      } catch(e) {
+        // 공유저장소의 register 실패함수 실행
+        this.$store.commit("registerFailure");
+        this.message = "에러 : " + e;
+        console.log(e);
+      }
+    }
+  },
+};
 </script>
 <style>
 .register-box {
@@ -169,5 +207,18 @@ export default {};
 .a {
   position: absolute;
   top: 50%;
+}
+
+@font-face {
+    font-family: 'YClover-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/YClover-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+.logo {
+    /* background-color: rgb(115, 235, 67); */
+    font-size: 30px;
+    font-family: 'YClover-Bold';
 }
 </style>
