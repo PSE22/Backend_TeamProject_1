@@ -39,11 +39,20 @@ const routes = [
     path: "/mypage",
     component: () => import("../views/MyPageMain.vue"),
   },
+<<<<<<< HEAD
   // 관리자 메인
   {
     path: "/admin-page",
     component: () => import("../views/AdminView.vue"),
   },
+=======
+  // 카테고리 상세
+  {
+    path: "/category",
+    component: () => import("../views/CategoryDetail.vue"),
+  },
+  
+>>>>>>> main
 ];
 
 const router = createRouter({
