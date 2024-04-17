@@ -1,0 +1,33 @@
+#category-title {
+    height: 50px;
+    line-height: 50px;
+    font-size: 30px;
+    margin-top: 70px;
+    font-weight: bold;
+}
+
+#category-products {
+    margin: 0px 100px 100px 100px;
+    padding-bottom: 30px;
+}
+
+.product-image {
+    position: relative;
+}
+
+.heart-icon-white {
+    position: absolute;
+    top: 75%;
+    left: 100%;
+    transform: translate(-100%, -75%);
+}
+
+#sorting {
+    margin-top: 50px;
+    margin-right: 115px;
+}
+
+#button {
+    background-color: white;
+    border: none;
+}
