@@ -49,6 +49,11 @@ const routes = [
     path: "/category",
     component: () => import("../views/CategoryDetail.vue"),
   },
+  // 상품 상세
+  {
+    path: "/product-detail",
+    component: () => import("../views/ProductDetail.vue"),
+  },
   
   // 마이페이지 -> 주문조회
   {
