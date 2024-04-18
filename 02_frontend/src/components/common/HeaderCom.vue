@@ -4,11 +4,11 @@
     <div class="row">
       <!-- navbar #1 : 로고 -->
       <div class="main-nav-logo col align-self-center">
-        <router-link to="/" class="router-link">서울쥐</router-link>
+        <router-link to="/" class="router-link logo-name">서울쥐</router-link>
       </div>
       <!-- navbar #1 : 검색창 -->
-      <div class="main-nav-search col-6 ">
-        <div class="input-group mb-3">
+      <div class="main-nav-search col-6">
+        <div class="input-group">
           <input type="text" class="form-control" placeholder="검색" />
           <button class="btn btn-outline-secondary" type="button">
             검색
@@ -27,7 +27,9 @@
 
   <!-- navbar #2 -->
   <div class="container text-center main-nav2">
+    <!-- navbar #2 : 메뉴 -->
     <div class="row">
+      <!-- navbar #2 : 카테고리 탭 -->
       <div class="col p-0">
         <div class="category-menu" id="category-tab" @click="toggleCategory">카테고리
           <ul v-if="categoryTab">
@@ -61,9 +63,12 @@ export default {
   methods: {
     toggleCategory() {
       this.categoryTab = !this.categoryTab;
-    }
+    },
+    // categoryOver: function () {
+    //       this.categoryTab = !this.categoryTab;
+    //     }
   },
-};
+}
 </script>
 
 <style>
