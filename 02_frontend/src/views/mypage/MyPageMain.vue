@@ -1,8 +1,8 @@
 // 마이페이지
 <template>
-  <div class="container">
+  <div>
     <MyPageMain />
-    <div>
+    <div class="mp-page-top">
       <!-- 회원정보 -->
       <div class="row" id="mp-box-name"><h3>OOO 님</h3></div>
       <!-- 첫번째 타이틀 -->
