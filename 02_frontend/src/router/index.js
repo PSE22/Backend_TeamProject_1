@@ -9,52 +9,54 @@ const routes = [
   // 로그인
   {
     path: "/login",
-    component: function () {
-      return import("../views/LoginView.vue");
-    },
+    component: () => import("../views/LoginView.vue"),
   },
   // 아이디 찾기
   {
     path: "/find-id",
-    component: function () {
-      return import("../views/IdView.vue");
-    },
+    component: () => import("../views/IdView.vue"),
   },
   // 비밀번호 찾기
   {
     path: "/find-password",
-    component: function () {
-      return import("../views/PasswordView.vue");
-    },
+    component: () => import("../views/PasswordView.vue"),
   },
   // 회원가입
   {
     path: "/register",
-    component: function () {
-      return import("../views/RegisterView.vue");
-    },
+    component: () => import("../views/RegisterView.vue"),
   },
   // 관리자 메인
   {
     path: "/admin-page",
     component: () => import("../views/AdminView.vue"),
   },
-  // 카테고리 상세
-  {
-    path: "/category",
-    component: () => import("../views/CategoryDetail.vue"),
-  },
-
-  // 상품 상세
-  {
-    path: "/product-detail",
-    component: () => import("../views/ProductDetail.vue"),
-  },
   // 장바구니
   {
     path: "/cart",
     component: () => import("../views/CartList.vue"),
   }, 
+  // 카테고리 상세
+  {
+    path: "/category",
+    component: () => import("../views/CategoryDetail.vue"),
+  },
+  // 상품 상세
+  {
+    path: "/product-detail",
+    component: () => import("../views/ProductDetail.vue"),
+  },
+  // 베스트 상품 페이지
+  {
+    path: "/best-item",
+    component: () => import("../views/BestItemView.vue"),
+  },
+
+  // 베스트 상품 페이지
+  {
+    path: "/event",
+    component: () => import("../views/EventView.vue"),
+  },
 
   // TODO: 마이페이지 
   // 마이페이지
