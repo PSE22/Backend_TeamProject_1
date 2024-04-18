@@ -1,8 +1,12 @@
-#product-image {
-    float: left;
-    /* margin-top: 50px; */
+.product-select {
+    list-style: none;
 }
 
-#product-text {
-    float: right;
+.select {
+    width: 500px;
+    appearance: none;
+}
+
+.select option {
+    background-color: beige;
 }
