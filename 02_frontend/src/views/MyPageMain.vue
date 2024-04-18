@@ -3,44 +3,27 @@
   <div class="container">
     <MyPageMain />
     <div>
-      <div class="mp-box">
-        <!-- 회원정보 -->
-        <div class="mp-box-name">OOO 님</div>
-        <!-- 첫번째 타이틀 -->
-        <div class="row">
-          <div class="my-page-title-box col">
-            <ul>
-              <div class="mp-first-title">
-                <!-- 주문내역 -->
-                <li>
-                  <div>
-                    <button class="mp-btn">
-                      <p>주문내역</p>
-                      <h1>0</h1>
-                    </button>
-                  </div>
-                </li>
-                <!-- 쿠폰 -->
-                <li>
-                  <div>
-                    <button class="mp-btn">
-                      <p>쿠폰</p>
-                      <h1>0</h1>
-                    </button>
-                  </div>
-                </li>
-                <!-- 적립금 -->
-                <li>
-                  <div>
-                    <button class="mp-btn">
-                      <p>적립금</p>
-                      <h1>0</h1>
-                    </button>
-                  </div>
-                </li>
-              </div>
-            </ul>
-          </div>
+      <!-- 회원정보 -->
+      <div class="row" id="mp-box-name"><h3>OOO 님</h3></div>
+      <!-- 첫번째 타이틀 -->
+      <div class="mp-title-box justify-content-md-center align-items-center row">
+        <div class="col-3 text-center">
+          <button class="mp-btn">
+            <p>주문내역</p>
+            <h1>0</h1>
+          </button>
+        </div>
+        <div class="col-3 text-center">
+          <button class="mp-btn">
+            <p>쿠폰</p>
+            <h1>0</h1>
+          </button>
+        </div>
+        <div class="col-3 text-center">
+          <button class="mp-btn">
+            <p>적립금</p>
+            <h1>0</h1>
+          </button>
         </div>
       </div>
     </div>
@@ -87,10 +70,11 @@
           </li>
           <li>
             <a class="review-a" title="" href="">
-              나의 베스트 &amp; 추천 리뷰<span class="count"
-                ><strong>0</strong>개</span
-              ></a
-            >
+              나의 베스트 &amp; 추천 리뷰
+              <span class="count">
+                <strong>0</strong>개
+              </span>
+            </a>
           </li>
         </div>
       </div>

@@ -47,6 +47,19 @@
     display: block;
 }
 
+#category-tab {
+    /* background-color: green; */
+    cursor: pointer;
+}
+
+#category-tab ul {
+    /* background-color: orange; */
+    padding: 0;
+    position: relative;
+    list-style: none;
+    z-index: 999;
+}
+
 /* TODO: 본문 */
 /* 메인 페이지 : 추천 상품 제목 */
 #main-product-title {
