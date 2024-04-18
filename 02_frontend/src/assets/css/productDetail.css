@@ -1,0 +1,8 @@
+#product-image {
+    float: left;
+    /* margin-top: 50px; */
+}
+
+#product-text {
+    float: right;
+}
