@@ -69,55 +69,70 @@
   </div>
 
   <!-- 추천 상품 제목-->
-  <div class="row ">
-    <div class="col-md-6 text-center offset-md-3" id="main-product-title"> 이달의 추천 상품 </div>
+  <div class="row">
+    <div class="col-md-6 text-center offset-md-3" id="main-product-title">
+      이달의 추천 상품
+    </div>
   </div>
 
   <!-- 추천 상품 카드 -->
   <!-- row-cols-md-3 : 한줄에 보일 카드 개수(3) -->
   <div class="row row-cols-1 row-cols-md-3 g-4" id="main-products">
-  <div class="col">
-    <div class="card h-100">
-      <img src="https://via.placeholder.com/400x400?text=Image" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">상품 설명</p>
+    <div class="col">
+      <div class="card h-100">
+        <img
+          src="https://via.placeholder.com/400x400?text=Image"
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">상품 설명</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100">
+        <img
+          src="https://via.placeholder.com/400x400?text=Image"
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">상품 설명</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100">
+        <img
+          src="https://via.placeholder.com/400x400?text=Image"
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">상품 설명</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100">
+        <img
+          src="https://via.placeholder.com/400x400?text=Image"
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">상품 설명</p>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col">
-    <div class="card h-100">
-      <img src="https://via.placeholder.com/400x400?text=Image" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">상품 설명</p>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card h-100">
-      <img src="https://via.placeholder.com/400x400?text=Image" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">상품 설명</p>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card h-100">
-      <img src="https://via.placeholder.com/400x400?text=Image" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">상품 설명</p>
-      </div>
-    </div>
-  </div>
-
-</div>
-
 </template>
 <script>
 export default {};
 </script>
-<style>
-</style>
+<style></style>
