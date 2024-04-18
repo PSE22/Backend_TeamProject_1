@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="e492dc44-4299-4e02-9a4c-cf93c797ed86" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../02_frontend/src/assets/css/mypage.css" beforeDir="false" afterPath="$PROJECT_DIR$/../02_frontend/src/assets/css/mypage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../02_frontend/src/components/mypage/MyPageMainMenu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../02_frontend/src/components/mypage/MyPageMainMenu.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../02_frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../02_frontend/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../02_frontend/src/views/MyPageMain.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../02_frontend/src/views/MyPageMain.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../02_frontend/src/assets/css/mypageorder.css" beforeDir="false" afterPath="$PROJECT_DIR$/../02_frontend/src/assets/css/mypageorder.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../02_frontend/src/views/mypage/MyPageOrder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../02_frontend/src/views/mypage/MyPageOrder.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../02_frontend/src/views/mypage/MyPageWishList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../02_frontend/src/views/mypage/MyPageWishList.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,9 +22,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2fDjgNufq08z2SRE1mQ2K501iUU" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -30,7 +34,12 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "devHJ1",
     "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
@@ -45,6 +54,9 @@
       <option name="presentableId" value="Default" />
       <updated>1713342653574</updated>
       <workItem from="1713342656558" duration="12000" />
+      <workItem from="1713417960253" duration="1361000" />
+      <workItem from="1713423645947" duration="122000" />
+      <workItem from="1713423967436" duration="34000" />
     </task>
     <servers />
   </component>
