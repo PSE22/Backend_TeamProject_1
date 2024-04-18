@@ -22,8 +22,9 @@ class LoginService {
             password: user.password,
             repassword: user.password,
             name: user.name,
+            address: user.address,
             email: user.email,
-            phone: user.phone
+            phone: user.phone,
         }
         return http.post("/register", data);
     }
