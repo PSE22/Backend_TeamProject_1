@@ -114,6 +114,12 @@
       </div>
       </div>
 
+      <div align="center">
+        <button type="submit" class="btn btn-outline-secondary btn-user mt-3 col-12">
+          주소 검색
+        </button>
+      </div>
+
       <!-- 휴대폰 번호 -->
       <div align="center">
         <div class="row">
@@ -166,6 +172,7 @@ export default {
                 name: "",
                 email: "",
                 phone: "",
+                address: "",
             },
             message: "",      // 성공메세지 화면 출력속성
     }
@@ -194,12 +201,12 @@ export default {
 </script>
 <style>
 .register-box {
-  margin: 150px auto;
+  margin: 100px auto;
   background-color: rgba(255, 255, 255, 1);
   padding: 40px 30px;
   border: 3px solid #505050;
   width: 600px;
-  height: 600px;
+  height: 650px;
 }
 .a1 {
   position: relative;
