@@ -1,5 +1,4 @@
 /* TODO: 메인 페이지 css */
-/* TODO: HeaderCom.vue */
 @font-face {
     font-family: 'YClover-Bold';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/YClover-Bold.woff2') format('woff2');
@@ -7,10 +6,11 @@
     font-style: normal;
 }
 
+/* TODO: Header */
 /* navbar #1 */
 .main-nav1 {
     /* background-color: red; */
-    height: 70px;
+    height: 90px;
 }
 
 /* navbar #1 : 로고 */
@@ -20,10 +20,15 @@
     font-family: 'YClover-Bold';
 }
 
+.logo-name {
+    display: block;
+}
+
 /* navbar #1 : 검색창 */
 .main-nav-search {
     /* background-color: rgb(29, 103, 37); */
-    padding-top: 17px;
+    height: 90px;
+    padding-top: 28px;
 }
 
 /* navbar #1 : 우측 리스트 */
@@ -34,17 +39,31 @@
 
 /* navbar #2 */
 .main-nav2 {
-    /* background-color: orange; */
+    background-color: orange;
     height: 50px;
     line-height: 50px;
 }
 
-/* navbar #2 : 카테고리 메뉴 */
+/* navbar #2 : 메뉴 */
 .category-menu {
     height: 50px;
     line-height: 50px;
     font-weight: 600;
     display: block;
+}
+
+/* navbar #2 : 카테고리 탭 */
+#category-tab {
+    cursor: pointer;
+}
+
+/* navbar #2 : 카테고리 리스트 */
+#category-tab ul {
+    background-color: green;
+    padding: 0;
+    position: relative;
+    list-style: none;
+    z-index: 999;
 }
 
 /* TODO: 본문 */

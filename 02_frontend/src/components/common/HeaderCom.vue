@@ -4,11 +4,11 @@
     <div class="row">
       <!-- navbar #1 : 로고 -->
       <div class="main-nav-logo col align-self-center">
-        <router-link to="/" class="router-link">서울쥐</router-link>
+        <router-link to="/" class="router-link logo-name">서울쥐</router-link>
       </div>
       <!-- navbar #1 : 검색창 -->
-      <div class="main-nav-search col-6 ">
-        <div class="input-group mb-3">
+      <div class="main-nav-search col-6">
+        <div class="input-group">
           <input type="text" class="form-control" placeholder="검색" />
           <button class="btn btn-outline-secondary" type="button">
             검색
@@ -27,25 +27,48 @@
 
   <!-- navbar #2 -->
   <div class="container text-center main-nav2">
+    <!-- navbar #2 : 메뉴 -->
     <div class="row">
+      <!-- navbar #2 : 카테고리 탭 -->
       <div class="col p-0">
-        <router-link to="/category" class="router-link category-menu">카테고리</router-link>
+        <div class="category-menu" id="category-tab" @click="toggleCategory">카테고리
+          <ul v-if="categoryTab">
+            <router-link to="/category/1" class="router-link"><li>카테고리1</li></router-link>
+            <router-link to="/category/2" class="router-link"><li>카테고리2</li></router-link>
+            <router-link to="/category/3" class="router-link"><li>카테고리3</li></router-link>
+            <router-link to="/category/4" class="router-link"><li>카테고리4</li></router-link>
+          </ul>
+        </div>
       </div>
       <div class="col p-0">
         <router-link to="/best-item" class="router-link category-menu">베스트</router-link>
       </div>
       <div class="col p-0">
-        <router-link to="/event" class="router-link category-menu">이벤트</router-link>
+        <router-link to="/new-item" class="router-link category-menu">신상품</router-link>
       </div>
       <div class="col p-0">
-        <router-link to="/customer" class="router-link category-menu">고객지원</router-link>
+        <router-link to="/event" class="router-link category-menu">이벤트</router-link>
       </div>
     </div>
   </div>
 
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      categoryTab: false,
+    }
+  },
+  methods: {
+    toggleCategory() {
+      this.categoryTab = !this.categoryTab;
+    },
+    // categoryOver: function () {
+    //       this.categoryTab = !this.categoryTab;
+    //     }
+  },
+}
 </script>
 
 <style>
