@@ -41,6 +41,7 @@ const routes = [
     path: "/category",
     component: () => import("../views/CategoryDetail.vue"),
   },
+
   // 상품 상세
   {
     path: "/product-detail",
@@ -64,6 +65,7 @@ const routes = [
     path: "/mypage",
     component: () => import("../views/mypage/MyPageMain.vue"),
   },
+
   // 마이페이지 -> 주문조회
   {
     path: "/mypage/order",
