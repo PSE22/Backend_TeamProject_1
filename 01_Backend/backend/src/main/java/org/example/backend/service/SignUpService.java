@@ -34,7 +34,7 @@ public class SignUpService {
     }
 
     public void signUp(SignUpRequest signUpRequest) {
-        User user = signUpRequest.toUser(passwordEncoder);
-        userRepository.save(user);
+        User user2 = signUpRequest.toUser(passwordEncoder);
+        userRepository.save(user2);
     }
 }

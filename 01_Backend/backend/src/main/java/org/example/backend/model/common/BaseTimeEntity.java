@@ -29,22 +29,21 @@ import java.time.format.DateTimeFormatter;
 public abstract class BaseTimeEntity {
 
     private String addDate;
-
-    private String update;
+    private String modDate;
 
     @PrePersist
     void OnPrePersist() {
         this.addDate = LocalDateTime.now()
                 .format(DateTimeFormatter
-                        .ofPattern("yyyy-MM-dd HH:mm:ss"));
+                        .ofPattern("yy-MM-dd"));
     }
 
     @PreUpdate
     void OnPreUpdate() {
-        this.update = LocalDateTime.now()
+        this.modDate = LocalDateTime.now()
                 .format(DateTimeFormatter
-                        .ofPattern("yyyy-MM-dd HH:mm:ss"));
-        this.addDate = this.update;
+                        .ofPattern("yy-MM-dd"));
+        this.addDate = this.modDate;
     }
 }
 

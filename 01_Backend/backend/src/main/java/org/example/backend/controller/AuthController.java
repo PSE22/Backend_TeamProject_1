@@ -2,6 +2,7 @@ package org.example.backend.controller;
 
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.backend.security.jwt.JwtUtils;
 import org.example.backend.service.dto.LoginRequest;
 import org.example.backend.service.dto.LoginResponse;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
  * -----------------------------------------------------------
  * 2024-04-18         kimtaewan          최초 생성
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor

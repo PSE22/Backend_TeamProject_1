@@ -29,26 +29,24 @@ import java.time.format.DateTimeFormatter;
 public abstract class BaseTimeEntity2 {
 
     private String addDate;
-    private String update;
-    private String status;
+    private String modDate;
     private String delDate;
+    private String status;
 
     @PrePersist
     void OnPrePersist() {
-//        insert 하기전에 현재날짜를 넣기 : 날짜포맷(yyyy-MM-dd HH:mm:ss)
         this.addDate = LocalDateTime.now()
                 .format(DateTimeFormatter
-                        .ofPattern("yyyy-MM-dd HH:mm:ss"));
+                        .ofPattern("yy-MM-dd"));
         this.status = "Y";
     }
 
     @PreUpdate
     void OnPreUpdate() {
-//        update 하기전에 현재날짜를 넣기
-        this.update = LocalDateTime.now()
+        this.modDate = LocalDateTime.now()
                 .format(DateTimeFormatter
-                        .ofPattern("yyyy-MM-dd HH:mm:ss"));
-        this.addDate = this.update;
+                        .ofPattern("yy-MM-dd"));
+        this.addDate = this.modDate;
         this.status = "Y";
     }
 }

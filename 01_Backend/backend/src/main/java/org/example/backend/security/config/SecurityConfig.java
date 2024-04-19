@@ -1,11 +1,17 @@
 package org.example.backend.security.config;
 
+import jakarta.servlet.DispatcherType;
 import org.example.backend.security.jwt.AuthToken;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * packageName : org.example.backend.security.config
@@ -38,5 +44,25 @@ public class SecurityConfig {
         return (web) -> web.ignoring().requestMatchers("/css/**", "/dist/**", "/js/**", "/plugins/**",
          "/favicon.ico", "/resources/**", "/error"
         );
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        http.cors(Customizer.withDefaults());
+        http.csrf((csrf) -> csrf.disable());
+        http.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.formLogin(req -> req.disable());
+
+        http.authorizeHttpRequests(req -> req
+                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/").permitAll()
+                .anyRequest()
+                .authenticated());
+
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
 }
