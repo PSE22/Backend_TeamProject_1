@@ -3,7 +3,8 @@
     <MyPageMain />
     <h1 style="margin-top: 100px; margin-bottom: 20px">쿠폰함</h1>
     <div class="row">
-      <table class="table">
+      <table class="table text-center">
+        <!-- 쿠폰 목록 타이틀 -->
         <thead class="table-light">
           <tr>
             <th scope="col">쿠폰명</th>
@@ -12,29 +13,91 @@
             <th scope="col">사용기간</th>
           </tr>
         </thead>
+        <!-- 쿠폰 목록 -->
         <tbody class="table-group-divider">
           <tr>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
+            <!-- 쿠폰명 -->
+            <td class="text-start col-3">{{ data.cpName }}</td>
+            <!-- 혜택 -->
+            <td v-if="false ===true" class="col-2">{{ data.cpDcPrice }}</td>
+            <td v-else class="col-2">{{ data.cpDcRate }}</td>
+            <!-- 조건 -->
+            <td class="col-3">{{ data.cpMinPrice }}원 이하 {{ data.cpMaxDcPrice }}원 까지 할인</td>
+            <!-- 사용기간 -->
+            <td class="col-3">{{data.ucpAddDate }} ~ {{ data.cpExpireDate }}</td>  
+
+            <!-- 테스트 -->
+            <!-- <td class="text-start col-3">쿠폰입니다.</td>
+            <td v-if="false ===true" class="col-2">일번입니다.</td>
+            <td v-else class="col-2">2번입니다.</td>
+            <td class="col-3">30,000원 이하 2,500원 까지 할인</td>
+            <td class="col-3">발급날짜~</td> -->
           </tr>
         </tbody>
       </table>
     </div>
+    <!-- 페이징 -->
+    <div class="row">
+      <b-pagination
+        class="col-12 mb-3 d-flex justify-content-center"
+        v-model="page"
+        :total-rows="count"
+        :per-page="pageSize"
+        @click="allCoupon"
+      ></b-pagination>
+    </div>
     <!-- 쿠폰 안내 -->
     <div>
-      <p>• 발급받으신 쿠폰을 사용하시는 경우 다운로드 후 주문/결제 시 적용하실 수 있습니다.</p>
-      <p>• 사용기간이 만료되거나 사용한 쿠폰은 보유 목록에서 자동으로 삭제됩니다.</p>
+      <p>
+        • 발급받으신 쿠폰을 사용하시는 경우 다운로드 후 주문/결제 시 적용하실 수
+        있습니다.
+      </p>
+      <p>
+        • 사용기간이 만료되거나 사용한 쿠폰은 보유 목록에서 자동으로 삭제됩니다.
+      </p>
       <p>• 주문/취소 시 이용기간이 남아 있는 쿠폰인 경우 재발급됩니다.</p>
     </div>
   </div>
 </template>
 <script>
 import MyPageMain from "@/components/mypage/MyPageMainMenu.vue";
+import CouponService from "@/services/mypage/CouponService";
 export default {
   components: {
     MyPageMain,
+  },
+  data() {
+    return {
+      coupon: [], // 쿠폰 불러오기
+
+      // 공통 페이징 속성
+      page: 1, // 현재 페이지 번호
+      count: 0, // 전체 데이터 개수
+      pageSize: 3, // 화면에 보여질 개수
+
+      first: false,
+      second: true,
+    };
+  },
+  methods: {
+    // 전체조회
+    async allCoupon() {
+      try {
+        // TODO: 공통 전체조회 서비스 함수 실행
+        // TODO: spring 통신 : 비동기 코딩 : async ~ await
+        let response = await CouponService.getAll(this.page - 1, this.pageSize);
+        const { coupon, totalItems } = response.data;
+        this.coupon = coupon; // spring 전달 객체 배열
+        this.count = totalItems; // 전체 페이지 개수
+        // 로깅
+        console.log(response.data); // 웹브라우저 콘솔탭에 spring 전달 객체 배열 표시됨
+      } catch (e) {
+        console.log(e);
+      }
+    },
+  },
+  mounted() {
+    this.allCoupon;
   },
 };
 </script>
