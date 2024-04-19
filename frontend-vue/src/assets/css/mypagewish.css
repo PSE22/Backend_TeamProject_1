@@ -90,3 +90,8 @@
     cursor: pointer;
 }
 
+.check-item {
+    position: relative;
+    right: 5px;
+    bottom: 260px;
+  }
