@@ -52,8 +52,12 @@ const routes = [
     path: "/best-item",
     component: () => import("../views/BestItemView.vue"),
   },
-
-  // 베스트 상품 페이지
+  // 신상품 페이지
+  {
+    path: "/new-item",
+    component: () => import("../views/NewItemView.vue"),
+  },
+  // 이벤트 페이지
   {
     path: "/event",
     component: () => import("../views/EventView.vue"),

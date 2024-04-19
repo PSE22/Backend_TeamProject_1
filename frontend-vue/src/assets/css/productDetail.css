@@ -1,4 +1,5 @@
 #product-top {
+    margin-top: 50px;
     margin-bottom: 50px;
 }
 
@@ -62,6 +63,37 @@
     font-size: 20px;
 }
 
+.link-design {
+    /* height: 50px; */
+    /* line-height: 50px; */
+    font-weight: 600;
+    /* display: block; */
+}
+
+#bottom-tap {
+    border: 1px solid;
+    height: 80px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #product-bottom {
-    margin-bottom: 30px;
+    margin-bottom: 100px;
+}
+
+#product-review {
+    margin-bottom: 100px;
+}
+
+#product-qna {
+    margin-bottom: 100px;
+}
+
+.qna-link {
+    height: 50px;
+    line-height: 50px;
+    font-weight: 600;
+    display: block;
 }
