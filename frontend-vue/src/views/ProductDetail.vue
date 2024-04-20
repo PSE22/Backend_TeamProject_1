@@ -62,14 +62,16 @@
             </button>
           </div>
         </li>
-        <br><br><br><br><br><br><br><br><br>
+        <br /><br /><br /><br /><br /><br /><br /><br /><br />
         <li>
-          <div class="btn-group" role="group" >
-            <img @click="toggleShow"
+          <div class="btn-group" role="group">
+            <img
+              @click="toggleShow"
               v-if="show"
               src="@/assets/img/free-icon-font-circle-heart-9272486.png"
             />
-            <img @click="toggleShow"
+            <img
+              @click="toggleShow"
               v-else
               src="@/assets/img/free-icon-font-circle-heart-9270879.png"
             />
@@ -82,6 +84,20 @@
       </ul>
     </div>
   </div>
+  <div class="container">
+    <div class="row">
+      <div class="col" id="bottom-tap" @click="toggleInfo">
+        <a class="router-link link-design" href="#product-bottom">상품 정보</a>
+      </div>
+      <div class="col" id="bottom-tap" @click="toggleReview">
+        <a class="router-link link-design" href="#product-review">상품 후기</a>
+      </div>
+      <div class="col" id="bottom-tap" @click="toggleQna">
+        <a class="router-link link-design" href="#product-qna">1:1 문의</a>
+      </div>
+    </div>
+  </div>
+  <!-- 상품 정보 탭 누르면 보이는 태그 -->
   <div class="row row-cols-1 g-4" id="product-bottom">
     <div class="col">
       <div class="card h-100">
@@ -92,6 +108,82 @@
         />
       </div>
     </div>
+  </div>
+  <!-- 상품 후기 탭 누르면 보이는 태그 -->
+  <div class="row" id="product-review">
+    <table class="table">
+      <thead class="table-light text-center">
+        <tr>
+          <th scope="col">작성자</th>
+          <th scope="col">상품옵션</th>
+          <th scope="col">별점</th>
+          <th scope="col">내용</th>
+          <th scope="col">등록일</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider align-middle">
+        <tr>
+          <td class="col-1 text-center">OOO</td>
+          <td class="col-2 text-center">
+            <div class="flex-grow-1">
+              This is some content from a media component. This is some content
+              from a media component.
+            </div>
+          </td>
+
+          <td class="col-1 text-center">⭐️⭐️⭐️⭐️⭐️</td>
+          <td class="col-4">
+            <div class="align-items-center text-start">
+              <div class="flex-grow-1">
+                This is some content from a media component. This is some
+                content from a media component.
+              </div>
+
+              <img
+                src="https://via.placeholder.com/100x100?text=Image"
+                class="img-thumbnail me-3"
+              />
+              <img
+                src="https://via.placeholder.com/100x100?text=Image"
+                class="img-thumbnail me-3"
+              />
+              <img
+                src="https://via.placeholder.com/100x100?text=Image"
+                class="img-thumbnail me-3"
+              />
+            </div>
+          </td>
+          <td class="col-1 text-center">24/01/01</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- 1:1 문의 탭 누르면 보이는 태그 -->
+  <div class="row" id="product-qna">
+    <table class="table">
+      <thead class="table-light text-center">
+        <tr>
+          <th scope="col">작성자</th>
+          <th scope="col">제목</th>
+          <th scope="col">비밀글</th>
+          <th scope="col">등록일</th>
+          <th scope="col">상태</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider align-middle">
+        <tr>
+          <td class="col-2 text-center">OOO</td>
+          <td class="col-5">
+            <router-link to="/" class="router-link qna-link ms-3"
+              >1:1 문의 제목</router-link
+            >
+          </td>
+          <td class="col-1 text-center">Y/N</td>
+          <td class="col-2 text-center">24/01/01</td>
+          <td class="col-2 text-center">완료</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 <script>

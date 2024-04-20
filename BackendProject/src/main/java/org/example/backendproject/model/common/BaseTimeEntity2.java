@@ -33,6 +33,7 @@ public abstract class BaseTimeEntity2 {
     private String status;      // 삭제 여부
     private String delDate;     // 삭제 일시
 
+
     @PrePersist
     void OnPrePersist() {
 //        insert 하기전에 현재날짜를 넣기 : 날짜포맷(yyyy-MM-dd HH:mm:ss)
