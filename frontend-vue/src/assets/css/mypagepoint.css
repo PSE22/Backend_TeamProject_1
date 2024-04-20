@@ -1,0 +1,158 @@
+    .mypage-layout {
+        display: flex;
+        flex-flow: row;
+    }
+    .mypage-backcolor {
+        background-color: rgb(249, 250, 251);
+    }
+    .mypage-layout .mypage-contents {
+        margin-top: 40px;
+        flex: 1 1 auto;
+        background-color: rgb(255, 255, 255);
+    }
+
+    .pointIntro {
+        position: relative;
+        background: rgb(249, 250, 251);
+    }
+
+    .pointIntro .usablePoint {
+        justify-content: start;
+        font-size: 19px;
+        font-weight: 700;
+        color: rgb(17, 17, 17);
+        background-color: rgb(223, 208, 208);
+        padding: 10px 10px 20px 10px;
+        padding-bottom: 70px;
+    }
+
+    .mypage-subtitle {
+        display: flex;
+        -webkit-box-pack: start;
+        justify-content: flex-start;
+        font-size: 26px;
+        font-weight: 700;
+        color: rgb(17, 17, 17);
+        background-color: rgb(255, 255, 255);
+        padding: 10px 10px 20px 0px;
+    }
+
+    .pointIntro .usablePoint dd {
+        margin-top: 12px;
+        font-size: 32px;
+        color: rgb(153, 153, 153);
+        line-height: 1;
+    }
+
+    .pointIntro .usablePoint dd strong {
+        font-weight: bold;
+        color: rgb(51, 51, 51);
+    }
+
+    .mypage-filter{
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        padding: 15px 20px;
+        border-top: 1px solid rgb(238, 238, 238);
+        border-bottom: 1px solid rgb(238, 238, 238);
+        background: rgb(249, 250, 251);
+    
+    }
+
+    .mypage-filter .dateSelect{
+        flex: 1 1 160px;
+    }
+    .mypage-filter .dateSelect button {
+        border: 0px;
+        color: rgb(249, 250, 251);
+        width: 60px;
+        height: 30px;
+        line-height: 1;
+        margin-right: 5px;
+        border: 1px solid rgb(221, 221, 221);
+        border-radius: 2px;
+        font-size: 13px;
+        color: rgb(51, 51, 51);
+        background: rgb(255, 255, 255);
+        padding: 0px;
+        
+    }
+
+    .pointDate {
+        justify-content: flex-end;
+        display: flex;
+        text-align: center;
+        margin-bottom: 0px;
+    }
+    
+
+
+    .pointList {
+        margin-bottom: 20px;
+    }
+
+    .pointList .pointItem {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 15px 0px 20px;
+        border-bottom: 1px solid rgb(238, 238, 238);
+    }
+
+    .pointList .pointItem .date {
+        flex: 0 1 100%;
+        margin-bottom: 10px;
+        font-size: 13px;
+        color: rgb(153, 153, 153);
+    }
+
+    .pointList .pointItem .pointInfo {
+        flex: 1 1 50%;
+    }
+
+    .pointList .pointItem .pointInfo dt {
+        font-size: 16px;
+        color: rgb(51, 51, 51);
+        font-weight: bold;
+    }
+
+    .pointList .pointItem .pointInfo dd {
+        margin-top: 5px;
+        font-size: 13px;
+        color: rgb(102, 102, 102);
+        line-height: 1.38;
+    }
+
+    .pointList .pointItem .state.minus {
+        color: rgb(223, 0, 17);
+        margin-right: 20px;
+    }
+    .pointList .pointItem .state strong {
+        font-size: 18px;
+    }
+
+    .mypageNotice{
+        padding: 30px 0px;
+    }
+    
+    .mypageNotice .title {
+        font-size: 16px;
+        color: rgb(34, 34, 34);
+        font-weight: bold;
+    }
+
+    .mypageNotice ul {
+        margin-top: 16px;
+    }
+
+    .mypageNotice li {
+        position: relative;
+        margin-top: 4px;
+        padding-left: 10px;
+        font-size: 13px;
+        line-height: 18px;
+        color: rgb(34, 34, 34);
+        white-space: pre-line;
+    }

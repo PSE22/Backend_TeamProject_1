@@ -27,9 +27,7 @@ import java.time.format.DateTimeFormatter;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseTimeEntity {
-
     private String addDate;
-
     private String update;
 
     @PrePersist
@@ -47,4 +45,3 @@ public abstract class BaseTimeEntity {
         this.addDate = this.update;
     }
 }
-

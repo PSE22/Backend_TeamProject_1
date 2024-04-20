@@ -1,0 +1,97 @@
+.mypage-layout {
+    display: flex;
+    flex-flow: row;
+}
+.mypage-backcolor {
+    background-color: rgb(249, 250, 251);
+}
+.mypage-layout .mypage-contents {
+    margin-top: 40px;
+    flex: 1 1 auto;
+    background-color: rgb(255, 255, 255);
+}
+
+.tabList {
+    width: 100%;
+    background: rgb(249, 250, 251);
+}
+
+.tabList .mypage-wish-subtitle {
+    display: flex;
+    -webkit-box-pack: start;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 700;
+    color: rgb(17, 17, 17);
+    background-color: rgb(223, 208, 208);
+    padding: 10px 10px 20px 0px;
+}
+
+.mypage-subtitle {
+    display: flex;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    font-size: 26px;
+    font-weight: 700;
+    color: rgb(17, 17, 17);
+    background-color: rgb(255, 255, 255);
+    padding: 10px 10px 20px 0px;
+}
+
+.form-check {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    height: 60px;
+    padding: 19px 20px;
+    border-bottom: 1px solid rgb(238, 238, 238);
+    background: rgb(255, 255, 255);
+}
+
+.form-check {
+    display: flex;
+}
+
+.form-check-input{
+    padding: 10px;
+}
+
+.form-check-input[type=checkbox]{
+    margin-left: 15px;
+}
+
+.form-check-label {
+    display: inline-block;
+    padding-left: 18px;
+    font-size: 20px;
+    color: rgb(102, 102, 102);
+    margin-top: 5px;
+}
+
+.form-check button {
+    position: relative;
+    font-size: 13px;
+    color: rgb(102, 102, 102);
+    margin-left: 20px;
+    border: 0px;
+    background: none;
+    cursor: pointer;
+    outline: 0px;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.check-all{
+    display: inline-block;
+    position: relative;
+    line-height: 18px;
+    cursor: pointer;
+}
+
+.check-item {
+    position: relative;
+    right: 5px;
+    bottom: 260px;
+  }

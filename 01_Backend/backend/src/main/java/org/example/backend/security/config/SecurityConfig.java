@@ -45,7 +45,6 @@ public class SecurityConfig {
          "/favicon.ico", "/resources/**", "/error"
         );
     }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 

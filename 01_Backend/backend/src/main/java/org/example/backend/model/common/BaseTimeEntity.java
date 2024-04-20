@@ -30,7 +30,7 @@ public abstract class BaseTimeEntity {
 
     private String addDate;
     private String modDate;
-
+  
     @PrePersist
     void OnPrePersist() {
         this.addDate = LocalDateTime.now()
@@ -44,6 +44,6 @@ public abstract class BaseTimeEntity {
                 .format(DateTimeFormatter
                         .ofPattern("yy-MM-dd"));
         this.addDate = this.modDate;
+
     }
 }
-
