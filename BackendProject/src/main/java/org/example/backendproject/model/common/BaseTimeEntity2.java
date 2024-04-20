@@ -1,4 +1,4 @@
-package org.example.backend.model.common;
+package org.example.backendproject.model.common;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
@@ -28,10 +28,11 @@ import java.time.format.DateTimeFormatter;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseTimeEntity2 {
 
-    private String addDate;
-    private String update;
-    private String status;
-    private String delDate;
+    private String addDate;     // 생성 일시
+    private String update;      // 수정 일시
+    private String status;      // 삭제 여부
+    private String delDate;     // 삭제 일시
+
 
     @PrePersist
     void OnPrePersist() {
