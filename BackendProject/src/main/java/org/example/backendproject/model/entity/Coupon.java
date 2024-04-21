@@ -1,5 +1,15 @@
 package org.example.backendproject.model.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.*;
+import org.example.backendproject.model.common.BaseTimeEntity2;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 /**
  * packageName : org.example.backendproject.model.entity
  * fileName : Coupon
@@ -13,7 +23,19 @@ package org.example.backendproject.model.entity;
  * -----------------------------------------------------------
  * 2024-04-19         SAMSUNG          최초 생성
  */
-public class Coupon {
+@Entity
+@Table(name="TB_COUPON")
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@DynamicInsert
+@DynamicUpdate
+// soft delete
+@Where(clause = "STATUS = 'Y'")
+@SQLDelete(sql = "UPDATE TB_COUPON SET STATUS = 'N' WHERE CP_ID = ?")
+public class Coupon extends BaseTimeEntity2 {
 //    cp_id	number
 //    pd_id	number
 //    cp_name	varchar2(500 byte)
@@ -23,4 +45,14 @@ public class Coupon {
 //    cp_max_dc_price	number
 //    cp_expire_date	date
 //    status	char(1 byte)
+
+    @Id
+    private Integer cpId;
+    private Integer pdId;
+    private String cpName;
+    private Integer cpDcPrice;
+    private Integer cpDcRate;
+    private Integer cpMinPrice;
+    private Integer cpMaxDcPrice;
+    private String cpExpireDate;
 }

@@ -28,8 +28,8 @@ import java.time.format.DateTimeFormatter;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseTimeEntity2 {
     private String addDate;     // 생성 일시
-    private String update;      // 수정 일시
-    private String status;      // 삭제 여부
+    private String modDate;      // 수정 일시
+    private String status;      // 활성화 여부 (데이터 삭제 시 'N' 으로 변경됨)
     private String delDate;     // 삭제 일시
 
     @PrePersist
@@ -44,10 +44,10 @@ public abstract class BaseTimeEntity2 {
     @PreUpdate
     void OnPreUpdate() {
 //        update 하기전에 현재날짜를 넣기
-        this.update = LocalDateTime.now()
+        this.modDate = LocalDateTime.now()
                 .format(DateTimeFormatter
                         .ofPattern("yyyy-MM-dd HH:mm:ss"));
-        this.addDate = this.update;
+        this.addDate = this.modDate;
         this.status = "Y";
     }
 }
