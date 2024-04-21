@@ -1,4 +1,4 @@
-package org.example.backend.model.common;
+package org.example.backendproject.model.common;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
