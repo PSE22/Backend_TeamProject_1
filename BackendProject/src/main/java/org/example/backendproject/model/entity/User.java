@@ -1,4 +1,4 @@
-package org.example.backend.model.entity;
+package org.example.backendproject.model.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.backend.model.common.BaseTimeEntity2;
+import org.example.backendproject.model.common.BaseTimeEntity2;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 

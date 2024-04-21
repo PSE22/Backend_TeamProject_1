@@ -28,7 +28,7 @@ import java.time.format.DateTimeFormatter;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseTimeEntity {
     private String addDate;
-    private String update;
+    private String modDate;
 
     @PrePersist
     void OnPrePersist() {
@@ -39,9 +39,9 @@ public abstract class BaseTimeEntity {
 
     @PreUpdate
     void OnPreUpdate() {
-        this.update = LocalDateTime.now()
+        this.modDate = LocalDateTime.now()
                 .format(DateTimeFormatter
                         .ofPattern("yyyy-MM-dd HH:mm:ss"));
-        this.addDate = this.update;
+        this.addDate = this.modDate;
     }
 }

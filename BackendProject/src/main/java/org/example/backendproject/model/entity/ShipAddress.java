@@ -34,9 +34,8 @@ import org.hibernate.annotations.Where;
 @DynamicInsert
 @DynamicUpdate
 // soft delete
-@Where(clause = "STATUS = 'N'")
-@SQLDelete(sql = "UPDATE SHIP_ADDRESS SET STATUS = 'Y' WHERE SHIP_ADDR_ID = ?")
-
+@Where(clause = "STATUS = 'Y'")
+@SQLDelete(sql = "UPDATE SHIP_ADDRESS SET STATUS = 'N' WHERE SHIP_ADDR_ID = ?")
 public class ShipAddress extends BaseTimeEntity2 {
     //    ship_addr_id	number
     //    user_id	varchar2(100 byte)
@@ -45,8 +44,8 @@ public class ShipAddress extends BaseTimeEntity2 {
     //    status	char(1 byte)
 
     @Id
-    private Integer ship_addr_id;
-    private String user_id;
-    private String ship_addr;
-    private String ship_addr_name;
+    private Integer shipAddrId;
+    private String userId;
+    private String shipAddr;
+    private String shipAddrName;
 }
