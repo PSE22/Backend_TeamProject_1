@@ -45,6 +45,7 @@
                 </div>
               </div>
             </article>
+            
           </div>
         </div>
       </div>
@@ -52,20 +53,21 @@
   </div>
 </template>
 <script>
-import OrderCheck from "@/services/OrderCheck.js";
+import OrderCheck from "@/services/mypage/OrderCheck.js";
 import MyPageMainMenu from "@/components/mypage/MyPageMainMenu.vue";
 export default {
   components: {
     MyPageMainMenu,
   },
+
   data() {
     return {
-      simpleProduct: [], // spring 보내줄 배열변수
+      product: [], // spring 보내줄 배열변수
 
       // 공통 페이징 속성
       page: 1, // 현재페이지번호
       count: 0, // 전체 데이터개수
-      pageSize: 4, // 화면에 보여질 개수
+      pageSize: 3, // 화면에 보여질 개수
 
       pageSizes: [3, 6, 9], // 화면에 보여질 개수배열
     };
@@ -81,8 +83,8 @@ export default {
                                                     this.page - 1,
                                                     this.pageSize
                                                     );
-        const { simpleProduct, totalItems } = response.data;
-        this.simpleProduct = simpleProduct; // spring 전달 객체배열
+        const { product, totalItems } = response.data;
+        this.product = product; // spring 전달 객체배열
         this.count         = totalItems;    // 전체페이지개수
         // 로깅(디버깅)
         console.log(response.data);         // 웹브라우저 콘솔탭에 spring 전달 객체배열이 표시됨
@@ -102,6 +104,7 @@ export default {
     this.retrieveOrderList();
   },
 };
+
 
 </script>
 <style>
