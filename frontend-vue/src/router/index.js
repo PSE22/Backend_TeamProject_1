@@ -38,7 +38,7 @@ const routes = [
   }, 
   // 카테고리 상세
   {
-    path: "/category",
+    path: "/category/:categoryCode",
     component: () => import("../views/CategoryDetail.vue"),
   },
 
