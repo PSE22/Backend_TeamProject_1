@@ -9,7 +9,7 @@
         <!-- 장바구니 리스트명 -->
         <thead class="table-light">
           <tr>
-            <th scope="col ">
+            <th scope="col-1">
               <!-- 전체선택 체크박스 -->
               <input
                 class="form-check-input"
@@ -25,9 +25,9 @@
             <th scope="col">배송비</th>
           </tr>
         </thead>
-        <tbody class="table-group-divider">
+        <tbody class="table-group-divider align-middle">
           <tr>
-            <td>
+            <td class="col-1">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -35,17 +35,21 @@
                 name="cartList"
               />
             </td>
-            <td>
-              <div>
-                <img
-                  src="https://via.placeholder.com/100x100?text=Image"
-                  class="img-thumbnail"
-                  alt="..."
-                />
-                상품이름
+            <td class="col-5">
+              <div class="d-flex align-items-center text-start">
+                <div class="flex-shrink-0 ">
+                  <img
+                    src="https://via.placeholder.com/100x100?text=Image"
+                    class="img-thumbnail me-3"
+                  />
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  This is some content from a media component.
+                  This is some content from a media component.
+                </div>
               </div>
             </td>
-            <td>
+            <td class="col-2">
               <!-- 장바구니 수량 -->
               <div class="btn-group" role="group" aria-label="Basic example">
                 <button
@@ -73,8 +77,8 @@
                 </button>
               </div>
             </td>
-            <td>30,000</td>
-            <td>@mdo</td>
+            <td class="col-2">30,000</td>
+            <td class="col-2">@mdo</td>
           </tr>
         </tbody>
       </table>
