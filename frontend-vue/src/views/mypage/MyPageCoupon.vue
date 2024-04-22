@@ -15,11 +15,11 @@
         </thead>
         <!-- 쿠폰 목록 -->
         <tbody class="table-group-divider">
-          <tr>
+          <tr v-for="(data, index) in coupon" :key="index">
             <!-- 쿠폰명 -->
             <td class="text-start col-3">{{ data.cpName }}</td>
             <!-- 혜택 -->
-            <td v-if="false ===true" class="col-2">{{ data.cpDcPrice }}</td>
+            <td v-if="cpDcPrice === true" class="col-2">{{ data.cpDcPrice }}</td>
             <td v-else class="col-2">{{ data.cpDcRate }}</td>
             <!-- 조건 -->
             <td class="col-3">{{ data.cpMinPrice }}원 이하 {{ data.cpMaxDcPrice }}원 까지 할인</td>
@@ -61,7 +61,7 @@
 </template>
 <script>
 import MyPageMain from "@/components/mypage/MyPageMainMenu.vue";
-import CouponService from "@/services/mypage/CouponService";
+import MyCouponService from "@/services/mypage/MyCouponService";
 export default {
   components: {
     MyPageMain,
@@ -74,9 +74,6 @@ export default {
       page: 1, // 현재 페이지 번호
       count: 0, // 전체 데이터 개수
       pageSize: 3, // 화면에 보여질 개수
-
-      first: false,
-      second: true,
     };
   },
   methods: {
@@ -85,9 +82,9 @@ export default {
       try {
         // TODO: 공통 전체조회 서비스 함수 실행
         // TODO: spring 통신 : 비동기 코딩 : async ~ await
-        let response = await CouponService.getAll(this.page - 1, this.pageSize);
+        let response = await MyCouponService.getAll(this.page - 1, this.pageSize);
         const { coupon, totalItems } = response.data;
-        this.coupon = coupon; // spring 전달 객체 배열
+        this.coupon = coupon; // spring 전달 객체 배열 (쿠폰배열)
         this.count = totalItems; // 전체 페이지 개수
         // 로깅
         console.log(response.data); // 웹브라우저 콘솔탭에 spring 전달 객체 배열 표시됨
