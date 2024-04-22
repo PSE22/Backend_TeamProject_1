@@ -45,6 +45,7 @@
                 </div>
               </div>
             </article>
+            
           </div>
         </div>
       </div>
@@ -58,6 +59,7 @@ export default {
   components: {
     MyPageMainMenu,
   },
+
   data() {
     return {
       simpleProduct: [], // spring 보내줄 배열변수
@@ -102,6 +104,7 @@ export default {
     this.retrieveOrderList();
   },
 };
+
 
 </script>
 <style>
