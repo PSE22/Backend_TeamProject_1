@@ -52,9 +52,76 @@
 
 <script>
 import MyPageMainMenu from "@/components/mypage/MyPageMainMenu.vue";
+import WishListService from "@/services/mypage/MyWishListService";
 export default {
   components: {
     MyPageMainMenu,
+  },
+
+  data() {
+    return {
+      wishList: [], // 장바구니 객체배열
+      // 공통 페이징 속성 정의
+      page: 1, // 현재페이지번호
+      count: 0, // 전체 데이터개수
+      pageSize: 3, // 화면에 보여질 개수
+
+      pageSizes: [3, 6, 9], // 화면에 보여질 개수배열
+    };
+  },
+
+  methods: {
+    // TODO: 전체조회(장바구니) 함수 : 검색어 버튼, 화면이뜰때 자동 실행
+    async retrieveWishList() {
+      try {
+        // TODO: 공통 장바구니 전체 조회 서비스 함수 실행
+        // TODO: 비동기 코딩 : async ~ await
+        let response = await WishListService.getAll(
+          this.page - 1,
+          this.pageSize
+        );
+        const { wishList, totalItems } = response.data;
+        this.wishList = wishList;
+        this.count = totalItems;
+        // 로깅
+        console.log(response.data); // 웹브라우저 콘솔탭에 벡엔드 데이터 표시
+      } catch (e) {
+        console.log(e); // 웹브라우저 콘솔탭에 에러 표시
+      }
+    },
+
+    // TODO: 장바구니 삭제 함수 : delete 버튼 태그
+    async deleteProduct(pdId) {
+      try {
+        // TODO: 공통 장바구니 삭제 서비스 함수 실행
+        let response = await WishListService.remove(pdId);
+        //  로깅
+        console.log(response.data);
+        // alert 대화상자 출력
+        alert("정상적으로 삭제되었습니다");
+        // 삭제 후 재조회
+        this.retrieveWishList();
+
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    // 클릭시 그 상품페이지로 이동
+    goProduct() {
+      this.$router.push("/");
+    },
+
+    // TODO: 공통 페이징 함수 : select 태그
+    pageSizeChange() {
+      this.page = 1; // 현재페이지번호 : 1
+      this.retrieveWishList(); // 재조회
+    },
+  },
+
+  //   TODO: 화면이 뜰때 자동 실행 함수
+  mounted() {
+    // TODO: 화면이 뜰때 전체조회 실행
+    this.retrieveWishList();
   },
 };
 </script>

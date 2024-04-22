@@ -53,7 +53,7 @@
   </div>
 </template>
 <script>
-import OrderCheck from "@/services/mypage/OrderCheck.js";
+import OrderCheck from "@/services/mypage/MyOrderCheck.js";
 import MyPageMainMenu from "@/components/mypage/MyPageMainMenu.vue";
 export default {
   components: {
