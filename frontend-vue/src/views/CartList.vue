@@ -14,8 +14,8 @@
               <input
                 class="form-check-input"
                 type="checkbox"
-                value="selectAll"
-                name="cartList"
+                v-model="allChecked"
+                @click="checkedAll($event.target.checked)"
               />
               <label class="form-check-label" for="flexCheckDefault"></label>
             </th>
@@ -26,26 +26,27 @@
           </tr>
         </thead>
         <tbody class="table-group-divider align-middle">
-          <tr>
+          <tr v-for="(data, index) in cart" :key="index">
             <td class="col-1">
               <input
                 class="form-check-input"
                 type="checkbox"
-                value="selectAll"
-                name="cartList"
+                :id="'check_' + item.cartId"
+                :value="item.cartId"
+                v-model="item.selected"
+                @change="selected($event)"
               />
             </td>
             <td class="col-5">
               <div class="d-flex align-items-center text-start">
-                <div class="flex-shrink-0 ">
+                <div class="flex-shrink-0">
                   <img
                     src="https://via.placeholder.com/100x100?text=Image"
                     class="img-thumbnail me-3"
                   />
                 </div>
                 <div class="flex-grow-1 ms-3">
-                  This is some content from a media component.
-                  This is some content from a media component.
+                  {{ data.cart }}
                 </div>
               </div>
             </td>
@@ -110,18 +111,41 @@ export default {
   data() {
     return {
       cart: [], // 장바구니 객체배열
-      check: false, // 체크박스 전체선택
+      allChecked: false, // 체크박스 전체선택
     };
   },
   methods: {
     // 장바구니 전체조회
     async retrieveCart() {},
     // 장바구니 삭제 함수 : delete 버튼 태그
-    async deleteSimpleCart() {}, // cartId
+    async deleteCart() {}, // cartId
     // 주문페이지 이동 함수
     goOrder() {},
     // 체크박스 전체선택
-    selectAll() {},
+    checkedAll(checked) {
+      this.allChecked = checked;
+      for (let i in this.cart) {
+        this.cart[i].selected = this.allChecked;
+      }
+    },
+    selected() {
+      for (let i in this.cart) {
+        if (!this.cart[i].selected) {
+          this.allChecked = false;
+          return;
+        } else {
+          this.allChecked = true;
+        }
+      }
+    },
+    getSelected() {
+      let cartId = [];
+      for (let i in this.cart) {
+        if (this.cart[i].selected) {
+          cartId.push(this.cart[i].cartId);
+        }
+      }
+    },
   },
   mounted() {
     this.retrieveCart();
