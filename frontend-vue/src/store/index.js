@@ -8,7 +8,7 @@ export default createStore({
     user: user ? user : null, // 로그인 정보(웹토큰속성 있음)
   },
   getters: {
-  },
+  },  
   mutations: {
     // TODO: 로그인 성공함수
     //  => loggedIn(로그인여부 속성) = true , user(유저 객체) = user 객체 저장
@@ -27,11 +27,11 @@ export default createStore({
       state.user = null;
     },
     // TODO: 회원가입성공함수
-    registerSuccess(state) {
+    signupSuccess(state) {
       state.loggedIn = false;
     },
     // TODO: 회원가입실패함수
-    registerFailure(state) {
+    signupFailure(state) {
       state.loggedIn = false;
     },
   },

@@ -4,10 +4,10 @@ class LoginService {
     // TODO: 로그인 공통함수
     login(user) {
         let data = {
-            id: user.id,
-            password: user.password,
+            userId: user.userId,
+            userPw: user.userPw,
         };
-        return http.post("/login", data);
+        return http.post("/auth/login", data);
     }
 
     // TODO: 로그아웃 공통함수
@@ -16,17 +16,17 @@ class LoginService {
     }
 
     // TODO: 회원가입 공통함수
-    register(user) {
+    signup(user) {
         let data = {
-            id: user.id,
-            password: user.password,
-            repassword: user.password,
-            name: user.name,
+            userId: user.userId,
+            userPw: user.userPw,
+            rePw: user.userPw,
+            userName: user.userName,
             address: user.address,
-            email: user.email,
-            phone: user.phone,
+            userEmail: user.userEmail,
+            userPhone: user.userPhone,
         }
-        return http.post("/register", data);
+        return http.post("/auth/signup", data);
     }
 }
 

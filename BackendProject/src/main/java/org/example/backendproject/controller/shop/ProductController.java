@@ -36,7 +36,7 @@ public class ProductController {
     ProductService productService;
 
     // 상품 전체 조회
-    @GetMapping("/category")
+    @GetMapping("/category/{categoryCode}")
     public ResponseEntity<Object> findAllByPdIdContaining(
                                         @RequestParam(defaultValue = "") String pdName,
                                         @RequestParam(defaultValue = "0") int page,
@@ -44,8 +44,10 @@ public class ProductController {
         try {
             // 페이징 객체 생성
             Pageable pageable = PageRequest.of(page, size);
+
             // 전체 조회 서비스 실행
             Page<Product> productPage = productService.findAllByPdIdContaining(pdName, pageable);
+
             // 공통 페이징 객체 생성 : 자료구조 맵 사용
             Map<String, Object> response = new HashMap<>();
             response.put("product", productPage.getContent());          // product 배열
@@ -70,7 +72,7 @@ public class ProductController {
     @GetMapping("/product/{pdId}")
     public ResponseEntity<Object> findById(@PathVariable int pdId) {
         try {
-            // 상세조회 서비스 실행
+            // 상세 조회 서비스 실행
             Optional<Product> optionalProduct = productService.findById(pdId);
             if (optionalProduct.isEmpty() == true) {
                 // 데이터 없음

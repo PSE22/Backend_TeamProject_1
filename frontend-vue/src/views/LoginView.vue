@@ -8,94 +8,102 @@
         <h2>서울쥐</h2>
       </div>
     </div>
-    <form>
-      <div class="mb-1">
-        <!-- 아이디 박스 -->
-        <label for="text" class="form-label"></label>
-        <input 
-          type="text" 
-          class="form-control" 
-          placeholder="아이디"
-          name="text"
-          v-model="user.id"
-        />
-        <!-- 비밀번호 박스 -->
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label"></label>
-        <input
-          type="password"
-          class="form-control"
-          placeholder="비밀번호"
-          name="password"
-          v-model="user.password"
-        />
-      </div>
-      <!-- 아이디 저장 체크박스 -->
-      <div class="mb-3 form-check">
-        <input 
-          type="checkbox" 
-          class="form-check-input"
-          placeholder="체크박스"
-          name="rememId"
-        />
-        <label class="form-check-label" for="exampleCheck1">아이디 저장</label>
-      </div>
-      <!-- 로그인 박스 -->
-      <div align="center">
-        <button type="submit" class="btn btn-primary me-auto col-12">로그인</button>
-      </div>
+    <div class="mb-1">
+      <!-- 아이디 박스 -->
+      <label for="text" class="form-label"></label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="아이디"
+        name="text"
+        v-model="user.userId"
+      />
+      <!-- 비밀번호 박스 -->
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label"></label>
+      <input
+        type="password"
+        class="form-control"
+        placeholder="비밀번호"
+        name="password"
+        v-model="user.userPw"
+      />
+    </div>
+    <!-- 아이디 저장 체크박스 -->
+    <div class="mb-3 form-check">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        placeholder="체크박스"
+        name="rememId"
+      />
+      <label class="form-check-label" for="exampleCheck1">아이디 저장</label>
+    </div>
+    <!-- 로그인 박스 -->
+    <div align="center">
+      <button
+        type="button"
+        class="btn btn-primary me-auto col-12"
+        @click="handleLogin"
+      >
+        로그인
+      </button>
+    </div>
 
-      <!-- 찾기 및 회원 가입 -->
-      <nav class="mt-3 mb-3" align="center">
-        <router-link align="left" to="/find-id">아이디 찾기</router-link> |
-        <router-link align="center" to="/find-password">비밀번호 찾기</router-link> |
-        <router-link align="right" to="/register">회원가입</router-link>
-      </nav>
+    <!-- 찾기 및 회원 가입 -->
+    <nav class="mt-3 mb-3" align="center">
+      <router-link align="left" to="/find-id">아이디 찾기</router-link> |
+      <router-link align="center" to="/find-password"
+        >비밀번호 찾기</router-link
+      >
+      | <router-link align="right" to="/register">회원가입</router-link> |
+    </nav>
 
-      <!-- 소셜 페이지 로그인 기능 연동 -->
-      <div class="social-container" align="center">
-        <router-link href="#" class="social" to="facebook">facebook</router-link>
-        <router-link href="#" class="social" to="google">google</router-link>
-        <router-link href="#" class="social" to="kakao">kakao</router-link>
-      </div>
-      <router-view />
-    </form>
+    <!-- 소셜 페이지 로그인 기능 연동 -->
+    <div class="social-container" align="center">
+      <router-link href="#" class="social" to="facebook">facebook</router-link>
+      <router-link href="#" class="social" to="google">google</router-link>
+      <router-link href="#" class="social" to="kakao">kakao</router-link>
+    </div>
+    <router-view />
   </div>
 </template>
 <script>
-import LoginService from '@/services/login/LoginService';
+import LoginService from "@/services/login/LoginService";
 
 export default {
   // 데이터 바인딩 속성
   data() {
     return {
       user: {
-        id: "",
-        password: "",
+        userId: "",
+        userPw: "",
       },
-    }
+    };
+  },
+  methods: {
+    // 함수 정의
+    async handleLogin() {
+      try {
+        let response = await LoginService.login(this.user);
+        console.log(response.data);
+        localStorage.setItem("user", JSON.stringify(response.data));
+        this.$store.commit("loginSucces", response.data);
+        this.$router.push("/");
+      } catch (e) {
+        this.$store.commit("loginFailure");   
+        console.log(e); 
+      }
+    },
   },
 
-  // 함수 정의
-  async handleLogin() {
-    try {
-      let response = await LoginService.login(this.user);
-      console.log(response.data);
-      localStorage.setItem("user", JSON.stringify(response.data))
-      this.$store.commit("loginSucces", response.data);
-      this.$router.push("/");
-    } catch(e) {
-      this.$store.commit("loginFailure");
-      console.log(e);
-    }
-  },
   // TODO: 화면이 뜰때 실행되는 함수
   mounted() {
-    if(this.$store.state.loggedIn == true) {
+    if (this.$store.state.loggedIn == true) {
       this.$router.push("/");
     }
-  }
+  },
 };
 </script>
 <style>
@@ -123,15 +131,16 @@ export default {
 }
 
 @font-face {
-    font-family: 'YClover-Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/YClover-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
+  font-family: "YClover-Bold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/YClover-Bold.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
 }
 
 .logo {
-    /* background-color: rgb(115, 235, 67); */
-    font-size: 30px;
-    font-family: 'YClover-Bold';
+  /* background-color: rgb(115, 235, 67); */
+  font-size: 30px;
+  font-family: "YClover-Bold";
 }
 </style>
