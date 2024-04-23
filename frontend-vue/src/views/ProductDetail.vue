@@ -16,7 +16,7 @@
     <div class="col">
       <ul class="product-select">
         <li>
-          <div id="title"><h2>상품명</h2></div>
+          <div id="title"><h2>상품명 : </h2></div>
         </li>
         <li>
           <div id="content">
@@ -25,16 +25,16 @@
           </div>
         </li>
         <li>
-          <div id="price"><h2>가격 (원)</h2></div>
+          <div id="price"><h2>가격 원</h2></div>
         </li>
-        <li><div id="option-text">옵션 선택</div></li>
+        <li><div id="option-text"></div></li>
         <select name="option" class="select">
           <option value="1" selected>상품 상세 옵션 선택 1</option>
           <option value="2">상품 상세 옵션 선택 2</option>
           <option value="3">상품 상세 옵션 선택 3</option>
           <option value="4">상품 상세 옵션 선택 4</option>
         </select>
-        <li><div id="count-text">수량</div></li>
+        <li><div id="count-text">수량 : </div></li>
         <li>
           <div class="btn-group" role="group" id="count-box">
             <button
@@ -86,13 +86,13 @@
   </div>
   <div class="container">
     <div class="row">
-      <div class="col" id="bottom-tap" @click="toggleInfo">
+      <div class="col" id="bottom-tap">
         <a class="router-link link-design" href="#product-bottom">상품 정보</a>
       </div>
-      <div class="col" id="bottom-tap" @click="toggleReview">
+      <div class="col" id="bottom-tap">
         <a class="router-link link-design" href="#product-review">상품 후기</a>
       </div>
-      <div class="col" id="bottom-tap" @click="toggleQna">
+      <div class="col" id="bottom-tap">
         <a class="router-link link-design" href="#product-qna">1:1 문의</a>
       </div>
     </div>
@@ -193,22 +193,35 @@
               </select>
               <h3 class="fs-5 mb-2">평점</h3>
               <select class="form-select mb-3">
-                <option value="1" selected>1 (별로에요)</option>
+                <option value="1">1 (별로에요)</option>
                 <option value="2">2 (조금 아쉬워요)</option>
                 <option value="3">3 (괜찮아요)</option>
                 <option value="4">4 (좋아요)</option>
-                <option value="5">5 (아주 맘에 들어요)</option>
+                <option value="5" selected>5 (아주 맘에 들어요)</option>
               </select>
-              <div class="input-group">
-                <textarea
+              <textarea
                 rows="10"
-                  class="form-control mb-3"
-                  placeholder="상품 후기를 입력하세요"
-                ></textarea>
-              </div>
-              <input class="mb-2" type="file" id="image1" accept="image/png, image/jpeg" />
-              <input class="mb-2" type="file" id="image2" accept="image/png, image/jpeg" />
-              <input class="mb-2" type="file" id="image3" accept="image/png, image/jpeg" />
+                class="form-control mb-3"
+                placeholder="상품 후기를 입력하세요"
+              ></textarea>
+              <input
+                class="mb-2"
+                type="file"
+                id="image1"
+                accept="image/png, image/jpeg"
+              />
+              <input
+                class="mb-2"
+                type="file"
+                id="image2"
+                accept="image/png, image/jpeg"
+              />
+              <input
+                class="mb-2"
+                type="file"
+                id="image3"
+                accept="image/png, image/jpeg"
+              />
             </div>
             <div class="modal-footer">
               <button
@@ -218,7 +231,7 @@
               >
                 닫기
               </button>
-              <button type="submit" class="btn btn-primary">작성 완료</button>
+              <button type="submit" class="btn btn-primary">등록</button>
             </div>
           </div>
         </div>
@@ -339,8 +352,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="exampleModalLabel">
-                1:1 문의합니다.(여기 제목 옆에 비밀글여부 바인딩 하면
-                될거같은데)
+                1:1 문의 작성
               </h1>
               <button
                 type="button"
@@ -350,28 +362,34 @@
               ></button>
             </div>
             <div class="modal-body">
-              <h2 class="fs-5">작성자</h2>
               <p class="text-muted">
                 상품명 : 필통&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;옵션 : 파란색
               </p>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
-                debitis, aperiam incidunt dolor odio magnam eum quod ratione
-                veniam quo minima id suscipit quisquam tenetur facere eligendi
-                placeat corrupti. Vitae.
-              </p>
-              <img
-                src="https://via.placeholder.com/100x100?text=Image"
-                class="img-thumbnail me-3"
+              <!-- <div class="input-group"> -->
+              <textarea
+                rows="10"
+                class="form-control mb-3"
+                placeholder="상품 후기를 입력하세요"
+              ></textarea>
+              <!-- </div> -->
+              <input
+                class="mb-2"
+                type="file"
+                id="image1"
+                accept="image/png, image/jpeg"
               />
-              <hr />
-              <h2 class="fs-5">답변자</h2>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
-                debitis, aperiam incidunt dolor odio magnam eum quod ratione
-                veniam quo minima id suscipit quisquam tenetur facere eligendi
-                placeat corrupti. Vitae.
-              </p>
+              <input
+                class="mb-2"
+                type="file"
+                id="image1"
+                accept="image/png, image/jpeg"
+              />
+              <input
+                class="mb-2"
+                type="file"
+                id="image1"
+                accept="image/png, image/jpeg"
+              />
             </div>
             <div class="modal-footer">
               <button
@@ -386,7 +404,7 @@
                 class="btn btn-primary"
                 data-bs-dismiss="modal"
               >
-                수정
+                등록
               </button>
             </div>
           </div>
@@ -396,16 +414,30 @@
   </div>
 </template>
 <script>
+import ProductService from '@/services/shop/ProductService';
 export default {
   data() {
     return {
       show: true,
+      product: null
     };
   },
   methods: {
     toggleShow() {
       this.show = !this.show;
     },
+    async getProduct(pdId) {
+      try {
+        let response = await ProductService.get(pdId);
+        this.product = response.data;
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  },
+    mounted() {
+    // TODO: 화면이 뜰 때 상품 상세 조회 : 상품번호(spno)
+    this.getProduct(this.$route.params.pdId);
   },
 };
 </script>
