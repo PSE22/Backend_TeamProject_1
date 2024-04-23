@@ -2,9 +2,11 @@ package org.example.backendproject.model.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.example.backendproject.model.common.BaseTimeEntity2;
+import org.example.backendproject.model.common.CpIdUserIdPk;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SQLDelete;
@@ -34,15 +36,13 @@ import org.hibernate.annotations.Where;
 @DynamicUpdate
 // soft delete
 @Where(clause = "STATUS = 'Y'")
-@SQLDelete(sql = "UPDATE TB_USER_COUPON SET STATUS = 'N' WHERE COUPON_ID = ?")
+@SQLDelete(sql = "UPDATE TB_USER_COUPON SET STATUS = 'N' WHERE CP_ID = ? AND USER_ID = ?")
+// 복합키 클래스
+@IdClass(CpIdUserIdPk.class)
 public class UserCoupon extends BaseTimeEntity2 {
-//    coupon_id	number
-//    user_id	varchar2(100 byte)
-//    ucp_add_date	date
-//    ucp_use_date	date
-//    status	char(1 byte)
     @Id
-    private Integer couponId;
+    private Integer cpId;
+    @Id
     private String userId;
     private String ucpAddDate;
     private String ucpUseDate;
