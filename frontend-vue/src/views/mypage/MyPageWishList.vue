@@ -48,6 +48,17 @@
       </div>
     </div>
   </div>
+  <!-- 페이징 번호 -->
+  <div class="row">
+    <!-- TODO: 1페이지당 화면에 보일 개수 조정(select태그) -->
+    <b-pagination
+      class="col-12 mb-3"
+      v-model="page"
+      :total-rows="count"
+      :per-page="pageSize"
+      @click="retrieveWishList"
+    ></b-pagination>
+  </div>
 </template>
 
 <script>
@@ -101,7 +112,6 @@ export default {
         alert("정상적으로 삭제되었습니다");
         // 삭제 후 재조회
         this.retrieveWishList();
-
       } catch (e) {
         console.log(e);
       }
@@ -123,6 +133,12 @@ export default {
     // TODO: 화면이 뜰때 전체조회 실행
     this.retrieveWishList();
   },
+
+  pageNoChange(value) {
+      // this.속성 => data() 안에 속성들 접근
+      this.page = value; // 1) 현재페이지 변경
+      this.retrieveDept(); // 2) 재조회 요청
+    },
 };
 </script>
 <style>
