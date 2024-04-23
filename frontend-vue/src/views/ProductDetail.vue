@@ -16,7 +16,7 @@
     <div class="col">
       <ul class="product-select">
         <li>
-          <div id="title"><h2>상품명 : </h2></div>
+          <div id="title"><h2>상품명 : {{product.pdName}}</h2></div>
         </li>
         <li>
           <div id="content">
@@ -25,7 +25,7 @@
           </div>
         </li>
         <li>
-          <div id="price"><h2>가격 원</h2></div>
+          <div id="price"><h2>가격 {{product.pdPrice}}원</h2></div>
         </li>
         <li><div id="option-text"></div></li>
         <select name="option" class="select">
@@ -34,7 +34,7 @@
           <option value="3">상품 상세 옵션 선택 3</option>
           <option value="4">상품 상세 옵션 선택 4</option>
         </select>
-        <li><div id="count-text">수량 : </div></li>
+        <li><div id="count-text">수량</div></li>
         <li>
           <div class="btn-group" role="group" id="count-box">
             <button
@@ -51,7 +51,7 @@
               style="width: 60px"
               disabled
             >
-              10{{ clickCount }}
+              {{ this.count }}
             </button>
             <button
               type="button"
@@ -126,18 +126,15 @@
           <td class="col-1 text-center">OOO</td>
           <td class="col-2 text-center">
             <div class="flex-grow-1">
-              This is some content from a media component. This is some content
-              from a media component.
+              상품 옵션명
             </div>
           </td>
           <td class="col-1 text-center">1/5</td>
           <td class="col-4">
             <div class="align-items-center text-start">
               <div class="flex-grow-1">
-                This is some content from a media component. This is some
-                content from a media component.
+                후기
               </div>
-
               <img
                 src="https://via.placeholder.com/100x100?text=Image"
                 class="img-thumbnail me-3"
@@ -419,7 +416,8 @@ export default {
   data() {
     return {
       show: true,
-      product: null
+      product: [],
+      count: 0
     };
   },
   methods: {
@@ -432,6 +430,14 @@ export default {
         this.product = response.data;
       } catch (e) {
         console.log(e);
+      }
+    },
+    increaseCount() {
+      this.count = this.count + 1;
+    },
+    decreaseCount() {
+      if (this.count > 0) {
+      this.count = this.count - 1;
       }
     }
   },
