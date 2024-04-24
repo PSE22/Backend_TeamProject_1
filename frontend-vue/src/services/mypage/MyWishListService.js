@@ -27,7 +27,6 @@ class wishListService {
   delete(pdId) { 
     return http/delete(`/mypage/wishList/deletion/${pdId}`)
   }
-
 }
 
 

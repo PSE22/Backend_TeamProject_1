@@ -38,13 +38,13 @@ const routes = [
   }, 
   // 카테고리 상세
   {
-    path: "/category",
+    path: "/category/:categoryCode",
     component: () => import("../views/CategoryDetail.vue"),
   },
 
   // 상품 상세
   {
-    path: "/product-detail",
+    path: "/product/:pdId",
     component: () => import("../views/ProductDetail.vue"),
   },
   // 베스트 상품 페이지

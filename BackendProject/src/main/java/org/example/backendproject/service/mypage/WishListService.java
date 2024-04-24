@@ -42,7 +42,6 @@ public class WishListService {
         return optionalWishlist;
     }
 
-
 //    검색 : 페이징처리
     public Page<Wishlist> findAllByPdNameContaining(String pdName,
                                                Pageable pageable) {
@@ -68,6 +67,5 @@ public class WishListService {
             return false;
         }
     }
-
 
 }

@@ -133,6 +133,7 @@ export default {
         alert("정상적으로 삭제되었습니다");
         // 삭제 후 재조회
         this.retrieveWishList();
+       
       } catch (e) {
         console.log(e);
       }
@@ -154,7 +155,6 @@ export default {
     // TODO: 화면이 뜰때 전체조회 실행
     this.retrieveWishList();
   },
-
   pageNoChange(value) {
       // this.속성 => data() 안에 속성들 접근
       this.page = value; // 1) 현재페이지 변경

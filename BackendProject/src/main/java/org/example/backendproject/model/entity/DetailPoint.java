@@ -40,7 +40,6 @@ public class DetailPoint extends BaseTimeEntity2 {
 //    point_id	number
 //    point_balance	number
 //    status	char(1 byte)
-
     @Id
     private Integer usePointId;
     private Integer pointId;
