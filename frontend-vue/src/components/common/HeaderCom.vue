@@ -19,7 +19,7 @@
         <router-link to="/cart" class="router-link">장바구니</router-link> |
                 <!-- 로그인 / 회원가입 -->
         <router-link v-if="this.$store.state.loggedIn == false" to="/login" class="router-link">로그인 |</router-link>
-        <router-link v-if="this.$store.state.loggedIn == false" to="/singup" class="router-link"> 회원가입</router-link>
+        <router-link v-if="this.$store.state.loggedIn == false" to="/signup" class="router-link"> 회원가입</router-link>
         <!-- 로그아웃 -->
         <router-link
           to="#"
