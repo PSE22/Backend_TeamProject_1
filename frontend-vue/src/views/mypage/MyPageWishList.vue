@@ -23,7 +23,8 @@
               @click="saveWishList">선택담기</button>
             </div>
           </div>
-          <div class="row row-cols-1 row-cols-md-3 g-4" id="main-products">
+          <div class="row row-cols-1 row-cols-md-3 g-4" id="main-products"
+               v-for="(data, index) in dept" :key="index">
             <div class="col">
               <div class="card h-100">
                 <img
@@ -74,7 +75,6 @@ export default {
   data() {
     return {
       wishList: [], // 장바구니 객체배열
-      // 공통 페이징 속성 정의
       page: 1, // 현재페이지번호
       count: 0, // 전체 데이터개수
       pageSize: 3, // 화면에 보여질 개수
@@ -84,11 +84,9 @@ export default {
   },
 
   methods: {
-    // TODO: 전체조회(장바구니) 함수 : 검색어 버튼, 화면이뜰때 자동 실행
+    // 전체조회 함수
     async retrieveWishList() {
       try {
-        // TODO: 공통 장바구니 전체 조회 서비스 함수 실행
-        // TODO: 비동기 코딩 : async ~ await
         let response = await WishListService.getAll(
           this.page - 1,
           this.pageSize
@@ -111,7 +109,6 @@ export default {
                 pdId: this.wishList.pdId,
                 pdName: this.wishList.pdName,
                 pdPrice: this.wishList.pdPrice,
-
             }
 
             // 백엔드로 객체 추가 요청
@@ -161,7 +158,7 @@ export default {
   pageNoChange(value) {
       // this.속성 => data() 안에 속성들 접근
       this.page = value; // 1) 현재페이지 변경
-      this.retrieveDept(); // 2) 재조회 요청
+      this.retrieveWishList(); // 2) 재조회 요청
     },
 };
 </script>
