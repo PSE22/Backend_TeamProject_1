@@ -18,17 +18,8 @@
         <li>
           <div id="title"><h2>상품명 : {{product.pdName}}</h2></div>
         </li>
-        <li>
-          <div id="content">
-            상품 설명 Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Consectetur quisquam, numquam porro necessitatibus sit fugit
-          </div>
-        </li>
-        <li>
-          <div id="price"><h2>가격 {{product.pdPrice}}원</h2></div>
-        </li>
-        <li><div id="option-text"></div></li>
-        <select name="option" class="select">
+        <li><div id="option-text">옵션 선택</div></li>
+        <select name="product-option" class="select-box">
           <option value="1" selected>상품 상세 옵션 선택 1</option>
           <option value="2">상품 상세 옵션 선택 2</option>
           <option value="3">상품 상세 옵션 선택 3</option>
@@ -62,7 +53,21 @@
             </button>
           </div>
         </li>
-        <br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <li>
+          <div id="price"><h2>가격 {{product.pdPrice}}원</h2></div>
+        </li>
+          <li><div id="coupon-text">쿠폰 선택</div></li>
+            <select name="coupon-option" class="select-box">
+          <option value="1" selected>쿠폰명 1</option>
+          <option value="2">쿠폰명 2</option>
+          <option value="3">쿠폰명 3</option>
+          <option value="4">쿠폰명 4</option>
+        </select>
+
+        <li>
+          <div id="price"><h3>배송비 3000원</h3></div>
+        </li>
+        <br /><br /><br /><br /><br />
         <li>
           <div class="btn-group" role="group">
             <img
