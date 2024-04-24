@@ -12,15 +12,11 @@
     margin-bottom: 30px;
 }
 
-#content {
-    margin-bottom: 30px;
+#option-text {
+    margin-bottom: 10px;
 }
 
-#price {
-    margin-bottom: 30px;
-}
-
-.select {
+.select-box {
     width: 450px;
     height: 50px;
     appearance: none;
@@ -33,16 +29,20 @@
     background-color: beige;
 }
 
-#option-text {
-    margin-bottom: 10px;
-}
-
 #count-text {
     margin-bottom: 10px;
 }
 
 #count-box {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+#price {
+    margin-bottom: 30px;
+}
+
+#coupon-text {
+    margin-bottom: 10px;
 }
 
 #basket-button {
