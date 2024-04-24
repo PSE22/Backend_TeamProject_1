@@ -14,6 +14,7 @@ package org.example.backendproject.model.dto.shop;
  * 4/23/24         gumiji          최초 생성
  */
 public interface ICartDto {
+    Integer getCartId(); // 장바구니 번호
     Integer getCartCount(); // 장바구니 수량
     String getOpName();     // 옵션명
     Integer getOpPrice();   // 옵션 가격

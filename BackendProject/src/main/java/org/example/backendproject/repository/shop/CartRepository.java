@@ -26,25 +26,23 @@ import org.springframework.stereotype.Repository;
 public interface CartRepository extends JpaRepository<Cart, Integer> {
 //    장바구니 전체조회
     @Query(value = "SELECT\n" +
-            "C.CART_COUNT,\n" +
-            "O.OP_NAME,\n" +
-            "O.OP_PRICE,\n" +
-            "PD.PD_NAME,\n" +
-            "PD.PD_PRICE,\n" +
-            "PI.PD_IMG_URL\n" +
-            "C.CART_ID" +
+            "C.CART_ID AS cartId," +
+            "C.CART_COUNT AS cartCount,\n" +
+            "O.OP_NAME AS opName,\n" +
+            "O.OP_PRICE AS opPrice,\n" +
+            "PD.PD_NAME AS pdName,\n" +
+            "PD.PD_PRICE AS pdPrice,\n" +
+            "PI.PD_IMG_URL AS pdImgUrl\n" +
             "FROM TB_CART C, TB_OPTION O, TB_PRODUCT PD, TB_PRODUCT_IMAGE PI\n" +
             "WHERE C.OP_ID = O.OP_ID\n" +
             "AND O.PD_ID = PD.PD_ID\n" +
-            "AND PD.PD_ID = PI.PD_ID\n" +
-            "AND PD.STATUS = 'Y';\n",
+            "AND PD.PD_ID = PI.PD_ID\n",
             countQuery = "SELECT\n" +
                     "count(*)\n" +
                     "FROM TB_CART C, TB_OPTION O, TB_PRODUCT PD, TB_PRODUCT_IMAGE PI\n" +
                     "WHERE C.OP_ID = O.OP_ID\n" +
                     "AND O.PD_ID = PD.PD_ID\n" +
-                    "AND PD.PD_ID = PI.PD_ID\n" +
-                    "AND PD.STATUS = 'Y';",
+                    "AND PD.PD_ID = PI.PD_ID\n",
             nativeQuery = true)
     Page<ICartDto> selectByCartContaining(Integer cartId, Pageable pageable);
 }

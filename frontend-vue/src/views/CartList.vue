@@ -11,12 +11,7 @@
           <tr>
             <th scope="col-1">
               <!-- 전체선택 체크박스 -->
-              <input
-                class="form-check-input"
-                type="checkbox"
-                v-model="allChecked"
-                @click="checkedAll($event.target.checked)"
-              />
+              <input class="form-check-input" type="checkbox" />
               <label class="form-check-label" for="flexCheckDefault"></label>
             </th>
             <th scope="col">상품</th>
@@ -29,29 +24,24 @@
         <tbody class="table-group-divider align-middle">
           <tr v-for="(data, index) in cart" :key="index">
             <td class="col-1">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                :id="'check_' + item.cartId"
-                :value="item.cartId"
-                v-model="item.selected"
-                @change="selected($event)"
-              />
+              <input class="form-check-input" type="checkbox"
+              id="delete" />
             </td>
-            <td class="col-5">
+            <td class="col-4">
               <div class="d-flex align-items-center text-start">
                 <div class="flex-shrink-0">
                   <img
-                    src="https://via.placeholder.com/100x100?text=Image"
+                    :src="data.pdImgUrl"
                     class="img-thumbnail me-3"
+                    style="width: 100px; height: 100px"
                   />
                 </div>
                 <div class="flex-grow-1 ms-3">
-                  {{ data.cart }}
+                  {{ data.pdName }}
                 </div>
               </div>
             </td>
-            <td class="col-2">빨간색</td>
+            <td class="col-1">{{ data.opName }}</td>
 
             <td class="col-2">
               <!-- 장바구니 수량 -->
@@ -70,7 +60,7 @@
                   style="width: 60px"
                   disabled
                 >
-                  10{{ cartCount }}
+                  {{ cartCount }}
                 </button>
                 <button
                   type="button"
@@ -81,11 +71,12 @@
                 </button>
               </div>
             </td>
-            <td class="col-2">30,000</td>
-            <td class="col-2">@mdo</td>
+            <td class="col-2">{{ data.pdPrice + data.opPrice }}</td>
+            <td class="col-2">{{ shipPrice }}</td>
           </tr>
         </tbody>
       </table>
+      <!-- 삭제버튼 -->
       <button
         type="button"
         class="btn btn-dark"
@@ -94,6 +85,8 @@
           --bs-btn-padding-x: 0.5rem;
           --bs-btn-font-size: 0.75rem;
         "
+        @click="deleteCart(cart.cartId)"
+        id="delete"
       >
         선택삭제
       </button>
@@ -107,19 +100,23 @@
         <div class="card text-center mb-3" style="max-width: 18rem">
           <div class="card-header">총 배송비</div>
           <div class="card-body">
-            <h3 class="card-title">10,000원</h3>
+            <h3 class="card-title">{{ count * shipPrice }} 원</h3>
           </div>
         </div>
         <div class="card text-center mb-3" style="max-width: 18rem">
           <div class="card-header">총 결제예상금액</div>
           <div class="card-body">
-            <h3 class="card-title">60,000원</h3>
+            <h3 class="card-title">??? 원</h3>
           </div>
         </div>
       </div>
 
       <div class="d-grid gap-2 d-md-block text-center">
-        <button class="btn btn-outline-dark btn-lg me-md-2 col-2" type="button" @click="goOrder">
+        <button
+          class="btn btn-outline-dark btn-lg me-md-2 col-2"
+          type="button"
+          @click="goOrder"
+        >
           선택주문
         </button>
         <button
@@ -140,6 +137,8 @@ export default {
   data() {
     return {
       cart: [], // 장바구니 객체배열
+      cartCount: 0, // 장바구니 수량
+      shipPrice: 3000,  // 배송비
       allChecked: false, // 체크박스 전체선택
 
       page: 1, // 현재 페이지 번호
@@ -152,16 +151,26 @@ export default {
     async allCart() {
       try {
         let response = await CartService.getAll(this.page - 1, this.pageSize);
-      const { cart, totalItems } = response.data;
-      this.cart = cart;
-      this.count = totalItems;
-      // 로깅
-      console.log(response.data); // 웹브라우저 콘솔탬에 백앤드 데이터 표시
+        const { cart, totalItems } = response.data;
+        this.cart = cart;
+        this.count = totalItems;
+        // 로깅
+        console.log(response.data); // 웹브라우저 콘솔탬에 백앤드 데이터 표시
       } catch (e) {
         console.log(e);
       }
     },
-  //   // 장바구니 삭제 함수 : delete 버튼 태그
+    // TODO: 장바구니 개수 증가 함수
+    increaseCount() {
+      this.cartCount += 1;
+    },
+    // TODO: 장바구니 개수 감소 함수
+    decreaseCount() {
+      if (this.cartCount > 0) {
+        this.cartCount -= 1;
+      }
+    },
+    // 장바구니 삭제 함수 : delete 버튼 태그
     async deleteCart(cartId) {
       try {
         // 장바구니 삭제 서비스 함수
@@ -174,8 +183,10 @@ export default {
       } catch (e) {
         console.log(e);
       }
-    }, // cartId
-  //   // 주문페이지 이동 함수
+
+    },
+
+    //   // 주문페이지 이동 함수
     goOrder() {
       this.$router.push("/order");
     },
