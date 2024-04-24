@@ -1,5 +1,6 @@
 package org.example.backend.config;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * -----------------------------------------------------------
  * 2024-04-19         kimtaewan          최초 생성
  */
+@Configuration
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {

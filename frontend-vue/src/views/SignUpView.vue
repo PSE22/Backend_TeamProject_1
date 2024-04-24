@@ -2,26 +2,25 @@
   <div align="center" class="mt-5">
     <h2>회원가입</h2>
   </div>
-  <div class="container mt-5 register-box">
+  <div class="container mt-5 signup-box">
     <div align="center">
       <div class="logo">
         <h2>서울쥐</h2>
       </div>
     </div>
     <!-- 회원가입 폼 -->
-    <form class="user" @submit.prevent="handleRegister">
+    <form class="user" @submit.prevent="handleSignUp">
       <!-- 아이디 -->
       <div align="center">
         <div class="row">
           <div class="col-9">
-            <label for="userid"></label>
+            <label for="userId"></label>
             <input
               type="text"
               class="form-control"
-              id="userid"
               placeholder="아이디"
-              name="userid"
-              v-model="user.id"
+              name="userId"
+              v-model="user.userId"
             />
           </div>
 
@@ -38,40 +37,42 @@
       <!-- 비밀번호 -->
       <div align="center">
         <div class="form-group col">
-          <label for="password"></label>
+          <label for="userPw"></label>
           <input
             type="password"
             class="form-control"
             placeholder="비밀번호"
-            name="password"
-            v-model="user.password"
+            name="userPw"
+            v-model="user.userPw"
           />
         </div>
       </div>
 
       <div align="center">
         <div class="form-group col">
-          <label for="password_check"></label>
+          <label for="userPw"></label>
           <input
             type="password"
             class="form-control"
             placeholder="비밀번호 재확인"
-            name="password_check"
-            v-model="user.repassword"
+            name="userPw"
+            v-model="user.rePw"
           />
         </div>
       </div>
+      <!-- 비밀번호 일치 여부를 표시하는 메시지 -->
+      <div v-if="!isPasswordMatch">비밀번호가 일치하지 않습니다.</div>
 
       <!-- 이름 -->
       <div align="center">
         <div class="form-group col">
-          <label for="name"></label>
+          <label for="userName"></label>
           <input
             type="text"
             class="form-control"
             placeholder="이름"
-            name="name"
-            v-model="user.name"
+            name="userName"
+            v-model="user.userName"
           />
         </div>
       </div>
@@ -80,13 +81,13 @@
       <div align="center">
         <div class="row">
           <div class="col-5">
-            <label for="email"></label>
+            <label for="userEmail"></label>
             <input
               type="text"
               class="form-control"
               placeholder="이메일"
-              name="email"
-              v-model="user.email"
+              name="userEmail"
+              v-model="user.userEmail"
             />
           </div>
 
@@ -114,23 +115,26 @@
       </div>
       </div>
 
-      <div align="center">
-        <button type="submit" class="btn btn-outline-secondary btn-user mt-3 col-12">
+      <!-- <div align="center">
+        <button type="submit" 
+        class="btn btn-outline-secondary btn-user mt-3 col-12"
+        @click="address"
+        >
           주소 검색
         </button>
-      </div>
+      </div> -->
 
       <!-- 휴대폰 번호 -->
       <div align="center">
         <div class="row">
           <div class="col-10">
-            <label for="phone"></label>
+            <label for="userPhone"></label>
             <input
               type="text"
               class="form-control"
               placeholder="휴대폰 번호"
-              name="phone"
-              v-model="user.phone"
+              name="userPhone"
+              v-model="user.userPhone"
             />
           </div>
 
@@ -147,7 +151,10 @@
       <!-- 회원가입 -->
       <br />
       <div align="center">
-        <button type="submit" class="btn btn-primary btn-user mt-3 col-12">
+        <button type="button"
+         class="btn btn-primary btn-user mt-3 col-12"
+         @click="handleSignUp"
+         >
           회원가입
         </button>
       </div>
@@ -166,35 +173,40 @@ export default {
   data() {
     return {
       user: {
-                id: "",
-                password: "",
-                repassword: "",
-                name: "",
-                email: "",
-                phone: "",
+                userId: "",
+                userPw: "",
+                rePw: "",
+                userName: "",
                 address: "",
+                userEmail: "",
+                userPhone: "",
             },
             message: "",      // 성공메세지 화면 출력속성
     }
   },
   // TODO: 함수 정의
   methods: {
-    async handleRegister() {
+    async handleSignUp() {
       this.message = "";
       try {
         // TODO: 공통 사용자등록 서비스 함수 실행
-        let response = await LoginService.register(this.user);
-        // 공유저장소의 register 성공함수 실행
-        this.$store.commit("registerSuccess");
+        let response = await LoginService.signup(this.user);
+        // 공유저장소의 signUp 성공함수 실행
+        this.$store.commit("signUpSuccess");
         this.message = "사용자가 등록되었습니다.";
         // 로깅 
         console.log(response.data);
       } catch(e) {
-        // 공유저장소의 register 실패함수 실행
-        this.$store.commit("registerFailure");
+        // 공유저장소의 signUp 실패함수 실행
+        this.$store.commit("signupFailure");
         this.message = "에러 : " + e;
         console.log(e);
       }
+    }
+  },
+  computed: {
+    isPasswordMatch() {
+      return this.user.userPw === this.user.rePw;
     }
   },
 };
