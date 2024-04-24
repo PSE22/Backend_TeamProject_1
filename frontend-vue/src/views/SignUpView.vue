@@ -33,7 +33,6 @@
           </div>
         </div>
       </div>
-
       <!-- 비밀번호 -->
       <div align="center">
         <div class="form-group col">
@@ -98,7 +97,6 @@
         />
         <label class="form-check-label" for="inlineRadio2">여</label>
       </div>
-
       <!-- 이메일 -->
       <div align="center">
         <div class="row">
@@ -164,10 +162,10 @@
                 인증
               </button>
             </div>
+
           </div>
         </div>
       </div>
-
       <!-- 광고수신동의 -->
       광고 수신 동의 :
       <div class="form-check form-check-inline mt-3">
@@ -268,6 +266,7 @@ export default {
         // 로깅
         console.log(response.data);
       } catch (e) {
+
         // 공유저장소의 signUp 실패함수 실행
         this.$store.commit("signupFailure");
         this.message = "에러 : " + e;
@@ -290,6 +289,7 @@ export default {
   border: 3px solid #505050;
   width: 600px;
   height: 700px;
+
 }
 .a1 {
   position: relative;
