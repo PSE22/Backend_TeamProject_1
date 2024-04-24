@@ -55,6 +55,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(req -> req
                 .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                .requestMatchers("/api/mypage/**").hasAuthority("AT02")
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/").permitAll()
                 .anyRequest()
