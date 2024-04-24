@@ -22,9 +22,12 @@ class LoginService {
             userPw: user.userPw,
             rePw: user.userPw,
             userName: user.userName,
+            gender: user.gender,
             address: user.address,
             userEmail: user.userEmail,
             userPhone: user.userPhone,
+            userPromo: user.userPromo,
+            userCode: user.userCode,
         }
         return http.post("/auth/signup", data);
     }

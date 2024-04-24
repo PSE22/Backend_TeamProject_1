@@ -57,7 +57,7 @@
       <router-link align="center" to="/find-password"
         >비밀번호 찾기</router-link
       >
-      | <router-link align="right" to="/register">회원가입</router-link> |
+      | <router-link align="right" to="/singup">회원가입</router-link> |
     </nav>
 
     <!-- 소셜 페이지 로그인 기능 연동 -->
@@ -89,7 +89,7 @@ export default {
         let response = await LoginService.login(this.user);
         console.log(response.data);
         localStorage.setItem("user", JSON.stringify(response.data));
-        this.$store.commit("loginSucces", response.data);
+        this.$store.commit("loginSuccess", response.data);
         this.$router.push("/");
       } catch (e) {
         this.$store.commit("loginFailure");   

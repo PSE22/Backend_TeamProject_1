@@ -17,11 +17,14 @@
               <p class="form-check-label" for="flexCheckDefault">전체선택</p>
             </label>
             <div class="btngroup">
-              <button type="button">선택삭제</button>
-              <button type="button">선택담기</button>
+              <button type="button"
+              @click="deleteProduct">선택삭제</button>
+              <button type="button"
+              @click="saveWishList">선택담기</button>
             </div>
           </div>
-          <div class="row row-cols-1 row-cols-md-3 g-4" id="main-products">
+          <div class="row row-cols-1 row-cols-md-3 g-4" id="main-products"
+               v-for="(data, index) in dept" :key="index">
             <div class="col">
               <div class="card h-100">
                 <img
@@ -48,6 +51,17 @@
       </div>
     </div>
   </div>
+  <!-- 페이징 번호 -->
+  <div class="row">
+    <!-- TODO: 1페이지당 화면에 보일 개수 조정(select태그) -->
+    <b-pagination
+      class="col-12 mb-3"
+      v-model="page"
+      :total-rows="count"
+      :per-page="pageSize"
+      @click="retrieveWishList"
+    ></b-pagination>
+  </div>
 </template>
 
 <script>
@@ -61,7 +75,6 @@ export default {
   data() {
     return {
       wishList: [], // 장바구니 객체배열
-      // 공통 페이징 속성 정의
       page: 1, // 현재페이지번호
       count: 0, // 전체 데이터개수
       pageSize: 3, // 화면에 보여질 개수
@@ -71,11 +84,9 @@ export default {
   },
 
   methods: {
-    // TODO: 전체조회(장바구니) 함수 : 검색어 버튼, 화면이뜰때 자동 실행
+    // 전체조회 함수
     async retrieveWishList() {
       try {
-        // TODO: 공통 장바구니 전체 조회 서비스 함수 실행
-        // TODO: 비동기 코딩 : async ~ await
         let response = await WishListService.getAll(
           this.page - 1,
           this.pageSize
@@ -90,7 +101,28 @@ export default {
       }
     },
 
-    // TODO: 장바구니 삭제 함수 : delete 버튼 태그
+    // 저장함수
+    async saveWishList(){
+          try {
+            // 임시 객체 변수
+            let data = {
+                pdId: this.wishList.pdId,
+                pdName: this.wishList.pdName,
+                pdPrice: this.wishList.pdPrice,
+            }
+
+            // 백엔드로 객체 추가 요청
+            let response = await WishListService.creat(data);  // JSP에있는 DeptService 사용할때는 import 해줘야함
+            // 콘솔에 결과 출력
+            console.log(response);
+            this.submitted = true; // 저장유무변수=true 변경
+
+            } catch(e) {
+              console.log(e);
+            }
+      },
+
+    // 삭제함수
     async deleteProduct(pdId) {
       try {
         // TODO: 공통 장바구니 삭제 서비스 함수 실행
@@ -101,7 +133,7 @@ export default {
         alert("정상적으로 삭제되었습니다");
         // 삭제 후 재조회
         this.retrieveWishList();
-
+       
       } catch (e) {
         console.log(e);
       }
@@ -123,6 +155,11 @@ export default {
     // TODO: 화면이 뜰때 전체조회 실행
     this.retrieveWishList();
   },
+  pageNoChange(value) {
+      // this.속성 => data() 안에 속성들 접근
+      this.page = value; // 1) 현재페이지 변경
+      this.retrieveWishList(); // 2) 재조회 요청
+    },
 };
 </script>
 <style>
