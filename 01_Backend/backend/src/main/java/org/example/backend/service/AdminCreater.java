@@ -24,13 +24,13 @@ public class AdminCreater {
     public void creater() {
         // 테스트용 계정 생성
         User admin = new User();
-        admin.setUserId("seoulmouse2");
+        admin.setUserId("seoulmouse1");
         admin.setUserPw(passwordEncoder.encode("password123!"));
-        admin.setUserName("박시은");
-        admin.setUserEmail("shieun45@gmail.com");
+        admin.setUserName("김태완");
+        admin.setUserEmail("nick594740@gmail.com");
         admin.setUserBirth("");
-        admin.setGender("N");
-        admin.setUserPhone("01041707229");
+        admin.setGender("Y");
+        admin.setUserPhone("01082981131");
         admin.setUserPromo("Y");
         admin.setUserCode("AT01");
 
