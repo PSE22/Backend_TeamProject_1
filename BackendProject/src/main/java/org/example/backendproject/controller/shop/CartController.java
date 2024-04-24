@@ -54,7 +54,7 @@ public class CartController {
 //    조회(select) -> get 방식 -> GetMapping
     @GetMapping("/cart")
     public ResponseEntity<Object> findAll(
-            @RequestParam(defaultValue = "") Integer cartId,
+            @RequestParam(defaultValue = "0") Integer cartId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
     ) {

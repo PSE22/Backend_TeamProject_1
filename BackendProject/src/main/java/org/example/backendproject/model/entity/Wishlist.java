@@ -41,4 +41,5 @@ public class Wishlist extends BaseTimeEntity2 {
     private Integer pdId;       // 상품 ID
     @Id
     private String userId;      // 회원 ID
+
 }
