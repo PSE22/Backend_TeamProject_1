@@ -44,7 +44,7 @@ const routes = [
 
   // 상품 상세
   {
-    path: "/product-detail",
+    path: "/product/:pdId",
     component: () => import("../views/ProductDetail.vue"),
   },
   // 베스트 상품 페이지

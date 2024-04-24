@@ -24,8 +24,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query(value = "SELECT * FROM TB_PRODUCT\n" +
-                   "WHERE PD_ID LIKE '%' || :pdName || '%'",
+                   "WHERE PD_NAME LIKE '%' || :pdName || '%'",
             countQuery = "SELECT count(*) FROM TB_PRODUCT\n" +
-                         "WHERE PD_ID LIKE '%' || :pdName || '%'", nativeQuery = true)
+                         "WHERE PD_NAME LIKE '%' || :pdName || '%'", nativeQuery = true)
     Page<Product> findAllByPdIdContaining (@Param("pdName") String pdName, Pageable pageable);
 }

@@ -9,8 +9,8 @@ class ProductService {
     }
     // 카테고리 상품 상세 조회 
     // 조회(select) => GET 방식
-    // get(spno) {
-    //     return http.get(`/shop/product/${spno}`);
-    // }
+    get(pdId) {
+        return http.get(`/shop/product/${pdId}`);
+    }
 }
 export default new ProductService();
