@@ -23,8 +23,8 @@ const routes = [
   },
   // 회원가입
   {
-    path: "/register",
-    component: () => import("../views/RegisterView.vue"),
+    path: "/signup",
+    component: () => import("../views/SignUpView.vue"),
   },
   // 관리자 메인
   {
