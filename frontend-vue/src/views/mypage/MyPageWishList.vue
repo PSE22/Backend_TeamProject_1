@@ -17,8 +17,10 @@
               <p class="form-check-label" for="flexCheckDefault">전체선택</p>
             </label>
             <div class="btngroup">
-              <button type="button">선택삭제</button>
-              <button type="button">선택담기</button>
+              <button type="button"
+              @click="deleteProduct">선택삭제</button>
+              <button type="button"
+              @click="saveWishList">선택담기</button>
             </div>
           </div>
           <div class="row row-cols-1 row-cols-md-3 g-4" id="main-products">
@@ -101,7 +103,29 @@ export default {
       }
     },
 
-    // TODO: 장바구니 삭제 함수 : delete 버튼 태그
+    // 저장함수
+    async saveWishList(){
+          try {
+            // 임시 객체 변수
+            let data = {
+                pdId: this.wishList.pdId,
+                pdName: this.wishList.pdName,
+                pdPrice: this.wishList.pdPrice,
+
+            }
+
+            // 백엔드로 객체 추가 요청
+            let response = await WishListService.creat(data);  // JSP에있는 DeptService 사용할때는 import 해줘야함
+            // 콘솔에 결과 출력
+            console.log(response);
+            this.submitted = true; // 저장유무변수=true 변경
+
+            } catch(e) {
+              console.log(e);
+            }
+      },
+
+    // 삭제함수
     async deleteProduct(pdId) {
       try {
         // TODO: 공통 장바구니 삭제 서비스 함수 실행

@@ -45,20 +45,17 @@ public class WishListController {
             response.put("totalPages", pageList.getTotalPages());    // 전체페이지수(x)
 
             if(pageList.isEmpty() == true) {
-//                1) pageList 값이 없으면 : DB 테이블 없음 => NO_CONTENT(203)
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
 
         } catch (Exception e) {
-//            TODO: INTERNAL_SERVER_ERROR(500) : 벡엔드 서버 에러
-//               아래 코드는 프론트로(웹브라우저) 신호를(500) 보냄
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    // 상세조회 함수
+    // TODO: 상세조회 함수
     @GetMapping("/wishList/{pdId}")
     public ResponseEntity<Object> findById(
             @PathVariable int pdId
@@ -79,8 +76,7 @@ public class WishListController {
         }
     }
 
-
-    //    TODO: 저장 함수
+//   TODO : 저장함수
     @PostMapping("/wishList")
     public ResponseEntity<Object> create(
             @RequestBody Wishlist wishlist
@@ -103,7 +99,6 @@ public class WishListController {
             @PathVariable int pdId
     ) {
         try {
-//            DB 서비스 삭제 함수 실행
             boolean success = wishListService.removeById(pdId);
 
             if(success == true) {
@@ -114,7 +109,6 @@ public class WishListController {
             }
 
         } catch (Exception e) {
-//            서버(DB) 에러
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

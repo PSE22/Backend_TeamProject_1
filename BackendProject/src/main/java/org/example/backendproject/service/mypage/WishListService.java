@@ -37,17 +37,15 @@ public class WishListService {
 
 //    상세조회
     public Optional<Wishlist> findById(int pd_id) {
-//        JPA 상세조회 함수 실행
         Optional<Wishlist> optionalWishlist
                 = wishListRepository.findById(pd_id);
         return optionalWishlist;
     }
 
 
-//    페이징처리
+//    검색 : 페이징처리
     public Page<Wishlist> findAllByPdNameContaining(String pdName,
                                                Pageable pageable) {
-//      DB like 검색 함수 실행 : 페이징 처리
         Page<Wishlist> page
                 = wishListRepository
                 .findAllByPdNameContaining(pdName, pageable);
@@ -56,7 +54,6 @@ public class WishListService {
 
 //    저장 함수
     public Wishlist save(Wishlist wishlist) {
-//        JPA 저장 함수 실행 : return 값 : 저장된 객체
         Wishlist wishlist2 = wishListRepository.save(wishlist);
 
         return wishlist2;
