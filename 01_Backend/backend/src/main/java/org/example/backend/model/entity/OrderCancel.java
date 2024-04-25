@@ -23,7 +23,8 @@ import org.hibernate.annotations.Where;
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2024-04-19         kimtaewan          최초 생성
+ * 2024-04-25         kimtaewan          최초 생성
+
  */
 @Entity
 @Table(name="TB_ORDER_CANCEL")

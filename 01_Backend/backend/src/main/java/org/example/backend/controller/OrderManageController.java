@@ -31,7 +31,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/Admin")
+@RequestMapping("/api/admin")
 @RequiredArgsConstructor
 public class OrderManageController {
 
@@ -52,45 +52,28 @@ public class OrderManageController {
     public ResponseEntity<Object> getOrderDetail(@PathVariable Long orderId) {
         try {
             Order order = orderManageService.getOrderById(orderId);
-            List<OrderDetail> orderDetails = orderManageService.getOrderDetails(orderId.intValue());
             if (order != null) {
                 Map<String, Object> response = new HashMap<>();
                 response.put("order", order);
+
+                List<OrderDetail> orderDetails = orderManageService.getOrderDetails(orderId.intValue());
                 response.put("orderDetails", orderDetails);
+
+                OrderCancel orderCancel = orderManageService.getOrderCancelInfo(orderId);
+                if (orderCancel != null) {
+                    response.put("orderCancel", orderCancel);
+                }
+
+                Refund refund = orderManageService.getRefundInfo(orderId);
+                if (refund != null) {
+                    response.put("refund", refund);
+                }
                 return ResponseEntity.ok(response);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주문을 찾을 수 없습니다.");
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("주문 정보를 가져오는 중 오류가 발생했습니다.");
-        }
-    }
-
-    @GetMapping("/{orderId}/cancelInfo")
-    public ResponseEntity<Object> getOrderCancelInfo(@PathVariable Long orderId) {
-        try {
-            OrderCancel orderCancel = orderManageService.getOrderCancelInfo(orderId);
-            if (orderCancel != null) {
-                return ResponseEntity.ok(orderCancel);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주문 취소 정보를 찾을 수 없습니다.");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("주문 취소 정보를 가져오는 중 오류가 발생했습니다.");
-        }
-    }
-
-    @GetMapping("/{orderId}/refundInfo")
-    public ResponseEntity<Object> getRefundInfo(@PathVariable Long orderId) {
-        try {
-            Refund refund = orderManageService.getRefundInfo(orderId);
-            if (refund != null) {
-                return ResponseEntity.ok(refund);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("환불 정보를 찾을 수 없습니다.");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("환불 정보를 가져오는 중 오류가 발생했습니다.");
         }
     }
 
