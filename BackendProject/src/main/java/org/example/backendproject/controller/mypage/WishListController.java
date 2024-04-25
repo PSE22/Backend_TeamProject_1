@@ -56,8 +56,6 @@ public class WishListController {
         }
     }
 
-
-
     // pdId를 사용하여 Wishlist 항목 삭제
     @DeleteMapping("/wishlist/deletion/{pdId}")
     public ResponseEntity<Object> deleteByPdId(@PathVariable Integer pdId) {
