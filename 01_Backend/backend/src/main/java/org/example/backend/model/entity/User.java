@@ -33,6 +33,7 @@ import org.hibernate.annotations.Where;
 @Where(clause = "STATUS = 'Y'")
 @SQLDelete(sql = "UPDATE TB_USER SET STATUS = 'N', DEL_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') WHERE USER_ID = ?")
 public class User extends BaseTimeEntity2 {
+
     @Id
     private String userId;
     private String userPw;
