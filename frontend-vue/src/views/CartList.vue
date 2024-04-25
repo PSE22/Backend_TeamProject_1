@@ -11,21 +11,30 @@
           <tr>
             <th scope="col-1">
               <!-- 전체선택 체크박스 -->
-              <input class="form-check-input" type="checkbox" />
-              <label class="form-check-label" for="flexCheckDefault"></label>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                v-model="allChecked"
+                @click="checkedAll($event.target.checked)"
+              />
             </th>
             <th scope="col">상품</th>
             <th scope="col">옵션</th>
             <th scope="col">수량</th>
             <th scope="col">가격</th>
-            <th scope="col">배송비</th>
           </tr>
         </thead>
         <tbody class="table-group-divider align-middle">
           <tr v-for="(data, index) in cart" :key="index">
             <td class="col-1">
-              <input class="form-check-input" type="checkbox"
-              id="delete" />
+              <input
+                class="form-check-input"
+                type="checkbox"
+                :id="'check' + data.index"
+                :value="data.index"
+                v-model="data.selected"
+                @change="selected($event)"
+              />
             </td>
             <td class="col-4">
               <div class="d-flex align-items-center text-start">
@@ -72,21 +81,20 @@
               </div>
             </td>
             <td class="col-2">{{ data.pdPrice + data.opPrice }}</td>
-            <td class="col-2">{{ shipPrice }}</td>
           </tr>
         </tbody>
       </table>
       <!-- 삭제버튼 -->
       <button
         type="button"
-        class="btn btn-dark"
+        class="btn btn-dark mb-3"
         style="
           --bs-btn-padding-y: 0.25rem;
           --bs-btn-padding-x: 0.5rem;
           --bs-btn-font-size: 0.75rem;
         "
+        name="check"
         @click="deleteCart(cart.cartId)"
-        id="delete"
       >
         선택삭제
       </button>
@@ -100,7 +108,7 @@
         <div class="card text-center mb-3" style="max-width: 18rem">
           <div class="card-header">총 배송비</div>
           <div class="card-body">
-            <h3 class="card-title">{{ count * shipPrice }} 원</h3>
+            <h3 class="card-title">{{ shipPrice }} 원</h3>
           </div>
         </div>
         <div class="card text-center mb-3" style="max-width: 18rem">
@@ -138,7 +146,7 @@ export default {
     return {
       cart: [], // 장바구니 객체배열
       cartCount: 0, // 장바구니 수량
-      shipPrice: 3000,  // 배송비
+      shipPrice: 3000, // 배송비
       allChecked: false, // 체크박스 전체선택
 
       page: 1, // 현재 페이지 번호
@@ -171,19 +179,23 @@ export default {
       }
     },
     // 장바구니 삭제 함수 : delete 버튼 태그
-    async deleteCart(cartId) {
+    async deleteCart() {
       try {
+        // 선택된 체크박스만 삭제
+        const selectedIds = this.cart
+          .filter((item) => item.selected)
+          .map((item) => item.cartId);
+        if (selectedIds === 0) {
+          return;
+        }
         // 장바구니 삭제 서비스 함수
-        let response = await CartService.remove(cartId);
+        let response = await CartService.remove(selectedIds);
         console.log(response.data);
-        // alert 대화상자
-        alert("정상적으로 삭제되었습니다.");
         // 삭제 후 재조회
         this.allCart();
       } catch (e) {
         console.log(e);
       }
-
     },
 
     //   // 주문페이지 이동 함수
@@ -197,6 +209,7 @@ export default {
         this.cart[i].selected = this.allChecked;
       }
     },
+    // 목록 체크박스
     selected() {
       for (let i in this.cart) {
         if (!this.cart[i].selected) {
