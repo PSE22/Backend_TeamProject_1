@@ -48,7 +48,6 @@ public class OrderManageController {
         }
     }
 
-
     @GetMapping("/{orderId}")
     public ResponseEntity<Object> getOrderDetail(@PathVariable Long orderId) {
         try {
@@ -69,7 +68,6 @@ public class OrderManageController {
                 if (refund != null) {
                     response.put("refund", refund);
                 }
-
                 return ResponseEntity.ok(response);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주문을 찾을 수 없습니다.");

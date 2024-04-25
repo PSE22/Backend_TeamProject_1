@@ -52,6 +52,6 @@ public class PdQna extends BaseTimeEntity2 {
     private Integer pdId;
     private String pdQnaTitle;
     private String pdQnaContent;
-    private String pdQnaSecret;
+    private Character pdQnaSecret;
     private String pdQnaCode;
 }

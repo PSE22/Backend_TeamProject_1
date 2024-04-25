@@ -38,7 +38,6 @@ import org.hibernate.annotations.Where;
 @SQLDelete(sql = "UPDATE TB_REFUND SET STATUS = 'N' WHERE ORDER_ID = ? AND OP_ID = ?")
 @IdClass(OrderIdOpIdPk.class)
 public class Refund extends BaseTimeEntity2 {
-
     @Id
     private Integer orderId;
     @Id
@@ -46,4 +45,5 @@ public class Refund extends BaseTimeEntity2 {
     private Integer refundPrice;
     private Integer refundCode;
     private Integer refundReason;
+
 }
