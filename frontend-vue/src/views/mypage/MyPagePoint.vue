@@ -73,6 +73,13 @@ export default {
   components: {
     MyPageMainMenu,
   },
+
+  // 전체조회 함수
+  
+
+  // 상세조회 함수
+
+
 };
 </script>
 <style>

@@ -9,6 +9,9 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * packageName : org.example.backendproject.model.entity
  * fileName : Wishlist
@@ -36,10 +39,23 @@ import org.hibernate.annotations.Where;
 @SQLDelete(sql = "UPDATE TB_WISHLIST SET STATUS = 'N' WHERE PD_ID = ? AND USER_ID = ?")
 // 복합키 클래스
 @IdClass(PdIdUserIdPk.class)
-public class Wishlist extends BaseTimeEntity2 {
+public class Wishlist {
     @Id
     private Integer pdId;       // 상품 ID
     @Id
     private String userId;      // 회원 ID
+
+    @Column(name = "STATUS", nullable = false)
+    private String status = "Y"; // 'Y'로 초기화
+
+    private String addDate;     // 생성 일시
+    @PrePersist
+    void OnPrePersist() {
+//        insert 하기전에 현재날짜를 넣기 : 날짜포맷(yyyy-MM-dd HH:mm:ss)
+        this.addDate = LocalDateTime.now()
+                .format(DateTimeFormatter
+                        .ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.status = "Y";
+    }
 
 }

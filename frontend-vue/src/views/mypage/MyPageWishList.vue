@@ -26,7 +26,7 @@
               >
             <div class="col"
             v-for="(data, index) in wishlist" :key="index">
-              <div class="card h-100"
+              <div class="card h-100" 
                 >
                 <img
                   :src="data.pdImgUrl"
@@ -80,6 +80,7 @@ export default {
       page: 1, // 현재페이지번호
       count: 0, // 전체 데이터개수
       pageSize: 3, // 화면에 보여질 개수
+      pdId: 0,  // 상품 ID
 
     };
   },
@@ -89,6 +90,7 @@ export default {
     async retrieveWishList() {
       try {
         let response = await WishListService.getAll(
+          this.pdId,  // 상품 ID
           this.page - 1,
           this.pageSize
         );
