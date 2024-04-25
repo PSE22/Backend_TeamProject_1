@@ -2,7 +2,7 @@
   <!-- 카테고리 제목 -->
   <div class="row">
     <div class="col-md-6 text-center offset-md-3" id="category-title">
-      카테고리명
+      카테고리?명{{ categoryCode }}
     </div>
   </div>
   <div class="main-nav-list col align-self-end" id="sorting">
@@ -12,7 +12,6 @@
     <button id="button">높은 가격순</button>
   </div>
   <!-- 해당 카테고리 상품 이미지 -->
-  <!-- v-for="(data, index) in 배열" :key="index" -->
   <div class="row row-cols-1 row-cols-md-3 g-4" id="category-products">
     <div v-for="(data, index) in product" :key="index" class="col">
       <div class="card h-100">
@@ -22,24 +21,23 @@
             class="card-img-top"
             alt="..."
           /> -->
-          <img :src="data.img" class="card-img-top" />
+          <!-- <img :src="data.img" class="card-img-top" /> -->
+          {{ data.pdImgUrl }}
         </div>
         <!-- 하트 이미지 : 위시 리스트 등록 -->
         <div class="heart-icon-white" @click="toggleShow">
           <!-- 빈 하트 이미지 : 위시 리스트 등록 전 -->
-          <!-- <img v-if="show" src="@/assets/img/free-icon-font-circle-heart-9272486.png" /> -->
-          <img v-if="show" :src="data.img1" />
+          <img v-if="show" src="@/assets/img/free-icon-font-circle-heart-9272486.png" />
           <!-- 검정 하트 이미지 : 위시 리스트 등록 후 -->
-          <!-- <img v-else src="@/assets/img/free-icon-font-circle-heart-9270879.png" /> -->
-          <img v-else :src="data.img2" />
+          <img v-else src="@/assets/img/free-icon-font-circle-heart-9270879.png" />
         </div>
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">상품 설명</p>
+          <h5 class="card-title">{{ data.pdName }}</h5>
         </div>
       </div>
     </div>
   </div>
+  
 
   <!-- {/* paging 시작 */} -->
   <!-- 1페이지당 화면에 보일 개수 조정 -->
@@ -75,11 +73,11 @@ export default {
   data() {
     return {
       product: [], // spring에 보내줄 배열 변수
-      searchPdName: "",
+      categoryCode: "",
 
       page: 1, // 현재 페이지 번호
       count: 0, // 전체 데이터 개수
-      pageSize: 3, // 화면에 보여질 개수
+      pageSize: 4, // 화면에 보여질 개수
 
       pageSizes: [3, 6, 9], // 화면에 보여질 개수배열
 
@@ -127,7 +125,7 @@ export default {
       try {
         // 공통 전체조회 서비스 함수 실행 (작성하면 자동 import됨)
         let response = await ProductService.getAll(
-          this.searchPdName,
+          this.categoryCode,
           this.page - 1,
           this.pageSize
         );
@@ -145,7 +143,7 @@ export default {
       this.retrieveProduct(); // 재조회
     },
   },
-  // 화면이 뜰 때 자동 실행 함수
+  //화면이 뜰 때 자동 실행 함수
   mounted() {
     this.retrieveProduct();
   },
