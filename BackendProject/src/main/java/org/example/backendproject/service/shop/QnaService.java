@@ -35,10 +35,10 @@ public class QnaService {
 
 //    TODO: 전체 조회 함수
     public Page<IQnaDto> selectByQnaContaining(
-            Integer qnaId,
+            Integer pdQnaId,
             Pageable pageable
     ) {
-        Page<IQnaDto> page = qnaRepository.selectByQnaContaining(qnaId, pageable);
+        Page<IQnaDto> page = qnaRepository.selectByQnaContaining(pdQnaId, pageable);
         return page;
     }
 }

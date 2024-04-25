@@ -4,6 +4,8 @@ import org.example.backend.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * packageName : org.example.backend.repository
  * fileName : UserRepository
@@ -19,4 +21,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
+    List<User> findByStatusAndDelDate(String status, String delDate);
 }

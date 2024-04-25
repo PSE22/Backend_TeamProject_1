@@ -42,24 +42,31 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers("/css/**", "/dist/**", "/js/**", "/plugins/**",
-         "/favicon.ico", "/resources/**", "/error"
+                "/favicon.ico", "/resources/**", "/error"
         );
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.cors(Customizer.withDefaults());
         http.csrf((csrf) -> csrf.disable());
-        http.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.sessionManagement(sessionManagement -> sessionManagement
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .invalidSessionUrl("/login")
+                .sessionFixation().migrateSession()
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true)
+                .expiredUrl("/login"));
         http.formLogin(req -> req.disable());
 
         http.authorizeHttpRequests(req -> req
                 .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                .requestMatchers("/api/admin/**").hasAuthority("AT01")
                 .requestMatchers("/api/mypage/**").hasAuthority("AT02")
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/").permitAll()
-                .anyRequest()
-                .authenticated());
+                .anyRequest().authenticated());
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
