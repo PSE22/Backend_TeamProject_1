@@ -196,7 +196,7 @@
           class="form-check-input"
           type="radio"
           name="userCode"
-          value="Y"
+          value="AT02"
           v-model="user.userCode"
         />
         <label class="form-check-label" for="promoYes">일반회원</label>

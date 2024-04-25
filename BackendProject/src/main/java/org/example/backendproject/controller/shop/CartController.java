@@ -54,7 +54,7 @@ public class CartController {
 //    조회(select) -> get 방식 -> GetMapping
     @GetMapping("/cart")
     public ResponseEntity<Object> findAll(
-            @RequestParam(required = false, defaultValue = "0") Integer cartId,
+            @RequestParam(defaultValue = "0") Integer cartId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "4") int size
     ) {
@@ -82,6 +82,7 @@ public class CartController {
             }
 
         } catch (Exception e) {
+            log.debug("에러 : " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

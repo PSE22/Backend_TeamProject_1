@@ -1,6 +1,7 @@
 package org.example.backendproject.controller.mypage;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.backendproject.model.common.PdIdUserIdPk;
 import org.example.backendproject.model.dto.mypage.WishlistDto;
 import org.example.backendproject.service.mypage.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class WishListController {
     //    TODO: 전체 조회 함수 + 검색 + 페이징
     @GetMapping("/wishlist")
     public ResponseEntity<Object> findAll(
-            @RequestParam(defaultValue = "") Integer pdId,
+            @RequestParam(defaultValue = "0") Integer pdId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
     )
@@ -35,7 +36,7 @@ public class WishListController {
 
 //            전체 조회 서비스 함수 실행
             Page<WishlistDto> wishDtoPage
-                    = wishlistService.selectWishlistContaining(pdId,pageable);
+                    = wishlistService.  selectWishlistContaining(pdId,pageable);
 
             Map<String, Object> response = new HashMap<>();
             response.put("wishlist", wishDtoPage.getContent());             // 부서배열
@@ -55,49 +56,10 @@ public class WishListController {
         }
     }
 
-
-
-//    //    TODO: 삭제 함수
-//    @DeleteMapping("wishlist/deletion/{pdId}")
-//    public ResponseEntity<Object> delete(
-//            @PathVariable int pdId
-//    ) {
-//        try {
-//            boolean success = wishlistService.removeById(pdId);
-//
-//            if(success == true) {
-//                return new ResponseEntity<>(HttpStatus.OK);
-//            } else {
-//                // 삭제 실행 : 0건 삭제(삭제할 데이터 없음)
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-
-    //    TODO: 상세조회 함수
-//    조회(select) -> get 방식 -> @GetMapping
-//    @GetMapping("/wishlist/{pdId}")
-//    public ResponseEntity<Object> findById(
-//            @PathVariable int pdId
-//    ) {
-//        try {
-////            상세조회 서비스 실행
-//            Optional<Product> optionalSimpleProduct
-//                    = wishlistService.findById(pdId);
-//
-//            if(optionalSimpleProduct.isEmpty() == true) {
-////                데이터 없음
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            } else {
-////                조회 성공
-//                return new ResponseEntity<>(optionalSimpleProduct.get(), HttpStatus.OK);
-//
-//            }
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    // pdId를 사용하여 Wishlist 항목 삭제
+    @DeleteMapping("/wishlist/deletion/{pdId}")
+    public ResponseEntity<Object> deleteByPdId(@PathVariable Integer pdId) {
+        wishlistService.removeByPdId(pdId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
