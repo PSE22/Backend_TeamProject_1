@@ -54,9 +54,9 @@ public class CartController {
 //    조회(select) -> get 방식 -> GetMapping
     @GetMapping("/cart")
     public ResponseEntity<Object> findAll(
-            @RequestParam(defaultValue = "0") Integer cartId,
+            @RequestParam(required = false, defaultValue = "0") Integer cartId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "3") int size
+            @RequestParam(defaultValue = "4") int size
     ) {
         try {
 //            페이징 객체 생성
@@ -68,7 +68,7 @@ public class CartController {
 
 //            공통 페이징 객체 생성 : 자료구조 맵 사용
             Map<String, Object> response = new HashMap<>();
-            response.put("cart", cartDtoPage.getContent()); // simpleProduct 배열
+            response.put("cart", cartDtoPage.getContent()); // 배열
             response.put("currentPage", cartDtoPage.getNumber()); // 현재페이지번호
             response.put("totalItems", cartDtoPage.getTotalElements()); // 총건수(개수)
             response.put("totalPages", cartDtoPage.getTotalPages()); // 총페이지수
@@ -82,6 +82,28 @@ public class CartController {
             }
 
         } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //    TODO: 삭제함수
+    @DeleteMapping("/cart/deletion/{cartId}")
+    public ResponseEntity<Object> delete(
+            @PathVariable int cartId
+    ) {
+        try {
+//        DB 삭제 서비스 함수 실행
+            boolean success = cartService.removeById(cartId);
+            if (success == true) {
+//                삭제 성공
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+//                삭제 실패 : 삭제할 데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            log.debug("에러 : " + e.getMessage());
+
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
