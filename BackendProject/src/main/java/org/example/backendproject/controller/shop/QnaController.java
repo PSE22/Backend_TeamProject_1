@@ -50,9 +50,9 @@ public class QnaController {
     }
 
 //    TODO: 전체 조회 함수 + like 검색
-    @GetMapping("/qna")
+    @GetMapping("/product3")
     public ResponseEntity<Object> findAll(
-            @RequestParam(defaultValue = "") Integer qnaId,
+            @RequestParam(defaultValue = "") Integer pdId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
     ) {
@@ -62,11 +62,11 @@ public class QnaController {
 
 //            전체 조회 서비스 실행
             Page<IQnaDto> qnaDtoPage
-                    = qnaService.selectByQnaContaining(qnaId, pageable);
+                    = qnaService.selectByQnaContaining(pdId, pageable);
 
 //            공통 페이징 객체 생성 : 자료 구조 맵 사용
             Map<String, Object> response = new HashMap<>();
-            response.put("qna", qnaDtoPage.getContent()); // review 배열
+            response.put("qna", qnaDtoPage.getContent()); // qna 배열
             response.put("currentPage", qnaDtoPage.getNumber()); // 현재페이지번호
             response.put("totalItems", qnaDtoPage.getTotalElements()); // 총건수(개수)
             response.put("totalPages", qnaDtoPage.getTotalPages()); // 총페이지수
