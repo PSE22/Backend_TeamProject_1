@@ -15,7 +15,7 @@ import org.hibernate.annotations.Where;
 /**
  * packageName : org.example.backend.model.entity
  * fileName : Refund
- * author : SAMSUNG
+ * author : kimtaewan
  * date : 2024-04-25
  * description : 환불 엔티티
  * 요약 :
@@ -40,10 +40,10 @@ import org.hibernate.annotations.Where;
 public class Refund extends BaseTimeEntity2 {
 
     @Id
-    private Integer orderId;        // 주문번호 (PK)
+    private Integer orderId;
     @Id
-    private Integer opId;           // 옵션번호 (PK)
-    private Integer refundPrice;    // 환불금액
-    private Integer refundCode;     // 주문상태코드
-    private Integer refundReason;   // 취소사유
+    private Integer opId;
+    private Integer refundPrice;
+    private Integer refundCode;
+    private Integer refundReason;
 }
