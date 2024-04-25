@@ -27,13 +27,16 @@ public class CartService {
     CartRepository cartRepository;
 
     //    TODO: 저장(수정)함수
-    public Cart save(Cart Cart) {
+    public Cart save(Cart cart) {
 //        DB 저장 함수 실행
-        Cart cart2 = cartRepository.save(Cart);
+        Cart cart2 = cartRepository.save(cart);
         return cart2;
     }
 
+//    유저 id 로 해당 유저의 장바구니 찾기
+    Cart cart = cartRepository.
     //    TODO: 전체 조회 함수
+
     public Page<ICartDto> selectByCartContaining(
             Integer cartId,
             Pageable pageable

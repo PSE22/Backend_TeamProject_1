@@ -1,5 +1,6 @@
 package org.example.backendproject.service.shop;
 
+import org.example.backendproject.model.dto.shop.IProductDto;
 import org.example.backendproject.model.entity.Product;
 import org.example.backendproject.repository.shop.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,12 @@ public class ProductService {
 
     /**
      * 상품 전체 조회
-     * @param pdName
+     * @param categoryCode
      * @param pageable
      * @return
      */
-    public Page<Product> findAllByPdIdContaining(String pdName, Pageable pageable) {
-        Page<Product> page = productRepository.findAllByPdIdContaining(pdName, pageable);
+    public Page<IProductDto> findAllByCategoryCodeContaining(String categoryCode, Pageable pageable) {
+        Page<IProductDto> page = productRepository.findAllByCategoryCodeContaining(categoryCode, pageable);
         return page;
     }
 
@@ -47,4 +48,6 @@ public class ProductService {
         Optional<Product> optionalProduct = productRepository.findById(pdId);
         return optionalProduct;
     }
+
+
 }

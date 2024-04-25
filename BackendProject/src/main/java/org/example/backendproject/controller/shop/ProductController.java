@@ -1,6 +1,7 @@
 package org.example.backendproject.controller.shop;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.backendproject.model.dto.shop.IProductDto;
 import org.example.backendproject.model.entity.Product;
 import org.example.backendproject.service.shop.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,16 +38,16 @@ public class ProductController {
 
     // 상품 전체 조회
     @GetMapping("/category/{categoryCode}")
-    public ResponseEntity<Object> findAllByPdIdContaining(
-                                        @RequestParam(defaultValue = "") String pdName,
+    public ResponseEntity<Object> findAllByCategoryCodeContaining(
+                                        @RequestParam(defaultValue = "") String categoryCode,
                                         @RequestParam(defaultValue = "0") int page,
-                                        @RequestParam(defaultValue = "3") int size) {
+                                        @RequestParam(defaultValue = "4") int size) {
         try {
             // 페이징 객체 생성
             Pageable pageable = PageRequest.of(page, size);
 
             // 전체 조회 서비스 실행
-            Page<Product> productPage = productService.findAllByPdIdContaining(pdName, pageable);
+            Page<IProductDto> productPage = productService.findAllByCategoryCodeContaining(categoryCode, pageable);
 
             // 공통 페이징 객체 생성 : 자료구조 맵 사용
             Map<String, Object> response = new HashMap<>();
