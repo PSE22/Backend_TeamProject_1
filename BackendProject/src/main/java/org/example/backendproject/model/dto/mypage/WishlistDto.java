@@ -14,6 +14,7 @@ package org.example.backendproject.model.dto.mypage;
  * 2024-04-24         GGG          최초 생성
  */
 public interface WishlistDto {
+    Integer getpdId();
     String getpdName(); // 상품명
     Integer getpdPrice(); // 상품가격
     String getpdImgUrl(); // 상품이미지
