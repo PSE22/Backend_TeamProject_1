@@ -15,6 +15,7 @@ import org.hibernate.annotations.Where;
  * fileName : Product
  * author : SAMSUNG
  * date : 2024-04-19
+
  * description : 상품 엔티티
  * 요약 :
  * <p>

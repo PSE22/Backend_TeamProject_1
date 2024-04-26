@@ -19,6 +19,5 @@ import java.util.List;
  * 2024-04-25         kimtaewan          최초 생성
  */
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> {
-    List<OrderDetail> findByOrderId(Integer orderId);
-
+    List<OrderDetail> findByOrderId(Long orderId);
 }

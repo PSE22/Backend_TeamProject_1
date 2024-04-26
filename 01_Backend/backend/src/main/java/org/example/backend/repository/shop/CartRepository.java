@@ -2,7 +2,6 @@ package org.example.backend.repository.shop;
 
 import org.example.backend.model.dto.shop.ICartDto;
 import org.example.backend.model.entity.Cart;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

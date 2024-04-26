@@ -39,11 +39,11 @@ import org.hibernate.annotations.Where;
 @IdClass(OrderIdOpIdPk.class)
 public class Refund extends BaseTimeEntity2 {
     @Id
-    private Integer orderId;
+    private Long orderId;
     @Id
-    private Integer opId;
+    private Long opId;
     private Integer refundPrice;
-    private Integer refundCode;
+    private String refundCode;
     private Integer refundReason;
 
 }

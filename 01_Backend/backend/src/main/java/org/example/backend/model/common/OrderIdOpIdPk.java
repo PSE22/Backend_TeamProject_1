@@ -24,6 +24,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class OrderIdOpIdPk implements Serializable {
-    private Integer orderId;
-    private Integer opId;
+    private Long orderId;
+    private Long opId;
 }
