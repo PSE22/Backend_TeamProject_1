@@ -47,7 +47,7 @@ public class Product extends BaseTimeEntity2 {
 //    category_code	varchar2(100 byte)
 //    status	char(1 byte)
     @Id
-    private Integer pdId;
+    private Long pdId;
     private String userId;
     private String pdName;
     private Integer pdPrice;
