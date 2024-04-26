@@ -1,8 +1,9 @@
-package org.example.backendproject.service.shop;
+package org.example.backend.service.shop;
 
-import org.example.backendproject.model.dto.shop.ICartDto;
-import org.example.backendproject.model.entity.Cart;
-import org.example.backendproject.repository.shop.CartRepository;
+
+import org.example.backend.model.dto.shop.ICartDto;
+import org.example.backend.model.entity.Cart;
+import org.example.backend.repository.shop.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

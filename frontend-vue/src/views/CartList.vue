@@ -145,20 +145,20 @@ export default {
   data() {
     return {
       cart: [], // 장바구니 객체배열
+      userId: "",
       cartCount: 0, // 장바구니 수량
       shipPrice: 3000, // 배송비
       allChecked: false, // 체크박스 전체선택
 
       page: 1, // 현재 페이지 번호
       count: 0, // 전체 데이터 개수
-      pageSize: 3, // 화면에 보여질 개수
     };
   },
   methods: {
     // 장바구니 전체조회
     async allCart() {
       try {
-        let response = await CartService.getAll(this.page - 1, this.pageSize);
+        let response = await CartService.getAll(this.userId, this.page - 1, this.pageSize);
         const { cart, totalItems } = response.data;
         this.cart = cart;
         this.count = totalItems;

@@ -3,7 +3,7 @@
 // 상품 공통 함수
 import http from "@/utils/http-common";
 
-class wishListService {
+class MyWishListService {
   // TODO: 전체 조회
   // 조회(select) -> get 방식 -> @GetMapping
   getAll(pdId, page, size) {
@@ -20,4 +20,4 @@ class wishListService {
 }
 
 
-export default new wishListService();
+export default new MyWishListService();

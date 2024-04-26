@@ -1,9 +1,9 @@
-package org.example.backendproject.controller.shop;
+package org.example.backend.controller.shop;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.backendproject.model.dto.shop.ICartDto;
-import org.example.backendproject.model.entity.Cart;
-import org.example.backendproject.service.shop.CartService;
+import org.example.backend.model.dto.shop.ICartDto;
+import org.example.backend.model.entity.Cart;
+import org.example.backend.service.shop.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * packageName : org.example.backendproject.controller.shop
@@ -86,6 +87,7 @@ public class CartController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     //    TODO: 삭제함수
     @DeleteMapping("/cart/deletion/{cartId}")

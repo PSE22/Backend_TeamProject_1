@@ -1,7 +1,7 @@
-package org.example.backendproject.repository.shop;
+package org.example.backend.repository.shop;
 
-import org.example.backendproject.model.dto.shop.ICartDto;
-import org.example.backendproject.model.entity.Cart;
+import org.example.backend.model.dto.shop.ICartDto;
+import org.example.backend.model.entity.Cart;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -47,4 +47,5 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
                     "AND C.USER_ID = :userId",
             nativeQuery = true)
     Page<ICartDto> selectByCartContaining(@Param("userId") String userId, Pageable pageable);
+    boolean existsByUserIdAndPdId(String userId, Integer pdId);
 }
