@@ -9,9 +9,12 @@ import org.example.backend.repository.OrderDetailRepository;
 import org.example.backend.repository.OrderRepository;
 import org.example.backend.repository.RefundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * packageName : org.example.backend.service
@@ -28,6 +31,7 @@ import java.util.List;
  */
 @Service
 public class OrderManageService {
+
     @Autowired
     private OrderRepository orderRepository;
 
@@ -40,32 +44,55 @@ public class OrderManageService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public Page<Order> findAllById(Long orderId, Pageable pageable) {
+        if (orderId != null) {
+            return orderRepository.findAllByOrderId(orderId, pageable);
+        } else {
+            return orderRepository.findAll(pageable);
+        }
     }
 
-    public Order getOrderById(Long orderId) {
-        return orderRepository.findById(orderId).orElse(null);
+    public Optional<Order> findById(Long orderId) {
+        return orderRepository.findById(orderId);
     }
 
     public Order updateOrderCode(Long orderId, String newOrderCode) {
-        Order order = orderRepository.findById(orderId).orElse(null);
-        if (order != null) {
-            order.setOrderCode(newOrderCode);
-            return orderRepository.save(order);
-        }
-        return null;
+        return orderRepository.findById(orderId)
+                .map(order -> {
+                    order.setOrderCode(newOrderCode);
+                    return orderRepository.save(order);
+                })
+                .orElse(null);
     }
 
-    public OrderCancel getOrderCancelInfo(Long orderId) {
-        return orderCancelRepository.findById(orderId).orElse(null);
+    public Optional<OrderCancel> getOrderCancelInfo(Long orderId) {
+        return orderCancelRepository.findById(orderId);
     }
 
-    public Refund getRefundInfo(Long orderId) {
-        return refundRepository.findById(orderId).orElse(null);
+    public OrderCancel updateOrderCancelCode(Long orderId, String newCancelCode) {
+        return orderCancelRepository.findById(orderId)
+                .map(cancel -> {
+                    cancel.setOcCode(newCancelCode);
+                    return orderCancelRepository.save(cancel);
+                })
+                .orElse(null);
     }
 
-    public List<OrderDetail> getOrderDetails(Integer orderId) {
-        return orderDetailRepository.findByOrderId(orderId);
+    public Optional<Refund> getRefundInfo(Long orderId) {
+        return refundRepository.findById(orderId);
+    }
+
+    public Refund updateRefundCode(Long orderId, String newRefundCode) {
+        return refundRepository.findById(orderId)
+                .map(refund -> {
+                    refund.setRefundCode(newRefundCode);
+                    return refundRepository.save(refund);
+                })
+                .orElse(null);
+    }
+
+    public Optional<List<OrderDetail>> getOrderDetails(Long orderId) {
+        List<OrderDetail> orderDetails = orderDetailRepository.findByOrderId(orderId);
+        return Optional.ofNullable(orderDetails.isEmpty() ? null : orderDetails);
     }
 }

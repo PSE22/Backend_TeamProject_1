@@ -6,16 +6,16 @@ import java.io.Serializable;
 
 /**
  * packageName : org.example.backend.model.common
- * fileName : OrderIdOpIdPk
+ * fileName : CpIdUserIdPk
  * author : kimtaewan
- * date : 2024-04-25
- * description : 주문 ID, 옵션 ID 복합키
+ * date : 2024-04-26
+ * description :
  * 요약 :
  * <p>
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2024-04-23         kimtaewan          최초 생성
+ * 2024-04-26         kimtaewan          최초 생성
  */
 @Setter
 @Getter
@@ -23,7 +23,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class OrderIdOpIdPk implements Serializable {
-    private Long orderId;
-    private Long opId;
+public class CpIdUserIdPk implements Serializable {
+    private Long cpId;
+    private String userId;
 }
