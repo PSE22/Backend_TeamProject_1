@@ -37,10 +37,9 @@ public class ReviewService {
 
 //    TODO: 전체 조회 함수
     public Page<IReviewDto> selectByReviewContaining(
-            Integer reviewId,
             Pageable pageable
     ) {
-        Page<IReviewDto> page = reviewRepository.selectByReviewContaining(reviewId, pageable);
+        Page<IReviewDto> page = reviewRepository.selectByReviewContaining(pageable);
         return page;
     }
 

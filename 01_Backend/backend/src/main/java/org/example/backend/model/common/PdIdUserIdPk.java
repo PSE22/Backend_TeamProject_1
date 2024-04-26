@@ -16,6 +16,7 @@ import java.io.Serializable;
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2024-04-23         SAMSUNG          최초 생성
+
  */
 @Setter
 @Getter

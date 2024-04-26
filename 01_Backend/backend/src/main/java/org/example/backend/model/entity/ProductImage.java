@@ -38,7 +38,7 @@ import org.hibernate.annotations.Where;
 public class ProductImage extends BaseTimeEntity2 {
 
     @Id
-    private Integer pdImgId;
-    private Integer pdId;
+    private Long pdImgId;
+    private Long pdId;
     private String pdImgUrl;
 }
