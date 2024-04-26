@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * packageName : org.example.backendproject.controller.shop
@@ -87,7 +86,6 @@ public class CartController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
     //    TODO: 삭제함수
     @DeleteMapping("/cart/deletion/{cartId}")

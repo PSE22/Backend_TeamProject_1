@@ -145,7 +145,7 @@ export default {
   data() {
     return {
       cart: [], // 장바구니 객체배열
-      userId: "",
+      userId: this.$store.state.userId,
       cartCount: 0, // 장바구니 수량
       shipPrice: 3000, // 배송비
       allChecked: false, // 체크박스 전체선택
@@ -156,9 +156,9 @@ export default {
   },
   methods: {
     // 장바구니 전체조회
-    async allCart() {
+    async allCart(userId) {
       try {
-        let response = await CartService.getAll(this.userId, this.page - 1, this.pageSize);
+        let response = await CartService.getAll(userId, this.page - 1, this.pageSize);
         const { cart, totalItems } = response.data;
         this.cart = cart;
         this.count = totalItems;
@@ -230,7 +230,7 @@ export default {
     },
   },
   mounted() {
-    this.allCart();
+    this.allCart(this.$store.state.userId);
   },
 };
 </script>
