@@ -1,10 +1,11 @@
 import http from "@/utils/http-common";
 
-class CouponService {
+class MyCouponService {
   // 전체조회 공통함수
-  getAll(cpId, page, size) {
-    return http.get(`/mypage?cpid=${cpId}&page=${page}&size=${size}`);
+  getAll(page, size) {
+    return http.get(`/mypage/coupon?page=${page}&size=${size}`);
   }
+
 }
 
-export default new CouponService();
+export default new MyCouponService();
