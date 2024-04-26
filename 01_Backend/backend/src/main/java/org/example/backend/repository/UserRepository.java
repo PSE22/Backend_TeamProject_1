@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * packageName : org.example.backend.repository
@@ -22,4 +23,7 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
     List<User> findByStatusAndDelDate(String status, String delDate);
+
+//    값이 있을수도 있고 없을수도 있는 상황에 쓰는 클래스
+    Optional<User> findByUserId(String userId);
 }

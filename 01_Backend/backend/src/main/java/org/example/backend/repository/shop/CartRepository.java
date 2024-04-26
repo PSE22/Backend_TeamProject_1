@@ -2,6 +2,7 @@ package org.example.backend.repository.shop;
 
 import org.example.backend.model.dto.shop.ICartDto;
 import org.example.backend.model.entity.Cart;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,7 +25,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Integer> {
-//    장바구니 전체조회
+    //    장바구니 전체조회
     @Query(value = "SELECT\n" +
             "C.CART_ID AS cartId," +
             "C.CART_COUNT AS cartCount,\n" +
@@ -47,5 +48,4 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
                     "AND C.USER_ID = :userId",
             nativeQuery = true)
     Page<ICartDto> selectByCartContaining(@Param("userId") String userId, Pageable pageable);
-    boolean existsByUserIdAndPdId(String userId, Integer pdId);
 }
