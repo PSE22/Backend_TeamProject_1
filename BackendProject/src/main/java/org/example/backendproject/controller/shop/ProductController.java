@@ -37,7 +37,7 @@ public class ProductController {
     ProductService productService;
 
     // 상품 전체 조회
-    @GetMapping("/category/{categoryCode}")
+    @GetMapping("/category")
     public ResponseEntity<Object> findAllByCategoryCodeContaining(
                                         @RequestParam(defaultValue = "") String categoryCode,
                                         @RequestParam(defaultValue = "0") int page,

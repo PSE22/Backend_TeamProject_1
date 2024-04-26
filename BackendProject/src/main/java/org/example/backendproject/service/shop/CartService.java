@@ -34,14 +34,14 @@ public class CartService {
     }
 
 //    유저 id 로 해당 유저의 장바구니 찾기
-    Cart cart = cartRepository.
+//    Cart cart = cartRepository.
     //    TODO: 전체 조회 함수
 
     public Page<ICartDto> selectByCartContaining(
-            Integer cartId,
+            String userId,
             Pageable pageable
     ) {
-        Page<ICartDto> page = cartRepository.selectByCartContaining(cartId, pageable);
+        Page<ICartDto> page = cartRepository.selectByCartContaining(userId, pageable);
         return page;
     }
 

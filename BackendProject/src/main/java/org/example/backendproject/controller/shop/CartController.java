@@ -54,7 +54,7 @@ public class CartController {
 //    조회(select) -> get 방식 -> GetMapping
     @GetMapping("/cart")
     public ResponseEntity<Object> findAll(
-            @RequestParam(required = false, defaultValue = "0") Integer cartId,
+            @RequestParam(defaultValue = "") String userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "4") int size
     ) {
@@ -64,7 +64,7 @@ public class CartController {
 
 //            전체 조회 서비스 실행
             Page<ICartDto> cartDtoPage
-                    = cartService.selectByCartContaining(cartId, pageable);
+                    = cartService.selectByCartContaining(userId, pageable);
 
 //            공통 페이징 객체 생성 : 자료구조 맵 사용
             Map<String, Object> response = new HashMap<>();
@@ -82,6 +82,7 @@ public class CartController {
             }
 
         } catch (Exception e) {
+            log.debug("에러 : " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

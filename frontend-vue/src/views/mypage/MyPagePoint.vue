@@ -111,6 +111,7 @@ export default {
   // 상세조회 함수
 
   }
+
 };
 </script>
 <style>

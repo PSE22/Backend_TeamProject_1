@@ -2,7 +2,7 @@
   <!-- 카테고리 제목 -->
   <div class="row">
     <div class="col-md-6 text-center offset-md-3" id="category-title">
-      카테고리?명{{ categoryCode }}
+      카테고리명
     </div>
   </div>
   <div class="main-nav-list col align-self-end" id="sorting">
@@ -12,17 +12,11 @@
     <button id="button">높은 가격순</button>
   </div>
   <!-- 해당 카테고리 상품 이미지 -->
-  <div class="row row-cols-1 row-cols-md-3 g-4" id="category-products">
+  <div class="row row-cols-1 row-cols-md-4 g-4" id="category-products">
     <div v-for="(data, index) in product" :key="index" class="col">
       <div class="card h-100">
         <div class="product-image">
-          <!-- <img
-            src="https://via.placeholder.com/400x400?text=Image"
-            class="card-img-top"
-            alt="..."
-          /> -->
-          <!-- <img :src="data.img" class="card-img-top" /> -->
-          {{ data.pdImgUrl }}
+          <img :src="data.pdImgUrl" class="card-img-top" />
         </div>
         <!-- 하트 이미지 : 위시 리스트 등록 -->
         <div class="heart-icon-white" @click="toggleShow">
@@ -33,6 +27,7 @@
         </div>
         <div class="card-body">
           <h5 class="card-title">{{ data.pdName }}</h5>
+          <span>{{ data.pdPrice }}</span>
         </div>
       </div>
     </div>
@@ -75,39 +70,14 @@ export default {
       product: [], // spring에 보내줄 배열 변수
       categoryCode: "",
 
-      page: 1, // 현재 페이지 번호
-      count: 0, // 전체 데이터 개수
-      pageSize: 4, // 화면에 보여질 개수
+      page: 1,      // 현재 페이지 번호
+      count: 0,     // 전체 데이터 개수
+      pageSize: 4,  // 화면에 보여질 개수
 
       pageSizes: [3, 6, 9], // 화면에 보여질 개수배열
 
       show: true,
       // card: [
-      //     {
-      //         img: "https://via.placeholder.com/400x400?text=Image",
-      //         img1: require("@/assets/img/free-icon-font-circle-heart-9272486.png"),
-      //         img2: require("@/assets/img/free-icon-font-circle-heart-9270879.png")
-      //     },
-      //     {
-      //         img: "https://via.placeholder.com/400x400?text=Image",
-      //         img1: require("@/assets/img/free-icon-font-circle-heart-9272486.png"),
-      //         img2: require("@/assets/img/free-icon-font-circle-heart-9270879.png")
-      //     },
-      //     {
-      //         img: "https://via.placeholder.com/400x400?text=Image",
-      //         img1: require("@/assets/img/free-icon-font-circle-heart-9272486.png"),
-      //         img2: require("@/assets/img/free-icon-font-circle-heart-9270879.png")
-      //     },
-      //     {
-      //         img: "https://via.placeholder.com/400x400?text=Image",
-      //         img1: require("@/assets/img/free-icon-font-circle-heart-9272486.png"),
-      //         img2: require("@/assets/img/free-icon-font-circle-heart-9270879.png")
-      //     },
-      //     {
-      //         img: "https://via.placeholder.com/400x400?text=Image",
-      //         img1: require("@/assets/img/free-icon-font-circle-heart-9272486.png"),
-      //         img2: require("@/assets/img/free-icon-font-circle-heart-9270879.png")
-      //     },
       //     {
       //         img: "https://via.placeholder.com/400x400?text=Image",
       //         img1: require("@/assets/img/free-icon-font-circle-heart-9272486.png"),

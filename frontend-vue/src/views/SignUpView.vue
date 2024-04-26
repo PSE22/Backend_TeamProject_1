@@ -189,29 +189,7 @@
         <label class="form-check-label" for="promoNo">미동의</label>
       </div>
 
-      <br />
-      <!-- 계정분류 -->
-      <div class="form-check form-check-inline mt-3">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="userCode"
-          value="Y"
-          v-model="user.userCode"
-        />
-        <label class="form-check-label" for="promoYes">일반회원</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDisabled"
-          value="N"
-          v-model="user.userCode"
-          disabled
-        />
-        <label class="form-check-label" for="flexRadioDisabled">관리자</label>
-      </div>
+      <!-- 계정분류 라디오버튼 삭제 - 김태완 -->
 
       <!-- 회원가입 -->
       <br />
@@ -248,7 +226,7 @@ export default {
         userEmail: "",
         userPhone: "",
         userPromo: "",
-        userCode: "",
+        userCode: "AT02", // 계정분류코드 고정 - 김태완
       },
       message: "", // 성공메세지 화면 출력속성
     };
@@ -263,6 +241,7 @@ export default {
         // 공유저장소의 signUp 성공함수 실행
         this.$store.commit("signUpSuccess");
         this.message = "사용자가 등록되었습니다.";
+        this.$router.push('/api/login');    // 회원가입 성공시 로그인 페이지로 이동 - 김태완
         // 로깅
         console.log(response.data);
       } catch (e) {
