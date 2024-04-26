@@ -20,11 +20,11 @@
             <td class="text-start col-3">{{ data.cpName }}</td>
             <!-- 혜택 -->
             <td v-if="cpDcPrice === true" class="col-2">{{ data.cpDcPrice }}</td>
-            <td v-else class="col-2">{{ data.cpDcRate }}</td>
+            <td v-else class="col-2">{{ data.cpDcRate }}% 할인</td>
             <!-- 조건 -->
-            <td class="col-3">{{ data.cpMinPrice }}원 이하 {{ data.cpMaxDcPrice }}원 까지 할인</td>
+            <td class="col-3">{{ data.cpMinPrice }}원 이상 {{ data.cpMaxDcPrice }}원 까지 할인</td>
             <!-- 사용기간 -->
-            <td class="col-3">{{data.ucpAddDate }} ~ {{ data.cpExpireDate }}</td>  
+            <td class="col-3">{{data.addDate }} ~ {{ data.cpExpireDate }}</td>  
 
             <!-- 테스트 -->
             <!-- <td class="text-start col-3">쿠폰입니다.</td>
@@ -82,7 +82,8 @@ export default {
       try {
         // TODO: 공통 전체조회 서비스 함수 실행
         // TODO: spring 통신 : 비동기 코딩 : async ~ await
-        let response = await MyCouponService.getAll(this.page - 1, this.pageSize);
+        let response = await MyCouponService.getAll( this.page - 1, this.pageSize);
+        
         const { coupon, totalItems } = response.data;
         this.coupon = coupon; // spring 전달 객체 배열 (쿠폰배열)
         this.count = totalItems; // 전체 페이지 개수
@@ -94,7 +95,7 @@ export default {
     },
   },
   mounted() {
-    this.allCoupon;
+    this.allCoupon();
   },
 };
 </script>

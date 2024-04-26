@@ -33,16 +33,18 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
             "PD.PD_NAME AS pdName,\n" +
             "PD.PD_PRICE AS pdPrice,\n" +
             "PI.PD_IMG_URL AS pdImgUrl\n" +
-            "FROM TB_CART C, TB_OPTION O, TB_PRODUCT PD, TB_PRODUCT_IMAGE PI\n" +
+            "FROM TB_CART C, TB_OPTION O, TB_PRODUCT PD, TB_PRODUCT_IMAGE PI, TB_USER U\n" +
             "WHERE C.OP_ID = O.OP_ID\n" +
             "AND O.PD_ID = PD.PD_ID\n" +
-            "AND PD.PD_ID = PI.PD_ID\n",
+            "AND PD.PD_ID = PI.PD_ID\n"+
+            "AND C.USER_ID = :userId",
             countQuery = "SELECT\n" +
                     "count(*)\n" +
                     "FROM TB_CART C, TB_OPTION O, TB_PRODUCT PD, TB_PRODUCT_IMAGE PI\n" +
                     "WHERE C.OP_ID = O.OP_ID\n" +
                     "AND O.PD_ID = PD.PD_ID\n" +
-                    "AND PD.PD_ID = PI.PD_ID\n",
+                    "AND PD.PD_ID = PI.PD_ID\n"+
+                    "AND C.USER_ID = :userId",
             nativeQuery = true)
-    Page<ICartDto> selectByCartContaining(Integer cartId, Pageable pageable);
+    Page<ICartDto> selectByCartContaining(@Param("userId") String userId, Pageable pageable);
 }

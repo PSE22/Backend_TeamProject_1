@@ -67,7 +67,7 @@
 
 <script>
 import MyPageMainMenu from "@/components/mypage/MyPageMainMenu.vue";
-import WishListService from "@/services/mypage/MyWishListService.js";
+import MyWishListService from "@/services/mypage/MyWishListService.js";
 export default {
   components: {
     MyPageMainMenu,
@@ -89,7 +89,7 @@ export default {
     // 전체조회 함수
     async retrieveWishList() {
       try {
-        let response = await WishListService.getAll(
+        let response = await MyWishListService.getAll(
           this.pdId,  // 상품 ID
           this.page - 1,
           this.pageSize
@@ -109,7 +109,7 @@ export default {
     async deleteProduct(pdId) {
       try {
         // TODO: 공통 장바구니 삭제 서비스 함수 실행
-        let response = await WishListService.remove(pdId);
+        let response = await MyWishListService.remove(pdId);
         //  로깅
         console.log(response.data);
         // alert 대화상자 출력

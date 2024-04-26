@@ -36,9 +36,9 @@ import org.hibernate.annotations.DynamicUpdate;
 public class OrderDetail {
 
     @Id
-    private Integer orderId;
+    private Long orderId;
     @Id
-    private Integer opId;
+    private Long opId;
     private Integer orderDetailCnt;
     private Integer orderDetailPrice;
 }

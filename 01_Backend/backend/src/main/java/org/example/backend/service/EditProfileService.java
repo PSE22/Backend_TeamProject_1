@@ -1,10 +1,11 @@
 package org.example.backend.service;
 
-import jakarta.servlet.http.HttpSession;
 import org.example.backend.model.entity.User;
 import org.example.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,16 +32,12 @@ import java.util.Optional;
 public class EditProfileService {
 
     @Autowired
-    private HttpSession httpSession;
-
-    @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public boolean isPasswordCorrect(String userPw) {
-        String userId = (String) httpSession.getAttribute("userId");
+    public boolean isPasswordCorrect(String userId, String userPw) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -50,12 +47,10 @@ public class EditProfileService {
     }
 
     public User getCurrentUser() {
-        String userId = (String) httpSession.getAttribute("userId");
-        if (userId != null) {
-            Optional<User> optionalUser = userRepository.findById(userId);
-            return optionalUser.orElse(null);
-        }
-        return null;
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userId = userDetails.getUsername();
+        Optional<User> optionalUser = userRepository.findById(userId);
+        return optionalUser.orElse(null);
     }
 
     public void updateUser(User user) {
@@ -63,13 +58,13 @@ public class EditProfileService {
     }
 
     public void withdrawUser(String userPw) {
-        String userId = (String) httpSession.getAttribute("userId");
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userId = userDetails.getUsername();
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             if (passwordEncoder.matches(userPw, user.getUserPw())) {
                 userRepository.delete(user);
-                httpSession.invalidate();
             } else {
                 throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
             }

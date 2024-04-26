@@ -37,7 +37,7 @@ import org.hibernate.annotations.Where;
 public class Order extends BaseTimeEntity2 {
 
     @Id
-    private Integer orderId;
+    private Long orderId;
     private String userId;
     private String orderName;
     private String orderAddr;
