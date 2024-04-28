@@ -38,10 +38,10 @@ public class CartService {
     //    TODO: 전체 조회 함수
 
     public Page<ICartDto> selectByCartContaining(
-            Integer cartId,
+            String userId,
             Pageable pageable
     ) {
-        Page<ICartDto> page = cartRepository.selectByCartContaining(cartId, pageable);
+        Page<ICartDto> page = cartRepository.selectByCartContaining(userId, pageable);
         return page;
     }
 

@@ -1,3 +1,21 @@
+/* 상단 배너 */
+.banner-container {
+    background-color: rgb(72, 165, 241);
+    color: white;
+}
+
+/* 상단 배너 제목 */
+.banner-title {
+    text-align: center;
+    font-family: 'YClover-Bold';
+    font-size: 70px;
+
+    /* 배너 내 텍스트 중앙 정렬 */
+    display: block;
+    height: 300px;
+    line-height: 300px;
+}
+
 #category-title {
     height: 50px;
     line-height: 50px;
@@ -13,6 +31,10 @@
 
 .product-image {
     position: relative;   
+}
+
+.product-paging{
+    text-align: center;
 }
 
 .heart-icon-white {
