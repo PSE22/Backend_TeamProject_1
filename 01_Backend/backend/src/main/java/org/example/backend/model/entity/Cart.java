@@ -56,9 +56,4 @@ public class Cart {
                 .format(DateTimeFormatter
                         .ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
-
-    // 이미 담겨있는 물건 또 담을 경우 수량 증가
-    public void addCount(int cartCount) {
-        this.cartCount += cartCount;
-    }
 }

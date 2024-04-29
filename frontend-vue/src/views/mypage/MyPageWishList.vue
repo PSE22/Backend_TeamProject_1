@@ -68,77 +68,68 @@
 <script>
 import MyPageMainMenu from "@/components/mypage/MyPageMainMenu.vue";
 import MyWishListService from "@/services/mypage/MyWishListService.js";
+
 export default {
   components: {
-    MyPageMainMenu,
+    MyPageMainMenu, // 메인 메뉴 컴포넌트 포함
   },
 
-  // 전체조회 바인딩
   data() {
     return {
-      wishlist: [], // 장바구니 객체배열
-      page: 1, // 현재페이지번호
-      count: 0, // 전체 데이터개수
-      pageSize: 3, // 화면에 보여질 개수
-      pdId: 0,  // 상품 ID
-
+      wishlist: [],  // 위시리스트 아이템을 저장할 배열
+      loggedInUserId: null,  // 현재 로그인된 사용자의 ID
+      loading: false,  // 데이터 로딩 상태 표시
+      error: '',  // 에러 메시지를 저장할 변수
+      currentPage: 1,  // 사용자가 현재 보고 있는 페이지 번호
+      pageSize: 5,  // 한 페이지에 표시할 아이템 수
+      totalItems: 0,  // 전체 아이템 수
     };
   },
 
   methods: {
-    // 전체조회 함수
+    // 위시리스트 데이터를 서버로부터 불러오는 함수
     async retrieveWishList() {
+      this.loading = true;  // 데이터 로딩 시작
+      this.error = '';  // 에러 메시지 초기화
       try {
-        let response = await MyWishListService.getAll(
-          this.pdId,  // 상품 ID
-          this.page - 1,
-          this.pageSize
+        const response = await MyWishListService.getAll(
+          this.loggedInUserId, this.currentPage - 1, this.pageSize
         );
-        const { wishlist, totalItems } = response.data;
-        this.wishlist = wishlist;
-        this.count = totalItems;
-        // 로깅
-        console.log(response.data); // 웹브라우저 콘솔탭에 벡엔드 데이터 표시
+
+        this.wishlist = response.data.wishlist;  // 서버로부터 받은 위시리스트 데이터
+        this.totalItems = response.data.totalItems;  // 서버로부터 받은 전체 아이템 수
+        this.loading = false;  // 데이터 로딩 완료
       } catch (e) {
-        console.log(e); // 웹브라우저 콘솔탭에 에러 표시
+        console.error("위시리스트 전체조회 실패", e);
+        this.error = '조회를 실패했습니다.';  // 에러 발생 시 메시지 설정
+        this.loading = false;  // 에러 발생 시 로딩 상태 해제
       }
     },
 
-
-    // 삭제함수
+    // 위시리스트 아이템을 삭제하는 함수
     async deleteProduct(pdId) {
       try {
-        // TODO: 공통 장바구니 삭제 서비스 함수 실행
-        let response = await MyWishListService.remove(pdId);
-        //  로깅
-        console.log(response.data);
-        // alert 대화상자 출력
-        alert("정상적으로 삭제되었습니다");
-        // 삭제 후 재조회
-        this.retrieveWishList();
-       
+        await MyWishListService.delete(
+          this.loggedInUserId, pdId  // 특정 아이템 삭제 요청
+        );  
+        this.retrieveWishList();  // 삭제 후 위시리스트 다시 불러오기
       } catch (e) {
-        console.log(e);
+        console.error("삭제 실패:", e);
+        this.error = '상품을 삭제하지 못했습니다';  // 삭제 실패 시 에러 메시지 설정
       }
     },
-    // 클릭시 그 상품페이지로 이동
-    goProduct() {
-      this.$router.push("/");
-    },
 
-    // TODO: 공통 페이징 함수 : select 태그
-    pageSizeChange() {
-      this.page = 1; // 현재페이지번호 : 1
-      this.retrieveWishList(); // 재조회
+    // 페이지 크기 변경 처리 함수
+    pageSizeChange(newSize) {
+      this.pageSize = newSize;  // 새로운 페이지 크기 설정
+      this.retrieveWishList();  // 페이지 크기 변경 후 위시리스트 다시 불러오기
     },
   },
 
-  //   TODO: 화면이 뜰때 자동 실행 함수
   mounted() {
-    // TODO: 화면이 뜰때 전체조회 실행
-    this.retrieveWishList();
+    this.loggedInUserId = localStorage.getItem('userId');  // 컴포넌트 마운트 시 로컬 스토리지에서 사용자 ID 불러오기
+    this.retrieveWishList();  // 컴포넌트 마운트 완료 후 위시리스트 로딩
   },
-  
 };
 </script>
 <style>

@@ -6,10 +6,9 @@ import http from "@/utils/http-common";
 class MyWishListService {
   // TODO: 전체 조회
   // 조회(select) -> get 방식 -> @GetMapping
-  getAll(pdId, page, size) {
-    return http.get(
-      `/mypage/wishlist?pdId=${pdId}&page=${page}&size=${size}`
-    );
+  // 로그인한 사용자의 위시리스트 조회
+  getAll(userId, page, pageSize) {
+    return http.get(`/mypage/wishlist?userId=${userId}&page=${page}&size=${pageSize}`);
   }
 
 
@@ -18,6 +17,7 @@ class MyWishListService {
     return http/delete(`/mypage/wishlist/deletion/${pdId}`)
   }
 }
+
 
 
 export default new MyWishListService();

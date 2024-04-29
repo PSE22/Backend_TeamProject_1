@@ -1,6 +1,5 @@
 package org.example.backend.service.shop;
 
-
 import org.example.backend.model.dto.shop.ICartDto;
 import org.example.backend.model.entity.Cart;
 import org.example.backend.repository.shop.CartRepository;
