@@ -36,6 +36,11 @@ const routes = [
     path: "/cart",
     component: () => import("../views/CartList.vue"),
   }, 
+  // 주문
+  {
+    path: "/order",
+    component: () => import("../views/OrderView.vue"),
+  }, 
   // 카테고리 상세
   {
     path: "/category/:categoryCode",
@@ -69,7 +74,6 @@ const routes = [
     path: "/mypage",
     component: () => import("../views/mypage/MyPageMain.vue"),
   },
-
   // 마이페이지 -> 주문조회
   {
     path: "/mypage/order",
