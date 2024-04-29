@@ -50,7 +50,7 @@ public class Order extends BaseTimeEntity2 {
 //    status	char(1 byte)
 
     @Id
-    private Integer orderId;
+    private Long orderId;
     private String userId;
     private String orderName;
     private String orderAddr;

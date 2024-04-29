@@ -17,9 +17,20 @@
       <div class="main-nav-list col align-self-center">
         <router-link to="/mypage" class="router-link">마이페이지</router-link> |
         <router-link to="/cart" class="router-link">장바구니</router-link> |
-                <!-- 로그인 / 회원가입 -->
-        <router-link v-if="this.$store.state.loggedIn == false" to="/login" class="router-link">로그인 |</router-link>
-        <router-link v-if="this.$store.state.loggedIn == false" to="/signup" class="router-link"> 회원가입</router-link>
+        <!-- 로그인 / 회원가입 -->
+        <router-link
+          v-if="this.$store.state.loggedIn == false"
+          to="/login"
+          class="router-link"
+          >로그인 |</router-link
+        >
+        <router-link
+          v-if="this.$store.state.loggedIn == false"
+          to="/signup"
+          class="router-link"
+        >
+          회원가입</router-link
+        >
 
         <!-- 로그아웃 -->
         <router-link
@@ -43,17 +54,17 @@
         <div class="category-menu" id="category-tab" @click="toggleCategory">
           카테고리
           <ul v-if="categoryTab">
-            <router-link to="/category/1" class="router-link"
-              ><li>카테고리1</li></router-link
+            <router-link to="/category/CG01" class="router-link"
+              ><li>필기류/필통</li></router-link
             >
-            <router-link to="/category/2" class="router-link"
-              ><li>카테고리2</li></router-link
+            <router-link to="/category/CG02" class="router-link"
+              ><li>다이어리/플래너</li></router-link
             >
-            <router-link to="/category/3" class="router-link"
-              ><li>카테고리3</li></router-link
+            <router-link to="/category/CG03" class="router-link"
+              ><li>노트/메모지</li></router-link
             >
-            <router-link to="/category/4" class="router-link"
-              ><li>카테고리4</li></router-link
+            <router-link to="/category/CG04" class="router-link"
+              ><li>사무용품</li></router-link
             >
           </ul>
         </div>
@@ -78,10 +89,12 @@
 </template>
 <script>
 import LoginService from "@/services/login/LoginService";
+
 export default {
   data() {
     return {
       categoryTab: false,
+      categoryCode: "",
     };
   },
   methods: {

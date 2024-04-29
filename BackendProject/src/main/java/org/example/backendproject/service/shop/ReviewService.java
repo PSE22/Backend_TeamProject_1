@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * packageName : org.example.backendproject.service.shop
  * fileName : ReviewService
@@ -35,10 +37,15 @@ public class ReviewService {
 
 //    TODO: 전체 조회 함수
     public Page<IReviewDto> selectByReviewContaining(
-            Integer reviewId,
             Pageable pageable
     ) {
-        Page<IReviewDto> page = reviewRepository.selectByReviewContaining(reviewId, pageable);
+        Page<IReviewDto> page = reviewRepository.selectByReviewContaining(pageable);
         return page;
+    }
+
+//    TODO: 상세 조회 함수
+    public Optional<PdReview> findByPdReviewId(int reviewId) {
+        Optional<PdReview> optionalPdReview = reviewRepository.findById(reviewId);
+        return optionalPdReview;
     }
 }

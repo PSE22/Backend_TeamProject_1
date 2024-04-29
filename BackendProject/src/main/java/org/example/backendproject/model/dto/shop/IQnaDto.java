@@ -14,7 +14,7 @@ package org.example.backendproject.model.dto.shop;
  * 2024-04-24         sjuk2          최초 생성
  */
 public interface IQnaDto {
-    Integer getUserId();
+    String getUserId();
     String getPdQnaTitle();
     String getPdQnaContent();
     String getPqAddDate();

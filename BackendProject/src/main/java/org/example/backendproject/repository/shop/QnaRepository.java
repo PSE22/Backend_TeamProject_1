@@ -23,10 +23,14 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface QnaRepository extends JpaRepository<PdQna, Integer> {
-    @Query(value = "SELECT PQ.USER_ID AS userId, PQ.PD_QNA_TITLE AS pdQnaTitle\n" +
-            ", PQ.PD_QNA_CONTENT AS pdQnaContent, PQ.ADD_DATE AS pqAddDate\n" +
-            ", PQ.PD_QNA_SECRET\n AS pdQnaSecert, PQI.PD_QNA_IMG_URL AS pdQnaImgUrl\n" +
-            ", QR.PD_QNA_REPLY_CONTENT AS pdQnaReplyContent, QR.ADD_DATE AS qrAddDate\n" +
+    @Query(value = "SELECT PQ.USER_ID AS userId\n" +
+            ", PQ.PD_QNA_TITLE AS pdQnaTitle\n" +
+            ", PQ.PD_QNA_CONTENT AS pdQnaContent\n" +
+            ", PQ.ADD_DATE AS pqAddDate\n" +
+            ", PQ.PD_QNA_SECRET AS pdQnaSecret\n" +
+            ", PQI.PD_QNA_IMG_URL AS pdQnaImgUrl\n" +
+            ", QR.PD_QNA_REPLY_CONTENT AS pdQnaReplyContent\n" +
+            ", QR.ADD_DATE AS qrAddDate\n" +
             "FROM TB_PD_QNA PQ, TB_PD_QNA_IMG PQI, TB_PD_QNA_REPLY QR\n" +
             "WHERE PQ.PD_QNA_ID = PQI.PD_QNA_ID(+)\n" +
             "AND PQI.PD_QNA_ID = QR.PD_QNA_ID(+)"
@@ -35,5 +39,5 @@ public interface QnaRepository extends JpaRepository<PdQna, Integer> {
             "WHERE PQ.PD_QNA_ID = PQI.PD_QNA_ID(+)\n" +
             "AND PQI.PD_QNA_ID = QR.PD_QNA_ID(+)"
     , nativeQuery = true)
-    Page<IQnaDto> selectByQnaContaining(Integer qnaId, Pageable pageable);
+    Page<IQnaDto> selectByQnaContaining(Integer pdQnaId, Pageable pageable);
 }

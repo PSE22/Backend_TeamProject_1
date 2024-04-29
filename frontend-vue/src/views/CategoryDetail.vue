@@ -2,48 +2,50 @@
   <!-- 카테고리 제목 -->
   <div class="row">
     <div class="col-md-6 text-center offset-md-3" id="category-title">
-      카테고리?명{{ categoryCode }}
+      카테고리명
     </div>
   </div>
+
+  <!-- 카테고리 상품 페이지 : 정렬 버튼 -->
   <div class="main-nav-list col align-self-end" id="sorting">
     <button id="button">신상품순</button> |
     <button id="button">판매량순</button> |
     <button id="button">낮은 가격순</button> |
     <button id="button">높은 가격순</button>
   </div>
-  <!-- 해당 카테고리 상품 이미지 -->
-  <div class="row row-cols-1 row-cols-md-3 g-4" id="category-products">
+
+  <!-- 해당 카테고리 상품 : card  -->
+  <div class="row row-cols-1 row-cols-md-4 g-4" id="category-products">
     <div v-for="(data, index) in product" :key="index" class="col">
       <div class="card h-100">
         <div class="product-image">
-          <!-- <img
-            src="https://via.placeholder.com/400x400?text=Image"
-            class="card-img-top"
-            alt="..."
-          /> -->
-          <!-- <img :src="data.img" class="card-img-top" /> -->
-          {{ data.pdImgUrl }}
+          <img :src="data.pdImgUrl" class="card-img-top" />
         </div>
         <!-- 하트 이미지 : 위시 리스트 등록 -->
         <div class="heart-icon-white" @click="toggleShow">
           <!-- 빈 하트 이미지 : 위시 리스트 등록 전 -->
-          <img v-if="show" src="@/assets/img/free-icon-font-circle-heart-9272486.png" />
+          <img
+            v-if="show"
+            src="@/assets/img/free-icon-font-circle-heart-9272486.png"
+          />
           <!-- 검정 하트 이미지 : 위시 리스트 등록 후 -->
-          <img v-else src="@/assets/img/free-icon-font-circle-heart-9270879.png" />
+          <img
+            v-else
+            src="@/assets/img/free-icon-font-circle-heart-9270879.png"
+          />
         </div>
         <div class="card-body">
           <h5 class="card-title">{{ data.pdName }}</h5>
+          <span>{{ data.pdPrice }}</span>
         </div>
       </div>
     </div>
   </div>
-  
 
   <!-- {/* paging 시작 */} -->
   <!-- 1페이지당 화면에 보일 개수 조정 -->
   <div class="col-12 w-25 mb-3">
     1페이지당 화면에 보일 개수
-    <!-- select 태그 -> v-model="pageSize" : 화면에 보일 초기값이 지정 -->
     <select
       class="form-select form-select-sm"
       v-model="pageSize"
@@ -72,48 +74,16 @@ import ProductService from "@/services/shop/ProductService";
 export default {
   data() {
     return {
-      product: [], // spring에 보내줄 배열 변수
+      product: [],
       categoryCode: "",
 
-      page: 1, // 현재 페이지 번호
-      count: 0, // 전체 데이터 개수
-      pageSize: 4, // 화면에 보여질 개수
+      page: 1,      // 현재 페이지 번호
+      count: 0,     // 전체 데이터 개수
+      pageSize: 4,  // 화면에 보여질 데이터 개수
 
-      pageSizes: [3, 6, 9], // 화면에 보여질 개수배열
+      pageSizes: [3, 6, 9], // 한번에 보여질 데이터 개수 배열
 
       show: true,
-      // card: [
-      //     {
-      //         img: "https://via.placeholder.com/400x400?text=Image",
-      //         img1: require("@/assets/img/free-icon-font-circle-heart-9272486.png"),
-      //         img2: require("@/assets/img/free-icon-font-circle-heart-9270879.png")
-      //     },
-      //     {
-      //         img: "https://via.placeholder.com/400x400?text=Image",
-      //         img1: require("@/assets/img/free-icon-font-circle-heart-9272486.png"),
-      //         img2: require("@/assets/img/free-icon-font-circle-heart-9270879.png")
-      //     },
-      //     {
-      //         img: "https://via.placeholder.com/400x400?text=Image",
-      //         img1: require("@/assets/img/free-icon-font-circle-heart-9272486.png"),
-      //         img2: require("@/assets/img/free-icon-font-circle-heart-9270879.png")
-      //     },
-      //     {
-      //         img: "https://via.placeholder.com/400x400?text=Image",
-      //         img1: require("@/assets/img/free-icon-font-circle-heart-9272486.png"),
-      //         img2: require("@/assets/img/free-icon-font-circle-heart-9270879.png")
-      //     },
-      //     {
-      //         img: "https://via.placeholder.com/400x400?text=Image",
-      //         img1: require("@/assets/img/free-icon-font-circle-heart-9272486.png"),
-      //         img2: require("@/assets/img/free-icon-font-circle-heart-9270879.png")
-      //     },
-      //     {
-      //         img: "https://via.placeholder.com/400x400?text=Image",
-      //         img1: require("@/assets/img/free-icon-font-circle-heart-9272486.png"),
-      //         img2: require("@/assets/img/free-icon-font-circle-heart-9270879.png")
-      //     },
-      // ]
     };
   },
   methods: {
@@ -123,7 +93,7 @@ export default {
 
     async retrieveProduct() {
       try {
-        // 공통 전체조회 서비스 함수 실행 (작성하면 자동 import됨)
+        // 공통 전체조회 서비스 함수
         let response = await ProductService.getAll(
           this.categoryCode,
           this.page - 1,
@@ -132,15 +102,15 @@ export default {
         const { product, totalItems } = response.data;
         this.product = product;
         this.count = totalItems;
-        console.log(response.data); // 웹 브라우저 콘솔 탭에 spring 전달 객체 배열이 표시됨
+        console.log(response.data);
       } catch (e) {
-        console.log(e); // 웹 브라우저 콘솔 탭에 에러메세지 표시됨
+        console.log(e);
       }
     },
     // 공통 페이징 함수 : select 태그에 바인딩
     pageSizeChange() {
-      this.page = 1; // 현재페이지번호
-      this.retrieveProduct(); // 재조회
+      this.page = 1;            // 현재 페이지 번호
+      this.retrieveProduct();   // 재조회
     },
   },
   //화면이 뜰 때 자동 실행 함수

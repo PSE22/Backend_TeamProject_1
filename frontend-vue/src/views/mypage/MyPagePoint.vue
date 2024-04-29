@@ -69,10 +69,49 @@
 </template>
 <script>
 import MyPageMainMenu from "@/components/mypage/MyPageMainMenu.vue";
+import MyPointService from "@/services/mypage/MyPointService";
 export default {
   components: {
     MyPageMainMenu,
   },
+
+  // 데이터 정의
+  data() {
+    return {
+      point: [], // 장바구니 객체배열
+      page: 1, // 현재페이지번호
+      count: 0, // 전체 데이터개수
+      pageSize: 3, // 화면에 보여질 개수
+
+      pointId: 0,      // 포인트 ID
+      pointBalance: 0, // 포인트 잔액   (전체조회)
+      pointAdd: 0,     // 적립된 포인트 (상세조회)
+    };
+  },
+  // 전체조회 함수
+  methods: {
+    // 전체조회 함수 (포인트 잔액)
+    async retrievePoint() {
+      try {
+        let response = await MyPointService.getAll(
+          this.pointId,      // 포인트 ID
+          this.pointBalance, // 포인트 잔액 
+          
+        );
+        const { point, totalItems } = response.data;
+        this.point = point;
+        this.count = totalItems;
+        // 로깅
+        console.log(response.data); // 웹브라우저 콘솔탭에 벡엔드 데이터 표시
+      } catch (e) {
+        console.log(e); // 웹브라우저 콘솔탭에 에러 표시
+      }
+    },
+
+  // 상세조회 함수
+
+  }
+
 };
 </script>
 <style>

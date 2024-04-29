@@ -1,22 +1,19 @@
 <template>
   <div class="row row-cols-1 row-cols-md-2 g-4" id="product-top">
     <div class="col">
-      <div class="card h-100">
-        <img
+      <!-- <img
           src="https://via.placeholder.com/400x400?text=Image"
           class="card-img-top"
           alt="..."
-        />
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">상품 설명</p>
-        </div>
-      </div>
+        /> -->
+      <img :src="productImage?.pdImgUrl" class="card-img-top" alt="..." />
     </div>
-    <div class="col">
+    <div class="col" v-if="product">
       <ul class="product-select">
         <li>
-          <div id="title"><h2>상품명 : {{product.pdName}}</h2></div>
+          <div id="title">
+            <h2>상품명 : {{ product.pdName }}</h2>
+          </div>
         </li>
         <li><div id="option-text">옵션 선택</div></li>
         <select name="product-option" class="select-box">
@@ -31,7 +28,7 @@
             <button
               type="button"
               class="btn btn-outline-secondary"
-              @click="decreaseCount"
+              @click="decreaseClickCount"
             >
               -
             </button>
@@ -42,22 +39,24 @@
               style="width: 60px"
               disabled
             >
-              {{ this.count }}
+              {{ this.click }}
             </button>
             <button
               type="button"
               class="btn btn-outline-secondary"
-              @click="increaseCount"
+              @click="increaseClickCount"
             >
               +
             </button>
           </div>
         </li>
         <li>
-          <div id="price"><h2>가격 {{product.pdPrice}}원</h2></div>
+          <div id="price">
+            <h2>가격 {{ product?.pdPrice }}원</h2>
+          </div>
         </li>
-          <li><div id="coupon-text">쿠폰 선택</div></li>
-            <select name="coupon-option" class="select-box">
+        <li><div id="coupon-text">쿠폰 선택</div></li>
+        <select name="coupon-option" class="select-box">
           <option value="1" selected>쿠폰명 1</option>
           <option value="2">쿠폰명 2</option>
           <option value="3">쿠폰명 3</option>
@@ -120,6 +119,7 @@
       <thead class="table-light text-center">
         <tr>
           <th scope="col">작성자</th>
+          <th scope="col">제목</th>
           <th scope="col">상품옵션</th>
           <th scope="col">평점</th>
           <th scope="col">내용</th>
@@ -127,18 +127,17 @@
         </tr>
       </thead>
       <tbody class="table-group-divider align-middle">
-        <tr>
-          <td class="col-1 text-center">OOO</td>
+        <tr v-for="(data, index) in review" :key="index">
+          <td class="col-1 text-center">{{ data.userId }}</td>
+          <td class="col-1 text-center">{{ data.reviewTitle }}</td>
           <td class="col-2 text-center">
-            <div class="flex-grow-1">
-              상품 옵션명
-            </div>
+            <div class="flex-grow-1">상품 옵션명</div>
           </td>
-          <td class="col-1 text-center">1/5</td>
+          <td class="col-1 text-center">{{ data.reviewRate }}</td>
           <td class="col-4">
             <div class="align-items-center text-start">
               <div class="flex-grow-1">
-                후기
+                {{ data.reviewContent }}
               </div>
               <img
                 src="https://via.placeholder.com/100x100?text=Image"
@@ -154,7 +153,7 @@
               />
             </div>
           </td>
-          <td class="col-1 text-center">24/01/01</td>
+          <td class="col-1 text-center">{{ data.addDate }}</td>
         </tr>
       </tbody>
     </table>
@@ -254,21 +253,21 @@
         </tr>
       </thead>
       <tbody class="table-group-divider align-middle">
-        <tr>
-          <td class="col-1 text-center">OOO</td>
+        <tr v-for="(data, index) in qna" :key="index">
+          <td class="col-1 text-center">{{ data.userId }}</td>
           <td class="col-4">
             <div
               type="button"
               class="ms-3 qna-link"
               data-bs-toggle="modal"
-              data-bs-target="#exampleModal-2"
+              :data-bs-target="'#exampleModal-' + index"
             >
-              1:1 문의 제목
+              {{ data.pdQnaTitle }}
             </div>
             <!-- Modal -->
             <div
               class="modal fade"
-              id="exampleModal-2"
+              :id="'exampleModal-' + index"
               tabindex="-1"
               aria-labelledby="exampleModalLabel"
               aria-hidden="true"
@@ -277,8 +276,7 @@
                 <div class="modal-content">
                   <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">
-                      1:1 문의합니다.(여기 제목 옆에 비밀글여부 바인딩 하면
-                      될거같은데)
+                      {{ data.pdQnaTitle }} / {{ data.pdQnaSecret }}
                     </h1>
                     <button
                       type="button"
@@ -288,22 +286,17 @@
                     ></button>
                   </div>
                   <div class="modal-body">
-                    <h2 class="fs-5">작성자</h2>
+                    <h2 class="fs-5">작성자 : {{ data.userId }}</h2>
                     <p class="text-muted">
                       상품명 : 필통&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;옵션 : 파란색
                     </p>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Impedit debitis, aperiam incidunt dolor odio magnam eum
-                      quod ratione veniam quo minima id suscipit quisquam
-                      tenetur facere eligendi placeat corrupti. Vitae.
-                    </p>
+                    <p>{{ data.pdQnaContent }}</p>
                     <img
                       src="https://via.placeholder.com/100x100?text=Image"
                       class="img-thumbnail me-3"
                     />
                     <hr />
-                    <h2 class="fs-5">답변자</h2>
+                    <h2 class="fs-5">답변 내용</h2>
                     <p>
                       Lorem ipsum dolor sit amet consectetur adipisicing elit.
                       Impedit debitis, aperiam incidunt dolor odio magnam eum
@@ -324,7 +317,7 @@
               </div>
             </div>
           </td>
-          <td class="col-1 text-center">Y/N</td>
+          <td class="col-1 text-center">{{ data.pdQnaSecret }}</td>
           <td class="col-2 text-center">24/01/01</td>
           <td class="col-2 text-center">24/01/01</td>
           <td class="col-2 text-center">완료</td>
@@ -398,7 +391,7 @@
                 type="button"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
-              >
+              > 
                 닫기
               </button>
               <button
@@ -416,13 +409,24 @@
   </div>
 </template>
 <script>
-import ProductService from '@/services/shop/ProductService';
+import ProductService from "@/services/shop/ProductService";
+import ReviewService from "@/services/shop/ReviewService";
+import QnaService from "@/services/shop/QnaService";
 export default {
   data() {
     return {
       show: true,
-      product: [],
-      count: 0
+      product: {},
+      productImage: {},
+      review: [],
+      qna: [],
+      click: 0,
+
+      page: 1,
+      count: 0,
+      pageSize: 3,
+
+      pageSizes: [3, 6, 9],
     };
   },
   methods: {
@@ -433,22 +437,60 @@ export default {
       try {
         let response = await ProductService.get(pdId);
         this.product = response.data;
+        console.log(response.data);
       } catch (e) {
         console.log(e);
       }
     },
-    increaseCount() {
-      this.count = this.count + 1;
-    },
-    decreaseCount() {
-      if (this.count > 0) {
-      this.count = this.count - 1;
+    async getProductImage(pdId) {
+      try {
+        console.log("1")
+        let response = await ProductService.getImage(pdId);
+        console.log("2")
+        this.productImage = response.data;
+        console.log("3")
+        console.log(response.data);
+        console.log("4")
+      } catch (e) {
+        console.log(e);
       }
-    }
+    },
+    async retrieveReview() {
+      try {
+        let response = await ReviewService.getAll(this.page - 1, this.pageSize);
+        const { review, totalItems } = response.data;
+        this.review = review;
+        this.count = totalItems;
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async retrieveQna() {
+      try {
+        let response = await QnaService.getAll(this.page - 1, this.pageSize);
+        const { qna, totalItems } = response.data;
+        this.qna = qna;
+        this.count = totalItems;
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    increaseClickCount() {
+      this.click = this.click + 1;
+    },
+    decreaseClickCount() {
+      if (this.click > 0) {
+        this.click = this.click - 1;
+      }
+    },
   },
-    mounted() {
-    // TODO: 화면이 뜰 때 상품 상세 조회 : 상품번호(spno)
+  mounted() {
     this.getProduct(this.$route.params.pdId);
+    this.getProductImage(this.$route.params.pdId);
+    this.retrieveReview();
+    this.retrieveQna();
   },
 };
 </script>
