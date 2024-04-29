@@ -2,11 +2,20 @@ package org.example.backend.service.shop;
 
 import org.example.backend.model.dto.shop.ICartDto;
 import org.example.backend.model.entity.Cart;
+import org.example.backend.model.entity.User;
+import org.example.backend.repository.UserRepository;
 import org.example.backend.repository.shop.CartRepository;
+import org.example.backend.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * packageName : org.example.backendproject.service.shop
@@ -26,6 +35,12 @@ public class CartService {
     @Autowired
     CartRepository cartRepository;
 
+    @Autowired
+    JwtUtils jwtUtils;
+
+    @Autowired
+    UserRepository userRepository;
+
     //    TODO: 저장(수정)함수
     public Cart save(Cart cart) {
 //        DB 저장 함수 실행
@@ -33,16 +48,19 @@ public class CartService {
         return cart2;
     }
 
-//    유저 id 로 해당 유저의 장바구니 찾기
-//    Cart cart = cartRepository.
-    //    TODO: 전체 조회 함수
 
-    public Page<ICartDto> selectByCartContaining(
-            String userId,
-            Pageable pageable
-    ) {
-        Page<ICartDto> page = cartRepository.selectByCartContaining(userId, pageable);
-        return page;
+
+
+    public List<ICartDto> getUserCart(String token) {
+        String userId = jwtUtils.getUserIdFromJwtToken(token);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            return cartRepository.findByUserId(userId);
+        } else {
+            // 사용자가 존재하지 않을 경우에 대한 처리
+            return Collections.emptyList();
+        }
     }
 
     //    TODO: 삭제 함수

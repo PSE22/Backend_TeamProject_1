@@ -97,7 +97,7 @@ export default {
     },
   },
   mounted() {
-    this.allReview;
+    this.allReview();
   },
 };
 </script>
