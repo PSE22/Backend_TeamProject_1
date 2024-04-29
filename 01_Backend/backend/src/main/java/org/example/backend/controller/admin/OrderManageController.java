@@ -80,15 +80,15 @@ public class OrderManageController {
                 response.put("order", order);
 
                 List<OrderDetail> orderDetails = orderManageService.getOrderDetails(orderId)
-                        .orElse(null); // Optional을 List<OrderDetail>로 변환
+                        .orElse(null);
                 response.put("orderDetails", orderDetails);
 
                 OrderCancel orderCancel = orderManageService.getOrderCancelInfo(orderId)
-                        .orElse(null); // Optional을 OrderCancel로 변환
+                        .orElse(null);
                 response.put("orderCancel", orderCancel);
 
                 Refund refund = orderManageService.getRefundInfo(orderId)
-                        .orElse(null); // Optional을 Refund로 변환
+                        .orElse(null);
                 response.put("refund", refund);
 
                 return ResponseEntity.ok(response);
