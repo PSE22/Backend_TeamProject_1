@@ -6,6 +6,10 @@ import org.example.backend.repository.mypage.MyWishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,35 +32,39 @@ import java.util.List;
 public class MyWishlistService {
 
     @Autowired
-    MyWishlistRepository wishlistRepository;
+    private MyWishlistRepository wishlistRepository;
 
+    /**
+     * 로그인한 사용자의 위시리스트를 페이지 단위로 조회합니다.
+     * 이 메소드는 로그인 상태를 확인한 후, 요청된 사용자 ID에 해당하는 위시리스트 데이터를 반환합니다.
+     *
+     * @param userId 사용자의 고유 ID
+     * @param pageable 페이지 요청 정보 (페이지 번호, 페이지 크기 등)
+     * @return 조회된 위시리스트 페이지
+     * @throws AccessDeniedException 사용자가 로그인하지 않은 경우 접근 거부 예외를 발생시킵니다.
+     */
+    @Transactional(readOnly = true)
+    public Page<WishlistDto> selectWishlistContaining(String userId, Pageable pageable) {
+        // 현재 인증된 사용자의 정보를 가져옵니다.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-//    전체조회
-public Page<WishlistDto> selectWishlistContaining(
-        Integer pdId,
-        Pageable pageable
-) {
-    Page<WishlistDto> page = wishlistRepository.selectWishlistContaining(pdId, pageable);
-    return page;
-}
-
-
+        // 인증 객체가 null이 아니고, 사용자가 인증된 경우
+        if (authentication != null && authentication.isAuthenticated()) {
+            // 사용자 ID에 해당하는 위시리스트를 페이지 단위로 조회하여 반환합니다.
+            return wishlistRepository.selectWishlistContaining(userId, pageable);
+        } else {
+            // 인증된 사용자가 아니라면 접근 거부 예외를 발생시킵니다.
+            throw new AccessDeniedException("접근 권한이 없습니다");
+        }
+    }
     // pdId를 사용한 소프트 삭제 함수
     @Transactional
     public void removeByPdId(Integer pdId) {
-        // 주어진 pdId로 모든 관련 위시리스트 항목을 찾음
         List<Wishlist> wishlists = wishlistRepository.findByPdId(pdId);
-
-        // 검색된 모든 위시리스트 항목을 반복 처리
-        for (Wishlist wishlist : wishlists) {
-            // 각 위시리스트 항목의 상태를 'N'으로 설정하여 소프트 삭제를 표시
+        wishlists.forEach(wishlist -> {
             wishlist.setStatus("N");
-
-            // 변경된 상태를 데이터베이스에 저장
             wishlistRepository.save(wishlist);
-        }
-        // 이 메서드의 실행이 성공적으로 완료되면 트랜잭션이 커밋되며,
-        // 오류가 발생하면 자동으로 롤백됩니다.
+        });
     }
 }
 

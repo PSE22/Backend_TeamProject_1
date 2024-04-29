@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,12 +32,9 @@ public interface MyWishlistRepository extends JpaRepository<Wishlist, PdIdUserId
             "FROM TB_PRODUCT PD " +
             "JOIN TB_PRODUCT_IMAGE PI ON PD.PD_ID = PI.PD_ID " +
             "JOIN TB_WISHLIST WS ON PD.PD_ID = WS.PD_ID " +
-            "WHERE WS.STATUS = 'Y'", nativeQuery = true)
-
-
+            "WHERE WS.USER_ID = :userId AND WS.STATUS = 'Y'", nativeQuery = true)
     Page<WishlistDto> selectWishlistContaining(
-            Integer pdId,
+            @Param("userId") String userId,
             Pageable pageable
     );
-
 }
