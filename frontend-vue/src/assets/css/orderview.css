@@ -1,0 +1,36 @@
+.order-container {
+    padding-left: 70px;
+    padding-right: 70px;
+}
+
+.order-container h2 {
+    text-align: center;
+    font-family: 'YClover-Bold';
+}
+
+.order-sheet-container {
+    margin-bottom: 50px;
+}
+
+.order-sheet-title {
+    font-size: 1.3rem;
+    font-family: 'YClover-Regular';
+    border-bottom: solid black 1px;
+    padding-bottom: 10px;
+}
+
+.order-content-row {
+    height: 50px;
+    line-height: 50px;
+}
+
+.row-title {
+    background-color: lightcoral;
+    border-right: solid black 1px;
+    font-weight: bold;
+    padding-left: 30px;
+}
+
+.row-content {
+    background-color: aquamarine;
+}
