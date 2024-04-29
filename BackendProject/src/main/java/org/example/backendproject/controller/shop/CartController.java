@@ -78,6 +78,8 @@ public class CartController {
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
 //                데이터 없음
+//                log.debug("에러 : " + response);
+
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 

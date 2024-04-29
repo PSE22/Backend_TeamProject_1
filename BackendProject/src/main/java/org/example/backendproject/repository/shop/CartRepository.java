@@ -24,7 +24,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Integer> {
-//    장바구니 전체조회
+    //    장바구니 전체조회
     @Query(value = "SELECT\n" +
             "C.CART_ID AS cartId," +
             "C.CART_COUNT AS cartCount,\n" +
@@ -36,15 +36,18 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
             "FROM TB_CART C, TB_OPTION O, TB_PRODUCT PD, TB_PRODUCT_IMAGE PI, TB_USER U\n" +
             "WHERE C.OP_ID = O.OP_ID\n" +
             "AND O.PD_ID = PD.PD_ID\n" +
-            "AND PD.PD_ID = PI.PD_ID\n"+
+            "AND PD.PD_ID = PI.PD_ID\n" +
+            "AND PD.STATUS = 'Y'" +
             "AND C.USER_ID = :userId",
             countQuery = "SELECT\n" +
                     "count(*)\n" +
                     "FROM TB_CART C, TB_OPTION O, TB_PRODUCT PD, TB_PRODUCT_IMAGE PI\n" +
                     "WHERE C.OP_ID = O.OP_ID\n" +
                     "AND O.PD_ID = PD.PD_ID\n" +
-                    "AND PD.PD_ID = PI.PD_ID\n"+
+                    "AND PD.PD_ID = PI.PD_ID\n" +
+                    "AND PD.STATUS = 'Y'" +
                     "AND C.USER_ID = :userId",
+
             nativeQuery = true)
     Page<ICartDto> selectByCartContaining(@Param("userId") String userId, Pageable pageable);
 }
