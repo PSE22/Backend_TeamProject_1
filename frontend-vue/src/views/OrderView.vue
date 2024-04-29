@@ -99,7 +99,7 @@
       <div class="order-sheet-title">배송 정보</div>
       <!-- 배송 정보 : 내용 -->
       <div class="order-sheet-content">
-
+        <!-- 배송 정보 : 내용 : 배송지 선택 -->
         <div class="row order-content-row">
           <div class="col-3 row-title">배송지 선택</div>
           <div class="col-9 row-content">
@@ -108,7 +108,6 @@
                 class="form-check-input"
                 type="radio"
                 name="inlineRadioOptions"
-                id="inlineRadio1"
                 value="option1"
               />
               <label class="form-check-label" for="inlineRadio1"
@@ -120,7 +119,6 @@
                 class="form-check-input"
                 type="radio"
                 name="inlineRadioOptions"
-                id="inlineRadio2"
                 value="option2"
               />
               <label class="form-check-label" for="inlineRadio2"
@@ -132,7 +130,6 @@
                 class="form-check-input"
                 type="radio"
                 name="inlineRadioOptions"
-                id="inlineRadio3"
                 value="option3"
               />
               <label class="form-check-label" for="inlineRadio3"
@@ -141,35 +138,63 @@
             </div>
           </div>
         </div>
+        <!-- 배송 정보 : 내용 : 주소 -->
         <div class="row order-content-row">
           <div class="col-3 row-title">주소</div>
           <div class="col-9 row-content">
-            <div class="col-3">
-              <input
-                type="password"
-                class="form-control"
-                id="inputPassword2"
-              />
+            <div class="row">
+              <div class="col-3">
+                <input type="test" class="form-control" />
+              </div>
+              <div class="col-3">
+                <button type="submit" class="btn btn-primary mb-3">
+                  우편번호찾기
+                </button>
+              </div>
             </div>
-            <div class="col-3">
-              <button type="submit" class="btn btn-primary mb-3">
-                우편번호찾기
-              </button>
+            <div class="row">
+              <div class="col-6">
+                <input type="text" class="form-control" />
+              </div>
+              <div class="col-6">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="상세주소 입력"
+                />
+              </div>
             </div>
           </div>
         </div>
+        <!-- 배송 정보 : 내용 : 받으시는 분 -->
         <div class="row order-content-row">
           <div class="col-3 row-title">받으시는 분</div>
-          <div class="col-9 row-content">(input 박스로 수정)</div>
+          <div class="col-9 row-content">
+            <div class="col-4">
+              <input type="text" class="form-control" placeholder="이름" />
+            </div>
+          </div>
         </div>
+        <!-- 배송 정보 : 내용 : 휴대전화 -->
         <div class="row order-content-row">
           <div class="col-3 row-title">휴대전화</div>
-          <div class="col-9 row-content">(input 박스로 수정)</div>
+          <div class="col-9 row-content">
+            <div class="col-6">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="휴대전화번호"
+              />
+            </div>
+          </div>
         </div>
+        <!-- 배송 정보 : 내용 : 배송 요청사항 -->
         <div class="row order-content-row">
           <div class="col-3 row-title">배송 요청사항</div>
           <div class="col-9 row-content">
-            <span>(textarea로 수정)</span>
+            <div class="col-8">
+                <textarea class="form-control" rows="4" placeholder="요청사항을 입력하세요."></textarea>
+            </div>
           </div>
         </div>
       </div>
@@ -183,7 +208,16 @@
         <div class="row order-content-row">
           <div class="col-3 row-title">쿠폰 적용</div>
           <div class="col-9 row-content">
-            (select 박스로 수정, 보유 쿠폰 목록 선택 기능 구현)
+            <div class="row">
+              <div class="col-3">
+                <input type="test" class="form-control" />
+              </div>
+              <div class="col-3">
+                <button type="submit" class="btn btn-primary mb-3">
+                  우편번호찾기
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

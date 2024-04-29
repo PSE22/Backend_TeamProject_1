@@ -25,4 +25,5 @@ export default {
 
 <style>
 @import "@/assets/css/app.css";
+@import "@/assets/css/sb-admin-2.css";
 </style>
