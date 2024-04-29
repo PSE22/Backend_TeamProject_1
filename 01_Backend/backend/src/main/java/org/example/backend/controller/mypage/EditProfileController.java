@@ -1,4 +1,4 @@
-package org.example.backend.controller;
+package org.example.backend.controller.mypage;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.util.Collection;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.backend.model.entity.User;
-import org.example.backend.service.EditProfileService;
+import org.example.backend.service.mypage.EditProfileService;
 import org.example.backend.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,13 +1,13 @@
-package org.example.backend.service;
+package org.example.backend.service.admin;
 
 import org.example.backend.model.entity.Order;
 import org.example.backend.model.entity.OrderCancel;
 import org.example.backend.model.entity.OrderDetail;
 import org.example.backend.model.entity.Refund;
-import org.example.backend.repository.OrderCancelRepository;
-import org.example.backend.repository.OrderDetailRepository;
-import org.example.backend.repository.OrderRepository;
-import org.example.backend.repository.RefundRepository;
+import org.example.backend.repository.order.OrderCancelRepository;
+import org.example.backend.repository.order.OrderDetailRepository;
+import org.example.backend.repository.order.OrderRepository;
+import org.example.backend.repository.order.RefundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
