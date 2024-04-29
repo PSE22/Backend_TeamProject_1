@@ -1,5 +1,7 @@
 package org.example.backendproject.model.dto.shop;
 
+import org.apache.kafka.common.protocol.types.Field;
+
 /**
  * packageName : org.example.backendproject.model.dto.shop
  * fileName : ICartDto
@@ -21,4 +23,5 @@ public interface ICartDto {
     String getPdName();     // 상품명
     Integer getPdPrice();   // 상품 가격
     String getPdImgUrl();   // 상품 이미지
+    String getUserId(); // 유저 아이디
 }
