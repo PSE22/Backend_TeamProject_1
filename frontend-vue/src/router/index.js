@@ -28,8 +28,33 @@ const routes = [
   },
   // 관리자 메인
   {
-    path: "/admin-page",
-    component: () => import("../views/AdminView.vue"),
+    path: "/admin",
+    component: () => import("../views/admin/AdminView.vue"),
+  },
+  // 관리자 주문 관리
+  {
+    path: '/adorder',
+    component: () => import('../views/admin/AdminOrderView.vue')
+  },
+  // 관리자 상품 관리
+  {
+    path: '/adproduct',
+    component: () => import('../views/admin/AdminProductView.vue')
+  },
+  // 관리자 쿠폰 관리
+  {
+    path: '/adcoupon',
+    component: () => import('../views/admin/AdminCouponView.vue')
+  },
+  // 관리자 통계
+  {
+    path: '/adchart',
+    component: () => import('../views/admin/AdminChartView.vue')
+  },
+  // 관리자 문의 관리
+  {
+    path: '/adtable',
+    component: () => import('../views/admin/AdminTableView.vue')
   },
   // 장바구니
   {
