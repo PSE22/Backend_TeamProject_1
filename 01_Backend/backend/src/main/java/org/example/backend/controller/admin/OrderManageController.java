@@ -1,4 +1,4 @@
-package org.example.backend.controller;
+package org.example.backend.controller.admin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,7 +6,7 @@ import org.example.backend.model.entity.Order;
 import org.example.backend.model.entity.OrderCancel;
 import org.example.backend.model.entity.OrderDetail;
 import org.example.backend.model.entity.Refund;
-import org.example.backend.service.OrderManageService;
+import org.example.backend.service.admin.OrderManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -100,7 +100,7 @@ public class OrderManageController {
         }
     }
 
-    @PostMapping("/orders/{orderId}/update-codes")
+    @PostMapping("/orders/{orderId}")
     public ResponseEntity<Object> updateCodes(
             @PathVariable Long orderId,
             @RequestParam(required = false) String newOrderCode,
@@ -108,7 +108,6 @@ public class OrderManageController {
             @RequestParam(required = false) String newRefundCode
     ) {
         try {
-            // 주문 코드 업데이트
             if (newOrderCode != null) {
                 Order updatedOrder = orderManageService.updateOrderCode(orderId, newOrderCode);
                 if (updatedOrder != null) {
@@ -118,7 +117,6 @@ public class OrderManageController {
                 }
             }
 
-            // 주문 취소 코드 업데이트
             if (newOcCode != null) {
                 OrderCancel updatedCancelCode = orderManageService.updateOrderCancelCode(orderId, newOcCode);
                 if (updatedCancelCode != null) {
@@ -128,7 +126,6 @@ public class OrderManageController {
                 }
             }
 
-            // 환불 코드 업데이트
             if (newRefundCode != null) {
                 Refund updatedRefundCode = orderManageService.updateRefundCode(orderId, newRefundCode);
                 if (updatedRefundCode != null) {
@@ -138,7 +135,6 @@ public class OrderManageController {
                 }
             }
 
-            // 변경할 코드가 없는 경우
             return ResponseEntity.badRequest().body("No code updates requested.");
 
         } catch (Exception e) {

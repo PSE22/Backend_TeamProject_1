@@ -1,11 +1,11 @@
-package org.example.backend.repository;
+package org.example.backend.repository.order;
 
-import org.example.backend.model.entity.OrderCancel;
+import org.example.backend.model.entity.Refund;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * packageName : org.example.backend.repository
- * fileName : OrderCancelRepository
+ * fileName : RefundRepository
  * author : kimtaewan
  * date : 2024-04-25
  * description :
@@ -16,5 +16,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * -----------------------------------------------------------
  * 2024-04-25         kimtaewan          최초 생성
  */
-public interface OrderCancelRepository extends JpaRepository<OrderCancel, Long> {
+public interface RefundRepository extends JpaRepository<Refund, Long> {
 }
