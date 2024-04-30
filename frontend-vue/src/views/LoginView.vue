@@ -57,7 +57,7 @@
       <router-link align="center" to="/find-password"
         >비밀번호 찾기</router-link
       >
-      | <router-link align="right" to="/singup">회원가입</router-link> |
+      | <router-link align="right" to="/signup">회원가입</router-link> |
     </nav>
 
     <!-- 소셜 페이지 로그인 기능 연동 -->
