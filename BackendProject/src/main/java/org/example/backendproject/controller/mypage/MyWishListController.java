@@ -18,7 +18,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/api/mypage")
-public class WishListController {
+public class MyWishListController {
 
     @Autowired
     WishlistService wishlistService;

@@ -1,20 +1,20 @@
 package org.example.backend.repository;
 
-import org.example.backend.model.entity.ProductImage;
+import org.example.backend.model.entity.OrderStats;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * packageName : org.example.backend.repository
- * fileName : ProductImageRepository
+ * fileName : OrderStatsRepository
  * author : kimtaewan
- * date : 2024-04-25
+ * date : 2024-04-29
  * description :
  * 요약 :
  * <p>
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2024-04-25         kimtaewan          최초 생성
+ * 2024-04-29         kimtaewan          최초 생성
  */
-public interface ProductImageRepository extends JpaRepository<ProductImage, Long> {
+public interface OrderStatsRepository extends JpaRepository<OrderStats, Long> {
 }

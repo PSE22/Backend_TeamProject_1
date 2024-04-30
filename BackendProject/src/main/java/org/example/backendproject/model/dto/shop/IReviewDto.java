@@ -20,4 +20,5 @@ public interface IReviewDto {
     Integer getReviewRate(); // 평점
     String getAddDate(); // 등록일
     String getReviewImgUrl(); // 이미지
+    String getPdName(); // 상품 이름
 }

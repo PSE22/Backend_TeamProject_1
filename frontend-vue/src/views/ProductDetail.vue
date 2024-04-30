@@ -1,18 +1,13 @@
 <template>
   <div class="row row-cols-1 row-cols-md-2 g-4" id="product-top">
     <div class="col">
-      <!-- <img
-          src="https://via.placeholder.com/400x400?text=Image"
-          class="card-img-top"
-          alt="..."
-        /> -->
       <img :src="productImage?.pdImgUrl" class="card-img-top" alt="..." />
     </div>
-    <div class="col" v-if="product">
+    <div class="col">
       <ul class="product-select">
         <li>
           <div id="title">
-            <h2>상품명 : {{ product.pdName }}</h2>
+            <h2>상품명 : {{ product?.pdName }}</h2>
           </div>
         </li>
         <li><div id="option-text">옵션 선택</div></li>
@@ -105,11 +100,7 @@
   <div class="row row-cols-1 g-4" id="product-bottom">
     <div class="col">
       <div class="card h-100">
-        <img
-          src="https://via.placeholder.com/400x400?text=Image"
-          class="card-img-top"
-          alt="..."
-        />
+        <img :src="productImage?.pdImgUrl" class="card-img-top" alt="..." />
       </div>
     </div>
   </div>
@@ -391,7 +382,7 @@
                 type="button"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
-              > 
+              >
                 닫기
               </button>
               <button
@@ -417,7 +408,7 @@ export default {
     return {
       show: true,
       product: {},
-      productImage: {},
+      productImage: [],
       review: [],
       qna: [],
       click: 0,
@@ -444,13 +435,9 @@ export default {
     },
     async getProductImage(pdId) {
       try {
-        console.log("1")
         let response = await ProductService.getImage(pdId);
-        console.log("2")
         this.productImage = response.data;
-        console.log("3")
         console.log(response.data);
-        console.log("4")
       } catch (e) {
         console.log(e);
       }
@@ -467,7 +454,7 @@ export default {
       }
     },
     async retrieveQna() {
-      try {
+      try { 
         let response = await QnaService.getAll(this.page - 1, this.pageSize);
         const { qna, totalItems } = response.data;
         this.qna = qna;

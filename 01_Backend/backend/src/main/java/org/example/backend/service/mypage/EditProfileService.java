@@ -1,4 +1,4 @@
-package org.example.backend.service;
+package org.example.backend.service.mypage;
 
 import org.example.backend.model.entity.User;
 import org.example.backend.repository.UserRepository;

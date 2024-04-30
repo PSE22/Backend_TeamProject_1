@@ -32,12 +32,15 @@ public class MyWishListController {
             Authentication authentication // 스프링 시큐리티의 인증 객체
     )
     {
+        log.debug("전체 위시리스트 조회를 시작합니다.");
         try {
             String userId = authentication.getName(); // 현재 로그인한 사용자의 ID 가져오기
+            log.debug("로그인한 사용자 ID: {}", userId);
             Pageable pageable = PageRequest.of(page, size); // 페이지 요청 생성
 
             // 전체 조회 서비스 함수 실행
             Page<WishlistDto> wishDtoPage = myWishlistService.selectWishlistContaining(userId, pageable);
+            log.debug("조회된 페이지 정보: 페이지 번호 = {}, 페이지 크기 = {}, 총 요소 수 = {}", wishDtoPage.getNumber(), wishDtoPage.getSize(), wishDtoPage.getTotalElements());
 
             Map<String, Object> response = new HashMap<>();
             response.put("wishlist", wishDtoPage.getContent()); // 위시리스트 항목
@@ -46,13 +49,14 @@ public class MyWishListController {
             response.put("totalPages", wishDtoPage.getTotalPages()); // 전체 페이지 수
 
             if (wishDtoPage.isEmpty()) {
+                log.debug("위시리스트 항목이 비어 있습니다.");
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 내용이 없을 경우 204 상태 코드 반환
             } else {
                 return new ResponseEntity<>(response, HttpStatus.OK); // 성공적으로 조회된 경우 응답 데이터와 함께 200 상태 코드 반환
             }
 
         } catch (Exception e) {
-            log.error("Error: {}", e.getMessage(), e); // 오류 로깅
+            log.error("위시리스트 조회 중 오류 발생", e); // 오류 로깅
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 서버 내부 오류 시 500 상태 코드 반환
         }
     }
