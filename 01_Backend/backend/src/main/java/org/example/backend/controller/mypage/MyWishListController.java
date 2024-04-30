@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -22,49 +23,45 @@ import java.util.Map;
 public class MyWishListController {
 
     @Autowired
-    MyWishlistService myWishlistService; // 위시리스트 서비스를 자동 주입
+    MyWishlistService myWishlistService;
 
-    // 전체 조회 함수 + 검색 + 페이징
+    //    TODO: 전체 조회 함수 + 검색 + 페이징
     @GetMapping("/wishlist")
     public ResponseEntity<Object> findAll(
-            @RequestParam(defaultValue = "0") int page, // 페이지 번호 기본값 0
-            @RequestParam(defaultValue = "3") int size, // 페이지 크기 기본값 3
-            Authentication authentication // 스프링 시큐리티의 인증 객체
+            @RequestParam(defaultValue = "") String userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size
     )
     {
-        log.debug("전체 위시리스트 조회를 시작합니다.");
-        try {
-            String userId = authentication.getName(); // 현재 로그인한 사용자의 ID 가져오기
-            log.debug("로그인한 사용자 ID: {}", userId);
-            Pageable pageable = PageRequest.of(page, size); // 페이지 요청 생성
+        try{
+            Pageable pageable = PageRequest.of(page, size);
 
-            // 전체 조회 서비스 함수 실행
-            Page<WishlistDto> wishDtoPage = myWishlistService.selectWishlistContaining(userId, pageable);
-            log.debug("조회된 페이지 정보: 페이지 번호 = {}, 페이지 크기 = {}, 총 요소 수 = {}", wishDtoPage.getNumber(), wishDtoPage.getSize(), wishDtoPage.getTotalElements());
+//            전체 조회 서비스 함수 실행
+            Page<WishlistDto> wishDtoPage
+                    = myWishlistService.selectWishlistContaining(userId,pageable);
 
             Map<String, Object> response = new HashMap<>();
-            response.put("wishlist", wishDtoPage.getContent()); // 위시리스트 항목
-            response.put("currentPage", wishDtoPage.getNumber()); // 현재 페이지 번호
-            response.put("totalItems", wishDtoPage.getTotalElements()); // 전체 아이템 수
-            response.put("totalPages", wishDtoPage.getTotalPages()); // 전체 페이지 수
+            response.put("wishlist", wishDtoPage.getContent());             // 부서배열
+            response.put("currentPage", wishDtoPage.getNumber());       // 현재페이지 번호(x)
+            response.put("totalItems", wishDtoPage.getTotalElements()); // 전체데이터개수
+            response.put("totalPages", wishDtoPage.getTotalPages());    // 전체페이지수(x)
 
-            if (wishDtoPage.isEmpty()) {
-                log.debug("위시리스트 항목이 비어 있습니다.");
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 내용이 없을 경우 204 상태 코드 반환
+            if(wishDtoPage.isEmpty() == true) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
-                return new ResponseEntity<>(response, HttpStatus.OK); // 성공적으로 조회된 경우 응답 데이터와 함께 200 상태 코드 반환
+                return new ResponseEntity<>(response, HttpStatus.OK);
             }
 
         } catch (Exception e) {
-            log.error("위시리스트 조회 중 오류 발생", e); // 오류 로깅
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 서버 내부 오류 시 500 상태 코드 반환
+            log.debug("에러 : "+ e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     // pdId를 사용하여 Wishlist 항목 삭제
     @DeleteMapping("/wishlist/deletion/{pdId}")
     public ResponseEntity<Object> deleteByPdId(@PathVariable Integer pdId) {
-        myWishlistService.removeByPdId(pdId); // pdId에 해당하는 위시리스트 항목을 삭제
-        return new ResponseEntity<>(HttpStatus.OK); // 성공적으로 삭제되면 200 상태 코드 반환
+        myWishlistService.removeByPdId(pdId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
