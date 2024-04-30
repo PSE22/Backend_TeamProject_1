@@ -2,6 +2,8 @@ package org.example.backendproject.service.shop;
 
 import org.example.backendproject.model.dto.shop.IProductDto;
 import org.example.backendproject.model.entity.Product;
+import org.example.backendproject.model.entity.ProductImage;
+import org.example.backendproject.repository.shop.ProductImageRepository;
 import org.example.backendproject.repository.shop.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,9 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    ProductImageRepository productImageRepository;
+
     /**
      * 상품 전체 조회
      * @param categoryCode
@@ -49,5 +54,9 @@ public class ProductService {
         return optionalProduct;
     }
 
-
+//    상품 이미지 상세 조회
+    public Optional<ProductImage> findById2(int pdId) {
+        Optional<ProductImage> optionalProductImage = productImageRepository.selectByPdIdContaining(pdId);
+        return optionalProductImage;
+    }
 }

@@ -87,24 +87,25 @@ export default {
   },
 
   methods: {
-    // 위시리스트 데이터를 서버로부터 불러오는 함수
-    async retrieveWishList() {
-      this.loading = true;  // 데이터 로딩 시작
-      this.error = '';  // 에러 메시지 초기화
-      try {
-        const response = await MyWishListService.getAll(
-          this.loggedInUserId, this.currentPage - 1, this.pageSize
-        );
-
-        this.wishlist = response.data.wishlist;  // 서버로부터 받은 위시리스트 데이터
-        this.totalItems = response.data.totalItems;  // 서버로부터 받은 전체 아이템 수
-        this.loading = false;  // 데이터 로딩 완료
-      } catch (e) {
-        console.error("위시리스트 전체조회 실패", e);
-        this.error = '조회를 실패했습니다.';  // 에러 발생 시 메시지 설정
-        this.loading = false;  // 에러 발생 시 로딩 상태 해제
-      }
-    },
+  async retrieveWishList() {
+    if (!this.loggedInUserId) {
+      console.error("로그인이 필요합니다.");
+      this.error = "로그인이 필요합니다.";
+      return;  // 로그인이 되어 있지 않으면 함수 실행 중지
+    }
+    this.loading = true;
+    this.error = '';
+    try {
+      const response = await MyWishListService.getAll(this.loggedInUserId, this.currentPage - 1, this.pageSize);
+      this.wishlist = response.data.wishlist;
+      this.totalItems = response.data.totalItems;
+      this.loading = false;
+    } catch (e) {
+      console.error("위시리스트 전체조회 실패", e);
+      this.error = '조회를 실패했습니다.';
+      this.loading = false;
+    }
+  },
 
     // 위시리스트 아이템을 삭제하는 함수
     async deleteProduct(pdId) {
@@ -127,9 +128,14 @@ export default {
   },
 
   mounted() {
-    this.loggedInUserId = localStorage.getItem('userId');  // 컴포넌트 마운트 시 로컬 스토리지에서 사용자 ID 불러오기
-    this.retrieveWishList();  // 컴포넌트 마운트 완료 후 위시리스트 로딩
-  },
+  this.loggedInUserId = localStorage.getItem('userId');
+  if (this.loggedInUserId) {
+    this.retrieveWishList();
+  } else {
+    this.error = "로그인이 필요합니다.";
+    // 여기에서 로그인 페이지로 리다이렉트하거나 로그인 요청을 할 수 있습니다.
+  }
+  }
 };
 </script>
 <style>
