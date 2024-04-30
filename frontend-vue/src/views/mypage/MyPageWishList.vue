@@ -78,31 +78,42 @@ export default {
   data() {
     return {
       wishlist: [],  // 위시리스트 아이템을 저장할 배열
-      
-      currentPage: 1,  // 사용자가 현재 보고 있는 페이지 번호
-      page:0,
-      pageSize: 5,  // 한 페이지에 표시할 아이템 수
-      totalItems: 0,  // 전체 아이템 수
+
+      page: 1, // 현재페이지번호
+      count: 0, // 전체데이터개수
+      pageSize: 3, // 1페이지당개수(select태그)
+
+      pageSizes: [3, 6, 9], //1페이지당개수 배열(select태그-option)
     };
   },
 
   methods: {
     async retrieveWishList() {
+      let userId = this.$store.state.user?.userId;
+      if (!userId) {
+        console.error("로그인이 필요합니다.");
+        return;
+      }
       try {
-        // TODO: 1) 공통 전체조회 함수 실행
-        let response = await MyWishListService.getAll(
-          this.page - 1, // 현재페이지번호-1
-          this.pageSize // 1페이지당개수(size)
-        );
-        const { wishlist, totalItems } = response.data; // 사원배열(벡엔드 전송)
-        this.wishlist = wishlist;          // 사원배열(벡엔드 전송)
-        this.count = totalItems; // 전체페이지수(벡엔드 전송)
-        console.log(response.data);
+        let response = await MyWishListService.getAll(userId, this.page - 1, this.pageSize);
+        const { wishlist, totalItems } = response.data;
+        this.wishlist = wishlist;
+        this.count = totalItems;
       } catch (e) {
-        console.log(e);
+        console.error("위시리스트 조회 실패:", e);
       }
     },
   },
+  mounted() {
+    this.retrieveWishList();
+  },
+
+
+  pageNoChange(value) {
+      // this.속성 => data() 안에 속성들 접근
+      this.page = value; // 1) 현재페이지 변경
+      this.retrieveWishList(); // 2) 재조회 요청
+    },
 
     // 위시리스트 아이템을 삭제하는 함수
     async deleteProduct() {
@@ -118,11 +129,7 @@ export default {
       this.pageSize = newSize;  // 새로운 페이지 크기 설정
       this.retrieveWishList();  // 페이지 크기 변경 후 위시리스트 다시 불러오기
     },
-  
 
-    mounted() {
-    this.retrieveWishList();  // 전체 조회 함수 실행
-  }
 };
 </script>
 <style>

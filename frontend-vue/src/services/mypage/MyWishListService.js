@@ -9,7 +9,7 @@ class MyWishListService {
   // 조회(select) -> get 방식 -> @GetMapping
   // 로그인한 사용자의 위시리스트 조회
   getAll(userId, page, pageSize) {
-    return http.get(`/mypage/wishlist?userId=${userId}&page=${page}&size=${pageSize}` ,{
+    return http.get(`/mypage/wishlist/${userId}&page=${page}&size=${pageSize}` ,{
       headers: LoginHeader()
     });
   }
