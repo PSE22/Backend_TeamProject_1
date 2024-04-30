@@ -2,6 +2,7 @@ package org.example.backendproject.controller.shop;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.backendproject.model.dto.shop.IProductDto;
+import org.example.backendproject.model.dto.shop.IProductImgDto;
 import org.example.backendproject.model.entity.Product;
 import org.example.backendproject.model.entity.ProductImage;
 import org.example.backendproject.service.shop.ProductService;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -88,16 +90,16 @@ public class ProductController {
         }
     }
 
-    // 상품 이미지 상세 조회 함수
+    // 상품 이미지 전체 조회 함수
     @GetMapping("/productImage/{pdId}")
     public ResponseEntity<Object> findById2(@PathVariable int pdId) {
         try {
-            Optional<ProductImage> optionalProductImage = productService.findById2(pdId);
+            List<IProductImgDto> optionalProductImage = productService.findById2(pdId);
             if (optionalProductImage.isEmpty() == true) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 // 조회 성공
-                return new ResponseEntity<>(optionalProductImage.get(), HttpStatus.OK);
+                return new ResponseEntity<>(optionalProductImage, HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
