@@ -2,6 +2,7 @@ package org.example.backend.service.shop;
 
 import org.example.backend.model.dto.shop.ICartDto;
 import org.example.backend.model.entity.Cart;
+import org.example.backend.model.entity.Product;
 import org.example.backend.model.entity.User;
 import org.example.backend.repository.UserRepository;
 import org.example.backend.repository.shop.CartRepository;
@@ -47,20 +48,19 @@ public class CartService {
         Cart cart2 = cartRepository.save(cart);
         return cart2;
     }
-
-
-
-
-    public List<ICartDto> getUserCart(String token) {
-        String userId = jwtUtils.getUserIdFromJwtToken(token);
+    public User getCurrentUser() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userId = userDetails.getUsername();
         Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            return cartRepository.findByUserId(userId);
-        } else {
-            // 사용자가 존재하지 않을 경우에 대한 처리
-            return Collections.emptyList();
-        }
+        return optionalUser.orElse(null);
+    }
+
+
+
+    public List<ICartDto> getUserCart(String userId) {
+            // CartRepository를 사용하여 해당 사용자의 장바구니 아이템 목록을 조회
+            List<ICartDto> list = cartRepository.findByUserId(userId);
+            return list;
     }
 
     //    TODO: 삭제 함수
