@@ -1,4 +1,5 @@
 <template>
+  <!-- MyPageWishList.vue -->
   <div class="mypage-layout">
     <MyPageMainMenu />
     <div class="mypage-contents">
@@ -77,64 +78,50 @@ export default {
   data() {
     return {
       wishlist: [],  // 위시리스트 아이템을 저장할 배열
-      loggedInUserId: null,  // 현재 로그인된 사용자의 ID
-      loading: false,  // 데이터 로딩 상태 표시
-      error: '',  // 에러 메시지를 저장할 변수
+      
       currentPage: 1,  // 사용자가 현재 보고 있는 페이지 번호
+      page:0,
       pageSize: 5,  // 한 페이지에 표시할 아이템 수
       totalItems: 0,  // 전체 아이템 수
     };
   },
 
   methods: {
-  async retrieveWishList() {
-    if (!this.loggedInUserId) {
-      console.error("로그인이 필요합니다.");
-      this.error = "로그인이 필요합니다.";
-      return;  // 로그인이 되어 있지 않으면 함수 실행 중지
-    }
-    this.loading = true;
-    this.error = '';
-    try {
-      const response = await MyWishListService.getAll(this.loggedInUserId, this.currentPage - 1, this.pageSize);
-      this.wishlist = response.data.wishlist;
-      this.totalItems = response.data.totalItems;
-      this.loading = false;
-    } catch (e) {
-      console.error("위시리스트 전체조회 실패", e);
-      this.error = '조회를 실패했습니다.';
-      this.loading = false;
-    }
+    async retrieveWishList() {
+      try {
+        // TODO: 1) 공통 전체조회 함수 실행
+        let response = await MyWishListService.getAll(
+          this.page - 1, // 현재페이지번호-1
+          this.pageSize // 1페이지당개수(size)
+        );
+        const { wishlist, totalItems } = response.data; // 사원배열(벡엔드 전송)
+        this.wishlist = wishlist;          // 사원배열(벡엔드 전송)
+        this.count = totalItems; // 전체페이지수(벡엔드 전송)
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
 
     // 위시리스트 아이템을 삭제하는 함수
-    async deleteProduct(pdId) {
-      try {
-        await MyWishListService.delete(
-          this.loggedInUserId, pdId  // 특정 아이템 삭제 요청
-        );  
-        this.retrieveWishList();  // 삭제 후 위시리스트 다시 불러오기
-      } catch (e) {
-        console.error("삭제 실패:", e);
-        this.error = '상품을 삭제하지 못했습니다';  // 삭제 실패 시 에러 메시지 설정
-      }
+    async deleteProduct() {
+      let response = await MyWishListService.delete(this.MyWishListService.pdId);
+      // 로깅
+      console.log(response.data);
+      // TODO: 전체조회 페이지로 강제 이동
+      this.$router.push("/mypage/wishlist");
     },
-
+  
     // 페이지 크기 변경 처리 함수
     pageSizeChange(newSize) {
       this.pageSize = newSize;  // 새로운 페이지 크기 설정
       this.retrieveWishList();  // 페이지 크기 변경 후 위시리스트 다시 불러오기
     },
-  },
+  
 
-  mounted() {
-  this.loggedInUserId = localStorage.getItem('userId');
-  if (this.loggedInUserId) {
-    this.retrieveWishList();
-  } else {
-    this.error = "로그인이 필요합니다.";
-    // 여기에서 로그인 페이지로 리다이렉트하거나 로그인 요청을 할 수 있습니다.
-  }
+    mounted() {
+    this.retrieveWishList();  // 전체 조회 함수 실행
   }
 };
 </script>
