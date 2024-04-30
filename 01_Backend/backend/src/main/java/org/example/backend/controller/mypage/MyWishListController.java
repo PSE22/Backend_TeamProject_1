@@ -26,9 +26,9 @@ public class MyWishListController {
     MyWishlistService myWishlistService;
 
     //    TODO: 전체 조회 함수 + 검색 + 페이징
-    @GetMapping("/wishlist")
+    @GetMapping("/wishlist/{userId}")
     public ResponseEntity<Object> findAll(
-            @RequestParam(defaultValue = "") String userId,
+            @PathVariable String userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
     )

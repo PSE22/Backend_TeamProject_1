@@ -63,7 +63,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(req -> req
                 .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                 .requestMatchers("/api/admin/**").hasAuthority("AT01")  // 태완님 이거 왜 hasRole 안쓰셨어요!!!!!
-                .requestMatchers("/api/mypage/**").hasAuthority("AT02")
+                .requestMatchers("/api/mypage/**").permitAll()
                 .requestMatchers("/api/shop/cart/**").permitAll() // 권한 바꾸면 안됨
 //                .requestMatchers("/api/shop/cart/**").hasRole("AT02")
                 .requestMatchers("/api/auth/**").permitAll()
