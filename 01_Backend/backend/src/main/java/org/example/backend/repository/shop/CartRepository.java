@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * packageName : org.example.backendproject.repository.shop
  * fileName : CartRepository
@@ -46,5 +48,5 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
                     "AND PD.PD_ID = PI.PD_ID\n"+
                     "AND C.USER_ID = :userId",
             nativeQuery = true)
-    Page<ICartDto> selectByCartContaining(@Param("userId") String userId, Pageable pageable);
+    List<ICartDto> findByUserId(@Param("userId") String userId);
 }

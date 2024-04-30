@@ -14,21 +14,21 @@
           </tr>
         </thead>
         <tbody class="table-group-divider align-middle">
-          <tr v-for="(data, index) in inquiry" :key="index">
+          <tr v-for="(data, index) in qna" :key="index">
             <td class="col-4">
               <!-- 문의내역 제목 -->
               <div
                 type="button"
                 class="ms-3 qna-link"
                 data-bs-toggle="modal"
-                data-bs-target="#inquiry"
+                :data-bs-target="'#inquiryModal-' + index"
               >
                 {{ data.pdQnaTitle }}
               </div>
               <!-- 문의내역 제목 모달창 -->
               <div
                 class="modal fade"
-                id="inquiry"
+                :id="'inquiryModal-' + index"
                 tabindex="-1"
                 aria-labelledby="exampleModalLabel"
                 aria-hidden="true"
@@ -79,9 +79,10 @@
                 </div>
               </div>
             </td>
-            <td class="col-1 text-center" >{{ data.pdQnaSecret }}</td>
-            <td class="col-2 text-center">{{ data.addDate }}</td>
-            <td class="col-2 text-center">{{ data.addDate }}</td>
+            <td class="col-1 text-center" v-if="data.pdQnaSecret==='3%'">🔒</td>
+            <td class="col-1 text-center" v-else>🔓</td>
+            <td class="col-2 text-center">{{ data.pqAddDate }}</td>
+            <td class="col-2 text-center">{{ data.qrAddDate }}</td>
             <td class="col-2 text-center">{{ data.status }}</td>
           </tr>
         </tbody>
@@ -108,11 +109,11 @@ export default {
   },
   data() {
       return {
-        inquiry: [], // 문의내역 불러오기
+        qna: [], // 문의내역 불러오기
         // 공통 페이징 속성
         page: 1, // 현재 페이지 번호
         count: 0, // 전체 데이터 개수
-        pageSize: 3, // 화면에 보여질 개수
+        pageSize: 10, // 화면에 보여질 개수
       };
     },
     methods: {
@@ -122,8 +123,8 @@ export default {
           // TODO: 공통 전체조회 서비스 함수 실행
           // TODO: spring 통신 : 비동기 코딩 : async ~ await
           let response = await MyInquiryService.getAll(this.page - 1, this.pageSize);
-          const { inquiry, totalItems } = response.data;
-          this.inquiry = inquiry; // spring 전달 객체 배열
+          const { qna, totalItems } = response.data;
+          this.qna = qna; // spring 전달 객체 배열
           this.count = totalItems; // 전체 페이지 개수
           // 로깅
           console.log(response.data); // 웹브라우저 콘솔탭에 spring 전달 객체 배열 표시됨
@@ -134,7 +135,7 @@ export default {
   },
 
   mounted() {
-    this.allInquiry;
+    this.allInquiry();
   },
 };
 </script>
