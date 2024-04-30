@@ -72,7 +72,7 @@
 
           <!-- Nav Item - Pages Collapse Menu -->
           <li class="nav-item">
-            <a class="nav-link" href="/adcoupon">
+            <a class="nav-link" href="/admin-coupon">
               <i class="fas fa-fw fa-table"></i>
               <span>쿠폰관리</span></a
             >
