@@ -14,7 +14,7 @@ class ProductService {
         return http.get(`/shop/product/${pdId}`);
     }
 
-    // 상품 이미지 상세 조회
+    // 상품 이미지 전체 조회
     // 조회(select) => GET 방식
     getImage(pdId) {
         return http.get(`/shop/productImage/${pdId}`);
