@@ -69,7 +69,7 @@
                   style="width: 60px"
                   disabled
                 >
-                  {{ cartCount }}
+                  {{ data.cartCount }}
                 </button>
                 <button
                   type="button"
@@ -150,7 +150,6 @@ export default {
       shipPrice: 3000, // 배송비
       allChecked: false, // 체크박스 전체선택
 
-      page: 1, // 현재 페이지 번호
       count: 0, // 전체 데이터 개수
     };
   },
@@ -158,12 +157,10 @@ export default {
     // 장바구니 전체조회
     async allCart(userId) {
       try {
-        let response = await CartService.getAll(userId, this.page - 1, this.pageSize);
-        const { cart, totalItems } = response.data;
-        this.cart = cart;
-        this.count = totalItems;
-        // 로깅
+        let response = await CartService.getAll(userId);
+        this.cart = response.data;
         console.log(response.data); // 웹브라우저 콘솔탬에 백앤드 데이터 표시
+        console.log("구미지 바보" + this.cartList);
       } catch (e) {
         console.log(e);
       }
@@ -230,7 +227,7 @@ export default {
     },
   },
   mounted() {
-    this.allCart(this.$store.state.userId);
+    this.allCart(this.$store.state.user.userId);
   },
 };
 </script>

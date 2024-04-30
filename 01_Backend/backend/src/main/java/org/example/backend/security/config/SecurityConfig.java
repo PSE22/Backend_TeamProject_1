@@ -52,7 +52,7 @@ public class SecurityConfig {
         http.cors(Customizer.withDefaults());
         http.csrf((csrf) -> csrf.disable());
         http.sessionManagement(sessionManagement -> sessionManagement
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .invalidSessionUrl("/login")
                 .sessionFixation().migrateSession()
                 .maximumSessions(1)
@@ -62,9 +62,10 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(req -> req
                 .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                .requestMatchers("/api/admin/**").hasAuthority("AT01")
+                .requestMatchers("/api/admin/**").hasAuthority("AT01")  // 태완님 이거 왜 hasRole 안쓰셨어요!!!!!
                 .requestMatchers("/api/mypage/**").hasAuthority("AT02")
-                .requestMatchers("/api/cart/**").hasAuthority("AT02")
+                .requestMatchers("/api/shop/cart/**").permitAll() // 권한 바꾸면 안됨
+//                .requestMatchers("/api/shop/cart/**").hasRole("AT02")
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/").permitAll()
                 .anyRequest().authenticated());
