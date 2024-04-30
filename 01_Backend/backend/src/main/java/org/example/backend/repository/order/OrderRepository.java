@@ -1,4 +1,4 @@
-package org.example.backend.repository;
+package org.example.backend.repository.order;
 
 import org.example.backend.model.entity.Order;
 import org.springframework.data.domain.Page;

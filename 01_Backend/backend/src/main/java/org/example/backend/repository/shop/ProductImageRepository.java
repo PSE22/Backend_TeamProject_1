@@ -1,12 +1,11 @@
-package org.example.backend.repository;
+package org.example.backend.repository.shop;
 
-import org.example.backend.model.entity.Refund;
+import org.example.backend.model.entity.ProductImage;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  * packageName : org.example.backend.repository
- * fileName : RefundRepository
+ * fileName : ProductImageRepository
  * author : kimtaewan
  * date : 2024-04-25
  * description :
@@ -17,5 +16,5 @@ import org.springframework.stereotype.Repository;
  * -----------------------------------------------------------
  * 2024-04-25         kimtaewan          최초 생성
  */
-public interface RefundRepository extends JpaRepository<Refund, Long> {
+public interface ProductImageRepository extends JpaRepository<ProductImage, Long> {
 }

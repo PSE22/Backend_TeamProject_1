@@ -10,9 +10,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,33 +56,19 @@ public class CartController {
 //    조회(select) -> get 방식 -> GetMapping
     @GetMapping("/cart")
     public ResponseEntity<Object> findAll(
-            @RequestParam(defaultValue = "") String userId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "4") int size
+            @RequestParam(defaultValue = "") String userId
     ) {
         try {
-//            페이징 객체 생성
-            Pageable pageable = PageRequest.of(page, size);
-
 //            전체 조회 서비스 실행
-            Page<ICartDto> cartDtoPage
-                    = cartService.selectByCartContaining(userId, pageable);
-
-//            공통 페이징 객체 생성 : 자료구조 맵 사용
-            Map<String, Object> response = new HashMap<>();
-            response.put("cart", cartDtoPage.getContent()); // 배열
-            response.put("currentPage", cartDtoPage.getNumber()); // 현재페이지번호
-            response.put("totalItems", cartDtoPage.getTotalElements()); // 총건수(개수)
-            response.put("totalPages", cartDtoPage.getTotalPages()); // 총페이지수
-
+            List<ICartDto> cartDtoPage
+                    = cartService.getUserCart(userId);
             if (cartDtoPage.isEmpty() == false) {
 //                조회 성공
-                return new ResponseEntity<>(response, HttpStatus.OK);
+                return new ResponseEntity<>(cartDtoPage, HttpStatus.OK);
             } else {
 //                데이터 없음
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-
         } catch (Exception e) {
             log.debug("에러 : " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
