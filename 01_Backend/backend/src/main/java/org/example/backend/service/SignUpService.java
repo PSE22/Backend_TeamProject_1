@@ -26,15 +26,13 @@ import org.springframework.stereotype.Service;
 public class SignUpService {
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     public boolean existsById(String userId) {
         return userRepository.existsById(userId);
     }
 
-    public void signUp(SignUpRequest signUpRequest) {
-        User user2 = signUpRequest.toUser(passwordEncoder);
+    public void signUp(User user) {
+        User user2 = userRepository.save(user);
         userRepository.save(user2);
     }
 }

@@ -24,6 +24,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class CpIdUserIdPk implements Serializable {
-    private Integer cpId;       // 쿠폰 ID
+    private Long cpId;       // 쿠폰 ID
     private String userId;      // 회원 ID
 }
