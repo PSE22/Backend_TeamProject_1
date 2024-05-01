@@ -51,23 +51,4 @@ public class SignUpRequest {
 
     @NotBlank
     private String userCode;
-
-
-    public User toUser(PasswordEncoder passwordEncoder) {
-        String encodedPassword = passwordEncoder.encode(userPw);
-        String birth = userBirth != null ? userBirth : "";
-
-        User user = new User();
-        user.setUserId(userId);
-        user.setUserPw(encodedPassword);
-        user.setUserName(userName);
-        user.setUserBirth(birth);
-        user.setGender(gender);
-        user.setUserEmail(userEmail);
-        user.setUserPhone(userPhone);
-        user.setUserPromo(userPromo);
-        user.setUserCode(userCode);
-
-        return user;
-    }
 }
