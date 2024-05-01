@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.*;
+import org.example.backend.model.common.BaseTimeEntity;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -36,7 +37,7 @@ import java.time.format.DateTimeFormatter;
 @DynamicUpdate
 
 
-public class Cart {
+public class Cart extends BaseTimeEntity {
     //    cart_id	number
     //    user_id	varchar2(100 byte)
     //    op_id	number
@@ -48,12 +49,5 @@ public class Cart {
     private String userId;
     private Integer opId;
     private Integer cartCount;
-    private String addDate;
 
-    @PrePersist
-    void OnPrePersist() {
-        this.addDate = LocalDateTime.now()
-                .format(DateTimeFormatter
-                        .ofPattern("yyyy-MM-dd HH:mm:ss"));
-    }
 }

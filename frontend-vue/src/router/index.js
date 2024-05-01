@@ -43,7 +43,7 @@ const routes = [
   },
   // 관리자 쿠폰 관리
   {
-    path: '/admin-coupon',
+    path: '/adcoupon',
     component: () => import('../views/admin/AdminCouponView.vue')
   },
   // 관리자 쿠폰 수정/삭제

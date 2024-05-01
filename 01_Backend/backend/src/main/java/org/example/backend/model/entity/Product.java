@@ -44,4 +44,5 @@ public class Product extends BaseTimeEntity2 {
     private Integer pdPrice;
     private Integer pdStock;
     private String categoryCode;
+    private String pdThumbnail;
 }
