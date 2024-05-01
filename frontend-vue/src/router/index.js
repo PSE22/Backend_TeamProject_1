@@ -43,7 +43,7 @@ const routes = [
   },
   // 관리자 쿠폰 관리
   {
-    path: '/admin-coupon',
+    path: '/adcoupon',
     component: () => import('../views/admin/AdminCouponView.vue')
   },
   // 관리자 통계
@@ -63,7 +63,7 @@ const routes = [
   }, 
   // 주문
   {
-    path: "/order/:userId",
+    path: "/order",
     component: () => import("../views/OrderView.vue"),
   }, 
   // 카테고리 상세
