@@ -12,20 +12,19 @@ import org.hibernate.annotations.Where;
 
 /**
  * packageName : org.example.backend.model.entity
- * fileName : ProductImage
+ * fileName : Option
  * author : kimtaewan
- * date : 2024-04-25
- * description : 상품 이미지
+ * date : 2024-05-01
+ * description :
  * 요약 :
  * <p>
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2024-04-25         kimtaewan          최초 생성
-
+ * 2024-05-01         kimtaewan          최초 생성
  */
 @Entity
-@Table(name="TB_PRODUCT_IMAGE")
+@Table(name="TB_OPTION")
 @Getter
 @Setter
 @ToString
@@ -34,11 +33,14 @@ import org.hibernate.annotations.Where;
 @DynamicInsert
 @DynamicUpdate
 @Where(clause = "STATUS = 'Y'")
-@SQLDelete(sql = "UPDATE TB_PRODUCT_IMAGE SET STATUS = 'N' WHERE PD_IMG_ID = ?")
-public class ProductImage extends BaseTimeEntity2 {
+@SQLDelete(sql = "UPDATE TB_OPTION SET STATUS = 'N' WHERE OP_ID = ?")
+public class Option extends BaseTimeEntity2 {
 
     @Id
-    private Long pdImgId;
-    private Long pdId;
-    private String pdImgUrl;
+    private Integer opId;
+    private Integer pdId;
+    private String opName;
+    private Integer opPrice;
+    private Integer opStock;
+    private String opCode;
 }

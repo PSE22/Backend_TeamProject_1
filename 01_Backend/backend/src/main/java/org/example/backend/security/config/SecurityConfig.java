@@ -52,12 +52,7 @@ public class SecurityConfig {
         http.cors(Customizer.withDefaults());
         http.csrf((csrf) -> csrf.disable());
         http.sessionManagement(sessionManagement -> sessionManagement
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .invalidSessionUrl("/login")
-                .sessionFixation().migrateSession()
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(true)
-                .expiredUrl("/login"));
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.formLogin(req -> req.disable());
 
         http.authorizeHttpRequests(req -> req
