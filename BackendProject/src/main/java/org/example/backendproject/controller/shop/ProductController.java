@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.backendproject.model.dto.shop.IProductDto;
 import org.example.backendproject.model.dto.shop.IProductImgDto;
 import org.example.backendproject.model.entity.Product;
-import org.example.backendproject.model.entity.ProductImage;
+import org.example.backendproject.model.entity.Wishlist;
 import org.example.backendproject.service.shop.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -94,14 +94,30 @@ public class ProductController {
     @GetMapping("/productImage/{pdId}")
     public ResponseEntity<Object> findById2(@PathVariable int pdId) {
         try {
-            List<IProductImgDto> optionalProductImage = productService.findById2(pdId);
-            if (optionalProductImage.isEmpty() == true) {
+            List<IProductImgDto> productImgDtoList = productService.findById2(pdId);
+            if (productImgDtoList.isEmpty() == true) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 // 조회 성공
-                return new ResponseEntity<>(optionalProductImage, HttpStatus.OK);
+                return new ResponseEntity<>(productImgDtoList, HttpStatus.OK);
             }
         } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //    TODO: 저장 함수
+    @PostMapping("/product/wishList")
+    public ResponseEntity<Object> create(
+            @RequestBody Wishlist wishlist
+    ) {
+        try {
+//            DB 서비스 저장 함수 실행
+            Wishlist wishlist2 = productService.save(wishlist);
+//            성공(OK) 메세지 + 저장된 객체(wishList2)
+            return new ResponseEntity<>(wishlist2, HttpStatus.OK);
+        } catch (Exception e) {
+//            500 전송
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
