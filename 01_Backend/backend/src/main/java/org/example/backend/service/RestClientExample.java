@@ -22,8 +22,7 @@ public class RestClientExample {
 
     public static void main(String[] args) {
         // JWT 토큰
-        String jwtToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZW91bG1vdXNlMSIsImlhdCI6MTcxNDM4MDI0MSwiZXhwIjoxNzE0MzgwODQxfQ.HaaNX_g01wfvIRRxa7YcgG-RcN5jaHLB2KVBRb36Eoa5eiOmfz4PurOmUuWKFAFuGg0h2Lx6QcKLhbIrpj4pWg";
-
+        String jwtToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlcjEiLCJpYXQiOjE3MTQ0NDUyNTIsImV4cCI6MTcxNDQ0NTg1Mn0.axxVKo20aVETVxTiy8ePalQ0qQN2TwHmSklT4YA-GEQVL0wOP1r4rmSWQs5As6N6n7489xJYdbX7yyjGvv4t1A";
         // REST API 엔드포인트
         String endpoint = "http://localhost:8000/api/shop/cart";
 
