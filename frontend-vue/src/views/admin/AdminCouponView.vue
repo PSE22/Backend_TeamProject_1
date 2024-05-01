@@ -72,7 +72,7 @@
 
           <!-- Nav Item - Pages Collapse Menu -->
           <li class="nav-item">
-            <a class="nav-link" href="/adcoupon">
+            <a class="nav-link" href="/admin-coupon">
               <i class="fas fa-fw fa-table"></i>
               <span>쿠폰관리</span></a
             >
@@ -104,7 +104,6 @@
             <nav
               class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
             >
-
               <!-- 좌측상단 검색 -->
               <form
                 class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
@@ -229,14 +228,20 @@
               <!-- DataTales Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">주문관리</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">쿠폰관리</h6>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
                     <!-- TODO: 등록/수정/삭제 시작 백에서 연결 해야함 -->
-                    <button type="button" class="btn btn-primary mr-3 mb-3">등록</button>
-                    <button type="button" class="btn btn-secondary mr-3 mb-3">수정</button>
-                    <button type="button" class="btn btn-danger mr-3 mb-3">삭제</button>
+                    <button type="button" class="btn btn-primary mr-3 mb-3">
+                      등록
+                    </button>
+                    <button type="button" class="btn btn-secondary mr-3 mb-3">
+                      수정
+                    </button>
+                    <button type="button" class="btn btn-danger mr-3 mb-3">
+                      삭제
+                    </button>
                     <!-- 등록/수정/삭제 끝 -->
                     <div class="row">
                       <div class="col-sm-12">
@@ -250,40 +255,48 @@
                         >
                           <thead>
                             <tr role="row">
-                              <th>Name</th>
-                              <th>Position</th>
-                              <th>Office</th>
-                              <th>Age</th>
-                              <th>Start date</th>
-                              <th>Salary</th>
+                              <th>쿠폰번호</th>
+                              <th>상품번호</th>
+                              <th>쿠폰명</th>
+                              <th>할인금액</th>
+                              <th>할인율</th>
+                              <th>최소사용금액</th>
+                              <th>최대할인금액</th>
+                              <th>만료일</th>
+                              <th>저장일</th>
+                              <th>수정일</th>
+                              <th>삭제일</th>
+                              <th>상태</th>
                             </tr>
                           </thead>
-                          <tfoot>
-                            <tr>
-                              <th>Name</th>
-                              <th>Position</th>
-                              <th>Office</th>
-                              <th>Age</th>
-                              <th>Start date</th>
-                              <th>Salary</th>
-                            </tr>
-                          </tfoot>
                           <tbody>
-                            <tr>
-                              <td>Tiger Nixon</td>
-                              <td>System Architect</td>
-                              <td>Edinburgh</td>
-                              <td>61</td>
-                              <td>2011/04/25</td>
-                              <td>$320,800</td>
+                            <tr v-for="(data, index) in adminCoupon" :key="index">
+                              <td>{{ data.cpId }}</td>
+                              <td>{{ data.cpId }}</td>
+                              <td>{{ data.cpId }}</td>
+                              <td>{{ data.cpId }}</td>
+                              <td>{{ data.cpId }}</td>
+                              <td>{{ data.cpId }}</td>
+                              <td>{{ data.cpId }}</td>
+                              <td>{{ data.cpId }}</td>
+                              <td>{{ data.cpId }}</td>
+                              <td>{{ data.cpId }}</td>
+                              <td>{{ data.cpId }}</td>
+                              <td>{{ data.cpId }}</td>
                             </tr>
                             <tr>
                               <td>Donna Snider</td>
                               <td>Customer Support</td>
-                              <td>New York</td>
-                              <td>27</td>
-                              <td>2011/01/25</td>
-                              <td>$112,000</td>
+                              <td>Customer Support</td>
+                              <td>Customer Support</td>
+                              <td>Customer Support</td>
+                              <td>Customer Support</td>
+                              <td>Customer Support</td>
+                              <td>Customer Support</td>
+                              <td>Customer Support</td>
+                              <td>Customer Support</td>
+                              <td>Customer Support</td>
+                              <td>Customer Support</td>
                             </tr>
                           </tbody>
                         </table>
@@ -429,7 +442,50 @@
   </div>
 </template>
 <script>
-export default {};
+import AdminCouponService from "@/services/admin/AdminCouponService";
+export default {
+  data() {
+    return {
+      adminCoupon: [], // spring 에서 전송
+      searchCpName: "",
+
+      // 공통 속성(현재페이지, 전체데이터개수,1페이지당개수)
+      page: 1, // 현재페이지번호
+      count: 0, // 전체데이터개수
+      pageSize: 10, // 1페이지당개수(select태그)
+
+      pageSizes: [10, 25, 50], //1페이지당개수 배열(select태그-option)
+    };
+  },
+  methods: {
+    pageNoChange(value) {
+      this.page = value; // 1) 현재페이지 변경
+      this.retrieveAdminCoupon(); // 2) 재조회 요청
+    },
+    pageSizeChange() {
+      this.page = 1; // 2) 현재 페이지번호 초기화(1)
+      this.retrieveAdminCoupon(); // 3) 재조회 요청
+    },
+    async retrieveAdminCoupon() {
+      try {
+        let response = await AdminCouponService.getAll(
+          this.searchEname, // 검색어
+          this.page - 1, // 현재페이지번호-1
+          this.pageSize // 1페이지당개수(size)
+        );
+        const { adminCoupon, totalItems } = response.data; // 사원배열(벡엔드 전송)
+        this.adminCoupon = adminCoupon; // 사원배열(벡엔드 전송)
+        this.count = totalItems; // 전체페이지수(벡엔드 전송)
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    mounted() {
+      this.retrieveAdminCoupon(); // 전체 조회 함수 실행
+    },
+  },
+};
 </script>
 <style>
 @font-face {

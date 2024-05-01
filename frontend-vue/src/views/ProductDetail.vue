@@ -1,13 +1,13 @@
 <template>
   <div class="row row-cols-1 row-cols-md-2 g-4" id="product-top">
-    <div class="col">
-      <img :src="productImage?.pdImgUrl" class="card-img-top" alt="..." />
+    <div class="col" v-if="productImage.length > 0">
+      <img :src="productImage[0].pdImgUrl" class="card-img-top" alt="..." />
     </div>
     <div class="col">
       <ul class="product-select">
         <li>
           <div id="title">
-            <h2>상품명 : {{ product?.pdName }}</h2>
+            <h2>{{ product?.pdName }}</h2>
           </div>
         </li>
         <li><div id="option-text">옵션 선택</div></li>
@@ -99,8 +99,8 @@
   <!-- 상품 정보 탭 누르면 보이는 태그 -->
   <div class="row row-cols-1 g-4" id="product-bottom">
     <div class="col">
-      <div class="card h-100">
-        <img :src="productImage?.pdImgUrl" class="card-img-top" alt="..." />
+      <div class="card h-100" v-if="productImage.length > 0">
+        <img :src="productImage[1].pdImgUrl" class="card-img-top" alt="..." />
       </div>
     </div>
   </div>
