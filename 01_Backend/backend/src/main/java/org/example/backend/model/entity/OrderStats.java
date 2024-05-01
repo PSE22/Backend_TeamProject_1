@@ -1,20 +1,16 @@
 package org.example.backend.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 /**
  * packageName : org.example.backend.model.entity
  * fileName : OrderStats
  * author : kimtaewan
  * date : 2024-04-29
- * description :
+ * description : 주문통계
  * 요약 :
  * <p>
  * ===========================================================
@@ -33,6 +29,7 @@ import org.hibernate.annotations.Where;
 @DynamicUpdate
 public class OrderStats {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long statId;
 
     private String statDate;
@@ -52,4 +49,24 @@ public class OrderStats {
     private Integer yearlyOrderCount;
 
     private Integer yearlySales;
+
+    public void addDailyStats(int orderCount, int sales) {
+        this.dailyOrderCount = orderCount;
+        this.dailySales = sales;
+    }
+
+    public void addWeeklyStats(int orderCount, int sales) {
+        this.weeklyOrderCount = orderCount;
+        this.weeklySales = sales;
+    }
+
+    public void addMonthlyStats(int orderCount, int sales) {
+        this.monthlyOrderCount = orderCount;
+        this.monthlySales = sales;
+    }
+
+    public void addYearlyStats(int orderCount, int sales) {
+        this.yearlyOrderCount = orderCount;
+        this.yearlySales = sales;
+    }
 }
