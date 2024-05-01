@@ -36,7 +36,7 @@ import org.hibernate.annotations.Where;
 @DynamicUpdate
 // soft delete
 @Where(clause = "STATUS = 'Y'")
-@SQLDelete(sql = "UPDATE TB_USER_COUPON SET STATUS = 'N' WHERE CP_ID = ? AND USER_ID = ?")
+@SQLDelete(sql = "UPDATE TB_USER_COUPON SET STATUS = 'N', DEL_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') WHERE CP_ID = ? AND USER_ID = ?")
 // 복합키 클래스
 @IdClass(CpIdUserIdPk.class)
 public class UserCoupon extends BaseTimeEntity2 {
@@ -44,6 +44,4 @@ public class UserCoupon extends BaseTimeEntity2 {
     private Integer cpId;
     @Id
     private String userId;
-    private String ucpAddDate;
-    private String ucpUseDate;
 }
