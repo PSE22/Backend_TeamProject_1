@@ -16,9 +16,7 @@ class AdminCouponService {
     }
     // 쿠폰등록함수
     create(data) {
-        return http.post("/admin/admin-coupon", data,{
-            headers: LoginHeader()
-        });
+        return http.post("/admin/admin-coupon", data);
     }
     // 쿠폰수정함수
     update(cpId, data) {

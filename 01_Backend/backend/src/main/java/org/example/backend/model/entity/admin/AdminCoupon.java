@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.backend.model.common.BaseTimeEntity;
+import org.example.backend.model.common.BaseTimeEntity2;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -17,11 +17,11 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor
 @Where(clause = "STATUS = 'Y'")
 @SQLDelete(sql = "UPDATE TB_COUPON SET STATUS = 'N', DEL_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') WHERE CP_ID = ?")
-public class AdminCoupon extends BaseTimeEntity {
+public class AdminCoupon extends BaseTimeEntity2 {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE
-            , generator = "SQ_COUPON_GENERATOR"
-    )
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE
+//            , generator = "SQ_COUPON_GENERATOR"
+//    )
     private Long cpId;         // 쿠폰번호 pk
     private Integer pdId;         // 상품번호 fk
     private String cpName;        // 쿠폰명

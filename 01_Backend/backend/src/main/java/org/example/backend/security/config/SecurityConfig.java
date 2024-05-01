@@ -56,13 +56,15 @@ public class SecurityConfig {
         http.formLogin(req -> req.disable());
 
         http.authorizeHttpRequests(req -> req
-                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                .requestMatchers("/api/admin/**").hasAuthority("AT01")
-                .requestMatchers("/api/mypage/**").permitAll()
-                .requestMatchers("/api/shop/cart/**").hasAuthority("AT02")
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/").permitAll()
-                .anyRequest().authenticated());
+//                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+//                .requestMatchers("/api/admin/**").hasAuthority("AT01")
+//                .requestMatchers("/api/mypage/**").hasAuthority("AT02")
+//                .requestMatchers("/api/cart/**").hasAuthority("AT02")
+//                .requestMatchers("/api/admin-coupon/**").hasAuthority("AT02")
+//                .requestMatchers("/api/auth/**").permitAll()
+//                .requestMatchers("/").permitAll()
+//                .anyRequest().authenticated());
+                        .anyRequest().permitAll()); // 임시
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
