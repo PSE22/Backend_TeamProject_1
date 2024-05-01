@@ -30,7 +30,7 @@
               <div class="card h-100" 
                 >
                 <img
-                  :src="data.pdImgUrl"
+                  :src="data.pdThumnail"
                   class="card-img-top"
                   alt="..."
                 />
@@ -89,11 +89,7 @@ export default {
 
   methods: {
     async retrieveWishList() {
-      let userId = this.$store.state.user?.userId;
-      if (!userId) {
-        console.error("로그인이 필요합니다.");
-        return;
-      }
+      let userId = this.$store.state.user.userId;
       try {
         let response = await MyWishListService.getAll(userId, this.page - 1, this.pageSize);
         const { wishlist, totalItems } = response.data;
@@ -104,9 +100,7 @@ export default {
       }
     },
   },
-  mounted() {
-    this.retrieveWishList();
-  },
+
 
 
   pageNoChange(value) {
@@ -129,6 +123,9 @@ export default {
       this.pageSize = newSize;  // 새로운 페이지 크기 설정
       this.retrieveWishList();  // 페이지 크기 변경 후 위시리스트 다시 불러오기
     },
+    mounted() {
+    this.retrieveWishList(this.$store.state.user.userId);
+  },
 
 };
 </script>
