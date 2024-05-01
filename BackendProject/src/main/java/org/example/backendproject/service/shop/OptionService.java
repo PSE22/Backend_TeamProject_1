@@ -1,7 +1,7 @@
 package org.example.backendproject.service.shop;
 
-import org.example.backendproject.model.dto.shop.ICouponDto;
-import org.example.backendproject.repository.shop.CouponRepository;
+import org.example.backendproject.model.dto.shop.IOptionDto;
+import org.example.backendproject.repository.shop.OptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * packageName : org.example.backendproject.service.shop
- * fileName : CouponService
+ * fileName : OptionService
  * author : sjuk2
  * date : 2024-05-01
  * description :
@@ -21,12 +21,13 @@ import java.util.List;
  * 2024-05-01         sjuk2          최초 생성
  */
 @Service
-public class CouponService {
+public class OptionService {
     @Autowired
-    CouponRepository couponRepository;
+    OptionRepository optionRepository;
 
-    public List<ICouponDto> findById(int pdId) {
-        List<ICouponDto> couponDtoList = couponRepository.findAllByPdidContaining(pdId);
-        return couponDtoList;
+//    상품 옵션 전체 조회
+    public List<IOptionDto> findById(int pdId) {
+        List<IOptionDto> optionDtoList = optionRepository.findAllByPdidContaining(pdId);
+        return optionDtoList;
     }
 }

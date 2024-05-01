@@ -1,29 +1,25 @@
-package org.example.backendproject.model.dto.mypage;
-
-import org.apache.kafka.common.protocol.types.Field;
+package org.example.backendproject.model.dto.shop;
 
 /**
- * packageName : org.example.backendproject.model.dto.mypage
+ * packageName : org.example.backendproject.model.dto.shop
  * fileName : ICouponDto
- * author : gumiji
- * date : 4/25/24
+ * author : sjuk2
+ * date : 2024-05-01
  * description :
  * 요약 :
  * <p>
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 4/25/24         gumiji          최초 생성
+ * 2024-05-01         sjuk2          최초 생성
  */
 public interface ICouponDto {
-    Integer getCpId();  // PK 복합키
-    String getUserId();    // PK 복합키
-    String getAddDate();    // 발급일
+    Integer getCpId();
+    Integer getPdId();
     String getCpName();
     Integer getCpDcPrice();
     Integer getCpDcRate();
     Integer getCpMinPrice();
     Integer getCpMaxDcPrice();
     String getCpExpireDate();
-
 }
