@@ -1,15 +1,17 @@
 package org.example.backendproject.service.shop;
 
 import org.example.backendproject.model.dto.shop.IProductDto;
+import org.example.backendproject.model.dto.shop.IProductImgDto;
 import org.example.backendproject.model.entity.Product;
 import org.example.backendproject.model.entity.ProductImage;
-import org.example.backendproject.repository.shop.ProductImageRepository;
+import org.example.backendproject.repository.shop.ProductImgRepository;
 import org.example.backendproject.repository.shop.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -31,7 +33,7 @@ public class ProductService {
     ProductRepository productRepository;
 
     @Autowired
-    ProductImageRepository productImageRepository;
+    ProductImgRepository productImgRepository;
 
     /**
      * 상품 전체 조회
@@ -54,9 +56,9 @@ public class ProductService {
         return optionalProduct;
     }
 
-//    상품 이미지 상세 조회
-    public Optional<ProductImage> findById2(int pdId) {
-        Optional<ProductImage> optionalProductImage = productImageRepository.selectByPdIdContaining(pdId);
-        return optionalProductImage;
+//    상품 이미지 전체 조회
+    public List<IProductImgDto> findById2(int pdId) {
+        List<IProductImgDto> productImgDtoList = productImgRepository.findAllByPdIdContaining(pdId);
+        return productImgDtoList;
     }
 }
