@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 /**
  * packageName : org.example.backendproject.repository.shop
@@ -22,6 +23,7 @@ import org.springframework.data.jpa.repository.Query;
  * -----------------------------------------------------------
  * 4/25/24         gumiji          최초 생성
  */
+@Repository
 public interface CouponRepository extends JpaRepository<Coupon, CpIdUserIdPk> {
     @Query(value = "SELECT \n" +
             "UCP.CP_ID AS cpId,\n" +
