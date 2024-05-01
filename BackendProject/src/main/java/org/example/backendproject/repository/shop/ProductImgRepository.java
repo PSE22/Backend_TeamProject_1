@@ -24,9 +24,7 @@ import java.util.List;
  */
 @Repository
 public interface ProductImgRepository extends JpaRepository<ProductImage, Integer> {
-    @Query(value = "SELECT PD_ID AS pdId\n" +
-            ", PD_IMG_ID AS pdImgId\n" +
-            ", PD_IMG_URL AS pdImgUrl\n" +
+    @Query(value = "SELECT PD_IMG_URL AS pdImgUrl\n" +
             "FROM TB_PRODUCT_IMAGE\n" +
             "WHERE PD_ID LIKE '%' || PD_ID || '%'\n" +
             "ORDER BY PD_IMG_ID"

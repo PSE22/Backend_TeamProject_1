@@ -1,4 +1,4 @@
-package org.example.backend.service;
+package org.example.backend.service.admin;
 
 import jakarta.annotation.PostConstruct;
 import org.example.backend.model.entity.User;

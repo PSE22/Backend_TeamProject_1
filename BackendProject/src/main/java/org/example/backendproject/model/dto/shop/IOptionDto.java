@@ -15,7 +15,7 @@ package org.example.backendproject.model.dto.shop;
  */
 public interface IOptionDto {
     Integer getPdid();
-    String getOptionName();
-    Integer getOptionPrice();
-    Integer getOptionStock();
+    String getOpName();
+    Integer getOpPrice();
+    Integer getOpStock();
 }

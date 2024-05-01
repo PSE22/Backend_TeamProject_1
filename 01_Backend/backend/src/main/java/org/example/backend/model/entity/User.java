@@ -16,7 +16,7 @@ import org.hibernate.annotations.Where;
  * fileName : User
  * author : kimtaewan
  * date : 2024-04-18
- * description :
+ * description : 회원
  * 요약 :
  * <p>
  * ===========================================================

@@ -3,6 +3,7 @@ package org.example.backend.controller;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.backend.model.entity.User;
 import org.example.backend.security.jwt.JwtUtils;
 import org.example.backend.service.dto.LoginRequest;
 import org.example.backend.service.dto.LoginResponse;
@@ -17,7 +18,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 /**
  * packageName : org.example.backend.controller
@@ -46,6 +50,8 @@ public class AuthController {
 
     @Autowired
     AuthenticationManagerBuilder authenticationManagerBuilder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(
@@ -59,15 +65,14 @@ public class AuthController {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtUtils.generateJwtToken(authentication);
+            String userCode = new ArrayList(authentication.getAuthorities()).get(0).toString();
 
-            String userCode = authentication.getAuthorities().stream()
-                    .findFirst()
-                    .map(GrantedAuthority::getAuthority)
-                    .orElse("");
-
-            LoginResponse loginResponse = new LoginResponse(jwt, loginRequest.getUserId(), userCode);
-
-            return ResponseEntity.ok(jwt);
+            LoginResponse loginResponse = new LoginResponse(
+                    jwt,
+                    loginRequest.getUserId(),
+                    userCode
+            );
+            return new ResponseEntity<>(loginResponse, HttpStatus.OK);
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("ID 또는 비밀번호가 일치하지 않습니다.");
         } catch (Exception e) {
@@ -80,10 +85,21 @@ public class AuthController {
         try {
             if(signUpService.existsById(signUpRequest.getUserId())) {
                 return ResponseEntity.badRequest().body("이미 가입된 회원입니다.");
-            } else {
-                signUpService.signUp(signUpRequest);
-                return ResponseEntity.ok("회원가입이 완료되었습니다.");
             }
+                User user = new User(
+                signUpRequest.getUserId(),
+                passwordEncoder.encode(signUpRequest.getUserPw()),
+                signUpRequest.getUserName(),
+                signUpRequest.getUserBirth(),
+                signUpRequest.getGender(),
+                signUpRequest.getUserEmail(),
+                signUpRequest.getUserPhone(),
+                signUpRequest.getUserPromo(),
+                signUpRequest.getUserCode()
+                        );
+                signUpService.signUp(user);
+                return ResponseEntity.ok("회원가입이 완료되었습니다.");
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

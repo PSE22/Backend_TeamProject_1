@@ -17,6 +17,6 @@ public interface WishlistDto {
     Integer getpdId();
     String getpdName(); // 상품명
     Integer getpdPrice(); // 상품가격
-    String getpdImgUrl(); // 상품이미지
+    String getpdThumnail(); // 상품이미지
 
 }

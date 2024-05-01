@@ -17,13 +17,13 @@ import org.hibernate.annotations.Where;
  * fileName : Refund
  * author : kimtaewan
  * date : 2024-04-25
- * description : 환불 엔티티
+ * description : 환불
  * 요약 :
  * <p>
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2024-04-19         kimtaewan          최초 생성
+ * 2024-04-25         kimtaewan          최초 생성
  */
 @Entity
 @Table(name="TB_REFUND")

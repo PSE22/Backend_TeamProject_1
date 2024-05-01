@@ -25,7 +25,7 @@ import org.hibernate.annotations.Where;
  * 2024-04-19         SAMSUNG          최초 생성
  */
 @Entity
-@Table(name="SHIP_ADDRESS")
+@Table(name="TB_SHIP_ADDRESS")
 @Getter
 @Setter
 @ToString
@@ -35,17 +35,14 @@ import org.hibernate.annotations.Where;
 @DynamicUpdate
 // soft delete
 @Where(clause = "STATUS = 'Y'")
-@SQLDelete(sql = "UPDATE SHIP_ADDRESS SET STATUS = 'N' WHERE SHIP_ADDR_ID = ?")
-public class ShipAddress extends BaseTimeEntity2 {
-    //    ship_addr_id	number
-    //    user_id	varchar2(100 byte)
-    //    ship_addr	varchar2(200 byte)
-    //    ship_addr_name	varchar2(100 byte)
-    //    status	char(1 byte)
-
+@SQLDelete(sql = "UPDATE TB_SHIP_ADDRESS SET STATUS = 'N' WHERE SHIP_ADDR_ID = ?")
+public class ShipAddress{
     @Id
     private Integer shipAddrId;
     private String userId;
     private String shipAddr;
     private String shipAddrName;
+    private String shipAddr2;
+    private String postcode;
+    private String status;
 }
