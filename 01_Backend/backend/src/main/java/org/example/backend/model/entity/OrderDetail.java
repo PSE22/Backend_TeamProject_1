@@ -41,4 +41,5 @@ public class OrderDetail {
     private Long opId;
     private Integer orderDetailCnt;
     private Integer orderDetailPrice;
+    private String orderDetailCode;
 }
