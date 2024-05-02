@@ -165,8 +165,9 @@
               <div class="col-6">
                 <select class="form-select">
                   <!-- 회원 보유 쿠폰 반복문 돌리기 -->
-                  <option selected>쿠폰선택</option>
-                  <option value="1">One</option>
+                  <option value="1" v-for="(data, index) in coupon" :key="index">
+                  {{ data?.cpName }}
+                  </option>
                 </select>
               </div>
               <div class="col-3">
@@ -263,7 +264,9 @@ export default {
       cart: [], // 장바구니 객체 배열
       user: {}, // user 객체
       shipAddress: {}, // 배송지 객체
+      coupon: [], // 쿠폰 배열
       selectedAddr: 'option1',
+      userId: this.$store.state.userId,
     };
   },
   methods: {
@@ -302,7 +305,15 @@ export default {
         console.log(e);
       }
     },
-    // 주소에 
+    async getUserCoupon(userId) {
+      try {
+        let response = await OrderService.getUserCoupon(userId);
+        this.coupon = response.data;
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
     // 배송지 선택 라디오 버튼 선택하면 실행
     addressRadio() {
       document.querySelectorAll('input[type=radio][name=addrRadioOptions]').forEach(function (radio) {
@@ -345,8 +356,9 @@ export default {
     }
   },
   mounted() {
-    this.getUser(this.$store.state.userId);
-    this.getShipAddress(this.$store.state.userId);
+    this.getUser(this.userId);
+    this.getShipAddress(this.userId);
+    this.getUserCoupon(this.userId);
   },
 };
 </script>
