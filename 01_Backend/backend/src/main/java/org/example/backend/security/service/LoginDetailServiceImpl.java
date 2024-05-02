@@ -41,7 +41,8 @@ public class LoginDetailServiceImpl implements UserDetailsService {
         Set<GrantedAuthority> authorities = new HashSet<>();
         authorities.add(authority);
 
-        return new LoginDto(user.getUserId(),
+        return new LoginDto(
+                user.getUserId(),
                 user.getUserPw(),
                 authorities
         );

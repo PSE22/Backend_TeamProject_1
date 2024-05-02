@@ -26,4 +26,5 @@ import java.io.Serializable;
 public class PtIdUseptIdPk implements Serializable {
     private Integer usePointId; // 사용 포인트 ID
     private Integer pointId;    // 포인트 ID
+    private Integer pointBalance; // 포인트 잔액
 }

@@ -162,7 +162,6 @@
                 인증
               </button>
             </div>
-
           </div>
         </div>
       </div>
@@ -241,11 +240,10 @@ export default {
         // 공유저장소의 signUp 성공함수 실행
         this.$store.commit("signUpSuccess");
         this.message = "사용자가 등록되었습니다.";
-        this.$router.push('/api/login');    // 회원가입 성공시 로그인 페이지로 이동 - 김태완
+        this.$router.push("/api/login"); // 회원가입 성공시 로그인 페이지로 이동 - 김태완
         // 로깅
         console.log(response.data);
       } catch (e) {
-
         // 공유저장소의 signUp 실패함수 실행
         this.$store.commit("signupFailure");
         this.message = "에러 : " + e;
@@ -268,7 +266,6 @@ export default {
   border: 3px solid #505050;
   width: 600px;
   height: 700px;
-
 }
 .a1 {
   position: relative;

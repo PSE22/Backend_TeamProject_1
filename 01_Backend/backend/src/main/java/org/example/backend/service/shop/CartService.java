@@ -48,20 +48,13 @@ public class CartService {
         Cart cart2 = cartRepository.save(cart);
         return cart2;
     }
-    public User getCurrentUser() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = userDetails.getUsername();
-        Optional<User> optionalUser = userRepository.findById(userId);
-        return optionalUser.orElse(null);
-    }
-
-
 
     public List<ICartDto> getUserCart(String userId) {
             // CartRepository를 사용하여 해당 사용자의 장바구니 아이템 목록을 조회
             List<ICartDto> list = cartRepository.findByUserId(userId);
             return list;
     }
+
 
     //    TODO: 삭제 함수
     public boolean removeById(int cartId) {

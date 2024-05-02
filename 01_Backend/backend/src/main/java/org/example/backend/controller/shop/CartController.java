@@ -44,8 +44,6 @@ import java.util.Map;
 public class CartController {
     @Autowired
     CartService cartService;
-    @Autowired
-    JwtUtils jwtUtils;
 
     //    TODO: 저장함수
 //    저장(insert) -> post 방식 -> @PostMapping
@@ -70,11 +68,12 @@ public class CartController {
     ) {
         try {
 //            전체 조회 서비스 실행
-            List<ICartDto> cartList
+            List<ICartDto> cart
                     = cartService.getUserCart(userId);
-            if (cartList.isEmpty() == false) {
+
+            if (cart.isEmpty() == false) {
 //                조회 성공
-                return new ResponseEntity<>(cartList, HttpStatus.OK);
+                return new ResponseEntity<>(cart, HttpStatus.OK);
             } else {
 //                데이터 없음
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -84,27 +83,27 @@ public class CartController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    //    TODO: 삭제함수
+    @DeleteMapping("/cart/deletion/{cartId}")
+    public ResponseEntity<Object> delete(
+            @PathVariable int cartId
+    ) {
+        try {
+//        DB 삭제 서비스 함수 실행
+            boolean success = cartService.removeById(cartId);
+            if (success == true) {
+//                삭제 성공
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+//                삭제 실패 : 삭제할 데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            log.debug("에러 : " + e.getMessage());
+
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
-
-
-//    TODO: 삭제함수
-//@DeleteMapping("/cart/deletion/{cartId}")
-//public ResponseEntity<Object> delete(
-//        @PathVariable int cartId
-//) {
-//    try {
-////        DB 삭제 서비스 함수 실행
-//        boolean success = cartService.removeById(cartId);
-//        if (success == true) {
-////                삭제 성공
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        } else {
-////                삭제 실패 : 삭제할 데이터 없음
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }
-//    } catch (Exception e) {
-//        log.debug("에러 : " + e.getMessage());
-//
-//        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-//}

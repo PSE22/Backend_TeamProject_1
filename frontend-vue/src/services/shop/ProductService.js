@@ -19,5 +19,15 @@ class ProductService {
     getImage(pdId) {
         return http.get(`/shop/productImage/${pdId}`);
     }
+
+    // 위시 리스트 저장
+    create(data) {
+        return http.post("/shop/product/wishList", data);
+    }
+
+    // 위시 리스트 삭제
+    delete(pdId) {
+        return http.delete(`/shop/product/deletion/${pdId}`)
+    }
 }
 export default new ProductService();

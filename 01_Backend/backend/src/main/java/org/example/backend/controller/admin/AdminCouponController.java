@@ -62,24 +62,7 @@ public class AdminCouponController {
         }
     }
 
-    //    TODO: 저장 함수
-    @PostMapping("/admin-coupon")
-    public ResponseEntity<Object> create(
-            @RequestBody AdminCoupon adminCoupon
-    ) {
-        try {
-//            DB 서비스 저장 함수 실행
-            AdminCoupon adminCoupon2 = adminCouponService.save(adminCoupon);
-
-//            성공(OK) 메세지 + 저장된객체(dept2)
-            return new ResponseEntity<>(adminCoupon2, HttpStatus.OK);
-
-        } catch (Exception e) {
-//            500 전송
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
+    //    TODO: 상세조회
     @GetMapping("/admin-coupon/{cpId}")
     public ResponseEntity<Object> findById(
             @PathVariable long cpId
@@ -102,6 +85,25 @@ public class AdminCouponController {
         }
     }
 
+    //    TODO: 저장 함수
+    @PostMapping("/admin-coupon")
+    public ResponseEntity<Object> create(
+            @RequestBody AdminCoupon adminCoupon
+    ) {
+        try {
+//            DB 서비스 저장 함수 실행
+            AdminCoupon adminCoupon2 = adminCouponService.save(adminCoupon);
+
+//            성공(OK) 메세지 + 저장된객체(dept2)
+            return new ResponseEntity<>(adminCoupon2, HttpStatus.OK);
+
+        } catch (Exception e) {
+//            500 전송
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    TODO: 수정함수
     @PutMapping("/admin-coupon/{cpId}")
     public ResponseEntity<Object> update(
             @PathVariable long cpId,
