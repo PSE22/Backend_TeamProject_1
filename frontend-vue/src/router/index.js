@@ -33,13 +33,18 @@ const routes = [
   },
   // 관리자 주문 관리
   {
-    path: '/adorder',
+    path: '/admin-order',
     component: () => import('../views/admin/AdminOrderView.vue')
   },
   // 관리자 상품 관리
   {
-    path: '/adproduct',
+    path: '/admin-product',
     component: () => import('../views/admin/AdminProductView.vue')
+  },
+  // 관리자 상품 수정/삭제
+  {
+    path: '/admin-product-edit/:pdId',
+    component: () => import('../views/admin/AdminProductEdit.vue')
   },
   // 관리자 쿠폰 관리
   {
@@ -53,12 +58,12 @@ const routes = [
   },
   // 관리자 통계
   {
-    path: '/adchart',
+    path: '/admin-chart',
     component: () => import('../views/admin/AdminChartView.vue')
   },
   // 관리자 문의 관리
   {
-    path: '/adtable',
+    path: '/admin-table',
     component: () => import('../views/admin/AdminTableView.vue')
   },
   // 장바구니

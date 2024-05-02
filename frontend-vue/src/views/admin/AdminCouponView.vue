@@ -34,7 +34,7 @@
 
           <!-- Nav Item - Pages Collapse Menu -->
           <li class="nav-item">
-            <a class="nav-link" href="/adorder">
+            <a class="nav-link" href="/admin-order">
               <i class="fas fa-fw fa-table"></i>
               <span>주문 관리</span></a
             >
@@ -42,7 +42,7 @@
 
           <!-- Nav Item - Utilities Collapse Menu -->
           <li class="nav-item">
-            <a class="nav-link" href="/adproduct">
+            <a class="nav-link" href="/admin-product">
               <i class="fas fa-fw fa-table"></i>
               <span>상품 관리</span></a
             >
@@ -61,7 +61,7 @@
 
           <!-- Nav Item - Charts -->
           <li class="nav-item">
-            <a class="nav-link" href="/adchart">
+            <a class="nav-link" href="/admin-chart">
               <i class="fas fa-fw fa-chart-area"></i>
               <span>통계</span></a
             >
@@ -69,7 +69,7 @@
 
           <!-- Nav Item - Tables -->
           <li class="nav-item">
-            <a class="nav-link" href="/adtable">
+            <a class="nav-link" href="/admin-table">
               <i class="fas fa-fw fa-table"></i>
               <span>문의관리</span></a
             >
@@ -467,7 +467,7 @@
                             v-model="page"
                             :total-rows="count"
                             :per-page="pageSize"
-                            @click="retrieveEmp"
+                            @click="retrieveAdminCoupon"
                           ></b-pagination>
                         </div>
                       </div>

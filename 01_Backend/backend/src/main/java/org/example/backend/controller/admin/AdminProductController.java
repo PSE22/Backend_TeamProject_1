@@ -2,7 +2,8 @@ package org.example.backend.controller.admin;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.backend.model.entity.admin.AdminCoupon;
-import org.example.backend.service.admin.AdminCouponService;
+import org.example.backend.model.entity.admin.AdminProduct;
+import org.example.backend.service.admin.AdminProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,38 +18,38 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("api/admin")
-public class AdminCouponController {
+@RequestMapping("/api/admin")
+public class AdminProductController {
 
     @Autowired
-    AdminCouponService adminCouponService;
+    AdminProductService adminProductService;
 
     //    TODO: 전체 조회 함수 + 검색 + 페이징
-    @GetMapping("/admin-coupon")
+    @GetMapping("/admin-product")
     public ResponseEntity<Object> findAll(
-            @RequestParam(defaultValue = "") String cpName,
+            @RequestParam(defaultValue = "") String pdName,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        try {
+        try{
 //            매개변수(page, size) 페이징 변수에 저장
 //             page : 현재페이지번호, size : 1페이지당개수
             Pageable pageable = PageRequest.of(page, size);
 
 //            전체 조회 서비스 함수 실행
-            Page<AdminCoupon> pageList
-                    = adminCouponService.findAllByAdminCouponNameContaining(cpName, pageable);
+            Page<AdminProduct> pageList
+                    = adminProductService.findAllByAdminProductNameContaining(pdName,pageable);
 
 //            vue 로 json 데이터를 전송 : jsp (model == Map(키,값))
             Map<String, Object> response = new HashMap<>();
-            response.put("adminCoupon", pageList.getContent());             // 쿠폰배열
+            response.put("adminProduct", pageList.getContent());             // 상품배열
             response.put("currentPage", pageList.getNumber());       // 현재페이지 번호(x)
             response.put("totalItems", pageList.getTotalElements()); // 전체데이터개수
             response.put("totalPages", pageList.getTotalPages());    // 전체페이지수(x)
 
 //            TODO: 1) pageList 값이 없으면 : DB 테이블 없음 => NO_CONTENT(203)
 //                  2) pageList 값이 있으면 : 성공 => OK(200)
-            if (pageList.isEmpty() == true) {
+            if(pageList.isEmpty() == true) {
 //                1) pageList 값이 없으면 : DB 테이블 없음 => NO_CONTENT(203)
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
@@ -63,20 +64,20 @@ public class AdminCouponController {
     }
 
     //    TODO: 상세조회
-    @GetMapping("/admin-coupon/{cpId}")
+    @GetMapping("/admin-product/{pdId}")
     public ResponseEntity<Object> findById(
-            @PathVariable long cpId
+            @PathVariable long pdId
     ) {
         try {
 //            DB 상세조회 서비스 함수 실행
-            Optional<AdminCoupon> optionalAdminCoupon = adminCouponService.findById(cpId);
+            Optional<AdminProduct> optionalAdminProduct = adminProductService.findById(pdId);
 
-            if (optionalAdminCoupon.isEmpty() == true) {
+            if(optionalAdminProduct.isEmpty() == true) {
 //                데이터 없음(203)
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
 //                데이터 있음(200)
-                return new ResponseEntity<>(optionalAdminCoupon.get()
+                return new ResponseEntity<>(optionalAdminProduct.get()
                         , HttpStatus.OK);
             }
 
@@ -86,17 +87,17 @@ public class AdminCouponController {
     }
 
     //    TODO: 저장 함수
-    @PostMapping("/admin-coupon")
+    @PostMapping("/admin-product")
     public ResponseEntity<Object> create(
-            @RequestBody AdminCoupon adminCoupon
+            @RequestBody AdminProduct adminProduct
     ) {
         log.debug("1");
         try {
 //            DB 서비스 저장 함수 실행
-            AdminCoupon adminCoupon2 = adminCouponService.save(adminCoupon);
+            AdminProduct adminProduct2 = adminProductService.save(adminProduct);
 
 //            성공(OK) 메세지 + 저장된객체(dept2)
-            return new ResponseEntity<>(adminCoupon2, HttpStatus.OK);
+            return new ResponseEntity<>(adminProduct2, HttpStatus.OK);
 
         } catch (Exception e) {
             log.debug("에러 : " + e.getMessage());
@@ -106,15 +107,15 @@ public class AdminCouponController {
     }
 
     //    TODO: 수정함수
-    @PutMapping("/admin-coupon/{cpId}")
+    @PutMapping("/admin-product/{pdId}")
     public ResponseEntity<Object> update(
-            @PathVariable long cpId,
-            @RequestBody AdminCoupon adminCoupon
+            @PathVariable long pdId,
+            @RequestBody AdminProduct adminProduct
     ) {
         try {
-            AdminCoupon adminCoupon2 = adminCouponService.save(adminCoupon);  // 수정
+            AdminProduct adminProduct2 = adminProductService.save(adminProduct);  // 수정
 
-            return new ResponseEntity<>(adminCoupon2, HttpStatus.OK);
+            return new ResponseEntity<>(adminProduct2, HttpStatus.OK);
         } catch (Exception e) {
 //            DB 에러 (서버 에러) -> 500 신호(INTERNAL_SERVER_ERROR)
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -122,13 +123,13 @@ public class AdminCouponController {
     }
 
     //     TODO: 삭제 함수
-    @DeleteMapping("/admin-coupon/deletion/{cpId}")
+    @DeleteMapping("/admin-product/deletion/{pdId}")
     public ResponseEntity<Object> delete(
-            @PathVariable long cpId
+            @PathVariable long pdId
     ) {
         try {
 //            DB 서비스 삭제 함수 실행
-            boolean success = adminCouponService.removeById(cpId);
+            boolean success = adminProductService.removeById(pdId);
 
             if (success == true) {
                 return new ResponseEntity<>(HttpStatus.OK);

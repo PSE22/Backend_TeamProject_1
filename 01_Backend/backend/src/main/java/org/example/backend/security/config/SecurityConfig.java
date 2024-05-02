@@ -63,6 +63,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/cart/**").hasAuthority("AT02")
                 .requestMatchers("/api/admin-coupon/**").hasAuthority("AT01")
                 .requestMatchers("/api/admin-coupon-edit/**").hasAuthority("AT01")
+                .requestMatchers("/api/admin-product/**").hasAuthority("AT01")
+                .requestMatchers("/api/admin-product-edit/**").hasAuthority("AT01")
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/").permitAll()
                 .anyRequest().authenticated());
