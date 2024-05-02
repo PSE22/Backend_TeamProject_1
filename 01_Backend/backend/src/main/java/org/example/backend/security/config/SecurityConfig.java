@@ -57,15 +57,15 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(req -> req
 
-//                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-//                .requestMatchers("/api/admin/**").hasAuthority("AT01")
-//                .requestMatchers("/api/mypage/**").hasAuthority("AT02")
-//                .requestMatchers("/api/cart/**").hasAuthority("AT02")
-//                .requestMatchers("/api/admin-coupon/**").hasAuthority("AT02")
-//                .requestMatchers("/api/auth/**").permitAll()
-//                .requestMatchers("/").permitAll()
-//                .anyRequest().authenticated());
-                        .anyRequest().permitAll()); // 임시
+                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                .requestMatchers("/api/admin/**").hasAuthority("AT01")
+                .requestMatchers("/api/mypage/**").hasAuthority("AT02")
+                .requestMatchers("/api/cart/**").hasAuthority("AT02")
+                .requestMatchers("/api/admin-coupon/**").hasAuthority("AT01")
+                .requestMatchers("/api/admin-coupon-edit/**").hasAuthority("AT01")
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/").permitAll()
+                .anyRequest().authenticated());
 
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -90,6 +90,7 @@ public class AdminCouponController {
     public ResponseEntity<Object> create(
             @RequestBody AdminCoupon adminCoupon
     ) {
+        log.debug("1");
         try {
 //            DB 서비스 저장 함수 실행
             AdminCoupon adminCoupon2 = adminCouponService.save(adminCoupon);
@@ -98,6 +99,7 @@ public class AdminCouponController {
             return new ResponseEntity<>(adminCoupon2, HttpStatus.OK);
 
         } catch (Exception e) {
+            log.debug("에러 : " + e.getMessage());
 //            500 전송
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
