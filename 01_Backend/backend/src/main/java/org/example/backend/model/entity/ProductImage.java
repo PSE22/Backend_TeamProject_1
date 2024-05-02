@@ -15,7 +15,7 @@ import org.hibernate.annotations.Where;
  * fileName : ProductImage
  * author : kimtaewan
  * date : 2024-04-25
- * description :
+ * description : 상품 이미지
  * 요약 :
  * <p>
  * ===========================================================

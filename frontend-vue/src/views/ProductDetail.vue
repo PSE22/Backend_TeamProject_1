@@ -1,7 +1,7 @@
 <template>
   <div class="row row-cols-1 row-cols-md-2 g-4" id="product-top">
-    <div class="col" v-if="productImage.length > 0">
-      <img :src="productImage[0].pdImgUrl" class="card-img-top" alt="..." />
+    <div class="col">
+      <img :src="product?.pdThumbnail" class="card-img-top" alt="..." />
     </div>
     <div class="col">
       <ul class="product-select">
@@ -12,10 +12,10 @@
         </li>
         <li><div id="option-text">옵션 선택</div></li>
         <select name="product-option" class="select-box">
-          <option value="1" selected>상품 상세 옵션 선택 1</option>
-          <option value="2">상품 상세 옵션 선택 2</option>
-          <option value="3">상품 상세 옵션 선택 3</option>
-          <option value="4">상품 상세 옵션 선택 4</option>
+          <option value="1" v-for="(data, index) in option" :key="index">
+            {{ data.opName }} + {{ data.opPrice }}원 (남은 수량 :
+            {{ data.opStock }})
+          </option>
         </select>
         <li><div id="count-text">수량</div></li>
         <li>
@@ -23,7 +23,7 @@
             <button
               type="button"
               class="btn btn-outline-secondary"
-              @click="decreaseClickCount"
+              @click="decreaseCartCount"
             >
               -
             </button>
@@ -34,12 +34,12 @@
               style="width: 60px"
               disabled
             >
-              {{ this.click }}
+              {{ this.cartCount }}
             </button>
             <button
               type="button"
               class="btn btn-outline-secondary"
-              @click="increaseClickCount"
+              @click="increaseCartCount"
             >
               +
             </button>
@@ -52,20 +52,18 @@
         </li>
         <li><div id="coupon-text">쿠폰 선택</div></li>
         <select name="coupon-option" class="select-box">
-          <option value="1" selected>쿠폰명 1</option>
-          <option value="2">쿠폰명 2</option>
-          <option value="3">쿠폰명 3</option>
-          <option value="4">쿠폰명 4</option>
+          <option value="1" v-for="(data, index) in coupon" :key="index">
+            {{ data.cpName }}
+          </option>
         </select>
-
         <li>
           <div id="price"><h3>배송비 3000원</h3></div>
         </li>
-        <br /><br /><br /><br /><br />
+
         <li>
           <div class="btn-group" role="group">
             <img
-              @click="toggleShow"
+              @click="toggleShow, saveWishList"
               v-if="show"
               src="@/assets/img/free-icon-font-circle-heart-9272486.png"
             />
@@ -74,10 +72,16 @@
               v-else
               src="@/assets/img/free-icon-font-circle-heart-9270879.png"
             />
-            <button type="button" class="btn" id="basket-button">
-              장바구니
-            </button>
-            <button type="button" class="btn" id="buy-button">구매하기</button>
+            <router-link to="/cart">
+              <button type="button" class="btn" id="basket-button">
+                장바구니
+              </button>
+            </router-link>
+            <router-link to="/order">
+              <button type="button" class="btn" id="buy-button">
+                구매하기
+              </button>
+            </router-link>
           </div>
         </li>
       </ul>
@@ -99,8 +103,8 @@
   <!-- 상품 정보 탭 누르면 보이는 태그 -->
   <div class="row row-cols-1 g-4" id="product-bottom">
     <div class="col">
-      <div class="card h-100" v-if="productImage.length > 0">
-        <img :src="productImage[1].pdImgUrl" class="card-img-top" alt="..." />
+      <div v-for="(data, index) in productImage" :key="index">
+        <img :src="data.pdImgUrl" class="card-img-top" alt="..." />
       </div>
     </div>
   </div>
@@ -122,7 +126,7 @@
           <td class="col-1 text-center">{{ data.userId }}</td>
           <td class="col-1 text-center">{{ data.reviewTitle }}</td>
           <td class="col-2 text-center">
-            <div class="flex-grow-1">상품 옵션명</div>
+            <div class="flex-grow-1">2묶음 + 8900원</div>
           </td>
           <td class="col-1 text-center">{{ data.reviewRate }}</td>
           <td class="col-4">
@@ -403,6 +407,8 @@
 import ProductService from "@/services/shop/ProductService";
 import ReviewService from "@/services/shop/ReviewService";
 import QnaService from "@/services/shop/QnaService";
+import OptionService from "@/services/shop/OptionService";
+import CouponService from "@/services/shop/CouponService";
 export default {
   data() {
     return {
@@ -411,7 +417,9 @@ export default {
       productImage: [],
       review: [],
       qna: [],
-      click: 0,
+      option: [],
+      coupon: [],
+      cartCount: 0,
 
       page: 1,
       count: 0,
@@ -423,6 +431,26 @@ export default {
   methods: {
     toggleShow() {
       this.show = !this.show;
+    },
+    async saveWishList() {
+      try {
+        let data = {
+        pdId: this.$route.params.pdId
+      }
+
+      let response = await ProductService.create(data);
+      console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async deleteWishList(pdId) {
+      try {
+        let response = await ProductService.remove(pdId);
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
     },
     async getProduct(pdId) {
       try {
@@ -454,7 +482,7 @@ export default {
       }
     },
     async retrieveQna() {
-      try { 
+      try {
         let response = await QnaService.getAll(this.page - 1, this.pageSize);
         const { qna, totalItems } = response.data;
         this.qna = qna;
@@ -464,12 +492,30 @@ export default {
         console.log(e);
       }
     },
-    increaseClickCount() {
-      this.click = this.click + 1;
+    async getProductOption(pdId) {
+      try {
+        let response = await OptionService.get(pdId);
+        this.option = response.data;
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
     },
-    decreaseClickCount() {
-      if (this.click > 0) {
-        this.click = this.click - 1;
+    async getCoupon(pdId) {
+      try {
+        let response = await CouponService.get(pdId);
+        this.coupon = response.data;
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    increaseCartCount() {
+      this.cartCount = this.cartCount + 1;
+    },
+    decreaseCartCount() {
+      if (this.cartCount > 0) {
+        this.cartCount = this.cartCount - 1;
       }
     },
   },
@@ -478,6 +524,8 @@ export default {
     this.getProductImage(this.$route.params.pdId);
     this.retrieveReview();
     this.retrieveQna();
+    this.getProductOption(this.$route.params.pdId);
+    this.getCoupon(this.$route.params.pdId);
   },
 };
 </script>

@@ -30,6 +30,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                     "P.PD_STOCK AS pdStock, " +
                     "P.ADD_DATE AS addDate, " +
                     "P.CATEGORY_CODE AS categoryCode, " +
+                    "P.PD_THUMBNAIL AS pdThumbnail, " +
                     "PD_IMG_URL AS pdImgUrl, " +
                     "OP_ID AS opId, " +
                     "OP_NAME AS opName, " +

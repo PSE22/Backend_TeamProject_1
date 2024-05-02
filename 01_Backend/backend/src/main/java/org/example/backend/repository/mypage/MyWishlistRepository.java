@@ -28,9 +28,8 @@ import java.util.List;
 @Repository
 public interface MyWishlistRepository extends JpaRepository<Wishlist, PdIdUserIdPk> {
     List<Wishlist> findByPdId(Integer pdId);
-    @Query(value = "SELECT PD.PD_ID AS pdId, PD.PD_NAME AS pdName, PD.PD_PRICE AS pdPrice, PI.PD_IMG_URL AS pdImgUrl " +
+    @Query(value = "SELECT PD.PD_ID AS pdId, PD.PD_NAME AS pdName, PD.PD_PRICE AS pdPrice, PD.PD_THUMBNAIL AS pdThumbnail " +
             "FROM TB_PRODUCT PD " +
-            "JOIN TB_PRODUCT_IMAGE PI ON PD.PD_ID = PI.PD_ID " +
             "JOIN TB_WISHLIST WS ON PD.PD_ID = WS.PD_ID " +
             "WHERE WS.USER_ID = :userId AND WS.STATUS = 'Y'", nativeQuery = true)
     Page<WishlistDto> selectWishlistContaining(

@@ -1,8 +1,8 @@
 package org.example.backendproject.controller.mypage;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.backendproject.model.dto.mypage.ICouponDto;
-import org.example.backendproject.service.shop.CouponService;
+import org.example.backendproject.model.dto.mypage.IMyCouponDto;
+import org.example.backendproject.service.mypage.MyCouponService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,7 +35,7 @@ import java.util.Map;
 @RequestMapping("/api/mypage")
 public class MyCouponController {
     @Autowired
-    CouponService couponService;
+    MyCouponService myCouponService;
     //    TODO: 전체조회 함수(조인) + like 검색
 //    조회(select) -> get 방식 -> GetMapping
     @GetMapping("/coupon")
@@ -49,8 +49,8 @@ public class MyCouponController {
             Pageable pageable = PageRequest.of(page, size);
 
 //            전체 조회 서비스 실행
-            Page<ICouponDto> simpleCouponDtoPage
-                    = couponService.selectByCpContaining(cpName, pageable);
+            Page<IMyCouponDto> simpleCouponDtoPage
+                    = myCouponService.selectByCpContaining(cpName, pageable);
 
 //            공통 페이징 객체 생성 : 자료구조 맵 사용
             Map<String, Object> response = new HashMap<>();

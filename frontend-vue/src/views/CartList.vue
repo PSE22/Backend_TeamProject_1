@@ -40,7 +40,7 @@
               <div class="d-flex align-items-center text-start">
                 <div class="flex-shrink-0">
                   <img
-                    :src="data.pdImgUrl"
+                    :src="data.pdThumblail"
                     class="img-thumbnail me-3"
                     style="width: 100px; height: 100px"
                   />
@@ -58,7 +58,7 @@
                 <button
                   type="button"
                   class="btn btn-outline-secondary"
-                  @click="decreaseCount"
+                  @click="decreaseCount(data)"
                 >
                   -
                 </button>
@@ -74,13 +74,15 @@
                 <button
                   type="button"
                   class="btn btn-outline-secondary"
-                  @click="increaseCount"
+                  @click="increaseCount(data)"
                 >
                   +
                 </button>
               </div>
             </td>
-            <td class="col-2">{{ data.pdPrice + data.opPrice }}</td>
+            <td class="col-2">
+              {{ (data.pdPrice + data.opPrice) * data.cartCount }}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -102,19 +104,19 @@
         <div class="card text-center mb-3" style="max-width: 18rem">
           <div class="card-header">총 가격</div>
           <div class="card-body">
-            <h3 class="card-title">50,000원</h3>
+            <h3 class="card-title">{{ totalPrice }} 원</h3>
           </div>
         </div>
         <div class="card text-center mb-3" style="max-width: 18rem">
-          <div class="card-header">총 배송비</div>
+          <div class="card-header">배송비</div>
           <div class="card-body">
             <h3 class="card-title">{{ shipPrice }} 원</h3>
           </div>
         </div>
         <div class="card text-center mb-3" style="max-width: 18rem">
-          <div class="card-header">총 결제예상금액</div>
+          <div class="card-header">결제 예상금액</div>
           <div class="card-body">
-            <h3 class="card-title">??? 원</h3>
+            <h3 class="card-title">{{ totalPrice + shipPrice }} 원</h3>
           </div>
         </div>
       </div>
@@ -122,14 +124,14 @@
       <div class="d-grid gap-2 d-md-block text-center">
         <button
           class="btn btn-outline-dark btn-lg me-md-2 col-2"
-          type="button"
+          type="submit"
           @click="goOrder"
         >
           선택주문
         </button>
         <button
           class="btn btn-outline-dark btn-lg col-2"
-          type="button"
+          type="submit"
           @click="goOrder"
         >
           전체주문
@@ -141,16 +143,15 @@
 
 <script>
 import CartService from "@/services/shop/CartService";
+
 export default {
   data() {
     return {
       cart: [], // 장바구니 객체배열
-      userId: this.$store.state.userId,
-      cartCount: 0, // 장바구니 수량
+      userId: this.$store.state.userId, // 회원아이디 받아오기
       shipPrice: 3000, // 배송비
       allChecked: false, // 체크박스 전체선택
-
-      count: 0, // 전체 데이터 개수
+      totalPrice: 0,
     };
   },
   methods: {
@@ -160,21 +161,24 @@ export default {
         let response = await CartService.getAll(userId);
         this.cart = response.data;
         console.log(response.data); // 웹브라우저 콘솔탬에 백앤드 데이터 표시
-        console.log("구미지 바보" + this.cartList);
+        this.getTotalPrice();
       } catch (e) {
         console.log(e);
       }
     },
     // TODO: 장바구니 개수 증가 함수
-    increaseCount() {
-      this.cartCount += 1;
+    increaseCount(data) {
+      data.cartCount += 1;
+      this.getTotalPrice();
     },
     // TODO: 장바구니 개수 감소 함수
-    decreaseCount() {
-      if (this.cartCount > 0) {
-        this.cartCount -= 1;
+    decreaseCount(data) {
+      if (data.cartCount > 1) {
+        data.cartCount -= 1;
+        this.getTotalPrice();
       }
     },
+
     // 장바구니 삭제 함수 : delete 버튼 태그
     async deleteCart() {
       try {
@@ -195,10 +199,39 @@ export default {
       }
     },
 
-    //   // 주문페이지 이동 함수
-    goOrder() {
-      this.$router.push("/order");
+    // 장바구니 총 가격
+    getTotalPrice() {
+      this.totalPrice = this.cart
+        .map((data) => (data.pdPrice + data.opPrice) * data.cartCount)
+        .reduce((acc, cur) => acc + cur);
+      // 총 가격이 60000 이상이면 배송비 무료
+      this.shipPrice = this.totalPrice >= 60000 ? 0 : 3000;
     },
+
+    // TODO: 장바구니 담기(저장)
+    async goOrder() {
+      try {
+        // 임시 객체
+        let orderData = {
+          // opId: this.cart.opId, // 옵션번호
+          cart: this.cart.map((data) => ({
+            opId: data.opId, // 상품 옵션 ID
+            quantity: data.cartCount, // 장바구니 수량
+          })),
+        };
+        console.log("에러" + orderData);
+        let response = await CartService.create(orderData);
+        // 로깅
+        console.log(response.data);
+        // 주문 후 장바구니 비우기
+        // this.cart = [];
+        // 장바구니 담기 성공 메세지 출력
+        this.$router.push("/order");
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
     // 체크박스 전체선택
     checkedAll(checked) {
       this.allChecked = checked;
