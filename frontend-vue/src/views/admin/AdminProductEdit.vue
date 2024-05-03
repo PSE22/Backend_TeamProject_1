@@ -7,170 +7,128 @@
         </div>
       </div>
       <!-- null -> 거짓(false) -->
-      <div v-if="adminCouponEdit">
-        <div class="col-8 mx-auto">
+      <div v-if="adminProductEdit">
+        <div class="col-10 mx-auto">
           <div>
-            <!-- 쿠폰번호 시작 -->
+            <!-- 회원아이디 시작 -->
             <div class="row g-3 align-items-center mt-3 mb-3">
               <div class="col-4">
-                <label htmlFor="cpId" class="col-form-label"> 쿠폰번호 </label>
+                <label htmlFor="userId" class="col-form-label"> 회원아이디 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="cpId"
+                  id="userId"
                   required
                   class="form-control"
-                  name="cpId"
-                  v-model="adminCouponEdit.cpId"
+                  name="userId"
+                  v-model="adminProductEdit.userId"
                 />
               </div>
             </div>
-            <!-- 쿠폰번호 끝 -->
+            <!-- 회원아이디 끝 -->
 
-            <!-- 상품번호 시작 -->
+            <!-- 상품명 시작 -->
             <div class="row g-3 align-items-center mb-3">
               <div class="col-4">
-                <label htmlFor="pdId" class="col-form-label"> 상품번호 </label>
+                <label htmlFor="pdName" class="col-form-label"> 상품명 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="pdId"
+                  id="pdName"
                   required
                   class="form-control"
-                  name="pdId"
-                  v-model="adminCouponEdit.pdId"
+                  name="pdName"
+                  v-model="adminProductEdit.pdName"
                 />
               </div>
             </div>
-            <!-- 상품번호 끝 -->
+            <!-- 상품명 끝 -->
 
-            <!-- 쿠폰명 시작 -->
+            <!-- 가격 시작 -->
             <div class="row g-3 align-items-center mb-3">
               <div class="col-4">
-                <label htmlFor="cpName" class="col-form-label"> 쿠폰명 </label>
+                <label htmlFor="cpName" class="col-form-label"> 가격 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="cpName"
+                  id="pdPrice"
                   required
                   class="form-control"
-                  name="cpName"
-                  v-model="adminCouponEdit.cpName"
+                  name="pdPrice"
+                  v-model="adminProductEdit.pdPrice"
                 />
               </div>
             </div>
-            <!-- 쿠폰명 끝 -->
+            <!-- 가격 끝 -->
 
-            <!-- 할인금액 시작 -->
+            <!-- 재고 시작 -->
             <div class="row g-3 align-items-center mb-3">
               <div class="col-4">
-                <label htmlFor="cpDcPrice" class="col-form-label">
-                  할인금액
+                <label htmlFor="pdStock" class="col-form-label">
+                  재고
                 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="cpDcPrice"
+                  id="pdStock"
                   required
                   class="form-control"
-                  name="cpDcPrice"
-                  v-model="adminCouponEdit.cpDcPrice"
+                  name="pdStock"
+                  v-model="adminProductEdit.pdStock"
                 />
               </div>
             </div>
-            <!-- 할인금액 끝 -->
+            <!-- 재고 끝 -->
 
-            <!-- 할인율 시작 -->
+            <!-- 카테고리분류코드 시작 -->
             <div class="row g-3 align-items-center mb-3">
               <div class="col-4">
-                <label htmlFor="cpDcRate" class="col-form-label">
-                  할인율
+                <label htmlFor="categoryCode" class="col-form-label">
+                  카테고리분류코드
                 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="cpDcRate"
+                  id="categoryCode"
                   required
                   class="form-control"
-                  name="cpDcRate"
-                  v-model="adminCouponEdit.cpDcRate"
+                  name="categoryCode"
+                  v-model="adminProductEdit.categoryCode"
                 />
               </div>
             </div>
-            <!-- 할인율 끝 -->
+            <!-- 카테고리분류코드 끝 -->
 
-            <!-- 최소사용금액 시작 -->
+            <!-- 썸네일URL 시작 -->
             <div class="row g-3 align-items-center mb-3">
               <div class="col-4">
-                <label htmlFor="cpMinPrice" class="col-form-label">
-                  최소사용금액
+                <label htmlFor="pdThumbnail" class="col-form-label">
+                  썸네일URL
                 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="cpMinPrice"
+                  id="pdThumbnail"
                   required
                   class="form-control"
-                  name="cpMinPrice"
-                  v-model="adminCouponEdit.cpMinPrice"
+                  name="pdThumbnail"
+                  v-model="adminProductEdit.pdThumbnail"
                 />
               </div>
             </div>
-            <!-- 최소사용금액 끝 -->
-
-            <!-- 최대할인금액 시작 -->
-            <div class="row g-3 align-items-center mb-3">
-              <div class="col-4">
-                <label htmlFor="cpMaxDcPrice" class="col-form-label">
-                  최대할인금액
-                </label>
-              </div>
-
-              <div class="col-8">
-                <input
-                  type="text"
-                  id="cpMaxDcPrice"
-                  required
-                  class="form-control"
-                  name="cpMaxDcPrice"
-                  v-model="adminCouponEdit.cpMaxDcPrice"
-                />
-              </div>
-            </div>
-            <!-- 최대할인금액 끝 -->
-
-            <!-- 만료일 시작 -->
-            <div class="row g-3 align-items-center mb-3">
-              <div class="col-4">
-                <label htmlFor="cpExpireDate" class="col-form-label">
-                  만료일
-                </label>
-              </div>
-
-              <div class="col-8">
-                <input
-                  type="text"
-                  id="cpExpireDate"
-                  required
-                  class="form-control"
-                  name="cpExpireDate"
-                  v-model="adminCouponEdit.cpExpireDate"
-                />
-              </div>
-            </div>
-            <!-- 만료일 끝 -->
+            <!-- 썸네일URL 끝 -->
 
             <!-- 상태 시작 -->
             <div class="row g-3 align-items-center mb-3">
@@ -183,7 +141,7 @@
                     id="inlineRadio1"
                     name="status"
                     value="활성"
-                    v-model="adminCouponEdit.status"
+                    v-model="adminProductEdit.status"
                   />
                   <label class="form-check-label" for="inlineRadio1"
                     >활성</label
@@ -196,7 +154,7 @@
                     id="inlineRadio2"
                     name="status"
                     value="비활성"
-                    v-model="adminCouponEdit.status"
+                    v-model="adminProductEdit.status"
                   />
                   <label class="form-check-label" for="inlineRadio2"
                     >비활성</label
@@ -210,7 +168,7 @@
           <div class="row g-3 mb-3">
             <button
               class="btn btn-outline-danger ms-3 col"
-              @click="deleteAdminCoupon"
+              @click="deleteAdminProduct"
             >
               삭제
             </button>
@@ -218,7 +176,7 @@
             <button
               type="submit"
               class="btn btn-outline-secondary ms-2 col"
-              @click="updateAdminCoupon"
+              @click="updateAdminProduct"
             >
               수정
             </button>
@@ -239,22 +197,22 @@
   </div>
 </template>
 <script>
-import AdminCouponService from "@/services/admin/AdminCouponService";
+import AdminProductService from "@/services/admin/AdminProductService";
 export default {
   data() {
     return {
       // TODO: 수정
-      adminCouponEdit: null, //초기값
+      adminProductEdit: null, //초기값
       message: "", // 수정성공시 화면 성공메세지 출력하는 변수
     };
   },
   methods: {
     // TODO: 수정/삭제 시작
     // 함수정의
-    async getAdminCoupon(cpId) {
+    async getAdminProduct(pdId) {
       try {
-        let response = await AdminCouponService.get(cpId);
-        this.adminCouponEdit = response.data; // spring 결과를 바인딩 속성변수 emp 저장
+        let response = await AdminProductService.get(pdId);
+        this.adminProductEdit = response.data; // spring 결과를 바인딩 속성변수 emp 저장
         // 로깅
         console.log(response.data);
       } catch (e) {
@@ -262,33 +220,33 @@ export default {
       }
     },
     // 수정요청 함수
-    async updateAdminCoupon() {
+    async updateAdminProduct() {
       try {
-        let response = await AdminCouponService.update(
-          this.adminCouponEdit.cpId,
-          this.adminCouponEdit
+        let response = await AdminProductService.update(
+          this.adminProductEdit.pdId,
+          this.adminProductEdit
         );
         // 로깅
         console.log(response.data);
         // 화면에 성공메세지 출력 : message
         alert("수정이 성공했습니다.");
-        this.$router.push("/admin-coupon");
+        this.$router.push("/admin-product");
       } catch (e) {
         console.log(e);
       }
     },
     // 삭제요청 함수
-    async deleteAdminCoupon() {
-      let response = await AdminCouponService.delete(this.adminCouponEdit.cpId);
+    async deleteAdminProduct() {
+      let response = await AdminProductService.delete(this.adminProductEdit.pdId);
       console.log(response.data);
-      this.$router.push("/admin-coupon");
+      this.$router.push("/admin-product");
     },
   },
   // TODO: 수정/삭제 끝
   mounted() {
     // TODO: 수정/삭제 시작
     this.message = ""; // 변수 초기화
-    this.getAdminCoupon(this.$route.params.cpId); // 쿠폰메뉴를 클릭하면 cpid 옴
+    this.getAdminProduct(this.$route.params.pdId); // 상품메뉴를 클릭하면 pdId 옴
     // TODO: 수정/삭제 끝
   },
 };
@@ -299,7 +257,7 @@ export default {
   background-color: rgba(255, 255, 255, 1);
   padding: 40px 30px;
   border: 3px solid #505050;
-  width: 600px;
+  width: 650px;
   height: 700px;
 }
 .a1 {
