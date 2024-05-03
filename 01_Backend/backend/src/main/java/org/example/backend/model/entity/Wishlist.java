@@ -44,17 +44,9 @@ public class Wishlist {
     @Id
     private String userId;      // 회원 ID
 
-    @Column(name = "STATUS", nullable = false)
-    private String status = "Y"; // 'Y'로 초기화
-
     private String addDate;     // 생성 일시
-    @PrePersist
-    void OnPrePersist() {
-//        insert 하기전에 현재날짜를 넣기 : 날짜포맷(yyyy-MM-dd HH:mm:ss)
-        this.addDate = LocalDateTime.now()
-                .format(DateTimeFormatter
-                        .ofPattern("yyyy-MM-dd HH:mm:ss"));
-        this.status = "Y";
-    }
+    private String modDate;
+    private String delDate;
+
 
 }
