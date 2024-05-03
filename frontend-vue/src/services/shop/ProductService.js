@@ -26,8 +26,8 @@ class ProductService {
     }
 
     // 위시 리스트 삭제
-    delete(pdId) {
-        return http.delete(`/shop/product/deletion/${pdId}`)
+    remove(pdId, userId) {
+        return http.delete(`/shop/product/deletion/${pdId}/${userId}`)
     }
 }
 export default new ProductService();
