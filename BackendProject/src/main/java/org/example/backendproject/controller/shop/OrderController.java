@@ -1,9 +1,9 @@
 package org.example.backendproject.controller.shop;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.backendproject.model.dto.shop.IUserCouponDto;
 import org.example.backendproject.model.entity.ShipAddress;
 import org.example.backendproject.model.entity.User;
-import org.example.backendproject.model.entity.UserCoupon;
 import org.example.backendproject.service.shop.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,17 +76,16 @@ public class OrderController {
     @GetMapping("/order/user-coupon/{userId}")
     public ResponseEntity<Object> findByUserCouponUserId(@PathVariable String userId) {
         try {
-            List<UserCoupon> listUserCoupon = orderService.findByUserCouponUserId(userId);
+            List<IUserCouponDto> listUserCoupon = orderService.findAllByUserCoupon(userId);
             if (listUserCoupon.isEmpty() == true) {
                 // 데이터 없음
+                log.debug("22" , listUserCoupon);
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 // 조회 성공
-                log.debug("왜 에러? 11 ");
                 return new ResponseEntity<>(listUserCoupon, HttpStatus.OK);
             }
         } catch (Exception e) {
-            log.debug("왜 에러? 22 " + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

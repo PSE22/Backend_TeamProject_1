@@ -22,9 +22,9 @@ public class RestClientExample {
 
     public static void main(String[] args) {
         // JWT 토큰
-        String jwtToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlcjEiLCJpYXQiOjE3MTQ0NDUyNTIsImV4cCI6MTcxNDQ0NTg1Mn0.axxVKo20aVETVxTiy8ePalQ0qQN2TwHmSklT4YA-GEQVL0wOP1r4rmSWQs5As6N6n7489xJYdbX7yyjGvv4t1A";
+        String jwtToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZW91bG1vdXNlMSIsImlhdCI6MTcxNDYyNzI2MiwiZXhwIjoxNzE0NjI3ODYyfQ.qJ9-O0BTfdzkYMTGV9-TVNmUFQIvyUM3ihmKJTezqo1k5sW1cZV27Xx7u7OfMA986ICjmx_2Yc-d4igh6eT7Zg";
         // REST API 엔드포인트
-        String endpoint = "http://localhost:8000/api/shop/cart";
+        String endpoint = "http://localhost:8000/admin/orderstats";
 
         // HttpClient 생성
         HttpClient httpClient = HttpClient.newHttpClient();

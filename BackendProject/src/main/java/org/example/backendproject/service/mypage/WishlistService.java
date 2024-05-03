@@ -52,17 +52,5 @@ public Page<WishlistDto> selectWishlistContaining(
     public void removeByPdId(Integer pdId) {
         // 주어진 pdId로 모든 관련 위시리스트 항목을 찾음
         List<Wishlist> wishlists = wishlistRepository.findByPdId(pdId);
-
-        // 검색된 모든 위시리스트 항목을 반복 처리
-        for (Wishlist wishlist : wishlists) {
-            // 각 위시리스트 항목의 상태를 'N'으로 설정하여 소프트 삭제를 표시
-            wishlist.setStatus("N");
-
-            // 변경된 상태를 데이터베이스에 저장
-            wishlistRepository.save(wishlist);
-        }
-        // 이 메서드의 실행이 성공적으로 완료되면 트랜잭션이 커밋되며,
-        // 오류가 발생하면 자동으로 롤백됩니다.
     }
 }
-

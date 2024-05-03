@@ -29,13 +29,13 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/admin/orderstats")
+@RequestMapping("/admin")
 public class OrderStatsController {
 
     @Autowired
     OrderStatsService orderStatsService;
 
-    @GetMapping
+    @GetMapping("/orderstats")
     public ResponseEntity<?> getOrderStats() {
         List<OrderStats> orderStatsList = orderStatsService.getOrderStats();
         if (orderStatsList.isEmpty()) {

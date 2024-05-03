@@ -1,8 +1,6 @@
 package org.example.backend.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.example.backend.model.common.BaseTimeEntity2;
 import org.hibernate.annotations.DynamicInsert;
@@ -37,6 +35,7 @@ import org.hibernate.annotations.Where;
 public class Order extends BaseTimeEntity2 {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
     private String userId;
     private String orderName;

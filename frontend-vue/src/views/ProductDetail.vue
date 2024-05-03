@@ -13,7 +13,7 @@
         <li><div id="option-text">옵션 선택</div></li>
         <select name="product-option" class="select-box">
           <option value="1" v-for="(data, index) in option" :key="index">
-            {{ data.opName }} + {{ data.opPrice }}원 (남은 수량 :
+            {{ data.opName }} + {{ data.opPrice}}원 (남은 수량 :
             {{ data.opStock }})
           </option>
         </select>
@@ -63,7 +63,7 @@
         <li>
           <div class="btn-group" role="group">
             <img
-              @click="toggleShow, saveWishList"
+              @click="toggleShow"
               v-if="show"
               src="@/assets/img/free-icon-font-circle-heart-9272486.png"
             />
@@ -431,12 +431,19 @@ export default {
   methods: {
     toggleShow() {
       this.show = !this.show;
+      if(this.show == false) {
+        this.saveWishList();
+      }
+      else {
+        this.deleteWishList();
+      }
     },
     async saveWishList() {
       try {
         let data = {
-        pdId: this.$route.params.pdId
-      }
+        pdId: this.$route.params.pdId,
+        userId: this.$store.state.userId
+        }
 
       let response = await ProductService.create(data);
       console.log(response.data);
@@ -444,9 +451,9 @@ export default {
         console.log(e);
       }
     },
-    async deleteWishList(pdId) {
+    async deleteWishList() {
       try {
-        let response = await ProductService.remove(pdId);
+        let response = await ProductService.remove(this.$route.params.pdId, this.$store.state.userId);
         console.log(response.data);
       } catch (e) {
         console.log(e);
@@ -520,6 +527,9 @@ export default {
     },
   },
   mounted() {
+    if (this.show == false) {
+      this.toggleShow();
+    }
     this.getProduct(this.$route.params.pdId);
     this.getProductImage(this.$route.params.pdId);
     this.retrieveReview();
