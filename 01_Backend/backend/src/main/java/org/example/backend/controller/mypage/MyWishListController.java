@@ -31,13 +31,14 @@ public class MyWishListController {
             @PathVariable String userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
-    ) {
-        try {
+    )
+    {
+        try{
             Pageable pageable = PageRequest.of(page, size);
 
 //            전체 조회 서비스 함수 실행
             Page<WishlistDto> wishDtoPage
-                    = myWishlistService.selectWishlistContaining(userId, pageable);
+                    = myWishlistService.selectWishlistContaining(userId,pageable);
 
             Map<String, Object> response = new HashMap<>();
             response.put("wishlist", wishDtoPage.getContent());             // 부서배열
@@ -45,22 +46,22 @@ public class MyWishListController {
             response.put("totalItems", wishDtoPage.getTotalElements()); // 전체데이터개수
             response.put("totalPages", wishDtoPage.getTotalPages());    // 전체페이지수(x)
 
-            if (wishDtoPage.isEmpty() == true) {
+            if(wishDtoPage.isEmpty() == true) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
 
         } catch (Exception e) {
-            log.debug("에러 : " + e.getMessage());
+            log.debug("에러 : "+ e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @DeleteMapping("/deletion/{pdId}/{userId}")
-    public ResponseEntity<?> removeItem(@PathVariable Integer pdId,
-                                        @PathVariable String userId) {
-        myWishlistService.removeWishlistItem(pdId, userId);
-        return ResponseEntity.ok().build();
+    // pdId를 사용하여 Wishlist 항목 삭제
+    @DeleteMapping("/wishlist/deletion/{pdId}")
+    public ResponseEntity<Object> deleteByPdId(@PathVariable Integer pdId) {
+        myWishlistService.removeByPdId(pdId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
