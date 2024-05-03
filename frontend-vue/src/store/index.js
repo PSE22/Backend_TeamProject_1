@@ -7,6 +7,7 @@ export default createStore({
     loggedIn: user ? true : false, // 로그인 여부
     user: user ? user : null, // 로그인 정보(웹토큰속성 있음)
     selectedProducts: [], // 선택한 상품 저장할 배열
+    userId: "user1",
   },
   getters: {
     // 선택한 상품 배열을 반환하는 게터

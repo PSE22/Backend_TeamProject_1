@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  * packageName : org.example.backendproject.repository.shop
- * fileName : PointRepository
+ * fileName : MyPointRepository
  * author : 5
  * date : 24. 5. 2.
  * description :
