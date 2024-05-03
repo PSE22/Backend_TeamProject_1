@@ -15,6 +15,8 @@ package org.example.backend.model.dto.shop;
  */
 public interface ICartDto {
     Integer getCartId(); // 장바구니 번호
+    Integer getOpId(); // 장바구니 번호
+    String getUserId(); // 장바구니 번호
     Integer getCartCount(); // 장바구니 수량
     String getOpName();     // 옵션명
     Integer getOpPrice();   // 옵션 가격
