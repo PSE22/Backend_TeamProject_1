@@ -34,7 +34,7 @@
 
           <!-- Nav Item - Pages Collapse Menu -->
           <li class="nav-item">
-            <a class="nav-link" href="/adorder">
+            <a class="nav-link" href="/admin-order">
               <i class="fas fa-fw fa-table"></i>
               <span>주문 관리</span></a
             >
@@ -42,7 +42,7 @@
 
           <!-- Nav Item - Utilities Collapse Menu -->
           <li class="nav-item">
-            <a class="nav-link" href="/adproduct">
+            <a class="nav-link" href="/admin-product">
               <i class="fas fa-fw fa-table"></i>
               <span>상품 관리</span></a
             >
@@ -61,7 +61,7 @@
 
           <!-- Nav Item - Charts -->
           <li class="nav-item">
-            <a class="nav-link" href="/adchart">
+            <a class="nav-link" href="/admin-chart">
               <i class="fas fa-fw fa-chart-area"></i>
               <span>통계</span></a
             >
@@ -69,7 +69,7 @@
 
           <!-- Nav Item - Tables -->
           <li class="nav-item">
-            <a class="nav-link" href="/adtable">
+            <a class="nav-link" href="/admin-table">
               <i class="fas fa-fw fa-table"></i>
               <span>문의관리</span></a
             >
@@ -241,17 +241,8 @@
                                 data-bs-dismiss="modal"
                               ></button>
                             </div>
-                            <!-- 쿠폰번호 -->
+                            <!-- 등록 모달 내 목록 -->
                             <div class="modal-body">
-                              <h3 class="fs-5 mt-1">쿠폰번호</h3>
-                              <label for="text" class="form-label"></label>
-                              <input
-                                type="text"
-                                class="form-control mb-4"
-                                placeholder="쿠폰번호을 입력하세요"
-                                name="text"
-                                v-model="adminCouponData.cpId"
-                              />
                               <!-- 상품번호 -->
                               <h3 class="fs-5 mt-1">상품번호</h3>
                               <label for="text" class="form-label"></label>
@@ -282,6 +273,16 @@
                                 name="text"
                                 v-model="adminCouponData.cpDcPrice"
                               />
+                              <!-- 할인율 -->
+                              <h3 class="fs-5 mt-3">할인율</h3>
+                              <label for="text" class="form-label"></label>
+                              <input
+                                type="text"
+                                class="form-control mb-4"
+                                placeholder="할인율을 입력하세요"
+                                name="text"
+                                v-model="adminCouponData.cpDcRate"
+                              />
                               <!-- 최소사용금액 -->
                               <h3 class="fs-5 mt-3">최소사용금액</h3>
                               <label for="text" class="form-label"></label>
@@ -301,6 +302,16 @@
                                 placeholder="최대할인금액을 입력하세요"
                                 name="text"
                                 v-model="adminCouponData.cpMaxDcPrice"
+                              />
+                              <!-- 만료일 -->
+                              <h3 class="fs-5 mt-3">만료일</h3>
+                              <label for="text" class="form-label"></label>
+                              <input
+                                type="text"
+                                class="form-control mb-4"
+                                placeholder="만료일을 입력하세요"
+                                name="text"
+                                v-model="adminCouponData.cpExpireDate"
                               />
                               <!-- 상태 확인 시작 -->
                               <h3 class="fs-5 mt-3">상태</h3>
@@ -456,7 +467,7 @@
                             v-model="page"
                             :total-rows="count"
                             :per-page="pageSize"
-                            @click="retrieveEmp"
+                            @click="retrieveAdminCoupon"
                           ></b-pagination>
                         </div>
                       </div>
@@ -531,6 +542,7 @@ export default {
           delDate: this.adminCouponData.delDate,
           status: this.adminCouponData.status,
         };
+        console.log(data);
         // TODO: 벡엔드로 객체 추가 요청
         let response = await AdminCouponService.create(data);
         // TODO: 콘솔에 결과 출력

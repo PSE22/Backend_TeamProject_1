@@ -1,6 +1,7 @@
 package org.example.backendproject.controller.shop;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.backendproject.model.common.PdIdUserIdPk;
 import org.example.backendproject.model.dto.shop.IProductDto;
 import org.example.backendproject.model.dto.shop.IProductImgDto;
 import org.example.backendproject.model.entity.Product;
@@ -106,7 +107,7 @@ public class ProductController {
         }
     }
 
-    //    TODO: 저장 함수
+//    위시 리스트에 저장
     @PostMapping("/product/wishList")
     public ResponseEntity<Object> create(
             @RequestBody Wishlist wishlist
@@ -118,6 +119,28 @@ public class ProductController {
             return new ResponseEntity<>(wishlist2, HttpStatus.OK);
         } catch (Exception e) {
 //            500 전송
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    위시 리스트에서 삭제
+    @DeleteMapping("/product/deletion/{pdId}/{userId}")
+    public ResponseEntity<Object> delete(
+            @PathVariable Long pdId,
+            @PathVariable String userId
+    ) {
+        try {
+            PdIdUserIdPk pdIdUserIdPk = new PdIdUserIdPk(pdId, userId); // 복합키 클래스에 값을 넣기
+//            DB 삭제 서비스 함수 실행
+            boolean success = productService.removeById(pdIdUserIdPk);
+            if (success == true) {
+//                삭제 성공
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+//                삭제 실패 : 삭제할 데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

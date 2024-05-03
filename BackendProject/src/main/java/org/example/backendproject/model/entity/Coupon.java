@@ -51,7 +51,7 @@ public class Coupon extends BaseTimeEntity2 {
     private Integer pdId;
     private String cpName;
     private Integer cpDcPrice;
-    private Integer cpDcRate;
+    private Double cpDcRate;
     private Integer cpMinPrice;
     private Integer cpMaxDcPrice;
     private String cpExpireDate;
