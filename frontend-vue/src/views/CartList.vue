@@ -79,6 +79,13 @@
                   +
                 </button>
               </div>
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                @click="selectedCount(data)"
+              >
+                수량변경
+              </button>
             </td>
             <td class="col-2">
               {{ (data.pdPrice + data.opPrice) * data.cartCount }}
@@ -124,14 +131,14 @@
       <div class="d-grid gap-2 d-md-block text-center">
         <button
           class="btn btn-outline-dark btn-lg me-md-2 col-2"
-          type="submit"
+          type="button"
           @click="goOrder"
         >
           선택주문
         </button>
         <button
           class="btn btn-outline-dark btn-lg col-2"
-          type="submit"
+          type="button"
           @click="goOrder"
         >
           전체주문
@@ -166,6 +173,7 @@ export default {
         console.log(e);
       }
     },
+
     // TODO: 장바구니 개수 증가 함수
     increaseCount(data) {
       data.cartCount += 1;
@@ -178,14 +186,24 @@ export default {
         this.getTotalPrice();
       }
     },
+    // 장바구니 수량 변경
+    async selectedCount(data) { // data는 클릭한 객체를 나타냄
+      console.log("정보 :", data);
+      try {
+        let response = await CartService.updated(data,data.cartId);
+        console.log("수정 : ",response);
+      } catch(e) {
+        console.log(e);
+      }
+    },
 
     // 장바구니 삭제 함수 : delete 버튼 태그
     async deleteCart() {
       try {
         // 선택된 체크박스만 삭제
         const selectedIds = this.cart
-          .filter((item) => item.selected)
-          .map((item) => item.cartId);
+          .filter((product) => product.selected)
+          .map((product) => product.cartId);
         if (selectedIds === 0) {
           return;
         }
@@ -201,37 +219,14 @@ export default {
 
     // 장바구니 총 가격
     getTotalPrice() {
-      this.totalPrice = this.cart
-        .map((data) => (data.pdPrice + data.opPrice) * data.cartCount)
-        .reduce((acc, cur) => acc + cur);
-      // 총 가격이 60000 이상이면 배송비 무료
-      this.shipPrice = this.totalPrice >= 60000 ? 0 : 3000;
-    },
-
-    // TODO: 장바구니 담기(저장)
-    async goOrder() {
-      try {
-        // 임시 객체
-        let orderData = {
-          // opId: this.cart.opId, // 옵션번호
-          cart: this.cart.map((data) => ({
-            opId: data.opId, // 상품 옵션 ID
-            quantity: data.cartCount, // 장바구니 수량
-          })),
-        };
-        console.log("에러" + orderData);
-        let response = await CartService.create(orderData);
-        // 로깅
-        console.log(response.data);
-        // 주문 후 장바구니 비우기
-        // this.cart = [];
-        // 장바구니 담기 성공 메세지 출력
-        this.$router.push("/order");
-      } catch (e) {
-        console.log(e);
+      if (this.cart.length > 0) {
+        this.totalPrice = this.cart
+          .map((data) => (data.pdPrice + data.opPrice) * data.cartCount)
+          .reduce((acc, cur) => acc + cur);
+        // 총 가격이 60000 이상이면 배송비 무료
+        this.shipPrice = this.totalPrice >= 60000 ? 0 : 3000;
       }
     },
-
     // 체크박스 전체선택
     checkedAll(checked) {
       this.allChecked = checked;
