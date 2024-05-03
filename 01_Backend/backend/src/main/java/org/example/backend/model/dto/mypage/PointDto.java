@@ -15,12 +15,12 @@ package org.example.backend.model.dto.mypage;
  */
 
 public interface PointDto {
-    Integer usePointId();        // 사용 포인트 ID
-    Integer pointId();           // 포인트 ID
-    String userId();             // 유저 ID
-    Integer pointBalance();      // 잔액
-    String pointCode();          // 포인트 구분코드 (이벤트/리뷰/결제)
-    String pointExpireStatus();  // 포인트 만료여부
-    String addDate();            // 적립일
-    String delDate();            // 삭제일
+    Integer getUsePointId();        // 사용 포인트 ID
+    Integer getPointId();           // 포인트 ID
+    String getUserId();             // 유저 ID
+    Integer getPointBalance();      // 잔액
+    String getPointCode();          // 포인트 구분코드 (이벤트/리뷰/결제)
+    String getPointExpireStatus();  // 포인트 만료여부
+    String getAddDate();            // 적립일
+    String getDelDate();            // 삭제일
 }

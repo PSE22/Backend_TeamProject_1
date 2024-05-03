@@ -30,43 +30,12 @@ import org.hibernate.annotations.DynamicUpdate;
 public class OrderStats {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long statId;
-
-    private String statDate;
-
-    private Integer dailyOrderCount;
-
+    private Long odStatId;
+    private String odStatDate;
+    private Integer dailyOrderCnt;
     private Integer dailySales;
-
-    private Integer weeklyOrderCount;
-
-    private Integer weeklySales;
-
-    private Integer monthlyOrderCount;
-
+    private Integer monthlyOrderCnt;
     private Integer monthlySales;
-
-    private Integer yearlyOrderCount;
-
+    private Integer yearlyOrderCnt;
     private Integer yearlySales;
-
-    public void addDailyStats(int orderCount, int sales) {
-        this.dailyOrderCount = orderCount;
-        this.dailySales = sales;
-    }
-
-    public void addWeeklyStats(int orderCount, int sales) {
-        this.weeklyOrderCount = orderCount;
-        this.weeklySales = sales;
-    }
-
-    public void addMonthlyStats(int orderCount, int sales) {
-        this.monthlyOrderCount = orderCount;
-        this.monthlySales = sales;
-    }
-
-    public void addYearlyStats(int orderCount, int sales) {
-        this.yearlyOrderCount = orderCount;
-        this.yearlySales = sales;
-    }
 }

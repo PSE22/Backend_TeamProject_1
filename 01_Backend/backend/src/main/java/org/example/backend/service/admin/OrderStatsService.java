@@ -12,7 +12,7 @@ import java.util.List;
  * fileName : OrderStatsService
  * author : kimtaewan
  * date : 2024-05-01
- * description :
+ * description : 주문통계
  * 요약 :
  * <p>
  * ===========================================================
@@ -31,8 +31,6 @@ public class OrderStatsService {
         if (dailyStats != null) {
             orderStatsRepository.save(dailyStats);
         }
-
-        orderStatsRepository.findWeeklyStats().forEach(orderStatsRepository::save);
 
         OrderStats monthlyStats = orderStatsRepository.findMonthlyStats();
         if (monthlyStats != null) {

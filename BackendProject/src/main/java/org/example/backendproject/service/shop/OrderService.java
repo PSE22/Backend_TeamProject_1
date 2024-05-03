@@ -1,6 +1,7 @@
 package org.example.backendproject.service.shop;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.backendproject.model.dto.shop.IUserCouponDto;
 import org.example.backendproject.model.entity.ShipAddress;
 import org.example.backendproject.model.entity.User;
 import org.example.backendproject.model.entity.UserCoupon;
@@ -63,8 +64,8 @@ public class OrderService {
      * @param userId
      * @return
      */
-    public List<UserCoupon> findByUserCouponUserId(String userId) {
-        List<UserCoupon> list = userCouponRepository.findByUserId(userId);
+    public List<IUserCouponDto> findAllByUserCoupon(String userId) {
+        List<IUserCouponDto> list = userCouponRepository.findAllByUserCoupon(userId);
         return list;
     }
 }
