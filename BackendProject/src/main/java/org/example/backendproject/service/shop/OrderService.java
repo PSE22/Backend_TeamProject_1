@@ -1,11 +1,9 @@
 package org.example.backendproject.service.shop;
 
-import lombok.extern.slf4j.Slf4j;
 import org.example.backendproject.model.dto.shop.IUserCouponDto;
 import org.example.backendproject.model.entity.ShipAddress;
 import org.example.backendproject.model.entity.User;
-import org.example.backendproject.model.entity.UserCoupon;
-import org.example.backendproject.repository.shop.CouponRepository;
+import org.example.backendproject.repository.shop.PointRepository;
 import org.example.backendproject.repository.shop.ShipAddressRepository;
 import org.example.backendproject.repository.shop.UserCouponRepository;
 import org.example.backendproject.repository.shop.UserRepository;
@@ -39,6 +37,9 @@ public class OrderService {
     @Autowired
     UserCouponRepository userCouponRepository;
 
+    @Autowired
+    PointRepository pointRepository;
+
     /**
      * 주문자(User) 정보 상세 조회
      * @param userId
@@ -64,8 +65,11 @@ public class OrderService {
      * @param userId
      * @return
      */
-    public List<IUserCouponDto> findAllByUserCoupon(String userId) {
-        List<IUserCouponDto> list = userCouponRepository.findAllByUserCoupon(userId);
-        return list;
+    public Optional<IUserCouponDto> findAllByUserCoupon(String userId) {
+        Optional<IUserCouponDto> optionalIUserCouponDto = userCouponRepository.findAllByUserCoupon(userId);
+        return optionalIUserCouponDto;
     }
+
+
+
 }

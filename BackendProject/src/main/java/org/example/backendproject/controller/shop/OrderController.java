@@ -76,14 +76,14 @@ public class OrderController {
     @GetMapping("/order/user-coupon/{userId}")
     public ResponseEntity<Object> findByUserCouponUserId(@PathVariable String userId) {
         try {
-            List<IUserCouponDto> listUserCoupon = orderService.findAllByUserCoupon(userId);
-            if (listUserCoupon.isEmpty() == true) {
+            Optional<IUserCouponDto> optionalUserCoupon = orderService.findAllByUserCoupon(userId);
+            if (optionalUserCoupon.isEmpty() == true) {
                 // 데이터 없음
-                log.debug("22" , listUserCoupon);
+                log.debug("22" , optionalUserCoupon);
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 // 조회 성공
-                return new ResponseEntity<>(listUserCoupon, HttpStatus.OK);
+                return new ResponseEntity<>(optionalUserCoupon.get(), HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
