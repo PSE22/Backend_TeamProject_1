@@ -45,21 +45,6 @@ public class CartController {
     @Autowired
     CartService cartService;
 
-    //    TODO: 저장함수
-//    저장(insert) -> post 방식 -> @PostMapping
-    @PostMapping("/cart")
-    public ResponseEntity<Object> create(
-            @RequestBody Cart cart
-    ) {
-        try {
-//            저장 서비스 실행
-            Cart cart2 = cartService.save(cart);
-            return new ResponseEntity<>(cart2, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     //    TODO: 전체조회 함수(조인) + like 검색
 //    조회(select) -> get 방식 -> GetMapping
     @GetMapping("/cart/{userId}")
@@ -84,6 +69,28 @@ public class CartController {
         }
     }
 
+    //    TODO: 장바구니 수량 수정
+    @PutMapping("/cart/{cartId}")
+    public ResponseEntity<Object> create(
+            @PathVariable Long cartId,
+            @RequestBody Cart cart
+    ) {
+        log.debug("1");
+        try {
+            log.debug("짜증나네 : "
+                    + cart);
+//            저장 서비스 실행
+            log.debug("2");
+
+            Cart cart2 = cartService.save(cart);
+            log.debug("에러 :" + cart2);
+
+            return new ResponseEntity<>(cart2, HttpStatus.OK);
+        } catch (Exception e) {
+            log.debug("에러 : " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     //    TODO: 삭제함수
     @DeleteMapping("/cart/deletion/{cartId}")

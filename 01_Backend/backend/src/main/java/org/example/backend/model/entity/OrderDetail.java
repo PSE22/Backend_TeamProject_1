@@ -41,4 +41,5 @@ public class OrderDetail {
     private Long opId;                  // 옵션 ID
     private Integer orderDetailCnt;     // 주문상세수량
     private Integer orderDetailPrice;   // 주문상세가격
+    private String orderDetailCode;
 }

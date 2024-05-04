@@ -87,15 +87,22 @@
           <div class="col-3 row-title">배송지 선택</div>
           <div class="col-9 row-content">
             <div class="form-check form-check-inline">
-              <input class="form-check-input mt-1" type="radio" id="addrRadio1" name="addrRadioOptions" value="option1" v-model="selectedAddr"/>
+              <!-- 라디오 버튼 선택시 selectedAddr에 value 값이 들어감 -->
+              <input class="form-check-input mt-1" type="radio" id="addrRadio1" value="option1" v-model="selectedAddr" @change="handleRadioChange"/>
               <label class="form-check-label" for="addrRadio1">직접 입력</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input mt-1" type="radio" id="addrRadio2" name="addrRadioOptions" value="option2" v-model="selectedAddr"/>
+              <input class="form-check-input mt-1" type="radio" id="addrRadio2" value="option2" v-model="selectedAddr" @change="handleRadioChange"/>
               <label class="form-check-label" for="addrRadio2">주문자 정보와 동일</label>
             </div>
           </div>
         </div>
+
+
+
+        
+        <!-- TODO: "직접 입력" 라디오 버튼 선택 시 보임 -->
+        <div v-if="selectedAddr === 'option1'"> 직접입력이 보여요
         <!-- 배송 정보 : 내용 : 주소 -->
         <div class="row order-content-row">
           <div class="col-3 row-title">주소</div>
@@ -141,6 +148,64 @@
             </div>
           </div>
         </div>
+      </div>
+        <!-- TODO : 여기까지 -->
+
+
+
+        <!-- TODO: "주문자 정보와 동일" 라디오 버튼 선택 시 보임 -->
+        <div v-else-if="selectedAddr === 'option2'"> 주문자 정보와 동일이 보여요
+        <!-- 배송 정보 : 내용 : 주소 -->
+        <div class="row order-content-row">
+          <div class="col-3 row-title">주소</div>
+          <div class="col-9 row-content">
+            <div class="row">
+              <div class="col-3">
+                <input type="test" id="postcode" class="form-control" placeholder="우편번호"
+                  :value="shipAddress.postcode" />
+              </div>
+              <div class="col-3">
+                <button @click="execDaumPostcode()" type="submit" class="btn btn-primary mb-3" disabled>
+                  우편번호찾기
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <input type="text" id="shipAddr" class="form-control" placeholder="주소 입력"
+                  :value="shipAddress.shipAddr"/>
+              </div>
+              <div class="col-6">
+                <input type="text" id="shipAddr2" class="form-control" placeholder="상세주소 입력"
+                  :value="shipAddress.shipAddr2" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 배송 정보 : 내용 : 받으시는 분 -->
+        <div class="row order-content-row">
+          <div class="col-3 row-title pt-3">받으시는 분</div>
+          <div class="col-9 row-content">
+            <div class="col-4 ps-0">
+              <input type="text" class="form-control" placeholder="이름" :value="user.userName" />
+            </div>
+          </div>
+        </div>
+        <!-- 배송 정보 : 내용 : 휴대전화 -->
+        <div class="row order-content-row">
+          <div class="col-3 row-title pt-3">휴대전화</div>
+          <div class="col-9 row-content">
+            <div class="col-6 ps-0">
+              <input type="text" class="form-control" placeholder="휴대전화번호" :value="user.userPhone" />
+            </div>
+          </div>
+        </div>
+      </div>
+        <!-- TODO : 여기까지 -->
+
+
+
+
         <!-- 배송 정보 : 내용 : 배송 요청사항 -->
         <div class="row order-content-row">
           <div class="col-3 row-title pt-3">배송 요청사항</div>
@@ -165,8 +230,9 @@
               <div class="col-6">
                 <select class="form-select">
                   <!-- 회원 보유 쿠폰 반복문 돌리기 -->
-                  <option selected>쿠폰선택</option>
-                  <option value="1">One</option>
+                  <option value="1" v-for="(data, index) in coupon" :key="index">
+                  {{ data?.cpName }}
+                  </option>
                 </select>
               </div>
               <div class="col-3">
@@ -260,10 +326,12 @@ import OrderService from "@/services/shop/OrderService";
 export default {
   data() {
     return {
-      cart: [], // 장바구니 객체 배열
-      user: {}, // user 객체
-      shipAddress: {}, // 배송지 객체
-      selectedAddr: 'option1',
+      cart: [],             // 장바구니 객체 배열
+      user: {},             // user 객체
+      shipAddress: {},      // 배송지 객체
+      coupon: [],           // 쿠폰 배열
+      selectedAddr: 'option1',  // "직접 입력" 라디오 버튼 값 초기 설정
+      userId: this.$store.state.userId,
     };
   },
   methods: {
@@ -284,6 +352,8 @@ export default {
     //     console.log(e);
     //   }
     // },
+
+    // 회원 정보 가져오기
     async getUser(userId) {
       try {
         let response = await OrderService.getUser(userId);
@@ -293,6 +363,8 @@ export default {
         console.log(e);
       }
     },
+
+    // 회원의 배송지 정보 가져오기
     async getShipAddress(userId) {
       try {
         let response = await OrderService.getShipAddress(userId);
@@ -302,39 +374,43 @@ export default {
         console.log(e);
       }
     },
-    // 주소에 
-    // 배송지 선택 라디오 버튼 선택하면 실행
-    addressRadio() {
-      document.querySelectorAll('input[type=radio][name=addrRadioOptions]').forEach(function (radio) {
-        radio.addEventListener('change', function () {
-          if (this.value === 'option1') {
-            // "신규 배송지" 라디오 버튼이 선택
-            // 여기에 해당 라디오 버튼을 선택했을 때 수행할 동작 추가
-          } else if (this.value === 'option2') {
-            // "주문자 정보와 동일" 라디오 버튼이 선택
-            // 여기에 해당 라디오 버튼을 선택했을 때 수행할 동작 추가
-          }
-        });
-      });
+
+    // 회원의 쿠폰 정보 가져오기
+    async getUserCoupon(userId) {
+      try {
+        let response = await OrderService.getUserCoupon(userId);
+        this.coupon = response.data;
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    // 배송지 라디오 버튼 함수
+    handleRadioChange() {
+      if (this.selectedAddr === "option1") {
+        this.shipAddress = [];
+        console.log("직접입력이 선택됨 : " + this.selectedAddr);
+
+      } else if (this.selectedAddr === "option2"){
+        this.getShipAddress(this.userId);
+        console.log("주문자 정보와 동일이 선택됨 : " + this.selectedAddr);
+      }
     },
 
     // 카카오 주소 api 연동 부분
     execDaumPostcode() {
       new window.daum.Postcode({
         oncomplete: function (data) {
-          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-          // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
           var addr = ''; // 주소 변수
 
           //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
           if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
             addr = data.roadAddress;
-          } else { // 사용자가 지번 주소를 선택했을 경우(J)
+          } else { // 사용자가 지번 주소를 선택했을 경우
             addr = data.jibunAddress;
           }
-
+          
           // 우편번호와 주소 정보를 해당 필드에 넣는다.
           document.getElementById('postcode').value = data.zonecode;
           document.getElementById("shipAddr").value = addr;
@@ -345,8 +421,8 @@ export default {
     }
   },
   mounted() {
-    this.getUser(this.$store.state.userId);
-    this.getShipAddress(this.$store.state.userId);
+    this.getUser(this.userId);
+    this.getUserCoupon(this.userId);
   },
 };
 </script>

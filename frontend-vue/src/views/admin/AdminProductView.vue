@@ -1,23 +1,4 @@
 <template>
-  <!-- Custom fonts for this template -->
-  <link
-    href="../../../public/vendor/fontawesome-free/css/all.min.css"
-    rel="stylesheet"
-    type="text/css"
-  />
-  <link
-    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-    rel="stylesheet"
-  />
-
-  <!-- Custom styles for this template -->
-  <link href="../../../public/css/sb-admin-2.min.css" rel="stylesheet" />
-
-  <!-- Custom styles for this page -->
-  <link
-    href="../../../public/vendor/datatables/dataTables.bootstrap4.min.css"
-    rel="stylesheet"
-  />
   <div>
     <!-- TODO: 여기 -->
     <body id="page-top">
@@ -53,7 +34,7 @@
 
           <!-- Nav Item - Pages Collapse Menu -->
           <li class="nav-item">
-            <a class="nav-link" href="/adorder">
+            <a class="nav-link" href="/admin-order">
               <i class="fas fa-fw fa-table"></i>
               <span>주문 관리</span></a
             >
@@ -61,7 +42,7 @@
 
           <!-- Nav Item - Utilities Collapse Menu -->
           <li class="nav-item">
-            <a class="nav-link" href="/adproduct">
+            <a class="nav-link" href="/admin-product">
               <i class="fas fa-fw fa-table"></i>
               <span>상품 관리</span></a
             >
@@ -80,7 +61,7 @@
 
           <!-- Nav Item - Charts -->
           <li class="nav-item">
-            <a class="nav-link" href="/adchart">
+            <a class="nav-link" href="/admin-chart">
               <i class="fas fa-fw fa-chart-area"></i>
               <span>통계</span></a
             >
@@ -88,7 +69,7 @@
 
           <!-- Nav Item - Tables -->
           <li class="nav-item">
-            <a class="nav-link" href="/adtable">
+            <a class="nav-link" href="/admin-table">
               <i class="fas fa-fw fa-table"></i>
               <span>문의관리</span></a
             >
@@ -220,7 +201,7 @@
             </nav>
             <!-- 상단 메뉴 끝 -->
 
-            <!-- TODO: 주문 관리 시작 -->
+            <!-- TODO: 상품 관리 시작 -->
             <div class="container-fluid">
               <!-- Page Heading -->
               <h1 class="h3 mb-2 text-gray-800">상품관리</h1>
@@ -233,138 +214,257 @@
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    <!-- TODO: 등록/수정/삭제 시작 백에서 연결 해야함 -->
-                    <button type="button" class="btn btn-primary mr-3 mb-3">등록</button>
-                    <button type="button" class="btn btn-secondary mr-3 mb-3">수정</button>
-                    <button type="button" class="btn btn-danger mr-3 mb-3">삭제</button>
-                    <!-- 등록/수정/삭제 끝 -->
-                    <div class="row">
-                      <div class="col-sm-12">
-                        <table
-                          class="table table-bordered dataTable"
-                          width="100%"
-                          cellspacing="0"
-                          role="grid"
-                          aria-describedby="dataTable_info"
-                          style="width: 100%"
-                        >
-                          <thead>
-                            <tr role="row">
-                              <th>Name</th>
-                              <th>Position</th>
-                              <th>Office</th>
-                              <th>Age</th>
-                              <th>Start date</th>
-                              <th>Salary</th>
-                            </tr>
-                          </thead>
-                          <tfoot>
-                            <tr>
-                              <th>Name</th>
-                              <th>Position</th>
-                              <th>Office</th>
-                              <th>Age</th>
-                              <th>Start date</th>
-                              <th>Salary</th>
-                            </tr>
-                          </tfoot>
-                          <tbody>
-                            <tr>
-                              <td>Tiger Nixon</td>
-                              <td>System Architect</td>
-                              <td>Edinburgh</td>
-                              <td>61</td>
-                              <td>2011/04/25</td>
-                              <td>$320,800</td>
-                            </tr>
-                            <tr>
-                              <td>Donna Snider</td>
-                              <td>Customer Support</td>
-                              <td>New York</td>
-                              <td>27</td>
-                              <td>2011/01/25</td>
-                              <td>$112,000</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- TODO: 페이지 시작 / 페이지 네이션 백에서 해야함 -->
-                  <div class="row">
-                    <div class="col-sm-12 col-md-5">
-                      <div
-                        class="dataTables_info"
-                        role="status"
-                        aria-live="polite"
+                    <div v-if="!submitted">
+                      <!-- TODO: 등록 시작 -->
+                      <button
+                        type="button"
+                        class="btn btn-primary mr-3 mb-3"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#exampleModal-1'"
                       >
-                        검색결과 총 ? 건 중 ? 건
+                        등록
+                      </button>
+
+                      <!-- 등록 모달 -->
+                      <div class="modal fade" id="exampleModal-1" tabindex="-1">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1
+                                class="modal-title fs-5"
+                                id="exampleModalLabel"
+                              >
+                                상품 등록
+                              </h1>
+                              <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                              ></button>
+                            </div>
+                            <!-- 등록 모달 내 목록 -->
+                            <div class="modal-body">
+                              <!-- 회원아이디 -->
+                              <h3 class="fs-5 mt-1">회원아이디</h3>
+                              <label for="text" class="form-label"></label>
+                              <input
+                                disabled
+                                type="text"
+                                class="form-control mb-4"
+                                name="text"
+                                v-model="adminProductData.userId"
+                              />
+                              <!-- 상품명 -->
+                              <h3 class="fs-5 mt-1">상품명</h3>
+                              <label for="text" class="form-label"></label>
+                              <input
+                                type="text"
+                                class="form-control mb-4"
+                                placeholder="상품명을 입력하세요"
+                                name="text"
+                                v-model="adminProductData.pdName"
+                              />
+                              <!-- 가격 -->
+                              <h3 class="fs-5 mt-3">가격</h3>
+                              <label for="text" class="form-label"></label>
+                              <input
+                                type="text"
+                                class="form-control mb-4"
+                                placeholder="가격을 입력하세요"
+                                name="text"
+                                v-model="adminProductData.pdPrice"
+                              />
+                              <!-- 재고 -->
+                              <h3 class="fs-5 mt-3">재고</h3>
+                              <label for="text" class="form-label"></label>
+                              <input
+                                type="text"
+                                class="form-control mb-4"
+                                placeholder="재고수량을 입력하세요"
+                                name="text"
+                                v-model="adminProductData.pdStock"
+                              />
+                              <!-- 카테고리분류코드 -->
+                              <h3 class="fs-5 mt-3">카테고리분류코드</h3>
+                              <label for="text" class="form-label"></label>
+                              <input
+                                type="text"
+                                class="form-control mb-4"
+                                placeholder="카테고리분류코드를 입력하세요"
+                                name="text"
+                                v-model="adminProductData.categoryCode"
+                              />
+                              <!-- 썸네일URL -->
+                              <h3 class="fs-5 mt-3">썸네일URL</h3>
+                              <label for="text" class="form-label"></label>
+                              <input
+                                type="text"
+                                class="form-control mb-4"
+                                placeholder="썸네일URL을 입력하세요"
+                                name="text"
+                                v-model="adminProductData.pdThumbnail"
+                              />
+                              <!-- 상태 확인 시작 -->
+                              <h3 class="fs-5 mt-3">상태</h3>
+                              <div class="form-check form-check-inline mt-3">
+                                <label
+                                  for="form-check-label"
+                                  class="inlineRadio1"
+                                ></label>
+                                <input
+                                  type="radio"
+                                  class="form-check-input mb-4"
+                                  name="Y"
+                                  value="활성"
+                                  v-model="adminProductData.status"
+                                />
+                                <label
+                                  class="form-check-label"
+                                  for="inlineRadio1"
+                                  >활성</label
+                                >
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <label
+                                  for="form-check-label"
+                                  class="inlineRadio2"
+                                ></label>
+                                <input
+                                  type="radio"
+                                  class="form-check-input mb-4"
+                                  name="N"
+                                  value="비활성"
+                                  v-model="adminProductData.status"
+                                />
+                                <label
+                                  class="form-check-label"
+                                  for="inlineRadio2"
+                                  >비활성</label
+                                >
+                              </div>
+                              <!-- 상태 확인 끝 -->
+                            </div>
+                            <div class="modal-footer">
+                              <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                              >
+                                닫기
+                              </button>
+                              <button
+                                type="submit"
+                                class="btn btn-primary"
+                                @click="saveAdminProductData"
+                              >
+                                등록
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-sm-12 col-md-7">
-                      <div class="dataTables_paginate paging_Simple_numbers">
-                        <ul class="pagination justify-content-end">
-                          <li
-                            class="paginate_button page-item previous disabled"
+                      <!-- 등록 모달 끝 -->
+
+                      <!-- TODO: 등록 끝 -->
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <table
+                            class="table table-bordered dataTable"
+                            width="100%"
+                            cellspacing="0"
+                            role="grid"
+                            aria-describedby="dataTable_info"
+                            style="width: 100%"
                           >
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx="0"
-                              tabindex="0"
-                              class="page-link"
-                              >이전</a
-                            >
-                          </li>
-                          <li class="page-item">
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx="1"
-                              tabindex="0"
-                              class="page-link"
-                              >1</a
-                            >
-                          </li>
-                          <li class="page-item">
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx="2"
-                              tabindex="0"
-                              class="page-link"
-                              >2</a
-                            >
-                          </li>
-                          <li class="page-item">
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx="3"
-                              tabindex="0"
-                              class="page-link"
-                              >3</a
-                            >
-                          </li>
-                          <li class="page-item">
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx="4"
-                              tabindex="0"
-                              class="page-link"
-                              >다음</a
-                            >
-                          </li>
-                        </ul>
+                            <thead>
+                              <tr role="row">
+                                <th>액션</th>
+                                <th>상품번호</th>
+                                <th>상품명</th>
+                                <th>가격</th>
+                                <th>재고</th>
+                                <th>카테고리분류코드</th>
+                                <th>썸네일URL</th>
+                                <th>저장일</th>
+                                <th>수정일</th>
+                                <th>삭제일</th>
+                                <th>상태</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr
+                                v-for="(data, index) in adminProduct"
+                                :key="index"
+                              >
+                                <td>
+                                  <!-- TODO: 링크 : a 태그 (전체 새로고침(성능저하) -> 페이지전환) -->
+                                  <!-- TODO: 뷰에서제공 링크 : router-link (부분 새로고침: 성능향상) -->
+                                  <router-link
+                                    :to="'/admin-product-edit/' + data.pdId"
+                                  >
+                                    <span class="badge text-bg-secondary"
+                                      >수정</span
+                                    >
+                                  </router-link>
+                                </td>
+                                <td>{{ data.pdId }}</td>
+                                <td>{{ data.pdName }}</td>
+                                <td>{{ data.pdPrice }}</td>
+                                <td>{{ data.pdStock }}</td>
+                                <td>{{ data.categoryCode }}</td>
+                                <td>{{ data.pdThumbnail }}</td>
+                                <td>{{ data.addDate }}</td>
+                                <td>{{ data.modDate }}</td>
+                                <td>{{ data.delDate }}</td>
+                                <td>{{ data.status }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
+                    <!-- TODO: 페이지 시작 / 페이지 네이션 백에서 해놓음 -->
+                    <div class="row">
+                      <div class="col-sm-12 col-md-5">
+                        <div
+                          class="dataTables_info"
+                          role="status"
+                          aria-live="polite"
+                        >
+                          <!-- 복습 : select 태그 -> v-model="pageSize" : 화면에 보일 초기값이 지정 -->
+                          <!-- <select
+                            class="form-select form-select-sm"
+                            v-model="pageSize"
+                            @change="pageSizeChange"
+                          > -->
+                          <!-- TODO: vue 반복문 실행 -->
+                          <!-- <option
+                            v-for="(data, index) in pageSizes"
+                            :key="index"
+                            :value="data"
+                          > -->
+                            검색결과 총 {{ count }} 건
+                            <!-- </select> -->
+                          <!-- </option> -->
+                        </div>
+                      </div>
+                      <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_Simple_numbers">
+                          <b-pagination
+                            v-model="page"
+                            :total-rows="count"
+                            :per-page="pageSize"
+                            @click="retrieveAdminProduct"
+                          ></b-pagination>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- TODO: 페이지 끝 -->
                   </div>
-                  <!-- TODO: 페이지 끝 -->
                 </div>
               </div>
+              <!-- /.container-fluid -->
             </div>
-            <!-- /.container-fluid -->
           </div>
           <!-- TODO: 게시판 끝 -->
 
@@ -429,7 +529,104 @@
   </div>
 </template>
 <script>
-export default {};
+import AdminProuctService from "@/services/admin/AdminProductService";
+export default {
+  data() {
+    return {
+      // TODO: 등록
+      adminProductData: {
+        userId: this.$store.state.user.userId
+      }, // 빈객체
+      submitted: false, // 저장버튼 클릭하면 true 바뀜
+
+      // TODO: 백엔드 연결
+      adminProduct: [], // spring 에서 전송
+      adminOption: [], // spring 에서 전송
+      searchPdName: "",
+      searchOpName: "",
+
+      // 공통 속성(현재페이지, 전체데이터개수,1페이지당개수)
+      page: 1, // 현재페이지번호
+      count: 0, // 전체데이터개수
+      pageSize: 10, // 1페이지당개수(select태그)
+
+      pageSizes: [10, 25, 50], //1페이지당개수 배열(select태그-option)
+    };
+  },
+  methods: {
+    // TODO: 등록 시작
+    async saveAdminProductData() {
+      try {
+        // 임시 객체 변수
+        let data = {
+          // 상품 관리
+          pdId: this.adminProductData.pdId,
+          userId: this.adminProductData.userId,
+          pdName: this.adminProductData.pdName,
+          pdPrice: this.adminProductData.pdPrice,
+          pdStock: this.adminProductData.pdStock,
+          categoryCode: this.adminProductData.categoryCode,
+          pdThumbnail: this.adminProductData.pdThumbnail,
+          addDate: this.adminProductData.addDate,
+          modDate: this.adminProductData.modDate,
+          delDate: this.adminProductData.delDate,
+          status: this.adminProductData.status,
+          // // 옵션 관리
+          // opId: this.adminProductData.opId,
+          // opName: this.adminProductData.opName,
+          // opPrice: this.adminProductData.opPrice,
+          // opStock: this.adminProductData.opStock,
+          // opCode: this.adminProductData.opCode,
+        };
+        console.log(data);
+        // TODO: 벡엔드로 객체 추가 요청
+        let response = await AdminProuctService.create(data);
+        // TODO: 콘솔에 결과 출력
+        console.log(response);
+        this.submitted = true; // 저장유무변수=true 변경
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    // 저장페이지 열기 함수 : 화면 초기화
+    newAdminProductData() {
+      // 뷰/리액트 : 변수값을 조작하면 화면이 자동 갱신됨
+      this.submitted = false;
+      this.adminProductData = {};
+    },
+    // TODO: 등록 끝
+    // TODO: 백엔드 연결
+    pageNoChange(value) {
+      this.page = value; // 1) 현재페이지 변경
+      this.retrieveAdminProduct(); // 2) 재조회 요청
+    },
+    pageSizeChange() {
+      this.page = 1; // 2) 현재 페이지번호 초기화(1)
+      this.retrieveAdminProduct(); // 3) 재조회 요청
+    },
+    async retrieveAdminProduct() {
+      try {
+        let response = await AdminProuctService.getAll(
+          this.searchPdName, // 검색어
+          this.page - 1, // 현재페이지번호-1
+          this.pageSize // 1페이지당개수(size)
+        );
+        const { adminProduct, totalItems } = response.data; // 쿠폰배열(벡엔드 전송)
+        this.adminProduct = adminProduct; // 쿠폰배열(벡엔드 전송)
+        this.count = totalItems; // 전체페이지수(벡엔드 전송)
+        console.log("전체조회", response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    // TODO: 백엔드 끝
+    // TODO: 백엔드 시작
+  },
+  mounted() {
+    this.retrieveAdminProduct(); // 전체 조회 함수 실행
+    // TODO: 백엔드 끝
+  },
+};
 </script>
 <style>
 @font-face {

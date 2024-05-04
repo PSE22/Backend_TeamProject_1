@@ -28,7 +28,9 @@ import java.util.List;
 public interface CartRepository extends JpaRepository<Cart, Integer> {
     //    장바구니 전체조회
     @Query(value = "SELECT\n" +
-            "C.CART_ID AS cartId,C.CART_COUNT AS cartCount,\n" +
+            "C.CART_ID AS cartId, C.CART_COUNT AS cartCount, " +
+            "C.OP_ID AS opId,\n" +
+            "C.USER_ID AS userId,\n" +
             "O.OP_NAME AS opName,\n" +
             "O.OP_PRICE AS opPrice,\n" +
             "PD.PD_NAME AS pdName,\n" +
