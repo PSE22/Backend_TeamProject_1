@@ -491,7 +491,7 @@ export default {
           } else { // 사용자가 지번 주소를 선택했을 경우
             addr = data.jibunAddress;
           }
-
+          
           // 우편번호와 주소 정보를 해당 필드에 넣는다.
           document.getElementById('postcode').value = data.zonecode;
           document.getElementById("shipAddr").value = addr;
@@ -561,7 +561,6 @@ export default {
   },
   mounted() {
     this.getUser(this.userId);
-    this.getShipAddress(this.userId);
     this.getUserCoupon(this.userId);
     this.getResultPoint(this.userId);
   },
