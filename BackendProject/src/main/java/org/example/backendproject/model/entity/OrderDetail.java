@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import lombok.*;
+import org.example.backendproject.model.common.BaseTimeEntity;
 import org.example.backendproject.model.common.BaseTimeEntity2;
 import org.example.backendproject.model.common.OrderIdOpIdPk;
 import org.hibernate.annotations.DynamicInsert;
@@ -36,11 +37,12 @@ import org.hibernate.annotations.Where;
 @DynamicUpdate
 // 복합키 클래스
 @IdClass(OrderIdOpIdPk.class)
-public class OrderDetail {
+public class OrderDetail extends BaseTimeEntity {
     @Id
     private Integer orderId;            // 주문번호 (PK)
     @Id
     private Integer opId;               // 옵션번호 (PK)
     private Integer orderDetailCnt;     // 수량
     private Integer orderDetailPrice;   // 금액
+    private Integer orderDetailCode;    // 주문상태코드
 }

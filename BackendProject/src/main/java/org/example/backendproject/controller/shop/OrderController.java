@@ -1,7 +1,9 @@
 package org.example.backendproject.controller.shop;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.backendproject.model.dto.shop.IPointDto;
 import org.example.backendproject.model.dto.shop.IUserCouponDto;
+import org.example.backendproject.model.entity.Point;
 import org.example.backendproject.model.entity.ShipAddress;
 import org.example.backendproject.model.entity.User;
 import org.example.backendproject.service.shop.OrderService;
@@ -79,11 +81,27 @@ public class OrderController {
             Optional<IUserCouponDto> optionalUserCoupon = orderService.findAllByUserCoupon(userId);
             if (optionalUserCoupon.isEmpty() == true) {
                 // 데이터 없음
-                log.debug("22" , optionalUserCoupon);
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 // 조회 성공
                 return new ResponseEntity<>(optionalUserCoupon.get(), HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // 회원의 포인트 잔액 상세 조회
+    @GetMapping("/order/point/{userId}")
+    public ResponseEntity<Object> findByResultPoint(@PathVariable String userId) {
+        try {
+            Optional<IPointDto> optionalPoint = orderService.findByResultPoint(userId);
+            if (optionalPoint.isEmpty() == true) {
+                // 데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                // 조회 성공
+                return new ResponseEntity<>(optionalPoint.get(), HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
