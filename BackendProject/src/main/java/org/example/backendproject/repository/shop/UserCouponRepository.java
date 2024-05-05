@@ -26,6 +26,7 @@ import java.util.Optional;
 @Repository
 public interface UserCouponRepository extends JpaRepository<UserCoupon, CpIdUserIdPk> {
     @Query(value="SELECT UC.USER_ID AS userId,\n" +
+            "C.CP_ID AS cpId,\n" +
             "C.CP_NAME AS cpName,\n" +
             "C.CP_DC_PRICE AS cpDcPrice,\n" +
             "C.CP_DC_RATE AS cpDcRate, \n" +

@@ -1,6 +1,8 @@
 package org.example.backendproject.service.shop;
 
+import org.example.backendproject.model.dto.shop.IPointDto;
 import org.example.backendproject.model.dto.shop.IUserCouponDto;
+import org.example.backendproject.model.entity.Point;
 import org.example.backendproject.model.entity.ShipAddress;
 import org.example.backendproject.model.entity.User;
 import org.example.backendproject.repository.shop.PointRepository;
@@ -70,6 +72,13 @@ public class OrderService {
         return optionalIUserCouponDto;
     }
 
-
-
+    /**
+     * 포인트 잔액 상세 조회
+     * @param userId
+     * @return
+     */
+    public Optional<IPointDto> findByResultPoint(String userId) {
+        Optional<IPointDto> optionalPoint = pointRepository.findByResultPoint(userId);
+        return optionalPoint;
+    }
 }
