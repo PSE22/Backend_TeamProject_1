@@ -17,6 +17,7 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface IUserCouponDto {
     String getUserId();
+    String getCpId();
     String getCpName();
     Integer getCpDcPrice();
     Integer getCpDcRate();

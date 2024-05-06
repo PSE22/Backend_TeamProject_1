@@ -7,6 +7,7 @@ export default createStore({
     loggedIn: user ? true : false, // 로그인 여부
     user: user ? user : null, // 로그인 정보(웹토큰속성 있음)
     orderList: [],
+    userId: "user1",
   },
   getters: {},
   mutations: {

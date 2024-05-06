@@ -16,5 +16,10 @@ class OrderService {
     getUserCoupon(userId) {
         return http.get(`/shop/order/user-coupon/${userId}`)
     }
+
+    // 회원의 포인트 잔액 조회
+    getResultPoint(userId) {
+        return http.get(`/shop/order/point/${userId}`)
+    }
 }
 export default new OrderService();
