@@ -26,7 +26,7 @@ public interface QnaRepository extends JpaRepository<PdQna, Integer> {
     @Query(value = "SELECT PQ.USER_ID AS userId\n" +
             ", PQ.PD_QNA_TITLE AS pdQnaTitle\n" +
             ", PQ.PD_QNA_CONTENT AS pdQnaContent\n" +
-            ", PQ.ADD_DATE AS pqAddDate\n" +
+            ", PQ.ADD_DATE AS pdAddDate\n" +
             ", PQ.PD_QNA_SECRET AS pdQnaSecret\n" +
             ", PQI.PD_QNA_IMG_URL AS pdQnaImgUrl\n" +
             ", QR.PD_QNA_REPLY_CONTENT AS pdQnaReplyContent\n" +

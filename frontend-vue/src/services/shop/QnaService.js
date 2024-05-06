@@ -10,5 +10,11 @@ class QnaService {
     get(pdQnaId) {
         return http.get(`/shop/product3/${pdQnaId}`);
     }
+
+    // 문의 저장
+    create(data) {
+        console.log(data);
+        return http.post("/shop/product/qna", data);
+    }
 }
 export default new QnaService();

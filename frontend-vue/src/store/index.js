@@ -1,4 +1,4 @@
-import { createStore } from "vuex";
+import { createStore } from 'vuex'
 
 const user = JSON.parse(localStorage.getItem("user"));
 
