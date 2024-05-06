@@ -1,6 +1,6 @@
-package org.example.backendproject.repository.shop;
+package org.example.backend.repository.shop;
 
-import org.example.backendproject.model.entity.ShipAddress;
+import org.example.backend.model.entity.ShipAddress;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

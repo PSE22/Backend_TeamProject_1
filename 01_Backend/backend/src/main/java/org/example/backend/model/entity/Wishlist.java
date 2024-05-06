@@ -40,7 +40,7 @@ import java.time.format.DateTimeFormatter;
 @IdClass(PdIdUserIdPk.class)
 public class Wishlist {
     @Id
-    private Integer pdId;       // 상품 ID
+    private Long pdId;       // 상품 ID
     @Id
     private String userId;      // 회원 ID
 

@@ -5,7 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import lombok.*;
-import org.example.backend.model.common.BaseTimeEntity2;
+import org.example.backend.model.common.BaseTimeEntity;
 import org.example.backend.model.common.OrderIdOpIdPk;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -35,16 +35,13 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-@Where(clause = "STATUS = 'Y'")
-@SQLDelete(sql = "UPDATE TB_ORDER_CANCEL SET STATUS = 'N' WHERE ORDER_ID = ? AND OP_ID = ?")
 @IdClass(OrderIdOpIdPk.class)
-public class OrderCancel extends BaseTimeEntity2 {
-
+public class OrderCancel extends BaseTimeEntity {
     @Id
-    private Long orderId;
+    private Long orderId;           // 주문 ID
     @Id
-    private Long opId;
-    private Integer ocPrice;
-    private String ocCode;
-    private String ocReason;
+    private Long opId;              // 옵션 ID
+    private Integer ocPrice;        // 취소금액
+    private String ocCode;          // 주문상태코드
+    private String ocReason;        // 취소사유
 }
