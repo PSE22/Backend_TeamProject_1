@@ -36,7 +36,7 @@ public class QnaController {
     QnaService qnaService;
 
 //    TODO 저장 함수
-    @PostMapping("/qna")
+    @PostMapping("/product/qna")
     public ResponseEntity<Object> create(
             @RequestBody PdQna pdQna
     ) {
