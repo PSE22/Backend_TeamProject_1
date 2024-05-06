@@ -1,6 +1,6 @@
 package org.example.backendproject.service.mypage;
 
-import org.example.backendproject.repository.mypage.PointRepository;
+import org.example.backendproject.repository.mypage.MyPointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PointService {
     @Autowired
-    PointRepository pointRepository;
+    MyPointRepository myPointRepository;
 
 //    pointAdd 더해서
 }

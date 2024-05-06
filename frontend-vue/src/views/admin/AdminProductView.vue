@@ -541,7 +541,9 @@ export default {
 
       // TODO: 백엔드 연결
       adminProduct: [], // spring 에서 전송
+      adminOption: [], // spring 에서 전송
       searchPdName: "",
+      searchOpName: "",
 
       // 공통 속성(현재페이지, 전체데이터개수,1페이지당개수)
       page: 1, // 현재페이지번호
@@ -557,6 +559,7 @@ export default {
       try {
         // 임시 객체 변수
         let data = {
+          // 상품 관리
           pdId: this.adminProductData.pdId,
           userId: this.adminProductData.userId,
           pdName: this.adminProductData.pdName,
@@ -568,6 +571,12 @@ export default {
           modDate: this.adminProductData.modDate,
           delDate: this.adminProductData.delDate,
           status: this.adminProductData.status,
+          // // 옵션 관리
+          // opId: this.adminProductData.opId,
+          // opName: this.adminProductData.opName,
+          // opPrice: this.adminProductData.opPrice,
+          // opStock: this.adminProductData.opStock,
+          // opCode: this.adminProductData.opCode,
         };
         console.log(data);
         // TODO: 벡엔드로 객체 추가 요청
