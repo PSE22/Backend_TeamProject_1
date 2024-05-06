@@ -561,6 +561,7 @@ export default {
   },
   mounted() {
     this.getUser(this.userId);
+    this.getShipAddress(this.userId);
     this.getUserCoupon(this.userId);
     this.getResultPoint(this.userId);
   },
