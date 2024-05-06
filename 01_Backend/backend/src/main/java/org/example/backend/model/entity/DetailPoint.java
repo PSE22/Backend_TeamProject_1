@@ -50,7 +50,4 @@ public class DetailPoint {
     private String  modDate;      // 수정일
     private String  delDate;      // 삭제일
     private String  status;       // 상태
-
-
-
 }
