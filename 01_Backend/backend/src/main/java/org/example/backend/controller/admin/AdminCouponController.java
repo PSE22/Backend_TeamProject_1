@@ -30,14 +30,14 @@ public class AdminCouponController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        try{
+        try {
 //            매개변수(page, size) 페이징 변수에 저장
 //             page : 현재페이지번호, size : 1페이지당개수
             Pageable pageable = PageRequest.of(page, size);
 
 //            전체 조회 서비스 함수 실행
             Page<AdminCoupon> pageList
-                    = adminCouponService.findAllByAdminCouponNameContaining(cpName,pageable);
+                    = adminCouponService.findAllByAdminCouponNameContaining(cpName, pageable);
 
 //            vue 로 json 데이터를 전송 : jsp (model == Map(키,값))
             Map<String, Object> response = new HashMap<>();
@@ -48,7 +48,7 @@ public class AdminCouponController {
 
 //            TODO: 1) pageList 값이 없으면 : DB 테이블 없음 => NO_CONTENT(203)
 //                  2) pageList 값이 있으면 : 성공 => OK(200)
-            if(pageList.isEmpty() == true) {
+            if (pageList.isEmpty() == true) {
 //                1) pageList 값이 없으면 : DB 테이블 없음 => NO_CONTENT(203)
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
@@ -71,7 +71,7 @@ public class AdminCouponController {
 //            DB 상세조회 서비스 함수 실행
             Optional<AdminCoupon> optionalAdminCoupon = adminCouponService.findById(cpId);
 
-            if(optionalAdminCoupon.isEmpty() == true) {
+            if (optionalAdminCoupon.isEmpty() == true) {
 //                데이터 없음(203)
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
@@ -90,6 +90,7 @@ public class AdminCouponController {
     public ResponseEntity<Object> create(
             @RequestBody AdminCoupon adminCoupon
     ) {
+        log.debug("1");
         try {
 //            DB 서비스 저장 함수 실행
             AdminCoupon adminCoupon2 = adminCouponService.save(adminCoupon);
@@ -98,12 +99,13 @@ public class AdminCouponController {
             return new ResponseEntity<>(adminCoupon2, HttpStatus.OK);
 
         } catch (Exception e) {
+            log.debug("에러 : " + e.getMessage());
 //            500 전송
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-//    TODO: 수정함수
+    //    TODO: 수정함수
     @PutMapping("/admin-coupon/{cpId}")
     public ResponseEntity<Object> update(
             @PathVariable long cpId,
@@ -119,7 +121,7 @@ public class AdminCouponController {
         }
     }
 
-//     TODO: 삭제 함수
+    //     TODO: 삭제 함수
     @DeleteMapping("/admin-coupon/deletion/{cpId}")
     public ResponseEntity<Object> delete(
             @PathVariable long cpId
@@ -128,7 +130,7 @@ public class AdminCouponController {
 //            DB 서비스 삭제 함수 실행
             boolean success = adminCouponService.removeById(cpId);
 
-            if(success == true) {
+            if (success == true) {
                 return new ResponseEntity<>(HttpStatus.OK);
             } else {
                 // 삭제 실행 : 0건 삭제(삭제할 데이터 없음)

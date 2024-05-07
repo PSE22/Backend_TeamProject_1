@@ -20,6 +20,6 @@ import java.util.Optional;
  * 2024-05-01         SAMSUNG          최초 생성
  */
 @Repository
-public interface ShipAddressRepository extends JpaRepository<ShipAddress, Integer> {
+public interface ShipAddressRepository extends JpaRepository<ShipAddress, Long> {
     Optional<ShipAddress> findByUserId(String userId);
 }

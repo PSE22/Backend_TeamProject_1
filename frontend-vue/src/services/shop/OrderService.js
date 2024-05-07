@@ -11,5 +11,15 @@ class OrderService {
     getShipAddress(userId) {
         return http.get(`/shop/order/ship-address/${userId}`)
     }
+
+    // 회원 쿠폰 정보 조회
+    getUserCoupon(userId) {
+        return http.get(`/shop/order/user-coupon/${userId}`)
+    }
+
+    // 회원의 포인트 잔액 조회
+    getResultPoint(userId) {
+        return http.get(`/shop/order/point/${userId}`)
+    }
 }
 export default new OrderService();

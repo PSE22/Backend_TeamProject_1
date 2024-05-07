@@ -1,8 +1,6 @@
 package org.example.backend.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.example.backend.model.common.BaseTimeEntity2;
 import org.hibernate.annotations.DynamicInsert;
@@ -26,6 +24,11 @@ import org.hibernate.annotations.Where;
  */
 @Entity
 @Table(name="TB_PRODUCT_IMAGE")
+@SequenceGenerator(
+        name = "SEQ_TB_PRODUCT_IMAGE_PD_IMG_ID_GENERATOR"
+        , sequenceName = "SEQ_TB_PRODUCT_IMAGE_PD_IMG_ID"
+        , allocationSize = 1
+)
 @Getter
 @Setter
 @ToString
@@ -34,11 +37,12 @@ import org.hibernate.annotations.Where;
 @DynamicInsert
 @DynamicUpdate
 @Where(clause = "STATUS = 'Y'")
-@SQLDelete(sql = "UPDATE TB_PRODUCT_IMAGE SET STATUS = 'N' WHERE PD_IMG_ID = ?")
+@SQLDelete(sql = "UPDATE TB_PRODUCT_IMAGE SET STATUS = 'N', DEL_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') WHERE PD_IMG_ID = ?")
 public class ProductImage extends BaseTimeEntity2 {
-
     @Id
-    private Long pdImgId;
-    private Long pdId;
-    private String pdImgUrl;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE
+            , generator = "SEQ_TB_PRODUCT_IMAGE_PD_IMG_ID_GENERATOR")
+    private Long pdImgId;       // 상품이미지 ID (PK)
+    private Long pdId;          // 상품 ID (FK)
+    private String pdImgUrl;    // 이미지 URL
 }

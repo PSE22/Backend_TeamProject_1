@@ -1,8 +1,6 @@
 package org.example.backend.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.example.backend.model.common.BaseTimeEntity2;
 import org.hibernate.annotations.DynamicInsert;
@@ -25,6 +23,11 @@ import org.hibernate.annotations.Where;
  */
 @Entity
 @Table(name="TB_OPTION")
+@SequenceGenerator(
+        name = "SEQ_TB_OPTION_OP_ID_GENERATOR"
+        , sequenceName = "SEQ_TB_OPTION_OP_ID"
+        , allocationSize = 1
+)
 @Getter
 @Setter
 @ToString
@@ -33,14 +36,15 @@ import org.hibernate.annotations.Where;
 @DynamicInsert
 @DynamicUpdate
 @Where(clause = "STATUS = 'Y'")
-@SQLDelete(sql = "UPDATE TB_OPTION SET STATUS = 'N' WHERE OP_ID = ?")
+@SQLDelete(sql = "UPDATE TB_OPTION SET STATUS = 'N', DEL_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') WHERE OP_ID = ?")
 public class Option extends BaseTimeEntity2 {
-
     @Id
-    private Integer opId;
-    private Integer pdId;
-    private String opName;
-    private Integer opPrice;
-    private Integer opStock;
-    private String opCode;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE
+                    , generator = "SEQ_TB_OPTION_OP_ID_GENERATOR")
+    private Long opId;              // 옵션 ID (PK)
+    private Long pdId;              // 상품 ID
+    private String opName;          // 옵션명
+    private Integer opPrice;        // 추가금액
+    private Integer opStock;        // 재고
+    private String opCode;          // 옵션분류코드
 }

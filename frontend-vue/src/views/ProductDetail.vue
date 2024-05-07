@@ -63,7 +63,7 @@
         <li>
           <div class="btn-group" role="group">
             <img
-              @click="toggleShow, saveWishList"
+              @click="toggleShow"
               v-if="show"
               src="@/assets/img/free-icon-font-circle-heart-9272486.png"
             />
@@ -180,24 +180,30 @@
               ></button>
             </div>
             <div class="modal-body">
-              <h3 class="fs-5 mb-2">상품 옵션</h3>
+              <!-- <h3 class="fs-5 mb-2">상품 옵션</h3>
               <select class="form-select mb-3">
                 <option value="1" selected>상품 상세 옵션 선택 1</option>
                 <option value="2">상품 상세 옵션 선택 2</option>
                 <option value="3">상품 상세 옵션 선택 3</option>
                 <option value="4">상품 상세 옵션 선택 4</option>
-              </select>
+              </select> -->
               <h3 class="fs-5 mb-2">평점</h3>
-              <select class="form-select mb-3">
+              <select class="form-select mb-3" v-model="reviewRate">
                 <option value="1">1 (별로에요)</option>
                 <option value="2">2 (조금 아쉬워요)</option>
                 <option value="3">3 (괜찮아요)</option>
                 <option value="4">4 (좋아요)</option>
-                <option value="5" selected>5 (아주 맘에 들어요)</option>
+                <option value="5">5 (아주 맘에 들어요)</option>
               </select>
+              <input
+                class="form-control mb-3"
+                v-model="reviewTitle"
+                placeholder="제목을 입력하세요"
+              />
               <textarea
                 rows="10"
                 class="form-control mb-3"
+                v-model="reviewContent"
                 placeholder="상품 후기를 입력하세요"
               ></textarea>
               <input
@@ -227,7 +233,7 @@
               >
                 닫기
               </button>
-              <button type="submit" class="btn btn-primary">등록</button>
+              <button type="submit" class="btn btn-primary" @click="saveReview">등록</button>
             </div>
           </div>
         </div>
@@ -265,7 +271,6 @@
               :id="'exampleModal-' + index"
               tabindex="-1"
               aria-labelledby="exampleModalLabel"
-              aria-hidden="true"
             >
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -313,7 +318,7 @@
             </div>
           </td>
           <td class="col-1 text-center">{{ data.pdQnaSecret }}</td>
-          <td class="col-2 text-center">24/01/01</td>
+          <td class="col-2 text-center">{{ data.pdAddDate }}</td>
           <td class="col-2 text-center">24/01/01</td>
           <td class="col-2 text-center">완료</td>
         </tr>
@@ -353,13 +358,20 @@
             </div>
             <div class="modal-body">
               <p class="text-muted">
-                상품명 : 필통&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;옵션 : 파란색
+                {{product?.pdName}} 
               </p>
+              <p>비밀글 : <input type="checkbox" v-model="pdQnaSecret" /></p>
               <!-- <div class="input-group"> -->
+              <input
+                class="form-control mb-3"
+                v-model="pdQnaTitle"
+                placeholder="제목을 입력하세요"
+              />
               <textarea
                 rows="10"
                 class="form-control mb-3"
-                placeholder="상품 후기를 입력하세요"
+                v-model="pdQnaContent"
+                placeholder="문의 내용을 입력하세요"
               ></textarea>
               <!-- </div> -->
               <input
@@ -393,6 +405,7 @@
                 type="button"
                 class="btn btn-primary"
                 data-bs-dismiss="modal"
+                @click="saveQna"
               >
                 등록
               </button>
@@ -413,13 +426,23 @@ export default {
   data() {
     return {
       show: true,
+      cartCount: 0,
+
       product: {},
       productImage: [],
+
       review: [],
       qna: [],
       option: [],
       coupon: [],
-      cartCount: 0,
+
+      reviewTitle: "",
+      reviewContent: "",
+      reviewRate: 0,
+
+      pdQnaTitle: "",
+      pdQnaContent: "",
+      pdQnaSecret: false,
 
       page: 1,
       count: 0,
@@ -431,22 +454,31 @@ export default {
   methods: {
     toggleShow() {
       this.show = !this.show;
+      if (this.show == false) {
+        this.saveWishList();
+      } else {
+        this.deleteWishList();
+      }
     },
     async saveWishList() {
       try {
         let data = {
-        pdId: this.$route.params.pdId
-      }
+          pdId: this.$route.params.pdId,
+          userId: this.$store.state.userId,
+        };
 
-      let response = await ProductService.create(data);
-      console.log(response.data);
+        let response = await ProductService.create(data);
+        console.log(response.data);
       } catch (e) {
         console.log(e);
       }
     },
-    async deleteWishList(pdId) {
+    async deleteWishList() {
       try {
-        let response = await ProductService.remove(pdId);
+        let response = await ProductService.remove(
+          this.$route.params.pdId,
+          this.$store.state.userId
+        );
         console.log(response.data);
       } catch (e) {
         console.log(e);
@@ -481,6 +513,24 @@ export default {
         console.log(e);
       }
     },
+    async saveReview() {
+      try {
+        let temp = {
+          pdId: this.$route.params.pdId,
+          userId: this.$store.state.userId,
+          reviewTitle: this.reviewTitle,
+          reviewContent: this.reviewContent,
+          reviewRate: this.reviewRate,
+          reviewCode: "BO0201",
+        };
+        // alert(JSON.stringify(temp));
+        let response = await ReviewService.create(temp);
+        console.log(response.data);
+        this.retrieveReview(); // 재조회
+      } catch (e) {
+        console.log(e);
+      }
+    },
     async retrieveQna() {
       try {
         let response = await QnaService.getAll(this.page - 1, this.pageSize);
@@ -488,6 +538,25 @@ export default {
         this.qna = qna;
         this.count = totalItems;
         console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async saveQna() {
+      try {
+        let temp = {
+          pdId: this.$route.params.pdId,
+          userId: this.$store.state.userId,
+          pdQnaTitle: this.pdQnaTitle,
+          pdQnaContent: this.pdQnaContent,
+          pdQnaSecret: this.pdQnaSecret? 'Y' : 'N',
+          pdQnaCode: "BO0202",
+        };
+
+        let response = await QnaService.create(temp);
+        console.log(response.data);
+        this.pdQnaSecret = false
+        this.retrieveQna(); // 재조회
       } catch (e) {
         console.log(e);
       }

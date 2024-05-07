@@ -1,5 +1,6 @@
 package org.example.backendproject.service.shop;
 
+import org.example.backendproject.model.common.PdIdUserIdPk;
 import org.example.backendproject.model.dto.shop.IProductDto;
 import org.example.backendproject.model.dto.shop.IProductImgDto;
 import org.example.backendproject.model.entity.Product;
@@ -70,10 +71,20 @@ public class ProductService {
         return productImgDtoList;
     }
 
-//    위시 리스트에 저장
+//    위시 리스트에 저장/수정
     public Wishlist save(Wishlist wishlist) {
         Wishlist wishlist2 = productWishListRepository.save(wishlist);
 
         return wishlist2;
+    }
+
+//    위시 리스트에서 삭제
+    public boolean removeById(PdIdUserIdPk pdIdUserIdPk) {
+        if (productWishListRepository.existsById(pdIdUserIdPk)){
+            productWishListRepository.deleteById(pdIdUserIdPk); // DB 삭제
+            return true;
+        } else {
+            return false;
+        }
     }
 }

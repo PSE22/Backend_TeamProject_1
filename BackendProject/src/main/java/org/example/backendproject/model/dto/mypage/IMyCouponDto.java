@@ -19,7 +19,7 @@ public interface IMyCouponDto {
     String getAddDate();    // 발급일
     String getCpName();
     Integer getCpDcPrice();
-    Integer getCpDcRate();
+    Double getCpDcRate();
     Integer getCpMinPrice();
     Integer getCpMaxDcPrice();
     String getCpExpireDate();

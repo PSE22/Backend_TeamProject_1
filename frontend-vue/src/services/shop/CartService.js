@@ -9,9 +9,10 @@ class CartService {
     });
   }
 
-  // 장바구니 저장함수
-  create(data) {
-    return http.post(`/shop/cart`, data, {
+  // 장바구니 수정함수
+  updated(data) {
+    console.log("에러 :" ,data)
+    return http.put(`/shop/cart/${data.cartId}`, data, {
       headers: LoginHeader(),
     });
   }

@@ -19,7 +19,7 @@
                 <!-- 상품정보 -->
                 <div class="flex-shrink-0">
                   <img
-                    :src="data.pdImgUrl"
+                    :src="data.pdThumblail"
                     class="img-thumbnail me-3"
                     style="{ height: 15 + 'vh', width: 5 + 'vw' }"
                   />
@@ -30,7 +30,7 @@
               </div>
             </td>
             <!-- 별점 -->
-            <td class="col-1 text-center">⭐️⭐️⭐️⭐️⭐️</td>
+            <td class="col-1 text-center">{{ data.reviewRate }}</td>
             <td class="col-4">
               <!-- 리뷰 내용 -->
               <p>
@@ -68,12 +68,13 @@ export default {
   data() {
     return {
       review: [], // 리뷰 불러오기
+      userId: this.$store.state.user.userId,
 
 
       // 공통 페이징 속성
       page: 1, // 현재 페이지 번호
       count: 0, // 전체 데이터 개수
-      pageSize: 3, // 화면에 보여질 개수
+      pageSize: 10, // 화면에 보여질 개수
     };
   },
   methods: {
@@ -83,6 +84,7 @@ export default {
         // TODO: 공통 전체조회 서비스 함수 실행
         // TODO: spring 통신 : 비동기 코딩 : async ~ await
         let response = await MyReviewService.getAll(
+          this.userId,
           this.page - 1,
           this.pageSize
         );
@@ -97,7 +99,7 @@ export default {
     },
   },
   mounted() {
-    this.allReview();
+    this.allReview(this.$store.state.user.userId);
   },
 };
 </script>
