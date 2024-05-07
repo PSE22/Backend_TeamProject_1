@@ -8,7 +8,7 @@
       <div class="order-sheet-title">주문 상품</div>
       <!-- 주문 상품 테이블 -->
       <table class="table text-center">
-        <!-- 주문 상품 테이블 : 헤더 -->
+        <!-- thead -->
         <thead class="table-light">
           <tr>
             <th scope="col">상품</th>
@@ -17,41 +17,28 @@
             <th scope="col">가격</th>
           </tr>
         </thead>
-        <!-- 주문 상품 테이블 : 내용 -->
+        <!-- tbody -->
         <tbody class="table-group-divider align-middle">
-          <tr v-for="(data, index) in cart" :key="index">
-            <!-- 상품명 -->
-            <td class="col-6">
+          <tr v-for="(data, index) in orderList" :key="index">
+            <!-- 상품 이미지 & 상품명 칸 -->
+            <td class="col-4">
               <div class="d-flex align-items-center text-start">
-                <!-- 상품 이미지 -->
                 <div class="flex-shrink-0">
-                  <img :src="data.pdImgUrl" class="img-thumbnail me-3" style="width: 100px; height: 100px" />
+                  <img :src="data.pdThumblail" class="img-thumbnail me-3" style="width: 100px; height: 100px" />
                 </div>
-                <!-- 상품명 -->
                 <div class="flex-grow-1 ms-3">
                   {{ data.pdName }}
                 </div>
               </div>
             </td>
-            <!-- 상품 옵션 -->
-            <td class="col-1">{{ data.opName }}</td>
-            <!-- 상품 수량 (cartCount)-->
+            <!-- 옵션명 칸 -->
+            <td class="col-2">{{ data.opName }}</td>
+            <!-- 수량 칸 -->
+            <td class="col-2">{{ data.cartCount }}</td>
+            <!-- 가격 -->
             <td class="col-2">
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-outline-secondary" @click="decreaseCount">
-                  -
-                </button>
-                <!-- 장바구니 개수 표시 : 버튼 제목 -->
-                <button type="button" class="btn btn-outline-dark" style="width: 60px" disabled>
-                  {{ cartCount }}
-                </button>
-                <button type="button" class="btn btn-outline-secondary" @click="increaseCount">
-                  +
-                </button>
-              </div>
+              {{ (data.pdPrice + data.opPrice) }}
             </td>
-            <!-- 상품가격 -->
-            <td class="col-3">{{ data.pdPrice + data.opPrice }}</td>
           </tr>
         </tbody>
       </table>
@@ -108,8 +95,7 @@
             <div class="col-9 row-content">
               <div class="row">
                 <div class="col-3">
-                  <input type="test" id="postcode" class="form-control" placeholder="우편번호"
-                    v-model="orderPostcode" />
+                  <input type="test" id="postcode" class="form-control" placeholder="우편번호" v-model="orderPostcode" />
                 </div>
                 <div class="col-3">
                   <button @click="execDaumPostcode()" type="submit" class="btn btn-primary mb-3">
@@ -119,8 +105,7 @@
               </div>
               <div class="row">
                 <div class="col-6">
-                  <input type="text" id="shipAddr" class="form-control" placeholder="주소 입력"
-                    v-model="orderShipAddr1" />
+                  <input type="text" id="shipAddr" class="form-control" placeholder="주소 입력" v-model="orderShipAddr1" />
                 </div>
                 <div class="col-6">
                   <input type="text" id="shipAddr2" class="form-control" placeholder="상세주소 입력"
@@ -224,13 +209,13 @@
               <div class="col-6">
                 <select class="form-select" v-model="selectCoupon">
                   <!-- 회원 보유 쿠폰 반복문 돌리기 -->
-                  <option v-for="(data, index) in coupon" :key="index" :value="index">
+                  <option v-for="(data, index) in coupon" :key="index" :value="data">
                     {{ data?.cpName }}
                   </option>
                 </select>
               </div>
               <div class="col-3">
-                <button type="submit" class="btn btn-primary">쿠폰선택</button>
+                <button type="submit" class="btn btn-primary" @click="clickCoupon()">쿠폰선택</button>
               </div>
             </div>
           </div>
@@ -274,11 +259,14 @@
           <div class="col-3 row-title pt-3">결제 수단 선택</div>
           <div class="col-9 row-content">
             <div class="btn-group">
-              <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" @change="handlePayment(1)" />
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off"
+                @change="handlePayment(1)" />
               <label class="btn mb-0 btn-outline-primary rounded-start" for="btnradio1">카카오페이</label>
-              <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" @change="handlePayment(2)" />
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"
+                @change="handlePayment(2)" />
               <label class="btn mb-0 btn-outline-primary" for="btnradio2">신용카드</label>
-              <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" @change="handlePayment(3)" />
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off"
+                @change="handlePayment(3)" />
               <label class="btn mb-0 btn-outline-primary" for="btnradio3">간편결제</label>
             </div>
           </div>
@@ -318,20 +306,21 @@
   </div>
 </template>
 <script>
-// import CartService from "@/services/shop/CartService";
 import OrderService from "@/services/shop/OrderService";
 
 export default {
   data() {
     return {
+      orderList: [],    // 임시 장바구니 배열
+
       // 주문 테이블에 보낼 데이터를 담을 변수
-      orderPostcode: "",
-      orderShipAddr1: "",
-      orderShipAddr2: "",
-      orderName: "",
-      orderPhone: "",
-      orderShipMemo: "",
-      orderPrice: 0,
+      orderPostcode: "",    // 우편번호
+      orderShipAddr1: "",   // 주소
+      orderShipAddr2: "",   // 상세주소
+      orderName: "",        // 수령인
+      orderPhone: "",       // 수령인번호
+      orderShipMemo: "",    // 배송요청사항
+      orderPrice: 0,        // 결제금액
       orderPayment: "",     // 결제수단
 
       // 서버에서 받아온 값을 저장
@@ -342,7 +331,7 @@ export default {
       point: {},            // 포인트 잔액
 
       tmpPoint: 0,          // 사용할 포인트 값을 담을 변수       
-      selectCoupon: "",         // 사용할 쿠폰의 값을 담을 변수
+      selectCoupon: {},         // 사용할 쿠폰의 값을 담을 객체
       selectedAddr: 'option1',  // 배송지 선택 라디오 버튼 값 초기 설정
       userId: this.$store.state.userId,
     };
@@ -355,9 +344,9 @@ export default {
     //   // let formatNow = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
 
     //   // 2) 장바구니의 물품별 금액(단가*개수)을 구해서 모든 상품별 총금액 구하기
-    //   // let totalPrice = this.cart
-    //   //   .map((data) => data.unitPrice * data.cartCount)       // 상품별 금액 배열
-    //   //   .reduce((acc, cur) => acc + cur)     // reduce(누적변수, 배열값) => 누적변수 + 배열값); => 총금액
+    //   let totalPrice = this.cart
+    //     .map((data) => data.unitPrice * data.cartCount)   // 상품별 금액 배열
+    //     .reduce((acc, cur) => acc + cur)                  // reduce(누적변수, 배열값) => 누적변수 + 배열값); => 총금액
 
     //   // 3) 주문 상세 객체 정의
     //   let orderDetail = {
@@ -416,26 +405,13 @@ export default {
 
     // 주문 취소 함수 : 장바구니 전체 페이지로 이동
     cancelOrder() {
-      this.$router.push("/cart");
+      try {
+        this.$router.push("/cart");
+      }
+      catch (e) {
+        console.log(e);
+      }
     },
-
-    // 장바구니 전체조회
-    // async allCart(userId) {
-    //   try {
-    //     let response = await CartService.getAll(
-    //       userId,
-    //       this.page - 1,
-    //       this.pageSize
-    //     );
-    //     const { cart, totalItems } = response.data;
-    //     this.cart = cart;
-    //     this.count = totalItems;
-    //     // 로깅
-    //     console.log(response.data); // 웹브라우저 콘솔탬에 백앤드 데이터 표시
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // },
 
     // 회원 정보 가져오기
     async getUser(userId) {
@@ -461,22 +437,27 @@ export default {
 
     // 배송지 라디오 버튼 함수
     handleRadioChange() {
-      if (this.selectedAddr === "option1") {
-        this.orderPostcode = "";
-        this.orderShipAddr1 = "";
-        this.orderShipAddr2 = "";
-        this.orderName = "";
-        this.orderPhone = "";
-        console.log("직접입력이 선택됨");
+      try {
+        if (this.selectedAddr === "option1") {
+          this.orderPostcode = "";
+          this.orderShipAddr1 = "";
+          this.orderShipAddr2 = "";
+          this.orderName = "";
+          this.orderPhone = "";
+          console.log("직접입력이 선택됨");
 
-      } else if (this.selectedAddr === "option2") {
-        this.orderPostcode = this.shipAddress.postcode;
-        this.orderShipAddr1 = this.shipAddress.shipAddr;
-        this.orderShipAddr2 = this.shipAddress.shipAddr2;
-        this.orderName = this.user.userName;
-        this.orderPhone = this.user.userPhone;
-        console.log("주문자 정보와 동일이 선택됨");
+        } else if (this.selectedAddr === "option2") {
+          this.orderPostcode = this.shipAddress.postcode;
+          this.orderShipAddr1 = this.shipAddress.shipAddr;
+          this.orderShipAddr2 = this.shipAddress.shipAddr2;
+          this.orderName = this.user.userName;
+          this.orderPhone = this.user.userPhone;
+          console.log("주문자 정보와 동일이 선택됨");
+        }
+      } catch (e) {
+        console.log(e);
       }
+
     },
 
     // 카카오 주소 api 연동 부분
@@ -491,7 +472,7 @@ export default {
           } else { // 사용자가 지번 주소를 선택했을 경우
             addr = data.jibunAddress;
           }
-          
+
           // 우편번호와 주소 정보를 해당 필드에 넣는다.
           document.getElementById('postcode').value = data.zonecode;
           document.getElementById("shipAddr").value = addr;
@@ -512,6 +493,12 @@ export default {
       }
     },
 
+    // 쿠폰선택 버튼 눌렀을 때 실행
+    clickCoupon() {
+      alert("[" + this.selectCoupon.cpName + "] 쿠폰 적용 완료!");
+      console.log(this.selectCoupon);
+    },
+
     // 회원의 포인트 잔액 정보 가져오기
     async getResultPoint(userId) {
       try {
@@ -525,33 +512,48 @@ export default {
 
     // 포인트 입력한만큼 사용
     usePoint() {
-      if (this.tmpPoint <= this.point.resultPoint) {
-        console.log("사용가능합니데이");
-      } else {
-        console.log("사용못합니데이");
-        alert('보유하신 적립금액이 부족합니다.');
-        this.tmpPoint = 0;
+      try {
+        if (this.tmpPoint <= this.point.resultPoint) {
+          console.log("사용가능합니데이");
+        } else {
+          console.log("사용못합니데이");
+          alert('보유하신 적립금액이 부족합니다.');
+          this.tmpPoint = 0;
+        }
+      } catch (e) {
+        console.log(e);
       }
     },
 
     // 포인트 전액 사용
     usePointAll() {
-      console.log("포인트 잔액 (" + this.point.resultPoint + ") 전부 사용");
-      this.tmpPoint = this.point.resultPoint;
+      try {
+        console.log("포인트 잔액 (" + this.point.resultPoint + ") 전부 사용");
+        this.tmpPoint = this.point.resultPoint;
+      }
+      catch (e) {
+        console.log(e);
+      }
     },
 
     // 결제수단 버튼 선택
     handlePayment(option) {
-      if (option === 1) {
-        this.orderPayment = "카카오페이"
+      try {
+        if (option === 1) {
+          this.orderPayment = "카카오페이"
+        }
+        else if (option === 2) {
+          this.orderPayment = "신용카드"
+        }
+        else if (option === 3) {
+          this.orderPayment = "간편결제"
+        }
+        console.log("결제수단: " + this.orderPayment);
       }
-      else if (option === 2) {
-        this.orderPayment = "신용카드"
+      catch (e) {
+        console.log(e);
       }
-      else if (option === 3) {
-        this.orderPayment = "간편결제"
-      }
-      console.log("결제수단: " + this.orderPayment);
+
     },
 
     // 주문금액 구하기
@@ -560,6 +562,7 @@ export default {
     }
   },
   mounted() {
+    this.orderList = this.$store.getters.getOrderList;
     this.getUser(this.userId);
     this.getShipAddress(this.userId);
     this.getUserCoupon(this.userId);

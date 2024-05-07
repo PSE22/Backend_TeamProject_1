@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -63,13 +64,13 @@ public class OrderService {
     }
 
     /**
-     * 쿠폰 정보 상세 조회
+     * 쿠폰 정보 전체 조회
      * @param userId
      * @return
      */
-    public Optional<IUserCouponDto> findAllByUserCoupon(String userId) {
-        Optional<IUserCouponDto> optionalIUserCouponDto = userCouponRepository.findAllByUserCoupon(userId);
-        return optionalIUserCouponDto;
+    public List<IUserCouponDto> findAllByUserCoupon(String userId) {
+        List<IUserCouponDto> listIUserCouponDto = userCouponRepository.findAllByUserCoupon(userId);
+        return listIUserCouponDto;
     }
 
     /**

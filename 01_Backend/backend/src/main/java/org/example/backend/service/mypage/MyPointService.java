@@ -31,5 +31,4 @@ public class MyPointService {
     public List<PointDto> getPointDetailsByUserId(String userId) {
         return pointDetailRepository.findPointDetailsByUserId(userId);
     }
-
 }
