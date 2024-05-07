@@ -3,6 +3,8 @@ package org.example.backendproject.repository.shop;
 import org.example.backendproject.model.common.PdIdUserIdPk;
 import org.example.backendproject.model.entity.Wishlist;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -20,4 +22,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ProductWishListRepository extends JpaRepository<Wishlist, PdIdUserIdPk> {
+    @Query(value = "SELECT count(*)\n" +
+            "FROM TB_WISHLIST\n" +
+            "WHERE PD_ID LIKE '%' || :pdId || '%'" +
+            "AND USER_ID LIKE '%' || :userId || '%'"
+            , nativeQuery = true)
+    Integer findBypPdIdAndUserId(@Param("pdId") Integer pdId, @Param("userId") String userId);
 }

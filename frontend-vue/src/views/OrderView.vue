@@ -224,7 +224,7 @@
               <div class="col-6">
                 <select class="form-select" v-model="selectCoupon">
                   <!-- 회원 보유 쿠폰 반복문 돌리기 -->
-                  <option v-for="(data, index) in coupon" :key="index" :value="index">
+                  <option v-for="(data, index) in coupon" :key="index">
                     {{ data?.cpName }}
                   </option>
                 </select>
@@ -506,6 +506,7 @@ export default {
       try {
         let response = await OrderService.getUserCoupon(userId);
         this.coupon = response.data;
+        console.log("확인", this.coupon)
         console.log("회원의 보유 쿠폰 정보 : ", response.data);
       } catch (e) {
         console.log(e);
