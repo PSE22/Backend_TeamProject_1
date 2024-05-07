@@ -14,6 +14,7 @@ package org.example.backendproject.model.dto.shop;
  * 2024-04-30         sjuk2          최초 생성
  */
 public interface IOptionDto {
+    Integer getOpId();
     Integer getPdid();
     String getOpName();
     Integer getOpPrice();

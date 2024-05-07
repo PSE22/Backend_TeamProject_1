@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.backendproject.model.common.PdIdUserIdPk;
 import org.example.backendproject.model.dto.shop.IProductDto;
 import org.example.backendproject.model.dto.shop.IProductImgDto;
+import org.example.backendproject.model.entity.Cart;
 import org.example.backendproject.model.entity.Product;
 import org.example.backendproject.model.entity.Wishlist;
 import org.example.backendproject.service.shop.ProductService;
@@ -43,9 +44,9 @@ public class ProductController {
     // 상품 전체 조회
     @GetMapping("/category")
     public ResponseEntity<Object> findAllByCategoryCodeContaining(
-                                        @RequestParam(defaultValue = "") String categoryCode,
-                                        @RequestParam(defaultValue = "0") int page,
-                                        @RequestParam(defaultValue = "4") int size) {
+            @RequestParam(defaultValue = "") String categoryCode,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "4") int size) {
         try {
             // 페이징 객체 생성
             Pageable pageable = PageRequest.of(page, size);
@@ -60,7 +61,7 @@ public class ProductController {
             response.put("totalItems", productPage.getTotalElements()); // 전체 데이터 수
             response.put("totalPages", productPage.getTotalPages());    // 전체 페이지 수
 
-            if(productPage.isEmpty() == false) {
+            if (productPage.isEmpty() == false) {
                 // 조회 성공
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
@@ -107,7 +108,23 @@ public class ProductController {
         }
     }
 
-//    위시 리스트에 저장
+    //    위시 리스트 조회
+    @GetMapping("/product/wishList/{pdId}/{userId}")
+    public ResponseEntity<Object> findBypPdIdAndUserId(
+            @PathVariable Integer pdId,
+            @PathVariable String userId
+    ) {
+        try {
+            Integer wishListNum = productService.findBypPdIdAndUserId(pdId, userId);
+            return new ResponseEntity<>(wishListNum, HttpStatus.OK);
+
+        } catch (Exception e) {
+            log.debug("에러 : " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //    위시 리스트에 저장
     @PostMapping("/product/wishList")
     public ResponseEntity<Object> create(
             @RequestBody Wishlist wishlist
@@ -123,7 +140,7 @@ public class ProductController {
         }
     }
 
-//    위시 리스트에서 삭제
+    //    위시 리스트에서 삭제
     @DeleteMapping("/product/deletion/{pdId}/{userId}")
     public ResponseEntity<Object> delete(
             @PathVariable Long pdId,
@@ -141,6 +158,22 @@ public class ProductController {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
         } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //    장바구니에 저장
+    @PostMapping("/product/cart")
+    public ResponseEntity<Object> create(
+            @RequestBody Cart cart
+    ) {
+        try {
+//            DB 서비스 저장 함수 실행
+            Cart cart2 = productService.save(cart);
+//            성공(OK) 메세지 + 저장된 객체(wishList2)
+            return new ResponseEntity<>(cart2, HttpStatus.OK);
+        } catch (Exception e) {
+//            500 전송
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
