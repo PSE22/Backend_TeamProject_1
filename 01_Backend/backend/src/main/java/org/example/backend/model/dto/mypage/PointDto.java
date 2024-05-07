@@ -17,11 +17,11 @@ package org.example.backend.model.dto.mypage;
 public interface PointDto {
     Integer getPointId();
     Integer getUsePointId();
-    Integer getPointBalance();      // 잔액
-    Integer usePointPrice();        // 차감금액
-    Integer pointAdd();             // 적립금액
-    String getPointCode();          // 포인트 구분코드 (이벤트/리뷰/결제)
-    String getAddDate();            // 포인트 적립일
-    String getUsePointDate();       // 포인트 사용일
-    String getDelDate();            // 포인트 만료일
+    Integer getPointBalance();  // 잔액
+    Integer getUsePointPrice(); // 차감금액
+    Integer getPointAdd();      // 적립금액
+    String getPointCode();      // 포인트 구분코드 (이벤트/리뷰/결제)
+    String getAddDate();        // 포인트 적립일
+    String getUsePointDate();   // 포인트 사용일
+    String getDelDate();        // 포인트 만료일
 }
