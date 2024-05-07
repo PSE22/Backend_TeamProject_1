@@ -5,12 +5,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import lombok.*;
-import org.example.backend.model.common.BaseTimeEntity2;
+import org.example.backend.model.common.BaseTimeEntity;
 import org.example.backend.model.common.OrderIdOpIdPk;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 /**
  * packageName : org.example.backend.model.entity
@@ -34,16 +32,13 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-@Where(clause = "STATUS = 'Y'")
-@SQLDelete(sql = "UPDATE TB_REFUND SET STATUS = 'N' WHERE ORDER_ID = ? AND OP_ID = ?")
 @IdClass(OrderIdOpIdPk.class)
-public class Refund extends BaseTimeEntity2 {
+public class Refund extends BaseTimeEntity {
     @Id
-    private Long orderId;
+    private Long orderId;               // 주문 ID (PK)
     @Id
-    private Long opId;
-    private Integer refundPrice;
-    private String refundCode;
-    private Integer refundReason;
-
+    private Long opId;                  // 옵션 ID (PK)
+    private Integer refundPrice;        // 환불금액
+    private String refundCode;          // 주문상태코드
+    private Integer refundReason;       // 환불사유
 }

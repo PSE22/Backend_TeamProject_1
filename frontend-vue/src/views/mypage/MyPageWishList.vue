@@ -23,19 +23,20 @@
               <button type="button">선택담기</button>
             </div>
           </div>
-          <div class="row row-cols-1 row-cols-md-3 g-4" id="main-products"
+          <div class="row row-cols-1 row-cols-md-4 g-4" id="main-products"
               >
             <div class="col"
             v-for="(data, index) in wishlist" :key="index">
               <div class="card h-100" 
                 >
                 <img
-                  :src="data.pdThumnail"
+                  :src="data.pdThumbnail"
                   class="card-img-top"
                   alt="..."
+                  @click="goProduct(data.pdId)"
                 />
                 <div class="card-body">
-                  <h5 class="card-title">상품명 : {{ data.pdName }}</h5>
+                  <h5 class="card-title" @click="goProduct(data.pdId)" >상품명 : {{ data.pdName }}</h5>
                   <p class="card-text">상품 가격 : {{ data.pdPrice }}</p>
                 </div>
                 <label class="check-item">
@@ -53,17 +54,6 @@
       </div>
     </div>
   </div>
-  <!-- 페이징 번호 -->
-  <div class="row">
-    <!-- TODO: 1페이지당 화면에 보일 개수 조정(select태그) -->
-    <b-pagination
-      class="col-12 mb-3"
-      v-model="page"
-      :total-rows="count"
-      :per-page="pageSize"
-      @click="retrieveWishList"
-    ></b-pagination>
-  </div>
 </template>
 
 <script>
@@ -79,50 +69,39 @@ export default {
     return {
       wishlist: [],  // 위시리스트 아이템을 저장할 배열
 
-      page: 1, // 현재페이지번호
-      count: 0, // 전체데이터개수
-      pageSize: 3, // 1페이지당개수(select태그)
-
-      pageSizes: [3, 6, 9], //1페이지당개수 배열(select태그-option)
     };
   },
 
   methods: {
     async retrieveWishList() {
-      let userId = this.$store.state.user.userId;
+      let userId = this.$store.state.user.userId; // 사용자 ID 가져오기
       try {
-        let response = await MyWishListService.getAll(userId, this.page - 1, this.pageSize);
-        const { wishlist, totalItems } = response.data;
-        this.wishlist = wishlist;
-        this.count = totalItems;
+        let response = await MyWishListService.getAll(userId);
+        this.wishlist = response.data;  // 받아온 데이터를 wishlist 배열에 할당
       } catch (e) {
         console.error("위시리스트 조회 실패:", e);
       }
-    },
+    }
   },
 
-
-
-  pageNoChange(value) {
-      // this.속성 => data() 안에 속성들 접근
-      this.page = value; // 1) 현재페이지 변경
-      this.retrieveWishList(); // 2) 재조회 요청
-    },
-
     // 위시리스트 아이템을 삭제하는 함수
-    async deleteProduct() {
-      let response = await MyWishListService.delete(this.MyWishListService.pdId);
-      // 로깅
-      console.log(response.data);
-      // TODO: 전체조회 페이지로 강제 이동
-      this.$router.push("/mypage/wishlist");
+    async deleteProduct(pdId) {
+      try {
+        await MyWishListService.delete(pdId);  // pdId를 이용해 상품 삭제
+        this.retrieveWishList();  // 삭제 후 위시리스트 재조회
+      } catch (e) {
+        console.error("위시리스트 아이템 삭제 실패:", e);
+      }
     },
-  
-    // 페이지 크기 변경 처리 함수
-    pageSizeChange(newSize) {
-      this.pageSize = newSize;  // 새로운 페이지 크기 설정
-      this.retrieveWishList();  // 페이지 크기 변경 후 위시리스트 다시 불러오기
+
+    goProduct(pdId) {
+      // 클릭시 상품으로 이동하는 함수
+      // URL이 정해지면 아래 코드를 업데이트
+      this.$router.push(`/product/${pdId}`);
+      console.log("Navigate to product details with pdId:", pdId);
     },
+
+
     mounted() {
     this.retrieveWishList(this.$store.state.user.userId);
   },

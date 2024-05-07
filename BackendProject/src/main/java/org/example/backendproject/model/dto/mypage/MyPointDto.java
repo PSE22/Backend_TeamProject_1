@@ -2,7 +2,7 @@ package org.example.backendproject.model.dto.mypage;
 
 /**
  * packageName : org.example.backendproject.model.dto.mypage
- * fileName : PointDto
+ * fileName : MyPointDto
  * author : GGG
  * date : 2024-04-26
  * description :
@@ -13,7 +13,7 @@ package org.example.backendproject.model.dto.mypage;
  * -----------------------------------------------------------
  * 2024-04-26         GGG          최초 생성
  */
-public interface PointDto {
+public interface MyPointDto {
     Integer getusePointId();
     Integer getpointId();
 

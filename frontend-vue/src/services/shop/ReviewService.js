@@ -10,5 +10,10 @@ class ReviewService {
     get(reviewId) {
         return http.get(`/shop/product2/${reviewId}`);
     }
+
+    // 리뷰 저장
+    create(data) {
+        return http.post("/shop/product/review", data);
+    }
 }
 export default new ReviewService();

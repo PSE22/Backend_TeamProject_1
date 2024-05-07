@@ -1,13 +1,12 @@
 package org.example.backend.service.mypage;
 
+import org.example.backend.model.dto.mypage.PointDto;
 import org.example.backend.repository.mypage.PointDetailRepository;
-import org.example.backend.repository.mypage.PointRepository;
+import org.example.backend.repository.mypage.MyPointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
-
 /**
  * packageName : org.example.backend.service.mypage
  * fileName : MyPointService
@@ -25,13 +24,11 @@ import java.util.List;
 public class MyPointService {
 
     @Autowired
-    PointRepository pointRepository;
-
-    @Autowired
     PointDetailRepository pointDetailRepository;
 
-//   포인트 전체조회 함수
-
-//    PointDetail 의 잔액 조회하는 함수
+    // 사용자 ID에 따른 적립금 상세 정보 조회
+    public List<PointDto> getPointDetailsByUserId(String userId) {
+        return pointDetailRepository.findPointDetailsByUserId(userId);
+    }
 
 }

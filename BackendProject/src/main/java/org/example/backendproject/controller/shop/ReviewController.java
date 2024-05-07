@@ -36,7 +36,7 @@ public class ReviewController {
     ReviewService reviewService;
 
 //    TODO: 저장 함수
-    @PostMapping("/review")
+    @PostMapping("/product/review")
     public ResponseEntity<Object> create(
             @RequestBody PdReview pdReview
     ) {

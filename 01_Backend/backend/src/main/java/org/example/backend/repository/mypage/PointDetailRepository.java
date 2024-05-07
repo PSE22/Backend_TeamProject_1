@@ -1,6 +1,7 @@
 package org.example.backend.repository.mypage;
 
 import org.example.backend.model.common.PtIdUseptIdPk;
+import org.example.backend.model.dto.mypage.PointDto;
 import org.example.backend.model.entity.DetailPoint;
 import org.example.backend.model.entity.Point;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,7 +26,6 @@ import java.util.List;
  */
 @Repository
 public interface PointDetailRepository extends JpaRepository<DetailPoint, PtIdUseptIdPk> {
-
     @Query(value = "SELECT UP.USE_POINT_ID,\n" +
             "       P.POINT_ID,\n" +
             "       P.POINT_ADD - UP.USE_POINT_PRICE AS POINT_BALANCE\n" +
