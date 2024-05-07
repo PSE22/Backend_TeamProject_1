@@ -1,9 +1,6 @@
 package org.example.backendproject.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.example.backendproject.model.common.BaseTimeEntity;
 import org.hibernate.annotations.DynamicInsert;
@@ -27,6 +24,12 @@ import java.time.format.DateTimeFormatter;
  */
 @Entity
 @Table(name = "TB_CART")
+@SequenceGenerator(
+        name = "SEQ_TB_CART_CART_ID_GENERATOR"
+        , sequenceName = "SEQ_TB_CART_CART_ID"
+        , initialValue = 1
+        , allocationSize = 1
+)
 @Getter
 @Setter
 @ToString
@@ -45,6 +48,9 @@ public class Cart {
     //    add_date	date
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE
+            , generator = "SEQ_TB_CART_CART_ID_GENERATOR"
+    )
     private Integer cartId;
     private String userId;
     private Integer opId;

@@ -4,7 +4,7 @@
     <MyPageMain />
     <div class="mp-page-top">
       <!-- 회원정보 -->
-      <div class="row" id="mp-box-name"><h3>OOO 님</h3></div>
+      <div class="row" id="mp-box-name"><h3>{{ userName }} 님</h3></div>
       <!-- 첫번째 타이틀 -->
       <div class="mp-title-box justify-content-md-center align-items-center row">
         <div class="col-3 text-center">
@@ -87,6 +87,11 @@ import MyPageMain from "@/components/mypage/MyPageMainMenu.vue";
 export default {
   components: {
     MyPageMain,
+  },
+  data() {
+    return {
+      userName: this.$store.state.userName,
+    }
   },
 };
 </script>

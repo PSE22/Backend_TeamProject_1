@@ -3,19 +3,17 @@ package org.example.backendproject.service.shop;
 import org.example.backendproject.model.common.PdIdUserIdPk;
 import org.example.backendproject.model.dto.shop.IProductDto;
 import org.example.backendproject.model.dto.shop.IProductImgDto;
+import org.example.backendproject.model.entity.Cart;
 import org.example.backendproject.model.entity.Product;
 import org.example.backendproject.model.entity.Wishlist;
+import org.example.backendproject.repository.shop.CartRepository;
 import org.example.backendproject.repository.shop.ProductImgRepository;
 import org.example.backendproject.repository.shop.ProductRepository;
 import org.example.backendproject.repository.shop.ProductWishListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +42,9 @@ public class ProductService {
     @Autowired
     ProductWishListRepository productWishListRepository;
 
+    @Autowired
+    CartRepository cartRepository;
+
     /**
      * 상품 전체 조회
      * @param categoryCode
@@ -71,6 +72,12 @@ public class ProductService {
         return productImgDtoList;
     }
 
+//    위시 리스트 조회
+    public Integer findBypPdIdAndUserId(Integer pdId, String userId) {
+        Integer wishListNum = productWishListRepository.findBypPdIdAndUserId(pdId, userId);
+        return wishListNum;
+    }
+
 //    위시 리스트에 저장/수정
     public Wishlist save(Wishlist wishlist) {
         Wishlist wishlist2 = productWishListRepository.save(wishlist);
@@ -86,5 +93,12 @@ public class ProductService {
         } else {
             return false;
         }
+    }
+
+//    장바구니에 저장
+    public Cart save(Cart cart) {
+        Cart cart2 = cartRepository.save(cart);
+
+        return cart2;
     }
 }

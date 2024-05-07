@@ -38,12 +38,18 @@
               <div class="d-flex align-items-center text-start">
                 <div class="flex-shrink-0">
                   <img
+                    type="button"
                     :src="data.pdThumblail"
                     class="img-thumbnail me-3"
                     style="width: 100px; height: 100px"
+                    @click="goProduct(data.pdId)"
                   />
                 </div>
-                <div class="flex-grow-1 ms-3">
+                <div
+                  type="button"
+                  class="flex-grow-1 ms-3"
+                  @click="goProduct(data.pdId)"
+                >
                   {{ data.pdName }}
                 </div>
               </div>
@@ -51,7 +57,7 @@
             <td class="col-1">{{ data.opName }}</td>
 
             <td class="col-2">
-              <div class="roe">
+              <div>
                 <!-- 장바구니 수량 -->
                 <div class="btn-group" role="group" aria-label="Basic example">
                   <button
@@ -93,7 +99,7 @@
               </button>
             </td>
             <td class="col-2">
-              {{ (data.pdPrice + data.opPrice) * data.cartCount }}
+              {{ data.pdPrice + data.opPrice }}
             </td>
           </tr>
         </tbody>
@@ -179,6 +185,10 @@ export default {
         console.log(e);
       }
     },
+    // 해당 상품페이지 이동
+    goProduct(pdId) {
+      this.$router.push(`/product/${pdId}`);
+    },
 
     // 체크 가격
     selectProduct() {
@@ -212,17 +222,17 @@ export default {
     async deleteCart() {
       try {
         // 선택된 체크박스만 삭제
-        const check = this.cart
-          .filter((product) => product.selected) // 필터가 선택된 체크박스만 찾아 배열로 만들어줌
+        const check = this.orderList
+          .filter((product) => product.cartId) // 필터가 선택된 체크박스만 찾아 배열로 만들어줌
           .map((product) => product.cartId); // 필터된 cartId만 배열로 추출
-        if (check === 0) {
+        if (check.length === 0) {
           return;
         }
         // 장바구니 삭제 서비스 함수
         let response = await CartService.remove(check);
         console.log(response.data);
         // 삭제 후 재조회
-        this.allCart();
+        this.allCart(this.$store.state.user.userId);
       } catch (e) {
         console.log(e);
       }
@@ -247,9 +257,11 @@ export default {
       }
     },
 
+
     // 선택주문
     sendOrderList() {
       try {
+        // 선택된 상품이 있는지 확인
         if (this.orderList.length > 0) {
           console.log(this.orderList);
           this.$store.commit("setOrderList", this.orderList);
@@ -266,7 +278,8 @@ export default {
     // TODO: 전체주문
     goOrder() {
       try {
-        this.$store.state.orderList = this.cart;
+        this.$store.commit("setOrderList", this.cart);
+        console.log("카트배열", this.cart);
         this.$router.push("/order");
       } catch (e) {
         console.log(e);

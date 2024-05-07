@@ -35,7 +35,8 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
             "O.OP_PRICE AS opPrice,\n" +
             "PD.PD_NAME AS pdName,\n" +
             "PD.PD_PRICE AS pdPrice,\n" +
-            "PD.PD_THUMBNAIL AS pdThumblail\n" +
+            "PD.PD_THUMBNAIL AS pdThumblail,\n" +
+            "PD.PD_ID AS pdId\n" +
             "FROM TB_CART C, TB_OPTION O, TB_PRODUCT PD WHERE C.OP_ID = O.OP_ID\n" +
             "AND O.PD_ID = PD.PD_ID\n" +
             "AND PD.STATUS = 'Y' AND C.USER_ID = :userId",

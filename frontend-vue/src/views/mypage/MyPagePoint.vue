@@ -8,8 +8,7 @@
           <dl class="usablePoint">
             <dt>사용가능 적립금</dt>
             <dd>
-              <strong>0</strong>
-              P
+              <strong>{{ pointBalance }}</strong> P
             </dd>
           </dl>
         </div>
@@ -24,42 +23,21 @@
 
         <div class="pointWrap">
           <ul class="pointList">
-            <li class="pointItem">
-              <p class="date">24.03.24</p>
+            <li class="pointItem" v-for="(item, index) in point" :key="index">
+              <p class="date">{{ item.addDate }}</p>
               <dl class="pointInfo">
-                <dt>소멸</dt>
-                <dd>유효기간만료</dd>
+                <dt>{{ item.pointAdd ? '적립 (' + item.pointCode + ')' : '사용' }}</dt>
+                <dd>{{ item.pointAdd ? '적립금액 ' : '사용금액' }}</dd>
               </dl>
-              <div class="state minus"><strong>-10</strong>P</div>
+              <div :class="{ 'plus': item.pointAdd, 'minus': item.usePointPrice }">
+                <strong>{{ item.pointAdd ? `+${item.pointAdd}` : `-${item.usePointPrice}` }}</strong>P
+              </div>
             </li>
           </ul>
           <div class="mypageNotice">
-            <h3 class="title" style="margin-left: 20px;"  >적립/사용 유의사항</h3>
+            <h3 class="title" style="margin-left: 20px;">적립/사용 유의사항</h3>
             <ul class="content">
-              <li>
-                마일리지는 홈플러스 회원만 적립 및 사용이 가능합니다. (비회원
-                제외)
-              </li>
-              <li>
-                마일리지는 주문/결제 시 할인 받을 금액을 10원단위로 기입하여
-                사용 가능한 쿠폰입니다.
-              </li>
-              <li>
-                주문/결제 시 다른 쿠폰 및 결제수단과 함께 이용할 수 있습니다.
-              </li>
-              <li>
-                마일리지를 사용 하실 때, 남은 최종 실 결제금액이 1,000원 이상
-                되어야 사용 가능합니다.
-              </li>
-              <li>
-                마일리지는 전체주문취소/전체반품 시 자동 환원되어 재사용
-                가능합니다.
-              </li>
-              <li>
-                마일리지의 유효기간은 쿠폰별 상이할 수 있으며, 만료시 자동
-                소멸됩니다. (유효기간은 연장되지 않습니다.)
-              </li>
-              <li>마일리지는 회원탈퇴 시 모두 소멸됩니다.</li>
+              <li>적립금 내용은 서비스 정책에 따라 달라질 수 있습니다.</li>
             </ul>
           </div>
         </div>
@@ -75,43 +53,37 @@ export default {
     MyPageMainMenu,
   },
 
-  // 데이터 정의
+
+
   data() {
     return {
-      point: [], // 장바구니 객체배열
-      page: 1, // 현재페이지번호
-      count: 0, // 전체 데이터개수
-      pageSize: 3, // 화면에 보여질 개수
-
-      pointId: 0,      // 포인트 ID
-      pointBalance: 0, // 포인트 잔액   (전체조회)
-      pointAdd: 0,     // 적립된 포인트 (상세조회)
+      point: [],      // 적립금 상세 목록
+      pointBalance: 0, // 사용가능한 적립금 잔액
     };
   },
-  // 전체조회 함수
+
   methods: {
-    // 전체조회 함수 (포인트 잔액)
+    // 적립금 정보 조회
     async retrievePoint() {
       try {
-        let response = await MyPointService.getAll(
-          this.pointId,      // 포인트 ID
-          this.pointBalance, // 포인트 잔액 
-          
-        );
-        const { point, totalItems } = response.data;
-        this.point = point;
-        this.count = totalItems;
-        // 로깅
-        console.log(response.data); // 웹브라우저 콘솔탭에 벡엔드 데이터 표시
-      } catch (e) {
-        console.log(e); // 웹브라우저 콘솔탭에 에러 표시
+        const userId = this.$store.state.user.userId; // Vuex store에서 userId 가져오기
+        const response = await MyPointService.getAll(userId);
+        this.pointBalance = response.data.pointBalance; // 서버로부터 받은 적립금 잔액 정보 저장
+        if (response && response.data) {
+        this.point = response.data; // 데이터 할당 확인
+      } else {
+        console.error("적립금 정보가 비어 있습니다.");
       }
-    },
-
-  // 상세조회 함수
-
+      console.log("받은 데이터:", response.data); // 데이터 로깅
+    } catch (e) {
+      console.error("적립금 정보 로딩 실패:", e);
+    }
   }
+  },
 
+  mounted() {
+    this.retrievePoint(this.userId);
+  }
 };
 </script>
 <style>

@@ -487,6 +487,7 @@ export default {
       try {
         let response = await OrderService.getUserCoupon(userId);
         this.coupon = response.data;
+        console.log("확인", this.coupon)
         console.log("회원의 보유 쿠폰 정보 : ", response.data);
       } catch (e) {
         console.log(e);
