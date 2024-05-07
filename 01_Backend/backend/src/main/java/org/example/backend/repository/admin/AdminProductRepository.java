@@ -1,6 +1,5 @@
 package org.example.backend.repository.admin;
 
-import org.example.backend.model.entity.admin.AdminCoupon;
 import org.example.backend.model.entity.admin.AdminProduct;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

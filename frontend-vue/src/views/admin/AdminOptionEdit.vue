@@ -7,110 +7,107 @@
         </div>
       </div>
       <!-- null -> 거짓(false) -->
-      <div v-if="adminProductEdit">
+      <div v-if="adminOptionEdit">
         <div class="col-10 mx-auto">
           <div>
-
-            <!-- 상품명 시작 -->
+            <!-- 상품번호 시작 -->
             <div class="row g-3 align-items-center mb-3 mt-3">
               <div class="col-4">
-                <label htmlFor="pdName" class="col-form-label"> 상품명 </label>
+                <label htmlFor="pdId" class="col-form-label"> 상품번호 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="pdName"
+                  id="pdId"
                   required
                   class="form-control"
-                  name="pdName"
-                  v-model="adminProductEdit.pdName"
+                  name="pdId"
+                  v-model="adminOptionEdit.pdId"
                 />
               </div>
             </div>
-            <!-- 상품명 끝 -->
+            <!-- 상품번호 끝 -->
 
-            <!-- 가격 시작 -->
-            <div class="row g-3 align-items-center mb-3">
+            <!-- 옵션명 시작 -->
+            <div class="row g-3 align-items-center mb-3 mt-3">
               <div class="col-4">
-                <label htmlFor="cpName" class="col-form-label"> 가격 </label>
+                <label htmlFor="opName" class="col-form-label"> 옵션명 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="pdPrice"
+                  id="opName"
                   required
                   class="form-control"
-                  name="pdPrice"
-                  v-model="adminProductEdit.pdPrice"
+                  name="opName"
+                  v-model="adminOptionEdit.opName"
                 />
               </div>
             </div>
-            <!-- 가격 끝 -->
+            <!-- 옵션명 끝 -->
 
-            <!-- 재고 시작 -->
+            <!-- 옵션추가가격 시작 -->
             <div class="row g-3 align-items-center mb-3">
               <div class="col-4">
-                <label htmlFor="pdStock" class="col-form-label">
-                  재고
+                <label htmlFor="opPrice" class="col-form-label"> 옵션추가가격 </label>
+              </div>
+
+              <div class="col-8">
+                <input
+                  type="text"
+                  id="opPrice"
+                  required
+                  class="form-control"
+                  name="opPrice"
+                  v-model="adminOptionEdit.opPrice"
+                />
+              </div>
+            </div>
+            <!-- 옵션추가가격 끝 -->
+
+            <!-- 옵션재고 시작 -->
+            <div class="row g-3 align-items-center mb-3">
+              <div class="col-4">
+                <label htmlFor="opStock" class="col-form-label">
+                  옵션재고
                 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="pdStock"
+                  id="opStock"
                   required
                   class="form-control"
-                  name="pdStock"
-                  v-model="adminProductEdit.pdStock"
+                  name="opStock"
+                  v-model="adminOptionEdit.opStock"
                 />
               </div>
             </div>
-            <!-- 재고 끝 -->
+            <!-- 옵션재고 끝 -->
 
-            <!-- 카테고리분류코드 시작 -->
+            <!-- 옵션분류코드 시작 -->
             <div class="row g-3 align-items-center mb-3">
               <div class="col-4">
-                <label htmlFor="categoryCode" class="col-form-label">
-                  카테고리분류코드
+                <label htmlFor="opCode" class="col-form-label">
+                  옵션분류코드
                 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="categoryCode"
+                  id="opCode"
                   required
                   class="form-control"
-                  name="categoryCode"
-                  v-model="adminProductEdit.categoryCode"
+                  name="opCode"
+                  v-model="adminOptionEdit.opCode"
                 />
               </div>
             </div>
-            <!-- 카테고리분류코드 끝 -->
-
-            <!-- 썸네일URL 시작 -->
-            <div class="row g-3 align-items-center mb-3">
-              <div class="col-4">
-                <label htmlFor="pdThumbnail" class="col-form-label">
-                  썸네일URL
-                </label>
-              </div>
-
-              <div class="col-8">
-                <input
-                  type="text"
-                  id="pdThumbnail"
-                  required
-                  class="form-control"
-                  name="pdThumbnail"
-                  v-model="adminProductEdit.pdThumbnail"
-                />
-              </div>
-            </div>
-            <!-- 썸네일URL 끝 -->
+            <!-- 옵션분류코드 끝 -->
 
             <!-- 상태 시작 -->
             <div class="row g-3 align-items-center mb-3">
@@ -123,7 +120,7 @@
                     id="inlineRadio1"
                     name="status"
                     value="활성"
-                    v-model="adminProductEdit.status"
+                    v-model="adminOptionEdit.status"
                   />
                   <label class="form-check-label" for="inlineRadio1"
                     >활성</label
@@ -136,7 +133,7 @@
                     id="inlineRadio2"
                     name="status"
                     value="비활성"
-                    v-model="adminProductEdit.status"
+                    v-model="adminOptionEdit.status"
                   />
                   <label class="form-check-label" for="inlineRadio2"
                     >비활성</label
@@ -150,7 +147,7 @@
           <div class="row g-3 mb-3">
             <button
               class="btn btn-outline-danger ms-3 col"
-              @click="deleteAdminProduct"
+              @click="deleteAdminOption"
             >
               삭제
             </button>
@@ -158,7 +155,7 @@
             <button
               type="submit"
               class="btn btn-outline-secondary ms-2 col"
-              @click="updateAdminProduct"
+              @click="updateAdminOption"
             >
               수정
             </button>
@@ -179,22 +176,22 @@
   </div>
 </template>
 <script>
-import AdminProductService from "@/services/admin/AdminProductService";
+import AdminOptionService from "@/services/admin/AdminOptionService";
 export default {
   data() {
     return {
       // TODO: 수정
-      adminProductEdit: null, //초기값
+      adminOptionEdit: null, //초기값
       message: "", // 수정성공시 화면 성공메세지 출력하는 변수
     };
   },
   methods: {
     // TODO: 수정/삭제 시작
     // 함수정의
-    async getAdminProduct(pdId) {
+    async getAdminOption(opId) {
       try {
-        let response = await AdminProductService.get(pdId);
-        this.adminProductEdit = response.data; // spring 결과를 바인딩 속성변수 emp 저장
+        let response = await AdminOptionService.get(opId);
+        this.adminOptionEdit = response.data; // spring 결과를 바인딩 속성변수 emp 저장
         // 로깅
         console.log(response.data);
       } catch (e) {
@@ -202,11 +199,11 @@ export default {
       }
     },
     // 수정요청 함수
-    async updateAdminProduct() {
+    async updateAdminOption() {
       try {
-        let response = await AdminProductService.update(
-          this.adminProductEdit.pdId,
-          this.adminProductEdit
+        let response = await AdminOptionService.update(
+          this.adminOptionEdit.opId,
+          this.adminOptionEdit
         );
         // 로깅
         console.log(response.data);
@@ -218,8 +215,8 @@ export default {
       }
     },
     // 삭제요청 함수
-    async deleteAdminProduct() {
-      let response = await AdminProductService.delete(this.adminProductEdit.pdId);
+    async deleteAdminOption() {
+      let response = await AdminOptionService.delete(this.adminOptionEdit.opId);
       console.log(response.data);
       this.$router.push("/admin-product");
     },
@@ -228,7 +225,7 @@ export default {
   mounted() {
     // TODO: 수정/삭제 시작
     this.message = ""; // 변수 초기화
-    this.getAdminProduct(this.$route.params.pdId); // 상품메뉴를 클릭하면 pdId 옴
+    this.getAdminOption(this.$route.params.opId); // 상품메뉴를 클릭하면 pdId 옴
     // TODO: 수정/삭제 끝
   },
 };

@@ -45,7 +45,7 @@ public class MyWishlistService {
 
     // pdId를 사용한 소프트 삭제 함수
     @Transactional
-    public void removeWishlistItem(Integer pdId, String userId) {
+    public void removeWishlistItem(Long pdId, String userId) {
         myWishlistRepository.deleteById(new PdIdUserIdPk(pdId, userId));
     }
     }
