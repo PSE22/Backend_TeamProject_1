@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -25,43 +26,26 @@ public class MyWishListController {
     @Autowired
     MyWishlistService myWishlistService;
 
-    //    TODO: 전체 조회 함수 + 검색 + 페이징
+    // 조회함수 페이징 X
     @GetMapping("/wishlist/{userId}")
-    public ResponseEntity<Object> findAll(
-            @PathVariable String userId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "3") int size
-    )
-    {
-        try{
-            Pageable pageable = PageRequest.of(page, size);
-
-//            전체 조회 서비스 함수 실행
-            Page<WishlistDto> wishDtoPage
-                    = myWishlistService.selectWishlistContaining(userId,pageable);
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("wishlist", wishDtoPage.getContent());             // 부서배열
-            response.put("currentPage", wishDtoPage.getNumber());       // 현재페이지 번호(x)
-            response.put("totalItems", wishDtoPage.getTotalElements()); // 전체데이터개수
-            response.put("totalPages", wishDtoPage.getTotalPages());    // 전체페이지수(x)
-
-            if(wishDtoPage.isEmpty() == true) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            } else {
-                return new ResponseEntity<>(response, HttpStatus.OK);
-            }
-
-        } catch (Exception e) {
-            log.debug("에러 : "+ e.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<List<WishlistDto>> getWishlistByUserId(@PathVariable String userId) {
+        List<WishlistDto> wishlist = myWishlistService.getUserWishlist(userId);
+        if (wishlist != null && !wishlist.isEmpty()) {
+            return new ResponseEntity<>(wishlist, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
-    // pdId를 사용하여 Wishlist 항목 삭제
-    @DeleteMapping("/wishlist/deletion/{pdId}")
-    public ResponseEntity<Object> deleteByPdId(@PathVariable Integer pdId) {
-        myWishlistService.removeByPdId(pdId);
-        return new ResponseEntity<>(HttpStatus.OK);
+
+    // 삭제함수
+    @DeleteMapping("/wishlist/{userId}/{pdId}")
+    public ResponseEntity<?> deleteWishlistItem(@PathVariable String userId, @PathVariable Long pdId) {
+        try {
+            myWishlistService.removeWishlistItem(pdId, userId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

@@ -1,11 +1,11 @@
-package org.example.backendproject.controller.shop;
+package org.example.backend.controller.shop;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.backendproject.model.dto.shop.IPointDto;
-import org.example.backendproject.model.dto.shop.IUserCouponDto;
-import org.example.backendproject.model.entity.ShipAddress;
-import org.example.backendproject.model.entity.User;
-import org.example.backendproject.service.shop.OrderService;
+import org.example.backend.model.dto.shop.IPointDto;
+import org.example.backend.model.dto.shop.IUserCouponDto;
+import org.example.backend.model.entity.ShipAddress;
+import org.example.backend.model.entity.User;
+import org.example.backend.service.shop.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

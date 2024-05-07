@@ -1,8 +1,8 @@
 package org.example.backend.controller.admin;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.backend.model.entity.admin.AdminProduct;
-import org.example.backend.service.admin.AdminProductService;
+import org.example.backend.model.entity.admin.AdminPdQna;
+import org.example.backend.service.admin.AdminPdQnaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,15 +18,15 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/api/admin")
-public class AdminProductController {
+public class AdminPdQnaController {
 
     @Autowired
-    AdminProductService adminProductService;
+    AdminPdQnaService adminPdQnaService;
 
     //    TODO: 전체 조회 함수 + 검색 + 페이징
-    @GetMapping("/admin-product")
+    @GetMapping("/admin-pdqna")
     public ResponseEntity<Object> findAll(
-            @RequestParam(defaultValue = "") String pdName,
+            @RequestParam(defaultValue = "") String pdQnaTitle,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
@@ -36,12 +36,12 @@ public class AdminProductController {
             Pageable pageable = PageRequest.of(page, size);
 
 //            전체 조회 서비스 함수 실행
-            Page<AdminProduct> pageList
-                    = adminProductService.findAllByAdminProductNameContaining(pdName,pageable);
+            Page<AdminPdQna> pageList
+                    = adminPdQnaService.findAllByAdminPdQnaTitleContaining(pdQnaTitle,pageable);
 
 //            vue 로 json 데이터를 전송 : jsp (model == Map(키,값))
             Map<String, Object> response = new HashMap<>();
-            response.put("adminProduct", pageList.getContent());             // 상품배열
+            response.put("adminPdQna", pageList.getContent());             // 상품리뷰배열
             response.put("currentPage", pageList.getNumber());       // 현재페이지 번호(x)
             response.put("totalItems", pageList.getTotalElements()); // 전체데이터개수
             response.put("totalPages", pageList.getTotalPages());    // 전체페이지수(x)
@@ -63,20 +63,20 @@ public class AdminProductController {
     }
 
     //    TODO: 상세조회
-    @GetMapping("/admin-product/{pdId}")
+    @GetMapping("/admin-pdqna/{pdQnaId}")
     public ResponseEntity<Object> findById(
-            @PathVariable long pdId
+            @PathVariable long pdQnaId
     ) {
         try {
 //            DB 상세조회 서비스 함수 실행
-            Optional<AdminProduct> optionalAdminProduct = adminProductService.findById(pdId);
+            Optional<AdminPdQna> optionalAdminPdQna = adminPdQnaService.findById(pdQnaId);
 
-            if(optionalAdminProduct.isEmpty() == true) {
+            if(optionalAdminPdQna.isEmpty() == true) {
 //                데이터 없음(203)
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
 //                데이터 있음(200)
-                return new ResponseEntity<>(optionalAdminProduct.get()
+                return new ResponseEntity<>(optionalAdminPdQna.get()
                         , HttpStatus.OK);
             }
 
@@ -86,17 +86,17 @@ public class AdminProductController {
     }
 
     //    TODO: 저장 함수
-    @PostMapping("/admin-product")
+    @PostMapping("/admin-pdqna")
     public ResponseEntity<Object> create(
-            @RequestBody AdminProduct adminProduct
+            @RequestBody AdminPdQna adminPdQna
     ) {
         log.debug("1");
         try {
 //            DB 서비스 저장 함수 실행
-            AdminProduct adminProduct2 = adminProductService.save(adminProduct);
+            AdminPdQna adminPdQna2 = adminPdQnaService.save(adminPdQna);
 
 //            성공(OK) 메세지 + 저장된객체(dept2)
-            return new ResponseEntity<>(adminProduct2, HttpStatus.OK);
+            return new ResponseEntity<>(adminPdQna2, HttpStatus.OK);
 
         } catch (Exception e) {
             log.debug("에러 : " + e.getMessage());
@@ -106,15 +106,15 @@ public class AdminProductController {
     }
 
     //    TODO: 수정함수
-    @PutMapping("/admin-product/{pdId}")
+    @PutMapping("/admin-pdqna/{pdQnaId}")
     public ResponseEntity<Object> update(
-            @PathVariable long pdId,
-            @RequestBody AdminProduct adminProduct
+            @PathVariable long pdQnaId,
+            @RequestBody AdminPdQna adminPdQna
     ) {
         try {
-            AdminProduct adminProduct2 = adminProductService.save(adminProduct);  // 수정
+            AdminPdQna adminPdQna2 = adminPdQnaService.save(adminPdQna);  // 수정
 
-            return new ResponseEntity<>(adminProduct2, HttpStatus.OK);
+            return new ResponseEntity<>(adminPdQna2, HttpStatus.OK);
         } catch (Exception e) {
 //            DB 에러 (서버 에러) -> 500 신호(INTERNAL_SERVER_ERROR)
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -122,13 +122,13 @@ public class AdminProductController {
     }
 
     //     TODO: 삭제 함수
-    @DeleteMapping("/admin-product/deletion/{pdId}")
+    @DeleteMapping("/admin-pdqna/deletion/{pdQnaId}")
     public ResponseEntity<Object> delete(
-            @PathVariable long pdId
+            @PathVariable long pdQnaId
     ) {
         try {
 //            DB 서비스 삭제 함수 실행
-            boolean success = adminProductService.removeById(pdId);
+            boolean success = adminPdQnaService.removeById(pdQnaId);
 
             if (success == true) {
                 return new ResponseEntity<>(HttpStatus.OK);
@@ -142,4 +142,5 @@ public class AdminProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * packageName : org.example.backendproject.repository.mypage
- * fileName : PointRepository
+ * fileName : MyPointRepository
  * author : GGG
  * date : 2024-04-26
  * description :
@@ -23,7 +23,7 @@ import java.util.List;
  * 2024-04-26         GGG          최초 생성
  */
 @Repository
-public interface PointRepository extends JpaRepository<Point, String> {
+public interface MyPointRepository extends JpaRepository<Point, String> {
     // 적립된 포인트 조회 (특정 사용자, 만료되지 않은 포인트)
     @Query(value = "SELECT p.POINT_ID AS pointId, " +
             "p.USER_ID AS userId, " +

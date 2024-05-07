@@ -10,86 +10,74 @@
             <button type="button" class="btn btn-primary">3 개월</button>
             <button type="button" class="btn btn-primary">6 개월</button>
           </div>
-          <div class="orderContainer"
-          v-for="(data, index) in ordercheck" :key="index">
+          <div v-for="(orderItems, orderId) in groupedOrders" :key="orderId" class="orderContainer">
             <div class="headTitle">
-              <!-- {{ data.orderDate }} -->
-              <strong>{{data.addDate}}</strong>
+              <strong>{{ orderItems[0].addDate }}</strong>
               <div class="link">
-                <!-- <router-link v-vind:to="/order-detail" class="router-link">| 상세보기 ></router-link>  -> v-vind:to 사용해야 링크에 변수 사용가능-->
-                <router-link :to="`/order/${data.orderId}`">
-                  >| 상세보기 > 
-                  </router-link
-                >
+                <router-link :to="`/order/${orderId}`"> 상세보기 </router-link>
               </div>
             </div>
-
-            <article class="productRow">
-              <div class="orderStepBox">{{data.orderCode}}</div>
-              <div class="productItems">
-                <div class="orderItemBoxWrap">
-                  <div class="orderItemBox">
-                    <router-link to="/" class="thumb">
-                      <span class="thumbImage">
-                        <img 
-                        :src="data.pdThumbnail" />
-                      </span>
-                    </router-link>
-                    <div class="orderItemInfo">
-                      <div class="titleWrap">
-                        <span class="title"> {{data.pdName}} </span>
-                      </div>
-                      <div class="priceWrap">
-                        <span class="price"><strong> {{data.orderDetailPrice}} </strong>원</span>
-                        <span class="count">수량 <strong>{{ data.orderDetailCnt }}</strong></span>
-                      </div>
-                    </div>
+            <div class="orderStepBox">{{ orderItems[0].orderCode }}</div> <!-- 주문 상태 한 번만 출력 -->
+            <div class="productRow">
+              <div v-for="item in orderItems" :key="item.id" class="orderItemBoxWrap">
+                <router-link to="/" class="thumb">
+                  <img :src="item.pdThumbnail" class="thumbImage" />
+                </router-link>
+                <div class="orderItemInfo">
+                  <div class="titleWrap"><span class="title">{{ item.pdName }}</span></div>
+                  <div class="priceWrap">
+                    <span class="price"><strong>{{ item.orderDetailPrice }}</strong>원</span>
+                    <span class="count">수량 <strong>{{ item.orderDetailCnt }}</strong></span>
                   </div>
                 </div>
               </div>
-            </article>
-            
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 <script>
 import OrderCheck from "@/services/mypage/MyOrderCheckService.js";
 import MyPageMainMenu from "@/components/mypage/MyPageMainMenu.vue";
+
 export default {
   components: {
     MyPageMainMenu,
   },
-
   data() {
     return {
-      ordercheck: [], // spring 보내줄 배열변수
-
+      orders: [], // 원본 데이터 배열
+      groupedOrders: {}, // 그룹화된 주문 데이터
       userId: this.$store.state.userId,
     };
   },
-
   methods: {
-    // TODO: 전체조회 함수    : 검색어 버튼 태그
     async retrieveOrderCheck(userId) {
       try {
-        let response = await OrderCheck.getAll(userId);
-        this.ordercheck = response.data;
-        console.log(response.data); // 웹브라우저 콘솔탬에 백앤드 데이터 표시
+        const response = await OrderCheck.getAll(userId);
+        this.orders = response.data;
+        this.groupOrders();
       } catch (e) {
-        console.log(e);
+        console.error("Error fetching orders:", e);
       }
     },
+    groupOrders() {
+      this.groupedOrders = this.orders.reduce((acc, order) => {
+        if (!acc[order.orderId]) {
+          acc[order.orderId] = [];
+        }
+        acc[order.orderId].push(order);
+        return acc;
+      }, {});
+    }
   },
-  //   TODO: 화면이 뜰때 자동 실행 함수
   mounted() {
-    // TODO: 전체 조회 자동 실행
-    this.retrieveOrderCheck(this.$store.state.user.userId);
+    this.retrieveOrderCheck(this.userId);
   },
 };
-
 
 </script>
 <style>

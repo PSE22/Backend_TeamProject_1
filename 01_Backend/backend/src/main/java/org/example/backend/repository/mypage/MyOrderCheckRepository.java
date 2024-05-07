@@ -25,19 +25,20 @@ import java.util.List;
  */
 @Repository
 public interface MyOrderCheckRepository extends JpaRepository<OrderDetail, OrderIdOpIdPk> {
-    @Query(value = "SELECT od.ORDER_DETAIL_CNT AS orderDetailCnt,\n" +
-            "            od.ORDER_DETAIL_PRICE AS orderDetailPrice,\n" +
-            "            od.ORDER_DETAIL_CODE AS orderCode,\n" +
-            "            od.ADD_DATE AS addDate,\n" +
-            "            pd.PD_THUMBNAIL AS pdThumbnail,\n" +
-            "            pd.PD_NAME AS pdName,\n" +
-            "            o.ORDER_ID AS orderId\n" +
-            "            FROM TB_ORDER_DETAIL od, TB_ORDER o, TB_PRODUCT pd\n" +
-            "            WHERE od.ORDER_ID = o.ORDER_ID \n" +
-            "            AND pd.USER_ID = o.USER_ID\n" +
-            "            AND o.STATUS = 'Y'\n" +
-            "            AND o.USER_ID = :userId\n" +
-            "        ORDER BY od.ADD_DATE DESC ",
+    @Query(value = "SELECT od.ORDER_DETAIL_CNT AS orderDetailCnt, " +
+            "od.ORDER_DETAIL_PRICE AS orderDetailPrice, " +
+            "od.ORDER_DETAIL_CODE AS orderCode, " +
+            "od.ADD_DATE AS addDate, " +
+            "pd.PD_THUMBNAIL AS pdThumbnail, " +
+            "pd.PD_NAME AS pdName, " +
+            "o.ORDER_ID AS orderId " +
+            "FROM TB_ORDER_DETAIL od " +
+            "JOIN TB_ORDER o ON od.ORDER_ID = o.ORDER_ID " +
+            "JOIN TB_OPTION opt ON od.OP_ID = opt.OP_ID " +
+            "JOIN TB_PRODUCT pd ON opt.PD_ID = pd.PD_ID " +
+            "WHERE o.STATUS = 'Y' " +
+            "AND o.USER_ID = :userId " +
+            "ORDER BY od.ADD_DATE DESC",
             nativeQuery = true)
     List<OrderCheckDto> selectOrderCheck(@Param("userId") String userId);
 
