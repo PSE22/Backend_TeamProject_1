@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import lombok.*;
+import org.example.backend.model.common.BaseTimeEntity;
 import org.example.backend.model.common.OrderIdOpIdPk;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -33,13 +34,12 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicInsert
 @DynamicUpdate
 @IdClass(OrderIdOpIdPk.class)
-public class OrderDetail {
-
+public class OrderDetail extends BaseTimeEntity {
     @Id
     private Long orderId;               // 주문 ID
     @Id
-    private Long opId;
-    private Integer orderDetailCnt;
-    private Integer orderDetailPrice;
-    private String orderDetailCode;
+    private Long opId;                  // 옵션 ID
+    private Integer orderDetailCnt;     // 주문상세수량
+    private Integer orderDetailPrice;   // 주문상세가격
+    private String orderDetailCode;     // 주문상태코드
 }
