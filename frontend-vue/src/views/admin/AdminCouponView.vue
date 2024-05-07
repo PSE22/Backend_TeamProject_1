@@ -96,9 +96,10 @@
                     placeholder="검색"
                     aria-label="Search"
                     aria-describedby="basic-addon2"
+                    v-model="searchCpName"
                   />
                   <div class="input-group-append">
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button" @click="retrieveAdminCoupon">
                       <i class="fas fa-search fa-sm"></i>
                     </button>
                   </div>
@@ -604,5 +605,13 @@ export default {
   /* background-color: rgb(115, 235, 67); */
   font-size: 30px;
   font-family: "YClover-Bold";
+}
+.table th {
+  white-space: nowrap; /* 줄바꿈 방지 */
+  text-overflow: ellipsis; /* 텍스트 생략 */
+  padding: 0 30px; /* 좌우 여백 추가 */
+}
+.table td {
+  text-align: center; /* 가운데 정렬 */
 }
 </style>
