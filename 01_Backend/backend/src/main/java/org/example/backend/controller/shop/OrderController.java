@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -76,13 +77,13 @@ public class OrderController {
     @GetMapping("/order/user-coupon/{userId}")
     public ResponseEntity<Object> findByUserCouponUserId(@PathVariable String userId) {
         try {
-            Optional<IUserCouponDto> optionalUserCoupon = orderService.findAllByUserCoupon(userId);
-            if (optionalUserCoupon.isEmpty() == true) {
+            List<IUserCouponDto> listUserCoupon = orderService.findAllByUserCoupon(userId);
+            if (listUserCoupon.isEmpty() == true) {
                 // 데이터 없음
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 // 조회 성공
-                return new ResponseEntity<>(optionalUserCoupon.get(), HttpStatus.OK);
+                return new ResponseEntity<>(listUserCoupon, HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

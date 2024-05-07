@@ -40,7 +40,7 @@ public class MyWishListController {
 
     // 삭제함수
     @DeleteMapping("/wishlist/{userId}/{pdId}")
-    public ResponseEntity<?> deleteWishlistItem(@PathVariable String userId, @PathVariable Integer pdId) {
+    public ResponseEntity<?> deleteWishlistItem(@PathVariable String userId, @PathVariable Long pdId) {
         try {
             myWishlistService.removeWishlistItem(pdId, userId);
             return new ResponseEntity<>(HttpStatus.OK);

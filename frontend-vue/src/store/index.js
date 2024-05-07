@@ -6,11 +6,16 @@ export default createStore({
   state: {
     loggedIn: user ? true : false, // 로그인 여부
     user: user ? user : null, // 로그인 정보(웹토큰속성 있음)
-    orderList: [],
+    orderList: [],        // 임시 장바구니 초기화
     userId: "user1",
   },
-  getters: {},
+  getters: {
+    getOrderList: state => {
+      return state.orderList;
+    }
+  },
   mutations: {
+    // TODO: 임시 장바구니 배열 수정 함수
     setOrderList(state, value) {
       state.orderList = [...value];
     },
@@ -39,14 +44,6 @@ export default createStore({
       state.loggedIn = false;
     },
   },
-  // // TODO: 비동기 함수 (async ~ await)
-  // actions: {
-  //   // 선택된 상품 목록을 전달하는 액션
-  //   setOrderList({ commit }, orderList) {
-  //     // 다른 액션을 호출하거나 외부 서비스와 통신하는 등의 작업을 수행할 수 있음
-  //     // 여기서는 단순히 커밋(commit)을 사용하여 상태를 변경하지 않고 전달만 함
-  //     commit("setOrderList", orderList);
-  //   },
-  // },
+  actions: {},
   modules: {},
 });

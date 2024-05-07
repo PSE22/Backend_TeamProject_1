@@ -7,7 +7,7 @@
         <thead class="table-light text-center">
           <tr>
             <th scope="col">상품정보</th>
-            <th scope="col">별점</th>
+            <th scope="col">평점</th>
             <th scope="col">내용</th>
             <th scope="col">등록일</th>
           </tr>
@@ -19,12 +19,18 @@
                 <!-- 상품정보 -->
                 <div class="flex-shrink-0">
                   <img
-                    :src="data.pdThumblail"
+                    :src="data.pdThumbnail"
                     class="img-thumbnail me-3"
-                    style="{ height: 15 + 'vh', width: 5 + 'vw' }"
+                    style="width: 100px; height: 100px"
+                    type="button"
+                    @click="goProduct(data.pdId)"
                   />
                 </div>
-                <div class="flex-grow-1">
+                <div
+                  class="flex-grow-1"
+                  @click="goProduct(data.pdId)"
+                  type="button"
+                >
                   {{ data.pdName }}
                 </div>
               </div>
@@ -36,13 +42,10 @@
               <p>
                 {{ data.reviewContent }}
               </p>
-              <img
-              :src="data.reviewImgUrl"
-                class="img-thumbnail me-3"
-              />
+              <img :src="data.reviewImgUrl" class="img-thumbnail me-3" v-if="reviewImgUrl" />
             </td>
             <!-- 등록일 -->
-            <td class="col-1 text-center">{{ data.addDate }}</td>
+            <td class="col-2 text-center">{{ data.addDate }}</td>
           </tr>
         </tbody>
       </table>
@@ -70,7 +73,6 @@ export default {
       review: [], // 리뷰 불러오기
       userId: this.$store.state.user.userId,
 
-
       // 공통 페이징 속성
       page: 1, // 현재 페이지 번호
       count: 0, // 전체 데이터 개수
@@ -79,12 +81,12 @@ export default {
   },
   methods: {
     // 전체조회
-    async allReview() {
+    async allReview(userId) {
       try {
         // TODO: 공통 전체조회 서비스 함수 실행
         // TODO: spring 통신 : 비동기 코딩 : async ~ await
         let response = await MyReviewService.getAll(
-          this.userId,
+          userId,
           this.page - 1,
           this.pageSize
         );
@@ -96,6 +98,10 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    },
+    // 해당 상품페이지 이동
+    goProduct(pdId) {
+      this.$router.push(`/product/${pdId}`);
     },
   },
   mounted() {
