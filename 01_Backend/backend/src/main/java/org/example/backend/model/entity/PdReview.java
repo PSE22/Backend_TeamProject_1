@@ -26,6 +26,7 @@ import org.hibernate.annotations.Where;
 @SequenceGenerator(
         name = "SEQ_TB_PD_REVIEW_REVIEW_ID_GENERATOR"
         , sequenceName = "SEQ_TB_PD_REVIEW_REVIEW_ID"
+        , initialValue = 1
         , allocationSize = 1
 )
 @Getter
