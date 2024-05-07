@@ -36,12 +36,6 @@ public class CartService {
     @Autowired
     CartRepository cartRepository;
 
-    @Autowired
-    JwtUtils jwtUtils;
-
-    @Autowired
-    UserRepository userRepository;
-
     //    TODO: 저장(수정)함수
     public Cart save(Cart cart) {
 //        DB 저장 함수 실행
@@ -54,7 +48,6 @@ public class CartService {
             List<ICartDto> list = cartRepository.findByUserId(userId);
             return list;
     }
-
 
     //    TODO: 삭제 함수
     public boolean removeById(int cartId) {

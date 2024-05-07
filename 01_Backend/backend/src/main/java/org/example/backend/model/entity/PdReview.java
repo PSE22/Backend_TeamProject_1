@@ -10,23 +10,22 @@ import org.hibernate.annotations.Where;
 
 /**
  * packageName : org.example.backend.model.entity
- * fileName : Product
- * author : kimtaewan
- * date : 2024-04-19
-
- * description : 상품
+ * fileName : PdReview
+ * author : gumiji
+ * date : 5/3/24
+ * description :
  * 요약 :
  * <p>
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2024-04-19         kimtaewan          최초 생성
+ * 5/3/24         gumiji          최초 생성
  */
 @Entity
-@Table(name="TB_PRODUCT")
+@Table(name="TB_PD_REVIEW")
 @SequenceGenerator(
-        name = "SEQ_TB_PRODUCT_PD_ID_GENERATOR"
-        , sequenceName = "SEQ_TB_PRODUCT_PD_ID"
+        name = "SEQ_TB_PD_REVIEW_REVIEW_ID_GENERATOR"
+        , sequenceName = "SEQ_TB_PD_REVIEW_REVIEW_ID"
         , allocationSize = 1
 )
 @Getter
@@ -36,17 +35,18 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
+// soft delete
 @Where(clause = "STATUS = 'Y'")
-@SQLDelete(sql = "UPDATE TB_PRODUCT SET STATUS = 'N', DEL_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') WHERE PD_ID = ?")
-public class Product extends BaseTimeEntity2 {
-    @Id
+@SQLDelete(sql = "UPDATE TB_PD_REVIEW SET STATUS = 'N', DEL_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') WHERE REVIEW_ID = ?")
+public class PdReview extends BaseTimeEntity2 {
     @GeneratedValue(strategy = GenerationType.SEQUENCE
-                    , generator = "SEQ_TB_PRODUCT_PD_ID_GENERATOR")
-    private Long pdId;                  // 상품 ID (PK)
+            , generator = "SEQ_TB_PD_REVIEW_REVIEW_ID_GENERATOR")
+    @Id
+    private Long reviewId;              // 리뷰 ID
     private String userId;              // 회원 ID (FK)
-    private String pdName;              // 상품명
-    private Integer pdPrice;            // 가격
-    private Integer pdStock;            // 재고
-    private String categoryCode;        // 카테고리 분류코드
-    private String pdThumbnail;         // 썸네일이미지
+    private Long pdId;                  // 상품 ID (FK)
+    private String reviewTitle;         // 제목
+    private String reviewContent;       // 내용
+    private Integer reviewRate;         // 별점
+    private String reviewCode;          // 게시판분류코드
 }

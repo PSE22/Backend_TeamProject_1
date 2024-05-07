@@ -1,8 +1,8 @@
-package org.example.backendproject.model.entity;
+package org.example.backend.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.backendproject.model.common.BaseTimeEntity2;
+import org.example.backend.model.common.BaseTimeEntity2;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SQLDelete;
@@ -26,7 +26,6 @@ import org.hibernate.annotations.Where;
 @SequenceGenerator(
         name = "SEQ_TB_SHIP_ADDRESS_SHIP_ADDR_ID_GENERATOR"
         , sequenceName = "SEQ_TB_SHIP_ADDRESS_SHIP_ADDR_ID"
-        , initialValue = 1
         , allocationSize = 1
 )
 @Getter
@@ -39,11 +38,10 @@ import org.hibernate.annotations.Where;
 // soft delete
 @Where(clause = "STATUS = 'Y'")
 @SQLDelete(sql = "UPDATE TB_SHIP_ADDRESS SET STATUS = 'N', DEL_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') WHERE SHIP_ADDR_ID = ?")
-public class ShipAddress extends BaseTimeEntity2{
+public class ShipAddress extends BaseTimeEntity2 {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE
-            , generator = "SEQ_TB_SHIP_ADDRESS_SHIP_ADDR_ID_GENERATOR"
-    )
+            , generator = "SEQ_TB_SHIP_ADDRESS_SHIP_ADDR_ID_GENERATOR")
     private Long shipAddrId;        // 배송지 ID (PK)
     private String userId;          // 회원 ID
     private String shipAddr;        // 배송지 주소

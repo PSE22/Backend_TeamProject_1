@@ -2,7 +2,7 @@ package org.example.backend.service.mypage;
 
 import org.example.backend.model.dto.mypage.PointDto;
 import org.example.backend.repository.mypage.PointDetailRepository;
-import org.example.backend.repository.mypage.PointRepository;
+import org.example.backend.repository.mypage.MyPointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
