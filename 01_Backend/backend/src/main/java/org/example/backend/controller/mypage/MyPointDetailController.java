@@ -43,4 +43,16 @@ public class MyPointDetailController {
         }
         return new ResponseEntity<>(pointDetails, HttpStatus.OK);
     }
+
+    // 테스트용 만료 포인트 업데이트 메서드
+    @GetMapping("/testUpdateExpiredPointsStatus")
+    public ResponseEntity<String> updateExpiredPoints() {
+        try {
+            int updatedCount = myPointService.testUpdateExpiredPointsStatus();
+            return new ResponseEntity<>("Updated " + updatedCount + " expired points.", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to update expired points: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
