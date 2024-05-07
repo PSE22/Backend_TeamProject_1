@@ -5,6 +5,9 @@ import org.example.backend.repository.mypage.PointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * packageName : org.example.backend.service.mypage
  * fileName : MyPointService
