@@ -83,7 +83,7 @@ const routes = [
   }, 
   // 주문
   {
-    path: "/order/:orderId",
+    path: "/order",
     component: () => import("../views/OrderView.vue"),
   }, 
   // 카테고리 상세

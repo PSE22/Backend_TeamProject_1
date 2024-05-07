@@ -33,8 +33,6 @@ public class MyPointService {
     public List<PointDto> getPointDetailsByUserId(String userId) {
         return pointDetailRepository.findPointDetailsByUserId(userId);
     }
-
-
     // 만료된 적립금 상태 업데이트
     @Transactional
     @Scheduled(cron = "0 0 0 * * ?")  // 매일 자정에 실행

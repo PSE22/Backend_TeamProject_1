@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -33,5 +34,5 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, CpIdUser
             "C.CP_MAX_DC_PRICE AS cpMaxDcPrice \n" +
             "FROM TB_USER_COUPON UC, TB_COUPON C \n" +
             "WHERE UC.CP_ID = C.CP_ID", nativeQuery = true)
-    Optional<IUserCouponDto> findAllByUserCoupon(String userId);
+    List<IUserCouponDto> findAllByUserCoupon(String userId);
 }
