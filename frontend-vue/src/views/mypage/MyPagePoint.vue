@@ -24,13 +24,17 @@
         <div class="pointWrap">
           <ul class="pointList">
             <li class="pointItem" v-for="(item, index) in point" :key="index">
-              <p class="date">{{ item.addDate }}</p>
+              <p class="date">{{ item.actionType === '만료' ? item.delDate : item.addDate }}</p>
               <dl class="pointInfo">
-                <dt>{{ item.pointAdd ? '적립 (' + item.pointCode + ')' : '사용' }}</dt>
-                <dd>{{ item.pointAdd ? '적립금액 ' : '사용금액' }}</dd>
+                <dt>{{ item.actionType === '만료' ? '만료' : (item.pointAdd ? '적립 (' + item.pointCode + ')' : '사용') }}</dt>
+                <dd>{{ item.actionType === '만료' ? '만료금액' : (item.pointAdd ? '적립금액' : '사용금액') }}</dd>
               </dl>
               <div :class="{ 'plus': item.pointAdd, 'minus': item.usePointPrice }">
-                <strong>{{ item.pointAdd ? `+${item.pointAdd}` : `-${item.usePointPrice}` }}</strong>P
+                <strong>
+          {{ item.actionType === '적립' ? `+${item.pointAdd}` : 
+            (item.actionType === '사용' ? `-${item.usePointPrice}` : 
+            (item.actionType === '만료' ? `-${item.pointAdd}` : '')) }}P
+        </strong>
               </div>
             </li>
           </ul>
@@ -46,6 +50,7 @@
   </div>
 </template>
 <script>
+// import dayjs from "dayjs";
 import MyPageMainMenu from "@/components/mypage/MyPageMainMenu.vue";
 import MyPointService from "@/services/mypage/MyPointService";
 export default {

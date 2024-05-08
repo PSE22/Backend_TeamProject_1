@@ -24,4 +24,6 @@ public interface PointDto {
     String getAddDate();        // 포인트 적립일
     String getUsePointDate();   // 포인트 사용일
     String getDelDate();        // 포인트 만료일
+
+     String getActionType(); // '적립', '사용', '만료'
 }

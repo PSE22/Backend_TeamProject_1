@@ -1,23 +1,4 @@
 <template>
-  <!-- Custom fonts for this template -->
-  <link
-    href="../../../public/vendor/fontawesome-free/css/all.min.css"
-    rel="stylesheet"
-    type="text/css"
-  />
-  <link
-    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-    rel="stylesheet"
-  />
-
-  <!-- Custom styles for this template -->
-  <link href="../../../public/css/sb-admin-2.min.css" rel="stylesheet" />
-
-  <!-- Custom styles for this page -->
-  <link
-    href="../../../public/vendor/datatables/dataTables.bootstrap4.min.css"
-    rel="stylesheet"
-  />
   <div>
     <!-- TODO: 여기 -->
     <body id="page-top">
@@ -116,9 +97,10 @@
                     placeholder="검색"
                     aria-label="Search"
                     aria-describedby="basic-addon2"
+                    v-model="searchPdQnaTitle"
                   />
                   <div class="input-group-append">
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button" @click="retrieveAdminPdQna">
                       <i class="fas fa-search fa-sm"></i>
                     </button>
                   </div>
@@ -220,151 +202,119 @@
             </nav>
             <!-- 상단 메뉴 끝 -->
 
-            <!-- TODO: 상품 관리 시작 -->
+            <!-- TODO: 문의관리 시작 -->
             <div class="container-fluid">
               <!-- Page Heading -->
-              <h1 class="h3 mb-2 text-gray-800">주문관리</h1>
+              <h1 class="h3 mb-2 text-gray-800">상품문의</h1>
               <br />
 
               <!-- DataTales Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">주문관리</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">상품문의</h6>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    <!-- TODO: 등록/수정/삭제 시작 백에서 연결 해야함 -->
-                    <button type="button" class="btn btn-primary mr-3 mb-3">등록</button>
-                    <button type="button" class="btn btn-secondary mr-3 mb-3">수정</button>
-                    <button type="button" class="btn btn-danger mr-3 mb-3">삭제</button>
-                    <!-- 등록/수정/삭제 끝 -->
-                    <div class="row">
-                      <div class="col-sm-12">
-                        <table
-                          class="table table-bordered dataTable"
-                          width="100%"
-                          cellspacing="0"
-                          role="grid"
-                          aria-describedby="dataTable_info"
-                          style="width: 100%"
-                        >
-                          <thead>
-                            <tr role="row">
-                              <th>Name</th>
-                              <th>Position</th>
-                              <th>Office</th>
-                              <th>Age</th>
-                              <th>Start date</th>
-                              <th>Salary</th>
-                            </tr>
-                          </thead>
-                          <tfoot>
-                            <tr>
-                              <th>Name</th>
-                              <th>Position</th>
-                              <th>Office</th>
-                              <th>Age</th>
-                              <th>Start date</th>
-                              <th>Salary</th>
-                            </tr>
-                          </tfoot>
-                          <tbody>
-                            <tr>
-                              <td>Tiger Nixon</td>
-                              <td>System Architect</td>
-                              <td>Edinburgh</td>
-                              <td>61</td>
-                              <td>2011/04/25</td>
-                              <td>$320,800</td>
-                            </tr>
-                            <tr>
-                              <td>Donna Snider</td>
-                              <td>Customer Support</td>
-                              <td>New York</td>
-                              <td>27</td>
-                              <td>2011/01/25</td>
-                              <td>$112,000</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- TODO: 페이지 시작 / 페이지 네이션 백에서 해야함 -->
-                  <div class="row">
-                    <div class="col-sm-12 col-md-5">
-                      <div
-                        class="dataTables_info"
-                        role="status"
-                        aria-live="polite"
-                      >
-                        검색결과 총 ? 건 중 ? 건
-                      </div>
-                    </div>
-                    <div class="col-sm-12 col-md-7">
-                      <div class="dataTables_paginate paging_Simple_numbers">
-                        <ul class="pagination justify-content-end">
-                          <li
-                            class="paginate_button page-item previous disabled"
+                    <div v-if="!submitted">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <table
+                            class="table table-bordered dataTable"
+                            width="100%"
+                            cellspacing="0"
+                            role="grid"
+                            aria-describedby="dataTable_info"
+                            style="width: 100%"
                           >
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx="0"
-                              tabindex="0"
-                              class="page-link"
-                              >이전</a
-                            >
-                          </li>
-                          <li class="page-item">
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx="1"
-                              tabindex="0"
-                              class="page-link"
-                              >1</a
-                            >
-                          </li>
-                          <li class="page-item">
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx="2"
-                              tabindex="0"
-                              class="page-link"
-                              >2</a
-                            >
-                          </li>
-                          <li class="page-item">
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx="3"
-                              tabindex="0"
-                              class="page-link"
-                              >3</a
-                            >
-                          </li>
-                          <li class="page-item">
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx="4"
-                              tabindex="0"
-                              class="page-link"
-                              >다음</a
-                            >
-                          </li>
-                        </ul>
+                            <thead>
+                              <tr role="row">
+                                <th>액션</th>
+                                <th>상품 문의번호</th>
+                                <th>회원ID</th>
+                                <th>상품번호</th>
+                                <th>제목</th>
+                                <th>내용</th>
+                                <th>비밀글 여부</th>
+                                <th>게시판 분류코드</th>
+                                <th>저장일</th>
+                                <th>수정일</th>
+                                <th>삭제일</th>
+                                <th>상태</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr
+                                v-for="(data, index) in adminPdQna"
+                                :key="index"
+                              >
+                                <td>
+                                  <!-- TODO: 링크 : a 태그 (전체 새로고침(성능저하) -> 페이지전환) -->
+                                  <!-- TODO: 뷰에서제공 링크 : router-link (부분 새로고침: 성능향상) -->
+                                  <router-link
+                                    :to="'/admin-pdqna-edit/' + data.pdQnaId"
+                                  >
+                                    <span class="badge text-bg-secondary"
+                                      >게시글 수정</span
+                                    >
+                                  </router-link>
+                                  <router-link
+                                    :to="'/admin-pdqna-reply/' + data.pdQnaId"
+                                  >
+                                    <span class="badge text-bg-primary"
+                                      >답변 등록</span>
+                                  </router-link>
+                                  <router-link
+                                    :to="'/admin-pdqna-reply-edit/' + data.pdQnaReplyId"
+                                  >
+                                    <span class="badge text-bg-secondary"
+                                      >답변 수정</span>
+                                  </router-link>
+                                </td>
+                                <td>{{ data.pdQnaId }}</td>
+                                <td>{{ data.userId }}</td>
+                                <td>{{ data.pdId }}</td>
+                                <td>{{ data.pdQnaTitle }}</td>
+                                <td>{{ data.pdQnaContent }}</td>
+                                <td>{{ data.pdQnaSecret }}</td>
+                                <td>{{ data.pdQnaCode }}</td>
+                                <td>{{ data.addDate }}</td>
+                                <td>{{ data.modDate }}</td>
+                                <td>{{ data.delDate }}</td>
+                                <td>{{ data.status }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
+                    <!-- TODO: 페이지 시작 / 페이지 네이션 백에서 해놓음 -->
+                    <div class="row">
+                      <div class="col-sm-12 col-md-5">
+                        <div
+                          class="dataTables_info"
+                          role="status"
+                          aria-live="polite"
+                        >
+                            검색결과 총 {{ count }} 건
+                        </div>
+                      </div>
+                      <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_Simple_numbers">
+                          <b-pagination
+                            v-model="page"
+                            :total-rows="count"
+                            :per-page="pageSize"
+                            @click="retrieveAdminPdQna"
+                          ></b-pagination>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- TODO: 페이지 끝 -->
                   </div>
-                  <!-- TODO: 페이지 끝 -->
                 </div>
               </div>
+              <!-- /.container-fluid -->
             </div>
-            <!-- /.container-fluid -->
           </div>
           <!-- TODO: 게시판 끝 -->
 
@@ -387,49 +337,99 @@
         <i class="fas fa-angle-up"></i>
       </a>
     </body>
-
-    <!-- TODO: 로그아웃 모달 화면 -->
-    <div
-      class="modal fade"
-      id="logoutModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button
-              class="close"
-              type="button"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Select "Logout" below if you are ready to end your current session.
-          </div>
-          <div class="modal-footer">
-            <button
-              class="btn btn-secondary"
-              type="button"
-              data-dismiss="modal"
-            >
-              Cancel
-            </button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 <script>
-export default {};
+import AdminPdQnaService from "@/services/admin/AdminPdQnaService";
+export default {
+  data() {
+    return {
+      // TODO: 등록
+      adminPdQnaData: {
+        userId: this.$store.state.user.userId,
+      }, // 관리자 ID
+      submitted: false, // 저장버튼 클릭하면 true 바뀜
+
+      // TODO: 백엔드 연결
+      adminPdQna: [], // spring 에서 전송
+      searchPdQnaTitle: "",
+
+      // 공통 속성(현재페이지, 전체데이터개수,1페이지당개수)
+      page: 1, // 현재페이지번호
+      count: 0, // 전체데이터개수
+      pageSize: 10, // 1페이지당개수(select태그)
+
+      pageSizes: [10, 25, 50], //1페이지당개수 배열(select태그-option)
+    };
+  },
+  methods: {
+    // TODO: 등록 시작
+    async saveAdminPdQnaData() {
+      try {
+        // 임시 객체 변수
+        let data = {
+          pdQnaId: this.adminPdQnaData.pdQnaId,
+          userId: this.adminPdQnaData.userId,
+          pdId: this.adminPdQnaData.pdId,
+          pdQnaTitle: this.adminPdQnaData.pdQnaTitle,
+          pdQnaContent: this.adminPdQnaData.pdQnaContent,
+          pdQnaSecret: this.adminPdQnaData.pdQnaSecret,
+          pdQnaCode: this.adminPdQnaData.pdQnaCode,
+          addDate: this.adminPdQnaData.addDate,
+          modDate: this.adminPdQnaData.modDate,
+          delDate: this.adminPdQnaData.delDate,
+          status: this.adminPdQnaData.status,
+          pdQnaReplyId: this.adminPdQnaData.pdQnaReplyId,
+        };
+        console.log(data);
+        // TODO: 벡엔드로 객체 추가 요청
+        let response = await AdminPdQnaService.create(data);
+        // TODO: 콘솔에 결과 출력
+        console.log(response);
+        this.submitted = true; // 저장유무변수=true 변경
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    // 저장페이지 열기 함수 : 화면 초기화
+    newAdminPdQnaData() {
+      // 뷰/리액트 : 변수값을 조작하면 화면이 자동 갱신됨
+      this.submitted = false;
+      this.adminPdQnaData = {};
+    },
+    // TODO: 등록 끝
+    // TODO: 백엔드 연결
+    pageNoChange(value) {
+      this.page = value; // 1) 현재페이지 변경
+      this.retrieveAdminPdQna(); // 2) 재조회 요청
+    },
+    pageSizeChange() {
+      this.page = 1; // 2) 현재 페이지번호 초기화(1)
+      this.retrieveAdminPdQna(); // 3) 재조회 요청
+    },
+    async retrieveAdminPdQna() {
+      try {
+        let response = await AdminPdQnaService.getAll(
+          this.searchPdQnaTitle, // 검색어
+          this.page - 1, // 현재페이지번호-1
+          this.pageSize // 1페이지당개수(size)
+        );
+        const { adminPdQna, totalItems } = response.data; // 쿠폰배열(벡엔드 전송)
+        this.adminPdQna = adminPdQna; // 쿠폰배열(벡엔드 전송)
+        this.count = totalItems; // 전체페이지수(벡엔드 전송)
+        console.log("전체조회", response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    // TODO: 백엔드 끝
+    // TODO: 백엔드 시작
+  },
+  mounted() {
+    this.retrieveAdminPdQna(); // 전체 조회 함수 실행
+    // TODO: 백엔드 끝
+  },
+};
 </script>
 <style>
 @font-face {
@@ -443,5 +443,13 @@ export default {};
   /* background-color: rgb(115, 235, 67); */
   font-size: 30px;
   font-family: "YClover-Bold";
+}
+.table th {
+  white-space: nowrap; /* 줄바꿈 방지 */
+  text-overflow: ellipsis; /* 텍스트 생략 */
+  padding: 0 30px; /* 좌우 여백 추가 */
+}
+.table td {
+  text-align: center; /* 가운데 정렬 */
 }
 </style>

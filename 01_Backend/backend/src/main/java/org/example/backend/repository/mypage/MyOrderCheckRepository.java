@@ -42,6 +42,11 @@ public interface MyOrderCheckRepository extends JpaRepository<OrderDetail, Order
             nativeQuery = true)
     List<OrderCheckDto> selectOrderCheck(@Param("userId") String userId);
 
-
-
+//    주문 카운트
+    @Query(value = "SELECT count(*) FROM TB_ORDER o\n" +
+            "WHERE o.STATUS = 'Y'\n" +
+            "AND o.USER_ID = :userId\n" +
+            "ORDER BY o.ADD_DATE DESC",
+            nativeQuery = true)
+    Integer orderCount (@Param("userId") String userId);
 }
