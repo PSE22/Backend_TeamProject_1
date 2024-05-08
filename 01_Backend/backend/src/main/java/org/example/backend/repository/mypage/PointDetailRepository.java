@@ -29,7 +29,8 @@ import java.util.List;
 @Repository
 public interface PointDetailRepository extends JpaRepository<DetailPoint, PtIdUseptIdPk> {
 
-    @Query(value = "SELECT p.point_id AS pointId, " +
+    @Query(value = "SELECT * FROM (" +
+            "SELECT p.point_id AS pointId, " +
             "p.user_id AS userId, " +
             "p.point_add AS pointAdd, " +
             "p.point_code AS pointCode, " +
@@ -37,31 +38,43 @@ public interface PointDetailRepository extends JpaRepository<DetailPoint, PtIdUs
             "p.del_date AS delDate, " +
             "p.point_expire_status AS pointExpireStatus, " +
             "'적립' AS actionType, " +
-            "NULL AS usePointId, NULL AS usePointPrice " +
+            "NULL AS usePointId, NULL AS usePointPrice, " +
+            "p.add_date AS orderDate " +
             "FROM tb_point p " +
-            "WHERE p.user_id = :userId AND p.status = 'Y' " +
+            "WHERE p.user_id = :userId AND p.status = 'Y' AND p.point_expire_status = 'N' " +
             "UNION ALL " +
             "SELECT NULL AS pointId, up.user_id AS userId, NULL AS pointAdd, " +
-            "NULL AS pointCode, " +
-            "up.add_date AS addDate, " +
-            "NULL AS delDate, " + // 사용 테이블에는 만료일이 없음
-            "NULL AS pointExpireStatus, " +
-            "'사용' AS actionType, " +
-            "up.use_point_id AS usePointId, up.use_point_price AS usePointPrice " +
+            "NULL AS pointCode, up.add_date AS addDate, NULL AS delDate, " +
+            "NULL AS pointExpireStatus, '사용' AS actionType, " +
+            "up.use_point_id AS usePointId, up.use_point_price AS usePointPrice, " +
+            "up.add_date AS orderDate " +
             "FROM tb_use_point up " +
             "WHERE up.user_id = :userId " +
-            "ORDER BY addDate DESC",
-            nativeQuery = true)
+            "UNION ALL " +
+            "SELECT p.point_id AS pointId, p.user_id AS userId, p.point_add AS pointAdd, " +
+            "NULL AS pointCode, p.add_date AS addDate, p.del_date AS delDate, " +
+            "p.point_expire_status AS pointExpireStatus, '만료' AS actionType, " +
+            "NULL AS usePointId, NULL AS usePointPrice, " +
+            "p.del_date AS orderDate " +
+            "FROM tb_point p " +
+            "WHERE p.user_id = :userId AND p.status = 'N' AND p.point_expire_status = 'Y' " +
+            ") ORDER BY orderDate DESC", nativeQuery = true)
     List<PointDto> findPointDetailsByUserId(@Param("userId") String userId);
+
 
 //    delDate 가 되면 point_expire_status Y(만료) 로 변경, status N 으로 변경
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Point p SET p.point_expire_status = 'N' " +
-            "WHERE p.delDate <= SYSDATE " +
-            "AND p.point_expire_status = 'Y' AND p.status = 'N'", nativeQuery = true)
+    @Query(value = "UPDATE TB_POINT p SET p.POINT_EXPIRE_STATUS = 'Y', p.STATUS = 'N' " +
+            "WHERE p.DEL_DATE <= SYSDATE " +
+            "AND p.POINT_EXPIRE_STATUS = 'N' AND p.STATUS = 'Y'", nativeQuery = true)
     int updatePointsToExpired();
-}
+
+    
+
+    @Query(value = "SELECT p FROM Point p WHERE p.userId = :userId AND (p.addDate BETWEEN :startDate AND :endDate OR p.delDate BETWEEN :startDate AND :endDate)")
+    List<PointDto> findPointDetailsByPeriod(@Param("userId") String userId, @Param("startDate") String startDate, @Param("endDate") String endDate);
+
 
     @Query(value = "SELECT UP.USE_POINT_ID,\n" +
             "       P.POINT_ID,\n" +
