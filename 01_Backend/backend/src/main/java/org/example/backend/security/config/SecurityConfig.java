@@ -68,6 +68,10 @@ public class SecurityConfig {
 //                .requestMatchers("/api/admin-product-edit/**").hasAuthority("AT01")
 //                .requestMatchers("/api/admin-option/**").hasAuthority("AT01")
 //                .requestMatchers("/api/admin-option-edit/**").hasAuthority("AT01")
+//                .requestMatchers("/api/admin-pdqna/**").hasAuthority("AT01")
+//                .requestMatchers("/api/admin-pdqna-edit/**").hasAuthority("AT01")
+//                .requestMatchers("/api/admin-pdqna-reply/**").hasAuthority("AT01")
+//                .requestMatchers("/api/admin-pdqna-reply-edit/**").hasAuthority("AT01")
 //                .requestMatchers("/api/auth/**").permitAll()
 //                .requestMatchers("/").permitAll()
 //                .anyRequest().authenticated());
