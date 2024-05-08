@@ -41,6 +41,11 @@ const routes = [
     path: '/admin-product',
     component: () => import('../views/admin/AdminProductView.vue')
   },
+  // 관리자 상품옵션 관리
+  {
+    path: '/admin-option',
+    component: () => import('../views/admin/AdminProductView.vue')
+  },
   // 관리자 상품 수정/삭제
   {
     path: '/admin-product-edit/:pdId',
@@ -98,7 +103,7 @@ const routes = [
   }, 
   // 주문
   {
-    path: "/order/:orderId",
+    path: "/order",
     component: () => import("../views/OrderView.vue"),
   }, 
   // 카테고리 상세

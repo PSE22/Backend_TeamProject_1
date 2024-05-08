@@ -24,7 +24,8 @@ import java.util.List;
  */
 @Repository
 public interface OptionRepository extends JpaRepository<Option, Integer> {
-    @Query(value = "SELECT PD_ID AS pdId\n" +
+    @Query(value = "SELECT OP_ID AS opId\n" +
+            ", PD_ID AS pdId\n" +
             ", OP_NAME AS opName\n" +
             ", OP_PRICE AS opPrice\n" +
             ", OP_STOCK AS opStock\n" +

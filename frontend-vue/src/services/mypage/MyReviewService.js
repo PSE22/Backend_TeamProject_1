@@ -6,7 +6,8 @@ import LoginHeader from "../login/LoginHeader";
 class MyReviewService {
   // 전체조회 공통함수
   getAll(userId, page, size) {
-    return http.get(`/mypage/review?userId=${userId}&page=${page}&size=${size}`, {
+    console.log(userId, page, size)
+    return http.get(`/mypage/review/${userId}?page=${page}&size=${size}`, {
       headers: LoginHeader(),
     });
   }

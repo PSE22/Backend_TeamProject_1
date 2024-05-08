@@ -61,6 +61,7 @@ public class SecurityConfig {
 //                .requestMatchers("/api/admin/**").hasAuthority("AT01")
 //                .requestMatchers("/api/mypage/**").hasAuthority("AT02")
 //                .requestMatchers("/api/cart/**").hasAuthority("AT02")
+//                .requestMatchers("/api/order/**").hasAuthority("AT02")
 //                .requestMatchers("/api/admin-coupon/**").hasAuthority("AT01")
 //                .requestMatchers("/api/admin-coupon-edit/**").hasAuthority("AT01")
 //                .requestMatchers("/api/admin-product/**").hasAuthority("AT01")

@@ -25,24 +25,24 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MyReviewRepository extends JpaRepository<PdReview, Integer> {
     @Query(value = "SELECT\n" +
-            "PD.PD_THUMBNAIL AS pdThumblail,\n" +
+            "PD.PD_THUMBNAIL AS pdThumbnail,\n" +
             "PD.PD_NAME AS pdName,\n" +
-            "PR.REVIEW_RATE AS reviewRate,\n" +
             "PR.REVIEW_RATE AS reviewRate,\n" +
             "PR.REVIEW_TITLE AS reviewTitle,\n" +
             "PR.REVIEW_CONTENT AS reviewContent,\n" +
             "PRI.REVIEW_IMG_URL AS reviewImgUrl,\n" +
-            "PR.ADD_DATE AS addDate\n" +
+            "PR.ADD_DATE AS addDate,\n" +
+            "PD.PD_ID AS pdId\n" +
             "FROM TB_PD_REVIEW PR, TB_PD_REVIEW_IMG PRI, TB_PRODUCT PD\n" +
             "WHERE PR.REVIEW_ID = PRI.REVIEW_ID(+)\n" +
             "AND PD.PD_ID = PR.PD_ID\n" +
             "AND PD.STATUS = 'Y' " +
-            "AND PR.USER_ID = :userId",
+            "AND PR.USER_ID = :userId ",
             countQuery = "SELECT count(*) FROM TB_PD_REVIEW PR, TB_PD_REVIEW_IMG PRI, TB_PRODUCT PD\n" +
                     "WHERE PR.REVIEW_ID = PRI.REVIEW_ID(+)\n" +
                     "AND PD.PD_ID = PR.PD_ID\n" +
                     "AND PD.STATUS = 'Y' " +
-                    "AND PR.USER_ID = :userId"
+                    "AND PR.USER_ID = :userId "
             , nativeQuery = true)
     Page<IReviewDto> findByUserId(@Param("userId") String userId, Pageable pageable);
 }
