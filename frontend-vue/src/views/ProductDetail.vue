@@ -612,24 +612,7 @@ export default {
         console.log(e);
       }
     },
-    // async saveReview() {
-    //   try {
-    //     let temp = {
-    //       pdId: this.$route.params.pdId,
-    //       userId: this.$store.state.userId,
-    //       reviewTitle: this.reviewTitle,
-    //       reviewContent: this.reviewContent,
-    //       reviewRate: this.reviewRate,
-    //       reviewCode: "BO0201",
-    //     };
-    //     // alert(JSON.stringify(temp));
-    //     let response = await ReviewService.create(temp);
-    //     console.log(response.data);
-    //     this.retrieveReview(); // 재조회
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // },
+
     async retrieveQna() {
       try {
         let response = await QnaService.getAll(
