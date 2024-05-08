@@ -33,6 +33,6 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, CpIdUser
             "C.CP_MIN_PRICE AS cpMinPrice,\n" +
             "C.CP_MAX_DC_PRICE AS cpMaxDcPrice \n" +
             "FROM TB_USER_COUPON UC, TB_COUPON C \n" +
-            "WHERE UC.CP_ID = C.CP_ID", nativeQuery = true)
+            "WHERE UC.CP_ID = C.CP_ID AND UC.STATUS = 'Y'", nativeQuery = true)
     List<IUserCouponDto> findAllByUserCoupon(String userId);
 }
