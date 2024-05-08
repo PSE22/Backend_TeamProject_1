@@ -24,7 +24,6 @@ public interface IQnaDto {
     Long pdQnaReplyId();
 
     String getUserId();
-    String getPdAddDate();
     String getPdQnaImgUrl();
     String getPdQnaReplyContent();
     String getQrAddDate();

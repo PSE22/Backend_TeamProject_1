@@ -14,6 +14,7 @@ package org.example.backend.model.dto.shop;
  * 5/3/24         gumiji          최초 생성
  */
 public interface IReviewDto {
+    Long getReviewId();
     String getUserId(); // 회원 ID
     String getReviewTitle(); // 리뷰 제목
     String getReviewContent(); // 리뷰 내용

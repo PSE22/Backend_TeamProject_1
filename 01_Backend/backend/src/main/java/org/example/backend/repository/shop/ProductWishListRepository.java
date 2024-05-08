@@ -27,5 +27,5 @@ public interface ProductWishListRepository extends JpaRepository<Wishlist, PdIdU
             "WHERE PD_ID LIKE '%' || :pdId || '%'" +
             "AND USER_ID LIKE '%' || :userId || '%'"
             , nativeQuery = true)
-    Integer findBypPdIdAndUserId(@Param("pdId") Integer pdId, @Param("userId") String userId);
+    Integer findBypPdIdAndUserId(@Param("pdId") Long pdId, @Param("userId") String userId);
 }
