@@ -21,5 +21,6 @@ public interface IReviewDto {
     String getAddDate(); // 등록일
     String getReviewImgUrl(); // 리뷰이미지
     String getPdName(); // 상품 이름
-    String getPdThumblail(); // 상품이미지
+    String getPdThumbnail(); // 상품이미지
+    Long getPdId();    // 상품 번호
 }

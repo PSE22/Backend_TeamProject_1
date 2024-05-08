@@ -20,6 +20,11 @@ class ProductService {
         return http.get(`/shop/productImage/${pdId}`);
     }
 
+    // 위시 리스트 조회
+    getWishList(pdId, userId) {
+        return http.get(`/shop/product/wishList/${pdId}/${userId}`);
+    }
+
     // 위시 리스트 저장
     create(data) {
         return http.post("/shop/product/wishList", data);
@@ -28,6 +33,12 @@ class ProductService {
     // 위시 리스트 삭제
     remove(pdId, userId) {
         return http.delete(`/shop/product/deletion/${pdId}/${userId}`)
+    }
+
+    // 장바구니에 저장
+    AddCart(data) {
+        console.log("addCart : ", data)
+        return http.post("/shop/product/cart", data);
     }
 }
 export default new ProductService();

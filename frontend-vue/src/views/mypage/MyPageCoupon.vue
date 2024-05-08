@@ -69,6 +69,7 @@ export default {
   data() {
     return {
       coupon: [], // 쿠폰 불러오기
+      userId: this.$store.state.user.userId,
 
       // 공통 페이징 속성
       page: 1, // 현재 페이지 번호
@@ -78,11 +79,11 @@ export default {
   },
   methods: {
     // 전체조회
-    async allCoupon() {
+    async allCoupon(userId) {
       try {
         // TODO: 공통 전체조회 서비스 함수 실행
         // TODO: spring 통신 : 비동기 코딩 : async ~ await
-        let response = await MyCouponService.getAll( this.page - 1, this.pageSize);
+        let response = await MyCouponService.getAll(userId, this.page - 1, this.pageSize);
         
         const { coupon, totalItems } = response.data;
         this.coupon = coupon; // spring 전달 객체 배열 (쿠폰배열)
@@ -95,7 +96,7 @@ export default {
     },
   },
   mounted() {
-    this.allCoupon();
+    this.allCoupon(this.$store.state.user.userId,);
   },
 };
 </script>

@@ -31,6 +31,7 @@ public class AdminOptionController {
             @RequestParam(defaultValue = "10") int size
     ) {
         try {
+            log.debug("1");
 //            매개변수(page, size) 페이징 변수에 저장
 //             page : 현재페이지번호, size : 1페이지당개수
             Pageable pageable = PageRequest.of(page, size);
@@ -38,7 +39,7 @@ public class AdminOptionController {
 //            전체 조회 서비스 함수 실행
             Page<AdminOption> pageList
                     = adminOptionService.findAllByAdminOptionNameContaining(opName, pageable);
-
+log.debug("2");
 //            vue 로 json 데이터를 전송 : jsp (model == Map(키,값))
             Map<String, Object> response = new HashMap<>();
             response.put("adminOption", pageList.getContent());             // 옵션배열
