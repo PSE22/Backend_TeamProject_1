@@ -6,18 +6,16 @@ import LoginHeader from "../login/LoginHeader";
 
 class MyWishListService {
   // TODO: 전체 조회
-  // 조회(select) -> get 방식 -> @GetMapping
-  // 로그인한 사용자의 위시리스트 조회
-  getAll(userId, page, pageSize) {
-    return http.get(`/mypage/wishlist/${userId}&page=${page}&size=${pageSize}` ,{
+  getAll(userId) {
+    return http.get(`/mypage/wishlist/${userId}`, {
       headers: LoginHeader()
     });
   }
 
-
-      // TODO: 삭제함수 : 부서번호(pdId)
-  delete(pdId) { 
-    return http/delete(`/mypage/wishlist/deletion/${pdId}`,{
+  // 삭제함수: 특정 상품을 위시리스트에서 삭제
+  // URL 수정 및 올바른 HTTP 메소드 호출
+  deleteProduct(userId, pdId) { 
+    return http.delete(`/mypage/wishlist/${userId}/${pdId}`, {
       headers: LoginHeader()
     });
   }

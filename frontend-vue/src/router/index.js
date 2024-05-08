@@ -41,10 +41,20 @@ const routes = [
     path: '/admin-product',
     component: () => import('../views/admin/AdminProductView.vue')
   },
+  // 관리자 상품옵션 관리
+  {
+    path: '/admin-option',
+    component: () => import('../views/admin/AdminProductView.vue')
+  },
   // 관리자 상품 수정/삭제
   {
     path: '/admin-product-edit/:pdId',
     component: () => import('../views/admin/AdminProductEdit.vue')
+  },
+  // 관리자 상품옵션 수정/삭제
+  {
+    path: '/admin-option-edit/:opId',
+    component: () => import('../views/admin/AdminOptionEdit.vue')
   },
   // 관리자 쿠폰 관리
   {

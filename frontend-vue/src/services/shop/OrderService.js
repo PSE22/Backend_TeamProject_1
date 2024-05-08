@@ -21,5 +21,10 @@ class OrderService {
     getResultPoint(userId) {
         return http.get(`/shop/order/point/${userId}`)
     }
+
+    // 주문 데이터 저장
+    create(data){
+        return http.post(`/shop/order`, data);
+    }
 }
 export default new OrderService();

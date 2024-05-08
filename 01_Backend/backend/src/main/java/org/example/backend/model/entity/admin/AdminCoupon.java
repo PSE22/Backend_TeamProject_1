@@ -29,7 +29,7 @@ public class AdminCoupon extends BaseTimeEntity2 {
             , generator = "SEQ_TB_COUPON_CP_ID_GENERATOR"
     )
     private Long cpId;            // 쿠폰번호 pk
-    private Integer pdId;         // 상품번호 fk
+    private Long pdId;            // 상품번호 fk
     private String cpName;        // 쿠폰명
     private Integer cpDcPrice;    // 할인금액
     private Double cpDcRate;      // 할인율
