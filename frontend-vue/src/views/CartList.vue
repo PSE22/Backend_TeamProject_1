@@ -39,7 +39,7 @@
                 <div class="flex-shrink-0">
                   <img
                     type="button"
-                    :src="data.pdThumblail"
+                    :src="data.pdThumbnail"
                     class="img-thumbnail me-3"
                     style="width: 100px; height: 100px"
                     @click="goProduct(data.pdId)"
@@ -257,7 +257,6 @@ export default {
       }
     },
 
-
     // 선택주문
     sendOrderList() {
       try {
@@ -287,7 +286,15 @@ export default {
       }
     },
   },
+  // created() {
+  //   if (this.$store.state.loggedIn == false) {
+  //     this.$router.push("/login"); // home 강제 이동
+  //   }
+  // },
   mounted() {
+    if (this.$store.state.loggedIn == false) {
+      this.$router.push("/login"); // home 강제 이동
+    }
     this.allCart(this.$store.state.user.userId);
   },
 };
