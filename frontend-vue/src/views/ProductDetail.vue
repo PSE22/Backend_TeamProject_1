@@ -612,6 +612,7 @@ export default {
         console.log(e);
       }
     },
+
     async retrieveQna() {
       try {
         let response = await QnaService.getAll(
