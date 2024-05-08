@@ -10,25 +10,6 @@
       <div v-if="adminCouponEdit">
         <div class="col-8 mx-auto">
           <div>
-            <!-- 쿠폰번호 시작 -->
-            <div class="row g-3 align-items-center mt-3 mb-3">
-              <div class="col-4">
-                <label htmlFor="cpId" class="col-form-label"> 쿠폰번호 </label>
-              </div>
-
-              <div class="col-8">
-                <input
-                  type="text"
-                  id="cpId"
-                  required
-                  class="form-control"
-                  name="cpId"
-                  v-model="adminCouponEdit.cpId"
-                />
-              </div>
-            </div>
-            <!-- 쿠폰번호 끝 -->
-
             <!-- 상품번호 시작 -->
             <div class="row g-3 align-items-center mb-3">
               <div class="col-4">
@@ -300,7 +281,7 @@ export default {
   padding: 40px 30px;
   border: 3px solid #505050;
   width: 600px;
-  height: 700px;
+  height: 600px;
 }
 .a1 {
   position: relative;

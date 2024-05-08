@@ -51,6 +51,11 @@ const routes = [
     path: '/admin-product-edit/:pdId',
     component: () => import('../views/admin/AdminProductEdit.vue')
   },
+  // 관리자 상품옵션 관리
+  {
+    path: '/admin-option',
+    component: () => import('../views/admin/AdminProductView.vue')
+  },
   // 관리자 상품옵션 수정/삭제
   {
     path: '/admin-option-edit/:opId',
@@ -71,10 +76,25 @@ const routes = [
     path: '/admin-chart',
     component: () => import('../views/admin/AdminChartView.vue')
   },
-  // 관리자 문의 관리
+  // 관리자 상품문의 관리
   {
-    path: '/admin-table',
-    component: () => import('../views/admin/AdminTableView.vue')
+    path: '/admin-pdqna',
+    component: () => import('../views/admin/AdminPdQnaView.vue')
+  },
+  // 관리자 상품문의 관리 수정/삭제
+  {
+    path: '/admin-pdqna-edit/:pdQnaId',
+    component: () => import('../views/admin/AdminPdQnaEdit.vue')
+  },
+  // 관리자 상품문의 답변 등록/취소
+  {
+    path: '/admin-pdqna-reply/:pdQnaId',
+    component: () => import('../views/admin/AdminPdQnaReply.vue')
+  },
+  // 관리자 상품문의 답변 수정/삭제
+  {
+    path: '/admin-pdqna-reply-edit/:pdQnaReplyId',
+    component: () => import('../views/admin/AdminPdQnaReplyEdit.vue')
   },
   // 장바구니
   {
