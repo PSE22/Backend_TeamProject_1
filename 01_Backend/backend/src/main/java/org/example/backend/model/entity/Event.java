@@ -44,7 +44,8 @@ public class Event extends BaseTimeEntity2 {
             , generator = "SEQ_TB_EVENT_EVENT_ID_GENERATOR")
     private Long eventId;              // 이벤트 ID (PK)
     private String userId;             // 회원 ID (FK)
-    private Integer eventTitle;        // 제목
-    private Integer eventContent;      // 내용
-    private Integer eventCode;         // 게시판분류코드
+    private String eventTitle;        // 제목
+    private String eventContent;      // 내용
+    private String eventCode;         // 게시판분류코드
+    private String eventThumbnail;     // 썸네일 URL
 }

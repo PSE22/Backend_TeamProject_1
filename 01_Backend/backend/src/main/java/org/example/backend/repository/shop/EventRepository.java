@@ -23,14 +23,14 @@ import java.util.List;
  */
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
-    @Query(value = "SELECT \n" +
-            "E.EVENT_TITLE AS eventTitle,\n" +
-            "E.EVENT_CONTENT AS eventContent,\n" +
-            "E.ADD_DATE AS eventAddDate,\n" +
-            "E.EVENT_THUMBNAIL AS eventThumbnail,\n" +
-            "EI.EVENT_IMG_URL AS eventImgUrl\n" +
-            "FROM TB_EVENT E, TB_EVENT_IMG EI\n" +
-            "WHERE E.EVENT_ID = EI.EVENT_ID(+) AND E.STATUS = 'Y'", nativeQuery = true)
-    List<IEventDto> findByEventImg(Long eventId);
+//    @Query(value = "SELECT \n" +
+//            "E.EVENT_TITLE AS eventTitle,\n" +
+//            "E.EVENT_CONTENT AS eventContent,\n" +
+//            "E.ADD_DATE AS eventAddDate,\n" +
+//            "E.EVENT_THUMBNAIL AS eventThumbnail,\n" +
+//            "EI.EVENT_IMG_URL AS eventImgUrl\n" +
+//            "FROM TB_EVENT E, TB_EVENT_IMG EI\n" +
+//            "WHERE E.EVENT_ID = EI.EVENT_ID(+) AND E.STATUS = 'Y'", nativeQuery = true)
+//    List<IEventDto> findByEventImg(Long eventId);
 }
 
