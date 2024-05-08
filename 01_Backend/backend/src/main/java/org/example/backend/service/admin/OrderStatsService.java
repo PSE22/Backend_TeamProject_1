@@ -1,7 +1,7 @@
 package org.example.backend.service.admin;
 
 import org.example.backend.model.entity.OrderStats;
-import org.example.backend.repository.OrderStatsRepository;
+import org.example.backend.repository.admin.OrderStatsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

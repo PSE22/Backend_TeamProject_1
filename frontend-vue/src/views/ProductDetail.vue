@@ -11,8 +11,12 @@
           </div>
         </li>
         <li><div id="option-text">옵션 선택</div></li>
-        <select name="product-option" class="select-box">
-          <option value="1" v-for="(data, index) in option" :key="index">
+        <select name="product-option" class="select-box" v-model="opId">
+          <option
+            :value="data.opId"
+            v-for="(data, index) in option"
+            :key="index"
+          >
             {{ data.opName }} + {{ data.opPrice }}원 (남은 수량 :
             {{ data.opStock }})
           </option>
@@ -28,14 +32,13 @@
               -
             </button>
             <!-- 장바구니 개수 표시 : 버튼 제목 -->
-            <button
+            <input
               type="button"
               class="btn btn-outline-dark"
               style="width: 60px"
               disabled
-            >
-              {{ this.cartCount }}
-            </button>
+              v-model="cartCount"
+            />
             <button
               type="button"
               class="btn btn-outline-secondary"
@@ -50,7 +53,7 @@
             <h2>가격 {{ product?.pdPrice }}원</h2>
           </div>
         </li>
-        <li><div id="coupon-text">쿠폰 선택</div></li>
+        <li><div id="coupon-text">사용 가능 쿠폰</div></li>
         <select name="coupon-option" class="select-box">
           <option value="1" v-for="(data, index) in coupon" :key="index">
             {{ data.cpName }}
@@ -73,14 +76,19 @@
               src="@/assets/img/free-icon-font-circle-heart-9270879.png"
             />
             <router-link to="/cart">
-              <button type="button" class="btn" id="basket-button">
+              <button
+                type="button"
+                class="btn"
+                id="basket-button"
+                @click="sendCart"
+              >
                 장바구니
               </button>
             </router-link>
             <router-link to="/order">
-              <button type="button" class="btn" id="buy-button">
+              <!-- <button type="button" class="btn" id="buy-button">
                 구매하기
-              </button>
+              </button> -->
             </router-link>
           </div>
         </li>
@@ -153,6 +161,17 @@
       </tbody>
     </table>
   </div>
+
+  <!-- {/* paging 시작 */} -->
+  <b-pagination
+    class="col-12 mb-3"
+    v-model="reviewPage"
+    :total-rows="reviewCount"
+    :per-page="reviewPageSize"
+    @click="retrieveReview"
+  ></b-pagination>
+  <!-- {/* paging 끝 */} -->
+
   <div class="row" id="review-button">
     <form>
       <!-- Button trigger modal -->
@@ -233,7 +252,9 @@
               >
                 닫기
               </button>
-              <button type="submit" class="btn btn-primary" @click="saveReview">등록</button>
+              <button type="submit" class="btn btn-primary" @click="saveReview">
+                등록
+              </button>
             </div>
           </div>
         </div>
@@ -257,12 +278,27 @@
         <tr v-for="(data, index) in qna" :key="index">
           <td class="col-1 text-center">{{ data.userId }}</td>
           <td class="col-4">
-            <div
-              type="button"
-              class="ms-3 qna-link"
-              data-bs-toggle="modal"
-              :data-bs-target="'#exampleModal-' + index"
-            >
+            <div v-if="data.pdQnaSecret !== 'Y'">
+              <div
+                type="button"
+                class="ms-3 qna-link"
+                data-bs-toggle="modal"
+                :data-bs-target="'#exampleModal-' + index"
+              >
+                {{ data.pdQnaTitle }}
+              </div>
+            </div>
+            <div v-else-if="data.pdQnaSecret == 'Y' && this.$store.state.userId == data.userId">
+              <div
+                type="button"
+                class="ms-3 qna-link"
+                data-bs-toggle="modal"
+                :data-bs-target="'#exampleModal-' + index"
+              >
+                {{ data.pdQnaTitle }}
+              </div>
+            </div>
+            <div v-else>
               {{ data.pdQnaTitle }}
             </div>
             <!-- Modal -->
@@ -325,6 +361,15 @@
       </tbody>
     </table>
   </div>
+  <!-- {/* paging 시작 */} -->
+  <b-pagination
+    class="col-12 mb-3"
+    v-model="qnaPage"
+    :total-rows="qnaCount"
+    :per-page="qnaPageSize"
+    @click="retrieveQna"
+  ></b-pagination>
+  <!-- {/* paging 끝 */} -->
   <div class="row" id="qna-button">
     <form>
       <!-- Button trigger modal -->
@@ -358,7 +403,7 @@
             </div>
             <div class="modal-body">
               <p class="text-muted">
-                {{product?.pdName}} 
+                {{ product?.pdName }}
               </p>
               <p>비밀글 : <input type="checkbox" v-model="pdQnaSecret" /></p>
               <!-- <div class="input-group"> -->
@@ -426,7 +471,11 @@ export default {
   data() {
     return {
       show: true,
+
+      opId: 0,
       cartCount: 0,
+
+      wishListNum: 0,
 
       product: {},
       productImage: [],
@@ -444,11 +493,13 @@ export default {
       pdQnaContent: "",
       pdQnaSecret: false,
 
-      page: 1,
-      count: 0,
-      pageSize: 3,
+      reviewPage: 1,
+      reviewCount: 0,
+      reviewPageSize: 3,
 
-      pageSizes: [3, 6, 9],
+      qnaPage: 1,
+      qnaCount: 0,
+      qnaPageSize: 3,
     };
   },
   methods: {
@@ -458,6 +509,33 @@ export default {
         this.saveWishList();
       } else {
         this.deleteWishList();
+      }
+    },
+    async sendCart() {
+      try {
+        let temp = {
+          opId: this.opId,
+          cartCount: this.cartCount,
+          userId: this.$store.state.userId,
+        };
+        let response = await ProductService.AddCart(temp);
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async retrieveWishList(pdId, userId) {
+      try {
+        // let response = await ProductService.getWishList(this.$route.params.pdId, this.$store.state.userId);
+        let response = await ProductService.getWishList(pdId, userId);
+        this.wishListNum = response.data;
+        if (response.data > 0) {
+          this.show = false;
+        } else {
+          this.show = true;
+        }
+      } catch (e) {
+        console.log(e);
       }
     },
     async saveWishList() {
@@ -504,10 +582,13 @@ export default {
     },
     async retrieveReview() {
       try {
-        let response = await ReviewService.getAll(this.page - 1, this.pageSize);
+        let response = await ReviewService.getAll(
+          this.reviewPage - 1,
+          this.reviewPageSize
+        );
         const { review, totalItems } = response.data;
         this.review = review;
-        this.count = totalItems;
+        this.reviewCount = totalItems;
         console.log(response.data);
       } catch (e) {
         console.log(e);
@@ -531,12 +612,16 @@ export default {
         console.log(e);
       }
     },
+
     async retrieveQna() {
       try {
-        let response = await QnaService.getAll(this.page - 1, this.pageSize);
+        let response = await QnaService.getAll(
+          this.qnaPage - 1,
+          this.qnaPageSize
+        );
         const { qna, totalItems } = response.data;
         this.qna = qna;
-        this.count = totalItems;
+        this.qnaCount = totalItems;
         console.log(response.data);
       } catch (e) {
         console.log(e);
@@ -549,13 +634,13 @@ export default {
           userId: this.$store.state.userId,
           pdQnaTitle: this.pdQnaTitle,
           pdQnaContent: this.pdQnaContent,
-          pdQnaSecret: this.pdQnaSecret? 'Y' : 'N',
+          pdQnaSecret: this.pdQnaSecret ? "Y" : "N",
           pdQnaCode: "BO0202",
         };
 
         let response = await QnaService.create(temp);
         console.log(response.data);
-        this.pdQnaSecret = false
+        this.pdQnaSecret = false;
         this.retrieveQna(); // 재조회
       } catch (e) {
         console.log(e);
@@ -565,7 +650,6 @@ export default {
       try {
         let response = await OptionService.get(pdId);
         this.option = response.data;
-        console.log(response.data);
       } catch (e) {
         console.log(e);
       }
@@ -591,6 +675,7 @@ export default {
   mounted() {
     this.getProduct(this.$route.params.pdId);
     this.getProductImage(this.$route.params.pdId);
+    this.retrieveWishList(this.$route.params.pdId, this.$store.state.userId);
     this.retrieveReview();
     this.retrieveQna();
     this.getProductOption(this.$route.params.pdId);
