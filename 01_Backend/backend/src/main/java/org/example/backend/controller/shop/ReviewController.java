@@ -53,7 +53,7 @@ public class ReviewController {
     @GetMapping("/product2")
     public ResponseEntity<Object> findAll(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "3") int size
+            @RequestParam(defaultValue = "5") int size
     ) {
         try {
 //            페이징 객체 생성

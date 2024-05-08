@@ -37,7 +37,6 @@ class ProductService {
 
     // 장바구니에 저장
     AddCart(data) {
-        console.log("addCart : ", data)
         return http.post("/shop/product/cart", data);
     }
 }

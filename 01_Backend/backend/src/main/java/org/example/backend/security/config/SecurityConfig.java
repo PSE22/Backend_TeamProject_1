@@ -58,6 +58,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(req -> req
 
 //                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+//                .requestMatchers("/api/product/**").permitAll()
 //                .requestMatchers("/api/admin/**").hasAuthority("AT01")
 //                .requestMatchers("/api/mypage/**").hasAuthority("AT02")
 //                .requestMatchers("/api/cart/**").hasAuthority("AT02")

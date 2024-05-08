@@ -22,17 +22,18 @@ import org.springframework.stereotype.Repository;
  * 2024-04-24         sjuk2          최초 생성
  */
 @Repository
-public interface ReviewRepository extends JpaRepository<PdReview, Integer> {
+public interface ReviewRepository extends JpaRepository<PdReview, Long> {
     @Query(value = "SELECT PR.USER_ID AS userId,\n" +
-            "            PR.REVIEW_TITLE AS reviewTitle,\n" +
-            "            PR.REVIEW_CONTENT AS reviewContent,\n" +
-            "            PR.REVIEW_RATE AS reviewRate,\n" +
-            "            PR.ADD_DATE AS addDate,\n" +
-            "            PRI.REVIEW_IMG_URL AS reviewImgUrl,\n" +
-            "            PD.PD_NAME AS pdName\n" +
-            "            FROM TB_PD_REVIEW PR, TB_PD_REVIEW_IMG PRI, TB_PRODUCT PD\n" +
-            "            WHERE PR.REVIEW_ID = PRI.REVIEW_ID(+)\n" +
-            "            AND PD.PD_ID = PR.PD_ID"
+            "PR.REVIEW_ID AS reviewId,\n" +
+            "PR.REVIEW_TITLE AS reviewTitle,\n" +
+            "PR.REVIEW_CONTENT AS reviewContent,\n" +
+            "PR.REVIEW_RATE AS reviewRate,\n" +
+            "PR.ADD_DATE AS addDate,\n" +
+            "PRI.REVIEW_IMG_URL AS reviewImgUrl,\n" +
+            "PD.PD_NAME AS pdName\n" +
+            "FROM TB_PD_REVIEW PR, TB_PD_REVIEW_IMG PRI, TB_PRODUCT PD\n" +
+            "WHERE PR.REVIEW_ID = PRI.REVIEW_ID(+)\n" +
+            "AND PD.PD_ID = PR.PD_ID"
     , nativeQuery = true)
     Page<IReviewDto> selectByReviewContaining(Pageable pageable);
 }

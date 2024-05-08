@@ -23,11 +23,11 @@ import java.util.List;
  * 2024-04-30         sjuk2          최초 생성
  */
 @Repository
-public interface ProductImgRepository extends JpaRepository<ProductImage, Integer> {
+public interface ProductImgRepository extends JpaRepository<ProductImage, Long> {
     @Query(value = "SELECT PD_IMG_URL AS pdImgUrl\n" +
             "FROM TB_PRODUCT_IMAGE\n" +
             "WHERE PD_ID LIKE '%' || PD_ID || '%'\n" +
             "ORDER BY PD_IMG_ID"
     , nativeQuery = true)
-    List<IProductImgDto> findAllByPdIdContaining(@Param("pdId") Integer pdId);
+    List<IProductImgDto> findAllByPdIdContaining(@Param("pdId") Long pdId);
 }
