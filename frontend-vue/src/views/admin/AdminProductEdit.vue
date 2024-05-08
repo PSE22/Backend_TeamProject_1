@@ -10,27 +10,9 @@
       <div v-if="adminProductEdit">
         <div class="col-10 mx-auto">
           <div>
-            <!-- 회원아이디 시작 -->
-            <div class="row g-3 align-items-center mt-3 mb-3">
-              <div class="col-4">
-                <label htmlFor="userId" class="col-form-label"> 회원아이디 </label>
-              </div>
-
-              <div class="col-8">
-                <input
-                  type="text"
-                  id="userId"
-                  required
-                  class="form-control"
-                  name="userId"
-                  v-model="adminProductEdit.userId"
-                />
-              </div>
-            </div>
-            <!-- 회원아이디 끝 -->
 
             <!-- 상품명 시작 -->
-            <div class="row g-3 align-items-center mb-3">
+            <div class="row g-3 align-items-center mb-3 mt-3">
               <div class="col-4">
                 <label htmlFor="pdName" class="col-form-label"> 상품명 </label>
               </div>
@@ -258,7 +240,7 @@ export default {
   padding: 40px 30px;
   border: 3px solid #505050;
   width: 650px;
-  height: 700px;
+  height: 600px;
 }
 .a1 {
   position: relative;

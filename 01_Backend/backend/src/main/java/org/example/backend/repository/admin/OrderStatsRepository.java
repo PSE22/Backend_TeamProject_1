@@ -1,12 +1,9 @@
-package org.example.backend.repository;
+package org.example.backend.repository.admin;
 
 import org.example.backend.model.entity.OrderStats;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * packageName : org.example.backend.repository
