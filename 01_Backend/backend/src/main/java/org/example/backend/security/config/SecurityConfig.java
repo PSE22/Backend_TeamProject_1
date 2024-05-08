@@ -68,6 +68,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/admin-option/**").hasAuthority("AT01")
                 .requestMatchers("/api/admin-option-edit/**").hasAuthority("AT01")
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/shop/**").permitAll()
                 .requestMatchers("/").permitAll()
                 .anyRequest().authenticated());
 //                .anyRequest().permitAll()); // 임시로 권한 풀기 함수
