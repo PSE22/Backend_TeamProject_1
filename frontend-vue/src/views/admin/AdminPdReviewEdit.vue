@@ -11,7 +11,7 @@
         <div class="col-8 mx-auto">
           <div>
             <!-- 회원ID 시작 -->
-            <div class="row g-3 align-items-center mb-3">
+            <div class="row g-3 align-items-center mt-3 mb-3">
               <div class="col-4">
                 <label htmlFor="userId" class="col-form-label"> 회원ID </label>
               </div>
@@ -163,20 +163,20 @@
             <!-- 상태 끝 -->
           </div>
 
-          <div class="row g-3 mt-3 mb-3">
-            <button
-              class="btn btn-outline-danger ms-3 col"
-              @click="deleteAdminPdReview"
-            >
-              삭제
-            </button>
-
+          <div class="row g-3 mb-3">
             <button
               type="submit"
               class="btn btn-outline-secondary ms-2 col"
               @click="updateAdminPdReview"
             >
               수정
+            </button>
+
+            <button
+              class="btn btn-outline-danger ms-3 col"
+              @click="deleteAdminPdReview"
+            >
+              삭제
             </button>
           </div>
 

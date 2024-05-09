@@ -149,18 +149,18 @@
 
           <div class="row g-3 mb-3">
             <button
-              class="btn btn-outline-danger ms-3 col"
-              @click="deleteAdminProduct"
-            >
-              삭제
-            </button>
-
-            <button
               type="submit"
               class="btn btn-outline-secondary ms-2 col"
               @click="updateAdminProduct"
             >
               수정
+            </button>
+
+            <button
+              class="btn btn-outline-danger ms-3 col"
+              @click="deleteAdminProduct"
+            >
+              삭제
             </button>
           </div>
 
