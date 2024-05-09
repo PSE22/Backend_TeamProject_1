@@ -2,6 +2,11 @@
 import http from "@/utils/http-common";
 
 class ProductService {
+    // 모든 상품 조회
+    getAllProduct() {
+        return http.get(`/shop/home/product`);
+    }
+
     // 카테고리 상품 전체 조회
     // 조회(select) => GET 방식
     getAll(categoryCode, page, size) {
