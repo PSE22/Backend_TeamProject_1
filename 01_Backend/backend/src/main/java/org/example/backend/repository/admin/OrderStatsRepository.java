@@ -1,9 +1,15 @@
 package org.example.backend.repository.admin;
 
-import org.example.backend.model.entity.OrderStats;
+import org.example.backend.model.dto.admin.DailyOrderStatsDto;
+import org.example.backend.model.dto.admin.MonthlyOrderStatsDto;
+import org.example.backend.model.dto.admin.YearlyOrderStatsDto;
+import org.example.backend.model.entity.admin.OrderStats;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * packageName : org.example.backend.repository
@@ -56,4 +62,33 @@ public interface OrderStatsRepository extends JpaRepository<OrderStats, Long> {
             "WHERE TO_CHAR(TO_DATE(O.ADD_DATE, 'YYYY-MM-DD'), 'YYYY') = TO_CHAR(SYSDATE, 'YYYY') " +
             "GROUP BY OD_STAT_DATE ", nativeQuery = true)
     OrderStats findYearlyStats();
+
+    @Query(value = "SELECT SUBSTR(OD_STAT_DATE, 9, 2) AS odStatDate, DAILY_SALES AS dailySales, DAILY_ORDER_CNT AS dailyOrderCnt " +
+            "FROM ( " +
+            "    SELECT OD_STAT_DATE, DAILY_SALES, DAILY_ORDER_CNT, " +
+            "           ROW_NUMBER() OVER (PARTITION BY SUBSTR(OD_STAT_DATE, 1, 7), SUBSTR(OD_STAT_DATE, 9, 2) ORDER BY OD_STAT_DATE DESC) AS RN " +
+            "    FROM TB_ORDER_STATS " +
+            ") " +
+            "WHERE RN = 1 AND SUBSTR(OD_STAT_DATE, 1, 7) = :odStatDate", nativeQuery = true)
+    List<DailyOrderStatsDto> findDailyOrderStats(@Param("odStatDate") String odStatDate);
+
+    @Query(value = "SELECT SUBSTR(OD_STAT_DATE, 6, 2) AS odStatDate, MONTHLY_SALES AS monthlySales, MONTHLY_ORDER_CNT AS monthlyOrderCnt " +
+            "FROM ( " +
+            "    SELECT OD_STAT_DATE, MONTHLY_SALES, MONTHLY_ORDER_CNT, " +
+            "           ROW_NUMBER() OVER (PARTITION BY SUBSTR(OD_STAT_DATE, 1, 7) ORDER BY OD_STAT_DATE DESC) AS RN " +
+            "    FROM TB_ORDER_STATS " +
+            ") " +
+            "WHERE RN = 1 AND SUBSTR(OD_STAT_DATE, 1, 4) = :odStatDate", nativeQuery = true)
+    List<MonthlyOrderStatsDto> findMonthlyOrderStats(@Param("odStatDate") String odStatDate);
+
+    @Query(value = "SELECT SUBSTR(OD_STAT_DATE, 1, 4) AS odStatDate, YEARLY_SALES AS yearlySales, YEARLY_ORDER_CNT AS yearlyOrderCnt " +
+            "FROM ( " +
+            "    SELECT OD_STAT_DATE, YEARLY_SALES, YEARLY_ORDER_CNT, " +
+            "           ROW_NUMBER() OVER (PARTITION BY SUBSTR(OD_STAT_DATE, 1, 4) ORDER BY OD_STAT_DATE DESC) AS RN " +
+            "    FROM TB_ORDER_STATS " +
+            ") " +
+            "WHERE RN = 1", nativeQuery = true)
+    List<YearlyOrderStatsDto> findYearlyOrderStats();
+
+    List<OrderStats> findByOdStatDate(String odStatDate);
 }

@@ -462,243 +462,243 @@
   </div>
 </template>
 <script>
-import ProductService from "@/services/shop/ProductService";
-import ReviewService from "@/services/shop/ReviewService";
-import QnaService from "@/services/shop/QnaService";
-import OptionService from "@/services/shop/OptionService";
-import CouponService from "@/services/shop/CouponService";
-export default {
-  data() {
-    return {
-      show: true,
+// import ProductService from "@/services/shop/ProductService";
+// import ReviewService from "@/services/shop/ReviewService";
+// import QnaService from "@/services/shop/QnaService";
+// import OptionService from "@/services/shop/OptionService";
+// import CouponService from "@/services/shop/CouponService";
+// export default {
+//   data() {
+//     return {
+//       show: true,
 
-      opId: 0,
-      cartCount: 0,
+//       opId: 0,
+//       cartCount: 0,
 
-      wishListNum: 0,
+//       wishListNum: 0,
 
-      product: {},
-      productImage: [],
+//       product: {},
+//       productImage: [],
 
-      review: [],
-      qna: [],
-      option: [],
-      coupon: [],
+//       review: [],
+//       qna: [],
+//       option: [],
+//       coupon: [],
 
-      reviewTitle: "",
-      reviewContent: "",
-      reviewRate: 0,
+//       reviewTitle: "",
+//       reviewContent: "",
+//       reviewRate: 0,
 
-      pdQnaTitle: "",
-      pdQnaContent: "",
-      pdQnaSecret: false,
+//       pdQnaTitle: "",
+//       pdQnaContent: "",
+//       pdQnaSecret: false,
 
-      reviewPage: 1,
-      reviewCount: 0,
-      reviewPageSize: 3,
+//       reviewPage: 1,
+//       reviewCount: 0,
+//       reviewPageSize: 3,
 
-      qnaPage: 1,
-      qnaCount: 0,
-      qnaPageSize: 3,
-    };
-  },
-  methods: {
-    toggleShow() {
-      this.show = !this.show;
-      if (this.show == false) {
-        this.saveWishList();
-      } else {
-        this.deleteWishList();
-      }
-    },
-    async sendCart() {
-      try {
-        let temp = {
-          opId: this.opId,
-          cartCount: this.cartCount,
-          userId: this.$store.state.userId,
-        };
-        let response = await ProductService.AddCart(temp);
-        console.log(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async retrieveWishList(pdId, userId) {
-      try {
-        // let response = await ProductService.getWishList(this.$route.params.pdId, this.$store.state.userId);
-        let response = await ProductService.getWishList(pdId, userId);
-        this.wishListNum = response.data;
-        if (response.data > 0) {
-          this.show = false;
-        } else {
-          this.show = true;
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async saveWishList() {
-      try {
-        let data = {
-          pdId: this.$route.params.pdId,
-          userId: this.$store.state.userId,
-        };
+//       qnaPage: 1,
+//       qnaCount: 0,
+//       qnaPageSize: 3,
+//     };
+//   },
+//   methods: {
+//     toggleShow() {
+//       this.show = !this.show;
+//       if (this.show == false) {
+//         this.saveWishList();
+//       } else {
+//         this.deleteWishList();
+//       }
+//     },
+//     async sendCart() {
+//       try {
+//         let temp = {
+//           opId: this.opId,
+//           cartCount: this.cartCount,
+//           userId: this.$store.state.userId,
+//         };
+//         let response = await ProductService.AddCart(temp);
+//         console.log(response.data);
+//       } catch (e) {
+//         console.log(e);
+//       }
+//     },
+//     async retrieveWishList(pdId, userId) {
+//       try {
+//         // let response = await ProductService.getWishList(this.$route.params.pdId, this.$store.state.userId);
+//         let response = await ProductService.getWishList(pdId, userId);
+//         this.wishListNum = response.data;
+//         if (response.data > 0) {
+//           this.show = false;
+//         } else {
+//           this.show = true;
+//         }
+//       } catch (e) {
+//         console.log(e);
+//       }
+//     },
+//     async saveWishList() {
+//       try {
+//         let data = {
+//           pdId: this.$route.params.pdId,
+//           userId: this.$store.state.userId,
+//         };
 
-        let response = await ProductService.create(data);
-        console.log(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async deleteWishList() {
-      try {
-        let response = await ProductService.remove(
-          this.$route.params.pdId,
-          this.$store.state.userId
-        );
-        console.log(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async getProduct(pdId) {
-      try {
-        let response = await ProductService.get(pdId);
-        this.product = response.data;
-        console.log(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async getProductImage(pdId) {
-      try {
-        let response = await ProductService.getImage(pdId);
-        this.productImage = response.data;
-        console.log(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async retrieveReview() {
-      try {
-        let response = await ReviewService.getAll(
-          this.reviewPage - 1,
-          this.reviewPageSize
-        );
-        const { review, totalItems } = response.data;
-        this.review = review;
-        this.reviewCount = totalItems;
-        console.log(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async saveReview() {
-      try {
-        let temp = {
-          pdId: this.$route.params.pdId,
-          userId: this.$store.state.userId,
-          reviewTitle: this.reviewTitle,
-          reviewContent: this.reviewContent,
-          reviewRate: this.reviewRate,
-          reviewCode: "BO0201",
-        };
-        // alert(JSON.stringify(temp));
-        let response = await ReviewService.create(temp);
-        console.log(response.data);
-        this.retrieveReview(); // 재조회
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async saveReview() {
-      try {
-        let temp = {
-          pdId: this.$route.params.pdId,
-          userId: this.$store.state.userId,
-          reviewTitle: this.reviewTitle,
-          reviewContent: this.reviewContent,
-          reviewRate: this.reviewRate,
-          reviewCode: "BO0201",
-        };
-        // alert(JSON.stringify(temp));
-        let response = await ReviewService.create(temp);
-        console.log(response.data);
-        this.retrieveReview(); // 재조회
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async retrieveQna() {
-      try {
-        let response = await QnaService.getAll(
-          this.qnaPage - 1,
-          this.qnaPageSize
-        );
-        const { qna, totalItems } = response.data;
-        this.qna = qna;
-        this.qnaCount = totalItems;
-        console.log(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async saveQna() {
-      try {
-        let temp = {
-          pdId: this.$route.params.pdId,
-          userId: this.$store.state.userId,
-          pdQnaTitle: this.pdQnaTitle,
-          pdQnaContent: this.pdQnaContent,
-          pdQnaSecret: this.pdQnaSecret ? "Y" : "N",
-          pdQnaCode: "BO0202",
-        };
+//         let response = await ProductService.create(data);
+//         console.log(response.data);
+//       } catch (e) {
+//         console.log(e);
+//       }
+//     },
+//     async deleteWishList() {
+//       try {
+//         let response = await ProductService.remove(
+//           this.$route.params.pdId,
+//           this.$store.state.userId
+//         );
+//         console.log(response.data);
+//       } catch (e) {
+//         console.log(e);
+//       }
+//     },
+//     async getProduct(pdId) {
+//       try {
+//         let response = await ProductService.get(pdId);
+//         this.product = response.data;
+//         console.log(response.data);
+//       } catch (e) {
+//         console.log(e);
+//       }
+//     },
+//     async getProductImage(pdId) {
+//       try {
+//         let response = await ProductService.getImage(pdId);
+//         this.productImage = response.data;
+//         console.log(response.data);
+//       } catch (e) {
+//         console.log(e);
+//       }
+//     },
+//     async retrieveReview() {
+//       try {
+//         let response = await ReviewService.getAll(
+//           this.reviewPage - 1,
+//           this.reviewPageSize
+//         );
+//         const { review, totalItems } = response.data;
+//         this.review = review;
+//         this.reviewCount = totalItems;
+//         console.log(response.data);
+//       } catch (e) {
+//         console.log(e);
+//       }
+//     },
+//     async saveReview() {
+//       try {
+//         let temp = {
+//           pdId: this.$route.params.pdId,
+//           userId: this.$store.state.userId,
+//           reviewTitle: this.reviewTitle,
+//           reviewContent: this.reviewContent,
+//           reviewRate: this.reviewRate,
+//           reviewCode: "BO0201",
+//         };
+//         // alert(JSON.stringify(temp));
+//         let response = await ReviewService.create(temp);
+//         console.log(response.data);
+//         this.retrieveReview(); // 재조회
+//       } catch (e) {
+//         console.log(e);
+//       }
+//     },
+//     async saveReview() {
+//       try {
+//         let temp = {
+//           pdId: this.$route.params.pdId,
+//           userId: this.$store.state.userId,
+//           reviewTitle: this.reviewTitle,
+//           reviewContent: this.reviewContent,
+//           reviewRate: this.reviewRate,
+//           reviewCode: "BO0201",
+//         };
+//         // alert(JSON.stringify(temp));
+//         let response = await ReviewService.create(temp);
+//         console.log(response.data);
+//         this.retrieveReview(); // 재조회
+//       } catch (e) {
+//         console.log(e);
+//       }
+//     },
+//     async retrieveQna() {
+//       try {
+//         let response = await QnaService.getAll(
+//           this.qnaPage - 1,
+//           this.qnaPageSize
+//         );
+//         const { qna, totalItems } = response.data;
+//         this.qna = qna;
+//         this.qnaCount = totalItems;
+//         console.log(response.data);
+//       } catch (e) {
+//         console.log(e);
+//       }
+//     },
+//     async saveQna() {
+//       try {
+//         let temp = {
+//           pdId: this.$route.params.pdId,
+//           userId: this.$store.state.userId,
+//           pdQnaTitle: this.pdQnaTitle,
+//           pdQnaContent: this.pdQnaContent,
+//           pdQnaSecret: this.pdQnaSecret ? "Y" : "N",
+//           pdQnaCode: "BO0202",
+//         };
 
-        let response = await QnaService.create(temp);
-        console.log(response.data);
-        this.pdQnaSecret = false;
-        this.retrieveQna(); // 재조회
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async getProductOption(pdId) {
-      try {
-        let response = await OptionService.get(pdId);
-        this.option = response.data;
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async getCoupon(pdId) {
-      try {
-        let response = await CouponService.get(pdId);
-        this.coupon = response.data;
-        console.log(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    increaseCartCount() {
-      this.cartCount = this.cartCount + 1;
-    },
-    decreaseCartCount() {
-      if (this.cartCount > 0) {
-        this.cartCount = this.cartCount - 1;
-      }
-    },
-  },
-  mounted() {
-    this.getProduct(this.$route.params.pdId);
-    this.getProductImage(this.$route.params.pdId);
-    this.retrieveWishList(this.$route.params.pdId, this.$store.state.userId);
-    this.retrieveReview();
-    this.retrieveQna();
-    this.getProductOption(this.$route.params.pdId);
-    this.getCoupon(this.$route.params.pdId);
-  },
-};
+//         let response = await QnaService.create(temp);
+//         console.log(response.data);
+//         this.pdQnaSecret = false;
+//         this.retrieveQna(); // 재조회
+//       } catch (e) {
+//         console.log(e);
+//       }
+//     },
+//     async getProductOption(pdId) {
+//       try {
+//         let response = await OptionService.get(pdId);
+//         this.option = response.data;
+//       } catch (e) {
+//         console.log(e);
+//       }
+//     },
+//     async getCoupon(pdId) {
+//       try {
+//         let response = await CouponService.get(pdId);
+//         this.coupon = response.data;
+//         console.log(response.data);
+//       } catch (e) {
+//         console.log(e);
+//       }
+//     },
+//     increaseCartCount() {
+//       this.cartCount = this.cartCount + 1;
+//     },
+//     decreaseCartCount() {
+//       if (this.cartCount > 0) {
+//         this.cartCount = this.cartCount - 1;
+//       }
+//     },
+//   },
+//   mounted() {
+//     this.getProduct(this.$route.params.pdId);
+//     this.getProductImage(this.$route.params.pdId);
+//     this.retrieveWishList(this.$route.params.pdId, this.$store.state.userId);
+//     this.retrieveReview();
+//     this.retrieveQna();
+//     this.getProductOption(this.$route.params.pdId);
+//     this.getCoupon(this.$route.params.pdId);
+//   },
+// };
 </script>
 
 <style>

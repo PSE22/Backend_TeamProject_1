@@ -1,4 +1,4 @@
-package org.example.backend.model.entity;
+package org.example.backend.model.entity.admin;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,6 +20,12 @@ import org.hibernate.annotations.DynamicUpdate;
  */
 @Entity
 @Table(name="TB_ORDER_STATS")
+@SequenceGenerator(
+        name = "SEQ_TB_ORDER_STATS_OD_STAT_ID_GENERATOR"
+        , sequenceName = "SEQ_TB_ORDER_STATS_OD_STAT_ID"
+        , initialValue = 1
+        , allocationSize = 1
+)
 @Getter
 @Setter
 @ToString
@@ -28,8 +34,10 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicInsert
 @DynamicUpdate
 public class OrderStats {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "SEQ_TB_ORDER_STATS_OD_STAT_ID_GENERATOR")
     private Long odStatId;
     private String odStatDate;
     private Integer dailyOrderCnt;
