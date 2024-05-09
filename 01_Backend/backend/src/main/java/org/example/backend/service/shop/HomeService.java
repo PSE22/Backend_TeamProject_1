@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * packageName : org.example.backend.service.shop
@@ -26,22 +27,11 @@ import java.util.List;
 @Service
 public class HomeService {
     @Autowired
-    EventRepository eventRepository;
-
-    @Autowired
     ProductRepository productRepository;
 
     /**
-     * 이벤트 전체 조회
+     * 상품 전체 조회
      * @return
-     */
-    public List<Event> findAllEvent(){
-        List<Event> list = eventRepository.findAll();
-        return list;
-    }
-
-    /** 상품 전체 조회
-     *
      */
     public List<Product> findAllProduct(){
         List<Product> list = productRepository.findAll();
