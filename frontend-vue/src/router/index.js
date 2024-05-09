@@ -152,6 +152,11 @@ const routes = [
     path: "/event",
     component: () => import("../views/EventView.vue"),
   },
+  // 이벤트 상세 페이지
+  {
+    path: "/event/:eventId",
+    component: () => import("../views/EventDetailView.vue"),
+  },
 
   // TODO: 마이페이지 
   // 마이페이지

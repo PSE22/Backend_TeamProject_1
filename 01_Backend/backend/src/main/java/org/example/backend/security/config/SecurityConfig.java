@@ -59,6 +59,7 @@ public class SecurityConfig {
 //                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 //                .requestMatchers("/api/admin/**").hasAuthority("AT01")
 //                .requestMatchers("/api/mypage/**").hasAuthority("AT02")
+//                .requestMatchers("/api/product/**").permitAll()
 //                .requestMatchers("/api/cart/**").hasAuthority("AT02")
 //                .requestMatchers("/api/order/**").hasAuthority("AT02")
 //                .requestMatchers("/api/admin-coupon/**").hasAuthority("AT01")
