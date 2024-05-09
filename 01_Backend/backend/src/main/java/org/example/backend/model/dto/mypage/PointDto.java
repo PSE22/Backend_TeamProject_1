@@ -1,5 +1,7 @@
 package org.example.backend.model.dto.mypage;
 
+import java.time.LocalDate;
+
 /**
  * packageName : org.example.backend.model.dto.mypage
  * fileName : PointDto
@@ -26,4 +28,5 @@ public interface PointDto {
     String getDelDate();        // 포인트 만료일
 
      String getActionType(); // '적립', '사용', '만료'
+
 }

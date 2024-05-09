@@ -11,7 +11,7 @@
         <div class="col-8 mx-auto">
           <div>
             <!-- 상품번호 시작 -->
-            <div class="row g-3 align-items-center mb-3">
+            <div class="row g-3 align-items-center mt-3 mb-3">
               <div class="col-4">
                 <label htmlFor="pdId" class="col-form-label"> 상품번호 </label>
               </div>
@@ -159,20 +159,20 @@
             <!-- 상태 끝 -->
           </div>
 
-          <div class="row g-3 mt-3 mb-3">
-            <button
-              class="btn btn-outline-danger ms-3 col"
-              @click="deleteAdminPdQna"
-            >
-              삭제
-            </button>
-
+          <div class="row g-3 mb-3">
             <button
               type="submit"
               class="btn btn-outline-secondary ms-2 col"
               @click="updateAdminPdQna"
             >
               수정
+            </button>
+
+            <button
+              class="btn btn-outline-danger ms-3 col"
+              @click="deleteAdminPdQna"
+            >
+              삭제
             </button>
           </div>
 
