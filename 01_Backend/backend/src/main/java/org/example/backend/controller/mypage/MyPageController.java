@@ -1,6 +1,8 @@
 package org.example.backend.controller.mypage;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.backend.model.dto.mypage.IOrderCodeDto;
+import org.example.backend.model.entity.Order;
 import org.example.backend.service.mypage.MyPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * packageName : org.example.backend.controller.mypage
@@ -93,19 +97,35 @@ public class MyPageController {
         }
     }
 
-//    유저 이름
-@GetMapping("/username/{userId}")
-public ResponseEntity<Object> findByUserName(
-        @PathVariable String userId
-) {
-    try {
+    //    유저 이름
+    @GetMapping("/username/{userId}")
+    public ResponseEntity<Object> findByUserName(
+            @PathVariable String userId
+    ) {
+        try {
 //            전체 조회 서비스 함수 실행
-        String findByUserName
-                = myPageService.findByUserName(userId);
-        return new ResponseEntity<>(findByUserName, HttpStatus.OK);
-    } catch (Exception e) {
-        log.debug("에러 : " + e.getMessage());
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            String findByUserName
+                    = myPageService.findByUserName(userId);
+            return new ResponseEntity<>(findByUserName, HttpStatus.OK);
+        } catch (Exception e) {
+            log.debug("에러 : " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-}
+
+    //    주문정보 카운트
+    @GetMapping("/orderCode/{userId}")
+    public ResponseEntity<Object> orderCodeCount(
+            @PathVariable String userId
+    ) {
+        try {
+//            전체 조회 서비스 함수 실행
+            List<IOrderCodeDto> orderCodeCount
+                    = myPageService.orderCodeCount(userId);
+            return new ResponseEntity<>(orderCodeCount, HttpStatus.OK);
+        } catch (Exception e) {
+            log.debug("에러 : " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

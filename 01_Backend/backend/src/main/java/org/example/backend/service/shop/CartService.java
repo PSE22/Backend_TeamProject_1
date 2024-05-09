@@ -50,9 +50,20 @@ public class CartService {
     }
 
     //    TODO: 삭제 함수
-    public boolean removeById(int cartId) {
-        if (cartRepository.existsById(cartId)) {
-            cartRepository.deleteById(cartId);  // DB 삭제
+//    public boolean removeById(int cartId) {
+//        if (cartRepository.existsById(cartId)) {
+//            cartRepository.deleteById(cartId);  // DB 삭제
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+
+    public boolean removeByIds(List<Integer> cartIds) {
+        if (!cartIds.isEmpty()) {
+            cartIds.forEach(cartId -> {
+                cartRepository.deleteById(cartId);
+            });
             return true;
         } else {
             return false;

@@ -50,8 +50,9 @@ public interface MyReviewRepository extends JpaRepository<PdReview, Integer> {
     @Query(value = "SELECT count(*) FROM TB_PD_REVIEW PR, TB_PD_REVIEW_IMG PRI, TB_PRODUCT PD\n" +
             "WHERE PR.REVIEW_ID = PRI.REVIEW_ID(+)\n" +
             "AND PD.PD_ID = PR.PD_ID\n" +
-            "AND PD.STATUS = 'Y' " +
-            "AND PR.USER_ID = :userId "
+            "AND PD.STATUS = 'Y' AND PR.USER_ID = 'user1'\n" +
+            "AND PR.ADD_DATE BETWEEN TO_CHAR(SYSDATE  -30, 'yyyy-MM-dd') AND\n" +
+            "TO_CHAR(SYSDATE, 'yyyy-MM-dd')"
             , nativeQuery = true)
     Integer reviewCount(@Param("userId") String userId);
 }
