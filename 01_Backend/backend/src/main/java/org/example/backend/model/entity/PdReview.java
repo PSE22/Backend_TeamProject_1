@@ -50,4 +50,13 @@ public class PdReview extends BaseTimeEntity2 {
     private String reviewContent;       // 내용
     private Integer reviewRate;         // 별점
     private String reviewCode;          // 게시판분류코드
+
+    public PdReview(String userId, Long pdId, String reviewTitle, String reviewContent, Integer reviewRate, String reviewCode) {
+        this.userId = userId;
+        this.pdId = pdId;
+        this.reviewTitle = reviewTitle;
+        this.reviewContent = reviewContent;
+        this.reviewRate = reviewRate;
+        this.reviewCode = reviewCode;
+    }
 }

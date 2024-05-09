@@ -80,11 +80,11 @@
                 </div>
               </div>
             </td>
-            <td class="col-1 text-center" v-if="data.pdQnaSecret==='Y'">🔒</td>
-            <td class="col-1 text-center" v-else>🔓</td>
+            <td class="col-1 text-center" v-if="data.pdQnaSecret==='Y'">🫣</td>
+            <td class="col-1 text-center" v-else>😄</td>
             <td class="col-2 text-center">{{ data.pqAddDate }}</td>
             <td class="col-2 text-center">{{ data.pqrAddDate }}</td>
-            <td class="col-2 text-center" v-if="data.pdQnaReplyId">답변 완료</td>
+            <td class="col-2 text-center" v-if="data.pdQnaReplyContent">답변 완료</td>
             <td class="col-2 text-center" v-else>답변 대기</td>
           </tr>
         </tbody>
@@ -112,7 +112,7 @@ export default {
   data() {
       return {
         inquiry: [], // 문의내역 불러오기
-        userId: this.$store.state.userId,
+        userId: this.$store.state.user.userId,
         // 공통 페이징 속성
         page: 1, // 현재 페이지 번호
         count: 0, // 전체 데이터 개수
@@ -138,7 +138,7 @@ export default {
   },
 
   mounted() {
-    this.allInquiry(this.$store.state.userId);
+    this.allInquiry(this.$store.state.user.userId);
   },
 };
 </script>

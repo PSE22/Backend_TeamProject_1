@@ -94,7 +94,7 @@ public class ProductController {
 
     // 상품 이미지 전체 조회 함수
     @GetMapping("/productImage/{pdId}")
-    public ResponseEntity<Object> findById2(@PathVariable int pdId) {
+    public ResponseEntity<Object> findById2(@PathVariable long pdId) {
         try {
             List<IProductImgDto> productImgDtoList = productService.findById2(pdId);
             if (productImgDtoList.isEmpty() == true) {
@@ -111,7 +111,7 @@ public class ProductController {
     //    위시 리스트 조회
     @GetMapping("/product/wishList/{pdId}/{userId}")
     public ResponseEntity<Object> findBypPdIdAndUserId(
-            @PathVariable Integer pdId,
+            @PathVariable Long pdId,
             @PathVariable String userId
     ) {
         try {

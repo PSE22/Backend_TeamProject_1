@@ -1,8 +1,6 @@
 package org.example.backendproject.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.example.backendproject.model.common.BaseTimeEntity2;
 import org.hibernate.annotations.DynamicInsert;
@@ -25,6 +23,11 @@ import org.hibernate.annotations.Where;
  */
 @Entity
 @Table(name="TB_EVENT")
+@SequenceGenerator(
+        name = "SEQ_TB_EVENT_EVENT_ID_GENERATOR"
+        , sequenceName = "SEQ_TB_EVENT_EVENT_ID"
+        , allocationSize = 1
+)
 @Getter
 @Setter
 @ToString
@@ -34,23 +37,14 @@ import org.hibernate.annotations.Where;
 @DynamicUpdate
 // soft delete
 @Where(clause = "STATUS = 'Y'")
-@SQLDelete(sql = "UPDATE TB_EVENT SET STATUS = 'N' WHERE EVENT_ID = ?")
-
+@SQLDelete(sql = "UPDATE TB_EVENT SET STATUS = 'N', DEL_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') WHERE EVENT_ID = ?")
 public class Event extends BaseTimeEntity2 {
-//    event_id	number
-//    user_id	varchar2(100 byte)
-//    event_title	varchar2(500 byte)
-//    event_content	varchar2(4000 byte)
-//    add_date	date
-//    update	date
-//    del_date	date
-//    event_code	varchar2(100 byte)
-//    status	char(1 byte)
-
     @Id
-    private Integer eventId;
-    private Integer userId;
-    private Integer eventTitle;
-    private Integer eventContent;
-    private Integer eventCode;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE
+            , generator = "SEQ_TB_EVENT_EVENT_ID_GENERATOR")
+    private Long eventId;               // 이벤트 ID (PK)
+    private String userId;             // 회원 ID (FK)
+    private Integer eventTitle;         // 제목
+    private Integer eventContent;       // 내용
+    private Integer eventCode;          // 게시판분류코드
 }

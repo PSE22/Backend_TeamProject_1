@@ -367,11 +367,11 @@ export default {
           orderName: this.orderName,             // 수령인
           orderAddr: `${this.shipAddress.shipAddr} ${this.shipAddress.shipAddr2}`,     // 배송지 주소
           orderPhone: this.orderPhone,           // 수령인 연락처
-          orderMemo: "",                         // 주문메모
           shipMemo: this.orderShipMemo,          // 배송메모
           orderPrice: this.totalPrice - (parseInt(this.discount) + parseInt(this.tmpPoint)),           // 결제금액
           orderPayment: this.orderPayment,       // 결제수단
           orderCode: "OD0105",                   // 주문상태코드
+          postcode: this.orderPostcode,          // 우편번호
         }
         let response = await OrderService.create(data);       // 주문 추가(create) 서비스 함수 실행 
         console.log(response.data);
@@ -496,10 +496,10 @@ export default {
         alert("[" + this.selectCoupon.cpName + "] 쿠폰 적용 완료!");
         console.log(this.selectCoupon);
         if (this.selectCoupon.cpDcPrice == null) {
-          // 쿠폰의 할인금액(cpDcPrice)이 null 이면, (할인율*100)만큼 할인하기
-          this.discount = this.selectCoupon.cpDcRate * 100;
+          // 쿠폰의 할인금액(cpDcPrice)이 null 이면, "할인율"만큼 할인하기
+          this.discount = this.selectCoupon.cpDcRate * this.totalPrice;
         } else if (this.selectCoupon.cpDcRate == null) {
-          // 쿠폰의 할인율(cpDcRate)이 null 이면, 할인금액만큼을 할인하기
+          // 쿠폰의 할인율(cpDcRate)이 null 이면, "할인금액"만큼 할인하기
           this.discount = this.selectCoupon.cpDcPrice;
         }
       } catch(e) {
@@ -521,12 +521,16 @@ export default {
     // 포인트 입력한만큼 사용
     usePoint() {
       try {
-        if (this.tmpPoint <= this.point.resultPoint) {
+        if (this.tmpPoint <= this.point.resultPoint && this.tmpPoint <= this.totalPrice) {
           console.log("사용가능합니데이");
         } else {
-          console.log("사용못합니데이");
-          alert('보유하신 적립금액이 부족합니다.');
-          this.tmpPoint = 0;
+          if (this.tmpPoint > this.point.resultPoint) {
+            alert('보유하신 적립금액이 부족합니다.');
+            this.tmpPoint = 0;
+          } else if (this.tmpPoint > this.totalPrice) {
+            alert('사용하실 적립금액이 초과되었습니다.');
+            this.tmpPoint = 0;
+          }
         }
       } catch (e) {
         console.log(e);
@@ -566,10 +570,10 @@ export default {
   },
   mounted() {
     this.sumOrderAmount();
-    this.getUser(this.userId);
-    this.getShipAddress(this.userId);
-    this.getUserCoupon(this.userId);
-    this.getResultPoint(this.userId);
+    this.getUser(this.$store.state.user.userId);
+    this.getShipAddress(this.$store.state.user.userId);
+    this.getUserCoupon(this.$store.state.user.userId);
+    this.getResultPoint(this.$store.state.user.userId);
   },
 };
 </script>

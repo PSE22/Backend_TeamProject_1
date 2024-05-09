@@ -44,8 +44,10 @@ public class ReviewService {
     }
 
 //    TODO: 상세 조회 함수
-    public Optional<PdReview> findByPdReviewId(int reviewId) {
+    public Optional<PdReview> findByPdReviewId(Long reviewId) {
         Optional<PdReview> optionalPdReview = reviewRepository.findById(reviewId);
         return optionalPdReview;
     }
+
+
 }

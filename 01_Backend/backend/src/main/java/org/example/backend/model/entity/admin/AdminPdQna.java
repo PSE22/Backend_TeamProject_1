@@ -33,6 +33,6 @@ public class AdminPdQna extends BaseTimeEntity2 {
     private Long pdId;           // 상품번호 fk
     private String pdQnaTitle;   // 제목
     private String pdQnaContent; // 내용
-    private String pdQnaSecret;  // 비밀글 여부
+    private char pdQnaSecret;    // 비밀글 여부
     private String pdQnaCode;    // 게시판 분류코드
 }
