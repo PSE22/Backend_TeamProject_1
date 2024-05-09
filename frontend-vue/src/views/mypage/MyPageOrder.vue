@@ -51,7 +51,7 @@ export default {
     return {
       orders: [], // 원본 데이터 배열
       groupedOrders: {}, // 그룹화된 주문 데이터
-      userId: this.$store.state.userId,
+      userId: this.$store.state.user.userId,
     };
   },
   methods: {
@@ -75,7 +75,7 @@ export default {
     }
   },
   mounted() {
-    this.retrieveOrderCheck(this.userId);
+    this.retrieveOrderCheck(this.$store.state.user.userId);
   },
 };
 

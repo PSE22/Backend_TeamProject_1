@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +32,10 @@ public class MyPointService {
     PointDetailRepository pointDetailRepository;
 
     // 사용자 ID에 따른 적립금 상세 정보 조회
-    public List<PointDto> getPointDetailsByUserId(String userId) {
-        return pointDetailRepository.findPointDetailsByUserId(userId);
+    public List<PointDto> getPointByPeriod(String userId, LocalDate startDate, LocalDate endDate) {
+        return pointDetailRepository.findPointDetailsByUserId(userId, startDate, endDate);
     }
+
 
     // 만료된 적립금 상태 업데이트
     @Transactional
