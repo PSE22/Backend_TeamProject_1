@@ -1,15 +1,14 @@
 package org.example.backend.service.shop;
 
+import org.example.backend.model.common.CpIdUserIdPk;
 import org.example.backend.model.common.PdIdUserIdPk;
 import org.example.backend.model.dto.shop.IProductDto;
 import org.example.backend.model.dto.shop.IProductImgDto;
 import org.example.backend.model.entity.Cart;
 import org.example.backend.model.entity.Product;
+import org.example.backend.model.entity.UserCoupon;
 import org.example.backend.model.entity.Wishlist;
-import org.example.backend.repository.shop.CartRepository;
-import org.example.backend.repository.shop.ProductImgRepository;
-import org.example.backend.repository.shop.ProductRepository;
-import org.example.backend.repository.shop.ProductWishListRepository;
+import org.example.backend.repository.shop.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,6 +43,9 @@ public class ProductService {
 
     @Autowired
     CartRepository cartRepository;
+
+    @Autowired
+    UserCouponRepository userCouponRepository;
 
     /**
      * 상품 전체 조회
@@ -101,4 +103,21 @@ public class ProductService {
 
         return cart2;
     }
+
+//    쿠폰 저장
+    public boolean insert(UserCoupon userCoupon) {
+        CpIdUserIdPk cpIdUserIdPk = new CpIdUserIdPk(userCoupon.getCpId(), userCoupon.getUserId());
+        if (userCouponRepository.existsById(cpIdUserIdPk) == false) {
+            userCouponRepository.save(userCoupon);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+//    public UserCoupon update(UserCoupon userCoupon) {
+//        UserCoupon userCoupon2 = userCouponRepository.save(userCoupon);
+//
+//        return userCoupon2;
+//    }
 }

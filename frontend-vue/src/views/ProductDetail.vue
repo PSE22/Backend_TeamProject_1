@@ -50,11 +50,16 @@
           </div>
         </li>
         <li><div id="coupon-text">사용 가능 쿠폰</div></li>
-        <select name="coupon-option" class="select-box">
-          <option value="1" v-for="(data, index) in coupon" :key="index">
+        <select name="coupon-option" class="select-box" v-model="selectCoupon">
+          <option v-for="(data, index) in coupon" :key="index" :value="data.cpId">
             {{ data.cpName }}
           </option>
         </select>
+        <li id="downloadList">
+        <button type="button" class="btn" id="download-button" @click="saveCoupon">
+          쿠폰받기
+        </button>
+        </li>
         <li>
           <div id="price"><h3>배송비 3000원</h3></div>
         </li>
@@ -71,7 +76,6 @@
               v-else
               src="@/assets/img/free-icon-font-circle-heart-9270879.png"
             />
-            <router-link to="/cart">
               <button
                 type="button"
                 class="btn"
@@ -80,12 +84,9 @@
               >
                 장바구니
               </button>
-            </router-link>
-            <!-- <router-link to="/cart"> -->
             <button type="button" class="btn" id="buy-button" @click="goOrder">
               구매하기
             </button>
-            <!-- </router-link> -->
           </div>
         </li>
       </ul>
@@ -246,7 +247,7 @@
             <div
               v-else-if="
                 data.pdQnaSecret == 'Y' &&
-                this.$store.state.user.userId == data.userId
+                this.$store.state.user?.userId == data.userId
               "
             >
               <div
@@ -310,7 +311,9 @@
           <td class="col-1 text-center">{{ data.pdQnaSecret }}</td>
           <td class="col-2 text-center">{{ data.pqAddDate }}</td>
           <td class="col-2 text-center">{{ data.qrAddDate }}</td>
-          <td class="col-2 text-center" v-if="data.pdQnaReplyContent">답변 완료</td>
+          <td class="col-2 text-center" v-if="data.pdQnaReplyContent">
+            답변 완료
+          </td>
           <td class="col-2 text-center" v-else>답변 대기</td>
         </tr>
       </tbody>
@@ -410,9 +413,11 @@ export default {
       show: true,
 
       selectOption: {},
-      cartCount: 0,
+      cartCount: 1,
 
       orderList: [],
+
+      selectCoupon: 0,
 
       wishListNum: 0,
 
@@ -450,44 +455,61 @@ export default {
         this.deleteWishList();
       }
     },
-    goOrder() {
+    async getProduct(pdId) {
       try {
-        let tempCart = {
-          cartCount: this.cartCount,
-          opId: this.selectOption.opId,
-          opName: this.selectOption.opName,
-          opPrice: this.selectOption.opPrice,
-          pdId: this.$route.params.pdId,
-          pdName: this.product.pdName,
-          pdPrice: this.product.pdPrice,
-          pdThumblail: this.product.pdThumbnail,
-          userId: this.$store.state.user.userId,
-        };
-        this.orderList = [tempCart];
-        this.$store.commit("setOrderList", this.orderList);
-        console.log("카트배열", this.orderList);
-        this.$router.push("/order");
+        let response = await ProductService.get(pdId);
+        this.product = response.data;
+        console.log(response.data);
       } catch (e) {
         console.log(e);
-        this.orderList = [];
       }
     },
-    async sendCart() {
+    async getProductImage(pdId) {
       try {
-        let temp = {
-          opId: this.selectOption.opId,
-          cartCount: this.cartCount,
-          userId: this.$store.state.user.userId,
-        };
-        let response = await ProductService.AddCart(temp);
+        let response = await ProductService.getImage(pdId);
+        this.productImage = response.data;
         console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async getProductOption(pdId) {
+      try {
+        let response = await OptionService.get(pdId);
+        this.option = response.data;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async getCoupon(pdId) {
+      try {
+        let response = await CouponService.get(pdId);
+        this.coupon = response.data;
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async saveCoupon() {
+      try {
+        let data = {
+          cpId: this.selectCoupon,
+          userId: this.$store.state.user?.userId,
+        };
+        if (this.selectCoupon == 0) {
+          alert("쿠폰을 선택해주세요")
+        } else {
+        let response = await ProductService.AddCoupon(data);
+        alert(response.data);
+        console.log(response.data);
+        }
       } catch (e) {
         console.log(e);
       }
     },
     async retrieveWishList(pdId, userId) {
       try {
-        // let response = await ProductService.getWishList(this.$route.params.pdId, this.$store.state.user.userId);
+        // let response = await ProductService.getWishList(this.$route.params.pdId, this.$store.state.user?.userId);
         let response = await ProductService.getWishList(pdId, userId);
         this.wishListNum = response.data;
         if (response.data > 0) {
@@ -503,7 +525,7 @@ export default {
       try {
         let data = {
           pdId: this.$route.params.pdId,
-          userId: this.$store.state.user.userId,
+          userId: this.$store.state.user?.userId,
         };
 
         let response = await ProductService.create(data);
@@ -516,27 +538,54 @@ export default {
       try {
         let response = await ProductService.remove(
           this.$route.params.pdId,
-          this.$store.state.user.userId
+          this.$store.state.user?.userId
         );
         console.log(response.data);
       } catch (e) {
         console.log(e);
       }
     },
-    async getProduct(pdId) {
+    goOrder() {
       try {
-        let response = await ProductService.get(pdId);
-        this.product = response.data;
-        console.log(response.data);
+        console.log(this.selectOption);
+        let tempCart = {
+          cartCount: this.cartCount,
+          opId: this.selectOption.opId,
+          opName: this.selectOption.opName,
+          opPrice: this.selectOption.opPrice,
+          pdId: this.$route.params.pdId,
+          pdName: this.product.pdName,
+          pdPrice: this.product.pdPrice,
+          pdThumblail: this.product.pdThumbnail,
+          userId: this.$store.state.user?.userId,
+        };
+        if (Object.keys(this.selectOption).length === 0) {
+          alert("옵션을 선택해주세요");
+          } else {
+        this.orderList = [tempCart];
+        this.$store.commit("setOrderList", this.orderList);
+        console.log(this.orderList);
+        this.$router.push("/order");
+          }
       } catch (e) {
         console.log(e);
+        this.orderList = [];
       }
     },
-    async getProductImage(pdId) {
+    async sendCart() {
       try {
-        let response = await ProductService.getImage(pdId);
-        this.productImage = response.data;
+        let temp = {
+          opId: this.selectOption.opId,
+          cartCount: this.cartCount,
+          userId: this.$store.state.user?.userId,
+        };
+        if (Object.keys(this.selectOption).length === 0) {
+          alert("옵션을 선택해주세요");
+        } else {
+        let response = await ProductService.AddCart(temp);
+        alert("장바구니에 담았습니다");
         console.log(response.data);
+        }
       } catch (e) {
         console.log(e);
       }
@@ -559,7 +608,7 @@ export default {
       try {
         let temp = {
           pdId: this.$route.params.pdId,
-          userId: this.$store.state.user.userId,
+          userId: this.$store.state.user?.userId,
           reviewTitle: this.reviewTitle,
           reviewContent: this.reviewContent,
           reviewRate: this.reviewRate,
@@ -591,7 +640,7 @@ export default {
       try {
         let temp = {
           pdId: this.$route.params.pdId,
-          userId: this.$store.state.user.userId,
+          userId: this.$store.state.user?.userId,
           pdQnaTitle: this.pdQnaTitle,
           pdQnaContent: this.pdQnaContent,
           pdQnaSecret: this.pdQnaSecret ? "Y" : "N",
@@ -606,28 +655,11 @@ export default {
         console.log(e);
       }
     },
-    async getProductOption(pdId) {
-      try {
-        let response = await OptionService.get(pdId);
-        this.option = response.data;
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async getCoupon(pdId) {
-      try {
-        let response = await CouponService.get(pdId);
-        this.coupon = response.data;
-        console.log(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    },
     increaseCartCount() {
       this.cartCount = this.cartCount + 1;
     },
     decreaseCartCount() {
-      if (this.cartCount > 0) {
+      if (this.cartCount > 1) {
         this.cartCount = this.cartCount - 1;
       }
     },
@@ -635,14 +667,14 @@ export default {
   mounted() {
     this.getProduct(this.$route.params.pdId);
     this.getProductImage(this.$route.params.pdId);
+    this.getProductOption(this.$route.params.pdId);
+    this.getCoupon(this.$route.params.pdId);
     this.retrieveWishList(
       this.$route.params.pdId,
-      this.$store.state.user.userId
+      this.$store.state.user?.userId
     );
     this.retrieveReview();
     this.retrieveQna();
-    this.getProductOption(this.$route.params.pdId);
-    this.getCoupon(this.$route.params.pdId);
   },
 };
 </script>
