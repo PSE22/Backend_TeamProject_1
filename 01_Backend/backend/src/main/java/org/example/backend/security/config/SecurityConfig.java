@@ -72,7 +72,6 @@ public class SecurityConfig {
 //                .requestMatchers("/").permitAll()
 //                .anyRequest().authenticated());
                 .anyRequest().permitAll()); // 임시로 권한 풀기 함수
-
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
