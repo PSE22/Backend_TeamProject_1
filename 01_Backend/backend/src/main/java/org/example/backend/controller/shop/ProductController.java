@@ -6,6 +6,7 @@ import org.example.backend.model.dto.shop.IProductDto;
 import org.example.backend.model.dto.shop.IProductImgDto;
 import org.example.backend.model.entity.Cart;
 import org.example.backend.model.entity.Product;
+import org.example.backend.model.entity.UserCoupon;
 import org.example.backend.model.entity.Wishlist;
 import org.example.backend.service.shop.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -170,8 +171,26 @@ public class ProductController {
         try {
 //            DB 서비스 저장 함수 실행
             Cart cart2 = productService.save(cart);
-//            성공(OK) 메세지 + 저장된 객체(wishList2)
             return new ResponseEntity<>(cart2, HttpStatus.OK);
+        } catch (Exception e) {
+//            500 전송
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    쿠폰 저장
+    @PostMapping("/product/coupon")
+    public ResponseEntity<Object> create(
+            @RequestBody UserCoupon userCoupon
+    ) {
+        try {
+//            DB 서비스 저장 함수 실행
+            boolean success = productService.insert(userCoupon);
+            if (success == true) {
+                return new ResponseEntity<>("쿠폰을 받았습니다", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("이미 받은 쿠폰입니다", HttpStatus.OK);
+            }
         } catch (Exception e) {
 //            500 전송
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
