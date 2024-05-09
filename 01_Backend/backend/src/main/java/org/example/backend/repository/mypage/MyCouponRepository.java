@@ -45,4 +45,12 @@ public interface MyCouponRepository extends JpaRepository<UserCoupon, CpIdUserId
             ,nativeQuery = true
     )
     Page<ICouponDto> findByUserId(@Param("userId") String userId, Pageable pageable);
+
+//    쿠폰 카운트
+    @Query(value = "SELECT count(*)\n" +
+            "FROM TB_USER_COUPON UCP, TB_COUPON CP\n" +
+            "WHERE UCP.CP_ID = CP.CP_ID\n" +
+            "AND CP.STATUS = 'Y' " +
+            "AND UCP.USER_ID=:userId ", nativeQuery = true)
+    Integer couponCount (@Param("userId") String userId);
 }

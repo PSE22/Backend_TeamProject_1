@@ -22,7 +22,7 @@ public interface ICartDto {
     Integer getOpPrice();   // 옵션 가격
     String getPdName();     // 상품명
     Integer getPdPrice();   // 상품 가격
-    String getPdThumblail();   // 상품 이미지
+    String getPdThumbnail();   // 상품 이미지
     Long getPdId();   // 상품 번호
 
 }

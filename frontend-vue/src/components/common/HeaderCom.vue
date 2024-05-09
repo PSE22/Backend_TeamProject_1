@@ -15,8 +15,8 @@
       </div>
       <!-- navbar #1 : 우측 리스트 -->
       <div class="main-nav-list col align-self-center">
-        <router-link to="/mypage" class="router-link">마이페이지</router-link> |
-        <router-link to="/cart" class="router-link">장바구니</router-link> |
+        <router-link to="/mypage" v-if="this.$store.state.loggedIn==true" class="router-link">마이페이지 | </router-link>
+        <router-link to="/cart" v-if="this.$store.state.loggedIn==true"  class="router-link">장바구니 | </router-link>
         <router-link v-if="showAdminBoard" to="/admin" class="router-link">관리페이지 |</router-link>
         <!-- 로그인 / 회원가입 -->
         <router-link

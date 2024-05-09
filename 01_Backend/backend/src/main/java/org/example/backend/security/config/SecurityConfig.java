@@ -56,7 +56,6 @@ public class SecurityConfig {
         http.formLogin(req -> req.disable());
 
         http.authorizeHttpRequests(req -> req
-
 //                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 //                .requestMatchers("/api/product/**").permitAll()
 //                .requestMatchers("/api/admin/**").hasAuthority("AT01")
@@ -74,9 +73,7 @@ public class SecurityConfig {
 //                .anyRequest().authenticated());
                 .anyRequest().permitAll()); // 임시로 권한 풀기 함수
 
-
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 }

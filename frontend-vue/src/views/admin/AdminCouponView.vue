@@ -69,7 +69,7 @@
 
           <!-- Nav Item - Tables -->
           <li class="nav-item">
-            <a class="nav-link" href="/admin-table">
+            <a class="nav-link" href="/admin-pdqna">
               <i class="fas fa-fw fa-table"></i>
               <span>문의관리</span></a
             >
@@ -415,8 +415,7 @@
                                     :to="'/admin-coupon-edit/' + data.cpId"
                                   >
                                     <span class="badge text-bg-secondary"
-                                      >수정</span
-                                    >
+                                      >수정</span>
                                   </router-link>
                                 </td>
                                 <td>{{ data.cpId }}</td>

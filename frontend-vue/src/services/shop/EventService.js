@@ -6,7 +6,5 @@ class EventService {
     getAll() {
         return http.get(`/shop/event`);
     }
-
-
 }
 export default new EventService();

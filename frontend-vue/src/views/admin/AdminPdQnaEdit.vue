@@ -7,7 +7,7 @@
         </div>
       </div>
       <!-- null -> 거짓(false) -->
-      <div v-if="adminCouponEdit">
+      <div v-if="adminPdQnaEdit">
         <div class="col-8 mx-auto">
           <div>
             <!-- 상품번호 시작 -->
@@ -23,135 +23,106 @@
                   required
                   class="form-control"
                   name="pdId"
-                  v-model="adminCouponEdit.pdId"
+                  v-model="adminPdQnaEdit.pdId"
                 />
               </div>
             </div>
             <!-- 상품번호 끝 -->
 
-            <!-- 쿠폰명 시작 -->
+            <!-- 제목 시작 -->
             <div class="row g-3 align-items-center mb-3">
               <div class="col-4">
-                <label htmlFor="cpName" class="col-form-label"> 쿠폰명 </label>
+                <label htmlFor="pdQnaTitle" class="col-form-label"> 제목 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="cpName"
+                  id="pdQnaTitle"
                   required
                   class="form-control"
-                  name="cpName"
-                  v-model="adminCouponEdit.cpName"
+                  name="pdQnaTitle"
+                  v-model="adminPdQnaEdit.pdQnaTitle"
                 />
               </div>
             </div>
-            <!-- 쿠폰명 끝 -->
+            <!-- 제목 끝 -->
 
-            <!-- 할인금액 시작 -->
+            <!-- 고객 문의 내용 시작 -->
             <div class="row g-3 align-items-center mb-3">
               <div class="col-4">
-                <label htmlFor="cpDcPrice" class="col-form-label">
-                  할인금액
+                <label htmlFor="pdQnaContent" class="col-form-label">
+                  고객 문의 내용
                 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="cpDcPrice"
+                  id="pdQnaContent"
                   required
                   class="form-control"
-                  name="cpDcPrice"
-                  v-model="adminCouponEdit.cpDcPrice"
+                  name="pdQnaContent"
+                  v-model="adminPdQnaEdit.pdQnaContent"
                 />
               </div>
             </div>
-            <!-- 할인금액 끝 -->
+            <!-- 고객 문의 내용 끝 -->
 
-            <!-- 할인율 시작 -->
+            <!-- 비밀글 여부 시작 -->
+            <div class="row g-3 align-items-center mb-3">
+              <h6 class="col-auto">상태</h6>
+              <div class="col">
+                <div class="form-check form-check-inline mt-3">
+                  <input
+                    type="radio"
+                    class="form-check-input mb-4"
+                    id="inlineRadio1"
+                    name="pdQnaSecret"
+                    value="Y"
+                    v-model="adminPdQnaEdit.pdQnaSecret"
+                  />
+                  <label class="form-check-label" for="inlineRadio1"
+                    >활성</label
+                  >
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    class="form-check-input mb-4"
+                    id="inlineRadio2"
+                    name="pdQnaSecret"
+                    value="N"
+                    v-model="adminPdQnaEdit.pdQnaSecret"
+                  />
+                  <label class="form-check-label" for="inlineRadio2"
+                    >비활성</label
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- 비밀글 여부 끝 -->
+
+            <!-- 게시판 분류코드 시작 -->
             <div class="row g-3 align-items-center mb-3">
               <div class="col-4">
-                <label htmlFor="cpDcRate" class="col-form-label">
-                  할인율
+                <label htmlFor="pdQnaCode" class="col-form-label">
+                  게시판 분류코드
                 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="cpDcRate"
+                  id="pdQnaCode"
                   required
                   class="form-control"
-                  name="cpDcRate"
-                  v-model="adminCouponEdit.cpDcRate"
+                  name="pdQnaCode"
+                  v-model="adminPdQnaEdit.pdQnaCode"
                 />
               </div>
             </div>
-            <!-- 할인율 끝 -->
-
-            <!-- 최소사용금액 시작 -->
-            <div class="row g-3 align-items-center mb-3">
-              <div class="col-4">
-                <label htmlFor="cpMinPrice" class="col-form-label">
-                  최소사용금액
-                </label>
-              </div>
-
-              <div class="col-8">
-                <input
-                  type="text"
-                  id="cpMinPrice"
-                  required
-                  class="form-control"
-                  name="cpMinPrice"
-                  v-model="adminCouponEdit.cpMinPrice"
-                />
-              </div>
-            </div>
-            <!-- 최소사용금액 끝 -->
-
-            <!-- 최대할인금액 시작 -->
-            <div class="row g-3 align-items-center mb-3">
-              <div class="col-4">
-                <label htmlFor="cpMaxDcPrice" class="col-form-label">
-                  최대할인금액
-                </label>
-              </div>
-
-              <div class="col-8">
-                <input
-                  type="text"
-                  id="cpMaxDcPrice"
-                  required
-                  class="form-control"
-                  name="cpMaxDcPrice"
-                  v-model="adminCouponEdit.cpMaxDcPrice"
-                />
-              </div>
-            </div>
-            <!-- 최대할인금액 끝 -->
-
-            <!-- 만료일 시작 -->
-            <div class="row g-3 align-items-center mb-3">
-              <div class="col-4">
-                <label htmlFor="cpExpireDate" class="col-form-label">
-                  만료일
-                </label>
-              </div>
-
-              <div class="col-8">
-                <input
-                  type="text"
-                  id="cpExpireDate"
-                  required
-                  class="form-control"
-                  name="cpExpireDate"
-                  v-model="adminCouponEdit.cpExpireDate"
-                />
-              </div>
-            </div>
-            <!-- 만료일 끝 -->
+            <!-- 게시판 분류코드 끝 -->
 
             <!-- 상태 시작 -->
             <div class="row g-3 align-items-center mb-3">
@@ -163,8 +134,8 @@
                     class="form-check-input mb-4"
                     id="inlineRadio1"
                     name="status"
-                    value="활성"
-                    v-model="adminCouponEdit.status"
+                    value="Y"
+                    v-model="adminPdQnaEdit.status"
                   />
                   <label class="form-check-label" for="inlineRadio1"
                     >활성</label
@@ -176,8 +147,8 @@
                     class="form-check-input mb-4"
                     id="inlineRadio2"
                     name="status"
-                    value="비활성"
-                    v-model="adminCouponEdit.status"
+                    value="N"
+                    v-model="adminPdQnaEdit.status"
                   />
                   <label class="form-check-label" for="inlineRadio2"
                     >비활성</label
@@ -188,10 +159,10 @@
             <!-- 상태 끝 -->
           </div>
 
-          <div class="row g-3 mb-3">
+          <div class="row g-3 mt-3 mb-3">
             <button
               class="btn btn-outline-danger ms-3 col"
-              @click="deleteAdminCoupon"
+              @click="deleteAdminPdQna"
             >
               삭제
             </button>
@@ -199,7 +170,7 @@
             <button
               type="submit"
               class="btn btn-outline-secondary ms-2 col"
-              @click="updateAdminCoupon"
+              @click="updateAdminPdQna"
             >
               수정
             </button>
@@ -220,22 +191,22 @@
   </div>
 </template>
 <script>
-import AdminCouponService from "@/services/admin/AdminCouponService";
+import AdminPdQnaService from '@/services/admin/AdminPdQnaService';
 export default {
   data() {
     return {
       // TODO: 수정
-      adminCouponEdit: null, //초기값
+      adminPdQnaEdit: null, //초기값
       message: "", // 수정성공시 화면 성공메세지 출력하는 변수
     };
   },
   methods: {
     // TODO: 수정/삭제 시작
     // 함수정의
-    async getAdminCoupon(cpId) {
+    async getAdminPdQna(pdQnaId) {
       try {
-        let response = await AdminCouponService.get(cpId);
-        this.adminCouponEdit = response.data; // spring 결과를 바인딩 속성변수 emp 저장
+        let response = await AdminPdQnaService.get(pdQnaId);
+        this.adminPdQnaEdit = response.data; // spring 결과를 바인딩 속성변수 emp 저장
         // 로깅
         console.log(response.data);
       } catch (e) {
@@ -243,33 +214,33 @@ export default {
       }
     },
     // 수정요청 함수
-    async updateAdminCoupon() {
+    async updateAdminPdQna() {
       try {
-        let response = await AdminCouponService.update(
-          this.adminCouponEdit.cpId,
-          this.adminCouponEdit
+        let response = await AdminPdQnaService.update(
+          this.adminPdQnaEdit.pdQnaId,
+          this.adminPdQnaEdit
         );
         // 로깅
         console.log(response.data);
         // 화면에 성공메세지 출력 : message
         alert("수정이 성공했습니다.");
-        this.$router.push("/admin-coupon");
+        this.$router.push("/admin-pdqna");
       } catch (e) {
         console.log(e);
       }
     },
     // 삭제요청 함수
-    async deleteAdminCoupon() {
-      let response = await AdminCouponService.delete(this.adminCouponEdit.cpId);
+    async deleteAdminPdQna() {
+      let response = await AdminPdQnaService.delete(this.adminPdQnaEdit.pdQnaId);
       console.log(response.data);
-      this.$router.push("/admin-coupon");
+      this.$router.push("/admin-pdqna");
     },
   },
   // TODO: 수정/삭제 끝
   mounted() {
     // TODO: 수정/삭제 시작
     this.message = ""; // 변수 초기화
-    this.getAdminCoupon(this.$route.params.cpId); // 쿠폰메뉴를 클릭하면 cpid 옴
+    this.getAdminPdQna(this.$route.params.pdQnaId); // 쿠폰메뉴를 클릭하면 cpid 옴
     // TODO: 수정/삭제 끝
   },
 };
@@ -280,7 +251,7 @@ export default {
   background-color: rgba(255, 255, 255, 1);
   padding: 40px 30px;
   border: 3px solid #505050;
-  width: 600px;
+  width: 700px;
   height: 600px;
 }
 .a1 {
