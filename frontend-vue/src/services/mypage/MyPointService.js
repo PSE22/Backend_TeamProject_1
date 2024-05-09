@@ -11,6 +11,17 @@ class MyPointService {
       headers: LoginHeader()
   });
   }
+
+    // 특정 기간의 적립금 내역 조회
+    getPointsForPeriod(userId, startDate, endDate) {
+      return http.get(`/mypage/point/period/${userId}`, {
+        params: {
+          startDate,
+          endDate
+        },
+        headers: LoginHeader()
+      });
+    }
 }
 
 

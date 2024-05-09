@@ -35,4 +35,5 @@ public class OrderDto {
     private Integer orderPrice;                     // 결제금액
     private String orderPayment;                    // 결제 수단
     private String orderCode;                       // 주문상태코드
+    private String postcode;                        // 우편번호
 }

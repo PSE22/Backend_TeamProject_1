@@ -19,10 +19,10 @@
             <!-- 쿠폰명 -->
             <td class="text-start col-3">{{ data.cpName }}</td>
             <!-- 혜택 -->
-            <td v-if="cpDcPrice === true" class="col-2">{{ data.cpDcPrice }}</td>
-            <td v-else class="col-2">{{ data.cpDcRate }}% 할인</td>
+            <td v-if="data.cpDcPrice===null" class="col-2">{{ data.cpDcRate * 100 }}% 할인</td>
+            <td v-else class="col-2">{{ data.cpDcPrice }}원 할인</td>
             <!-- 조건 -->
-            <td class="col-3">{{ data.cpMinPrice }}원 이상 {{ data.cpMaxDcPrice }}원 까지 할인</td>
+            <td class="col-3">{{ data.cpMinPrice }}원 이상 사용가능 (최대 {{ data.cpMaxDcPrice }}원)</td>
             <!-- 사용기간 -->
             <td class="col-3">{{data.addDate }} ~ {{ data.cpExpireDate }}</td>  
 
@@ -74,7 +74,7 @@ export default {
       // 공통 페이징 속성
       page: 1, // 현재 페이지 번호
       count: 0, // 전체 데이터 개수
-      pageSize: 3, // 화면에 보여질 개수
+      pageSize: 10, // 화면에 보여질 개수
     };
   },
   methods: {

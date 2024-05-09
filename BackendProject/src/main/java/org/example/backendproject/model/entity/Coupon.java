@@ -34,25 +34,15 @@ import org.hibernate.annotations.Where;
 @DynamicUpdate
 // soft delete
 @Where(clause = "STATUS = 'Y'")
-@SQLDelete(sql = "UPDATE TB_COUPON SET STATUS = 'N' WHERE CP_ID = ?")
+@SQLDelete(sql = "UPDATE TB_COUPON SET STATUS = 'N', DEL_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') WHERE CP_ID = ?")
 public class Coupon extends BaseTimeEntity2 {
-//    cp_id	number
-//    pd_id	number
-//    cp_name	varchar2(500 byte)
-//    cp_dc_price	number
-//    cp_dc_rate	number
-//    cp_min_price	number
-//    cp_max_dc_price	number
-//    cp_expire_date	date
-//    status	char(1 byte)
-
     @Id
-    private Integer cpId;
-    private Integer pdId;
-    private String cpName;
-    private Integer cpDcPrice;
-    private Double cpDcRate;
-    private Integer cpMinPrice;
-    private Integer cpMaxDcPrice;
-    private String cpExpireDate;
+    private Long cpId;                  // 쿠폰 ID
+    private Long pdId;                  // 상품 ID
+    private String cpName;              // 쿠폰명
+    private Integer cpDcPrice;          // 할인금액
+    private Double cpDcRate;            // 할인율
+    private Integer cpMinPrice;         // 최소사용금액
+    private Integer cpMaxDcPrice;       // 최대할인금액
+    private String cpExpireDate;        // 쿠폰만료일
 }
