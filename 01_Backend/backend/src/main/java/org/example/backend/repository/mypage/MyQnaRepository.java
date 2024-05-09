@@ -29,7 +29,7 @@ public interface MyQnaRepository extends JpaRepository<PdQna, Long> {
             "PQ.PD_QNA_CONTENT AS pdQnaContent,\n" +
             "PQ.ADD_DATE AS pqAddDate,\n" +
             "PQR.ADD_DATE AS pqrAddDate,\n" +
-            "PQR.PD_QNA_REPLY_ID AS pdQnaReplyId,\n" +
+            "PQR.PD_QNA_REPLY_CONTENT AS pdQnaReplyContent,\n" +
             "PQ.PD_QNA_SECRET AS pdQnaSecret,\n" +
             "PD.PD_NAME AS pdName " +
             "FROM TB_PD_QNA PQ, TB_PD_QNA_REPLY PQR, TB_PRODUCT PD\n" +
@@ -44,4 +44,15 @@ public interface MyQnaRepository extends JpaRepository<PdQna, Long> {
             "AND PQ.USER_ID = :userId",
     nativeQuery = true)
     Page<IQnaDto> findByUserId(@Param("userId") String userId, Pageable pageable);
+
+//    문의 카운트
+    @Query(value ="SELECT count(*) FROM TB_PD_QNA PQ, TB_PD_QNA_REPLY PQR, TB_PRODUCT PD\n" +
+            "WHERE PQ.PD_QNA_ID = PQR.PD_QNA_ID(+)\n" +
+            "AND PQ.PD_ID = PD.PD_ID\n" +
+            "AND PQ.STATUS = 'Y'\n" +
+            "AND PQ.USER_ID = :userId\n" +
+            "AND PQ.ADD_DATE BETWEEN TO_CHAR(SYSDATE  -30, 'yyyy-MM-dd HH:mm:ss') AND\n" +
+            "TO_CHAR(SYSDATE, 'yyyy-MM-dd HH:mm:ss')",
+            nativeQuery = true)
+    Integer inquiryCount(@Param("userId") String userId);
 }

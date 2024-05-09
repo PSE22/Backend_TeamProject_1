@@ -18,7 +18,7 @@ public interface IUserCouponDto {
     String getCpId();
     String getCpName();
     Integer getCpDcPrice();
-    Integer getCpDcRate();
+    Double getCpDcRate();
     Integer getCpMinPrice();
     Integer getCpMaxDcPrice();
 }

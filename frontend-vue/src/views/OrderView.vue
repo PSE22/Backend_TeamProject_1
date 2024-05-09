@@ -203,7 +203,7 @@
       <!-- 쿠폰 : 내용 -->
       <div class="order-sheet-content">
         <div class="row order-content-row">
-          <div class="col-3 row-title pt-3">쿠폰 적용</div>
+          <div class="col-3 row-title pt-3">쿠폰 선택</div>
           <div class="col-9 row-content">
             <div class="row">
               <div class="col-6">
@@ -215,7 +215,7 @@
                 </select>
               </div>
               <div class="col-3">
-                <button type="submit" class="btn btn-primary" @click="clickCoupon()">쿠폰선택</button>
+                <button type="submit" class="btn btn-primary" @click="clickCoupon()">쿠폰적용</button>
               </div>
             </div>
           </div>
@@ -278,19 +278,19 @@
       <div class="card text-center mb-3" style="max-width: 18rem">
         <div class="card-header">총 주문 금액</div>
         <div class="card-body">
-          <h3 class="card-title">원</h3>
+          <h3 class="card-title"> {{ totalPrice }}원</h3>
         </div>
       </div>
       <div class="card text-center mb-3" style="max-width: 18rem">
         <div class="card-header">할인 금액</div>
         <div class="card-body">
-          <h3 class="card-title">원</h3>
+          <h3 class="card-title">{{ parseInt(discount) + parseInt(tmpPoint) }}원</h3>
         </div>
       </div>
       <div class="card text-center mb-3" style="max-width: 18rem">
         <div class="card-header">최종 결제 금액</div>
         <div class="card-body">
-          <h3 class="card-title">원</h3>
+          <h3 class="card-title">{{ totalPrice - (parseInt(discount) + parseInt(tmpPoint)) }}원</h3>
         </div>
       </div>
     </div>
@@ -299,7 +299,7 @@
       <button class="btn btn-warning btn-lg me-md-2 col-3 mt-5 mb-5" type="button" @click="cancelOrder()">
         주문취소
       </button>
-      <button class="btn btn-danger btn-lg me-md-2 col-3 mt-5 mb-5" type="button">
+      <button class="btn btn-danger btn-lg me-md-2 col-3 mt-5 mb-5" type="button" @click="goApproval()">
         결제하기
       </button>
     </div>
@@ -311,7 +311,13 @@ import OrderService from "@/services/shop/OrderService";
 export default {
   data() {
     return {
-      orderList: [],    // 임시 장바구니 배열
+      userId: this.$store.state.userId,   
+      orderList: [],            // 임시 장바구니 배열(로컬 저장소)
+      selectCoupon: {},         // 사용할 쿠폰의 값을 담을 객체
+      selectedAddr: 'option1',  // 배송지 선택 라디오 버튼 값 초기 설정
+      discount: 0,              // 할인금액
+      tmpPoint: 0,              // 사용할 적립금
+      totalPrice: 0,            // 상품 총액
 
       // 주문 테이블에 보낼 데이터를 담을 변수
       orderPostcode: "",    // 우편번호
@@ -320,7 +326,6 @@ export default {
       orderName: "",        // 수령인
       orderPhone: "",       // 수령인번호
       orderShipMemo: "",    // 배송요청사항
-      orderPrice: 0,        // 결제금액
       orderPayment: "",     // 결제수단
 
       // 서버에서 받아온 값을 저장
@@ -329,79 +334,54 @@ export default {
       shipAddress: {},      // 배송지 객체
       coupon: [],           // 보유 쿠폰 배열
       point: {},            // 포인트 잔액
-
-      tmpPoint: 0,          // 사용할 포인트 값을 담을 변수       
-      selectCoupon: {},         // 사용할 쿠폰의 값을 담을 객체
-      selectedAddr: 'option1',  // 배송지 선택 라디오 버튼 값 초기 설정
-      userId: this.$store.state.userId,
     };
   },
   methods: {
     // 주문 함수 (주문 테이블 + 주문 상세 테이블 insert) : 결제 페이지로 이동
-    // async goApproval() {
-    //   // 1) 주문 날짜 (현재 날짜)
-    //   // let now = new Date();   // js 날짜 객체
-    //   // let formatNow = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+    async goApproval() {
+      // 1) 주문 상세 객체 정의
+      let orderDetail = {
+        orderId: null,         // 주문번호 (PK) (최초 주문 번호는 null)
+        opId: 0,               // 옵션번호 (PK)
+        orderDetailCnt: 0,     // 수량
+        orderDetailPrice: 0,   // 금액
+        orderDetailCode: 0,    // 주문상태코드
+      };
 
-    //   // 2) 장바구니의 물품별 금액(단가*개수)을 구해서 모든 상품별 총금액 구하기
-    //   let totalPrice = this.cart
-    //     .map((data) => data.unitPrice * data.cartCount)   // 상품별 금액 배열
-    //     .reduce((acc, cur) => acc + cur)                  // reduce(누적변수, 배열값) => 누적변수 + 배열값); => 총금액
+      // 2) 주문 상세 배열에 객체 넣기 (반복문)
+      let orderDetailList = [];     // 주문상세 객체배열 정의
+      for (const data of this.orderList) {
+        orderDetail.opId = data.opId;                                   // 상품(옵션) 번호
+        orderDetail.orderDetailCnt = data.cartCount;                    // 상품 개수 (장바구니 수량)
+        orderDetail.orderDetailPrice = data.opPrice + data.pdPrice;     // 주문상세가격
+        orderDetail.orderDetailCode = "OD01";                           // 주문상태코드
+        orderDetailList.push(orderDetail);    // 주문 상세 배열에 값 넣기
+      }
 
-    //   // 3) 주문 상세 객체 정의
-    //   let orderDetail = {
-    //     orderId: null,         // 주문번호 (PK) (최초 주문 번호는 null)
-    //     opId: 0,               // 옵션번호 (PK)
-    //     orderDetailCnt: 0,     // 수량
-    //     orderDetailPrice: 0,   // 금액
-    //     orderDetailCode: 0,    // 주문상태코드
-    //   };
-
-    //   // 4) 주문 상세 배열
-    //   let orderDetailList = [];     // 주문상세 객체배열 정의
-    //   // 배열 반복문 (for of 사용)
-    //   for (const data of this.cart) {
-    //     orderDetail.spno = data.spno;                     // 상품(옵션) 번호
-    //     orderDetail.productCount = data.productCount;     // 상품 개수 (장바구니 수량)
-    //     // 주문 상세 배열에 위의 주문 상세 객체를 넣기
-    //     orderDetailList.push(orderDetail);          // 객체 배열
-    //   }
-
-    //   // 4) 백엔드(spring) insert 요청 (비동기 코딩)
-    //   try {
-    //     // 임시 주문 객체 : 주문 상세 객체배열 속성이 있음
-    //     let data = {
-    //       // orderDetailList: orderDetailList,   // 주문 상세 객체 배열(주문 상세 테이블 insert)
-    //       // orderDate: formatNow,                           // 주문 날짜
-    //       // orderStatus: 50001,                             // 주문 상태
-    //       // productAmount: totalPrice,                      // 상품 총금액
-    //       // deliveryAmount: this.deliveryAmount,            // 배달비(3000: 하드코딩)
-    //       // orderAmount: totalPrice + this.deliveryAmount,  // 주문금액 = 총금액 + 배달비
-    //       // deliveryAddr: this.deliveryAddr,                // 배달 주소
-    //       // deliveryMsg: this.deliveryMsg,                  // 배달 메세지
-
-    //       orderDetailList: orderDetailList,      // 주문 상세 List
-    //       userId: this.user.userId,              // 회원 ID (FK)
-    //       orderName,                             // 수령인
-    //       orderAddr: `${this.shipAddress.shipAddr} ${this.shipAddress.shipAddr2}`,     // 배송지 주소
-    //       orderPhone,                            // 수령인 연락처
-    //       orderMemo,                             // 주문메모
-    //       shipMemo,                              // 배송메모
-    //       orderPrice,                            // 결제금액
-    //       orderPayment,                          // 결제수단
-    //       orderCode: "OD01",                     // 주문상태코드
-    //     }
-    //     // 공통 주문 추가(create) 서비스 함수 실행 
-    //     let response = await OrderService.create(data);
-    //     // 로깅
-    //     console.log(response.data);
-    //     // 결제 페이지로 이동 (✅결제 Api 사용은 여기서!!!!)
-    //     // 주문 번호(response.data.sono)도 전송
-    //     this.$router.push("/approval/" + response.data.sono);
-    //   } catch (e) {
-    //     console.log(e);     // 에러 출력
-    //   }
-    // },
+      // 3) spring insert 요청 (비동기)
+      try {
+        // 임시 주문 객체 : 주문 상세 객체 배열 (List) 포함
+        let data = {
+          orderDetailList: orderDetailList,      // 주문 상세 List
+          userId: this.user.userId,              // 회원 ID (FK)
+          orderName: this.orderName,             // 수령인
+          orderAddr: `${this.shipAddress.shipAddr} ${this.shipAddress.shipAddr2}`,     // 배송지 주소
+          orderPhone: this.orderPhone,           // 수령인 연락처
+          shipMemo: this.orderShipMemo,          // 배송메모
+          orderPrice: this.totalPrice - (parseInt(this.discount) + parseInt(this.tmpPoint)),           // 결제금액
+          orderPayment: this.orderPayment,       // 결제수단
+          orderCode: "OD0105",                   // 주문상태코드
+          postcode: this.orderPostcode,          // 우편번호
+        }
+        let response = await OrderService.create(data);       // 주문 추가(create) 서비스 함수 실행 
+        console.log(response.data);
+        alert("주문이 완료되었습니다.")
+        // 결제 페이지로 이동 (✅결제 Api 사용은 여기서!!!!)
+        this.$router.push("/approval/" + response.data.orderId);    // 결제 페이지로 주문 번호(response.data.orderId) 함께 전송
+      } catch (e) {
+        console.log(e);
+      }
+    },
 
     // 주문 취소 함수 : 장바구니 전체 페이지로 이동
     cancelOrder() {
@@ -409,6 +389,23 @@ export default {
         this.$router.push("/cart");
       }
       catch (e) {
+        console.log(e);
+      }
+    },
+
+    // 장바구니 상품 총 금액 구하기 (최종 결제금액 아님)
+    sumOrderAmount() {
+      try {
+        this.orderList = this.$store.getters.getOrderList;
+        // 장바구니의 물품별 금액(단가*개수)을 구해서 모든 상품별 총금액 구하기
+        this.totalPrice = this.orderList
+        .map((data) => (data.pdPrice + data.opPrice) * data.cartCount)   // 상품별 금액 배열
+        .reduce((acc, cur) => acc + cur);          // acc 는 반환값을 누적, cur 는 배열의 현재 요소를 가리킴
+        if (this.totalPrice < 60000) {
+          this.totalPrice += 3000;   // 상품 총 금액이 6만원 미만이면 배송비(3000원) 추가
+        }
+        console.log(this.totalPrice);
+      } catch(e) {
         console.log(e);
       }
     },
@@ -487,7 +484,6 @@ export default {
       try {
         let response = await OrderService.getUserCoupon(userId);
         this.coupon = response.data;
-        console.log("확인", this.coupon)
         console.log("회원의 보유 쿠폰 정보 : ", response.data);
       } catch (e) {
         console.log(e);
@@ -496,8 +492,19 @@ export default {
 
     // 쿠폰선택 버튼 눌렀을 때 실행
     clickCoupon() {
-      alert("[" + this.selectCoupon.cpName + "] 쿠폰 적용 완료!");
-      console.log(this.selectCoupon);
+      try {
+        alert("[" + this.selectCoupon.cpName + "] 쿠폰 적용 완료!");
+        console.log(this.selectCoupon);
+        if (this.selectCoupon.cpDcPrice == null) {
+          // 쿠폰의 할인금액(cpDcPrice)이 null 이면, "할인율"만큼 할인하기
+          this.discount = this.selectCoupon.cpDcRate * this.totalPrice;
+        } else if (this.selectCoupon.cpDcRate == null) {
+          // 쿠폰의 할인율(cpDcRate)이 null 이면, "할인금액"만큼 할인하기
+          this.discount = this.selectCoupon.cpDcPrice;
+        }
+      } catch(e) {
+        console.log(e);
+      }
     },
 
     // 회원의 포인트 잔액 정보 가져오기
@@ -514,12 +521,16 @@ export default {
     // 포인트 입력한만큼 사용
     usePoint() {
       try {
-        if (this.tmpPoint <= this.point.resultPoint) {
+        if (this.tmpPoint <= this.point.resultPoint && this.tmpPoint <= this.totalPrice) {
           console.log("사용가능합니데이");
         } else {
-          console.log("사용못합니데이");
-          alert('보유하신 적립금액이 부족합니다.');
-          this.tmpPoint = 0;
+          if (this.tmpPoint > this.point.resultPoint) {
+            alert('보유하신 적립금액이 부족합니다.');
+            this.tmpPoint = 0;
+          } else if (this.tmpPoint > this.totalPrice) {
+            alert('사용하실 적립금액이 초과되었습니다.');
+            this.tmpPoint = 0;
+          }
         }
       } catch (e) {
         console.log(e);
@@ -556,18 +567,13 @@ export default {
       }
 
     },
-
-    // 주문금액 구하기
-    calculateTotalPrice() {
-      // (장바구니 담은 상품 계산) - (쿠폰할인금액) - (적립금할인금액)
-    }
   },
   mounted() {
-    this.orderList = this.$store.getters.getOrderList;
-    this.getUser(this.userId);
-    this.getShipAddress(this.userId);
-    this.getUserCoupon(this.userId);
-    this.getResultPoint(this.userId);
+    this.sumOrderAmount();
+    this.getUser(this.$store.state.user.userId);
+    this.getShipAddress(this.$store.state.user.userId);
+    this.getUserCoupon(this.$store.state.user.userId);
+    this.getResultPoint(this.$store.state.user.userId);
   },
 };
 </script>

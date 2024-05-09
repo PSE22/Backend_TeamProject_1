@@ -39,7 +39,7 @@
                 <div class="flex-shrink-0">
                   <img
                     type="button"
-                    :src="data.pdThumblail"
+                    :src="data.pdThumbnail"
                     class="img-thumbnail me-3"
                     style="width: 100px; height: 100px"
                     @click="goProduct(data.pdId)"
@@ -171,6 +171,8 @@ export default {
       totalPrice: 0, // 총 가격
 
       orderList: [], // 선택된 체크박스 배열 저장
+      allChecked: false,
+      
     };
   },
   methods: {
@@ -192,12 +194,12 @@ export default {
 
     // 체크 가격
     selectProduct() {
-      this.getTotalPrice(); // 개수 감소 가격
+      this.getTotalPrice(); // 총 가격
     },
     // TODO: 장바구니 개수 증가 함수
     increaseCount(data) {
       data.cartCount += 1;
-      this.getTotalPrice(); // 개수 감소 가격
+      this.getTotalPrice(); // 개수 증가 가격
     },
     // TODO: 장바구니 개수 감소 함수
     decreaseCount(data) {
@@ -246,17 +248,20 @@ export default {
           .reduce((acc, cur) => acc + cur);
         // 총 가격이 60000 이상이면 배송비 무료
         this.shipPrice = this.totalPrice >= 60000 ? 0 : 3000;
+      } else {
+        this.totalPrice = 0;
       }
     },
     // 체크박스 전체선택
     checkedAll() {
       if (this.orderList.length === this.cart.length) {
         this.orderList = [];
+        this.totalPrice = 0;
       } else {
         this.orderList = [...this.cart]; // 카트에 있는 배열을 모두 orderList로 넣기
+        this.selectProduct();
       }
     },
-
 
     // 선택주문
     sendOrderList() {
@@ -287,7 +292,35 @@ export default {
       }
     },
   },
+
+  async deleteCart() {
+    try {
+        // 선택된 체크박스만 삭제
+        const cartIds = this.orderList
+            .filter(product => product.cartId) // 필터가 선택된 체크박스만 찾아 배열로 만들어줌
+            .map(product => product.cartId); // 필터된 cartId만 배열로 추출
+        if (cartIds.length === 0) {
+            return;
+        }
+        // 장바구니 삭제 서비스 함수
+        let response = await CartService.remove(cartIds);
+        console.log("삭제 성공", response);
+        // 삭제 후 재조회
+        this.allCart(this.$store.state.user.userId);
+        this.getTotalPrice();
+    } catch (e) {
+        console.error("장바구니 삭제 실패", e);
+    }
+},
+  // created() {
+  //   if (this.$store.state.loggedIn == false) {
+  //     this.$router.push("/login"); // home 강제 이동
+  //   }
+  // },
   mounted() {
+    if (this.$store.state.loggedIn == false) {
+      this.$router.push("/login"); // home 강제 이동
+    }
     this.allCart(this.$store.state.user.userId);
   },
 };

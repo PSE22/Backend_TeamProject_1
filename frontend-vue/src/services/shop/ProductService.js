@@ -2,6 +2,11 @@
 import http from "@/utils/http-common";
 
 class ProductService {
+    // 모든 상품 조회
+    getAllProduct() {
+        return http.get(`/shop/home/product`);
+    }
+
     // 카테고리 상품 전체 조회
     // 조회(select) => GET 방식
     getAll(categoryCode, page, size) {
@@ -37,8 +42,12 @@ class ProductService {
 
     // 장바구니에 저장
     AddCart(data) {
-        console.log("addCart : ", data)
         return http.post("/shop/product/cart", data);
+    }
+
+    // 쿠폰 저장
+    AddCoupon(data) {
+        return http.post("/shop/product/coupon", data);
     }
 }
 export default new ProductService();

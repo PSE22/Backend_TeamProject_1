@@ -69,7 +69,7 @@
 
           <!-- Nav Item - Tables -->
           <li class="nav-item">
-            <a class="nav-link" href="/admin-table">
+            <a class="nav-link" href="/admin-pdqna">
               <i class="fas fa-fw fa-table"></i>
               <span>문의관리</span></a
             >
@@ -350,18 +350,18 @@
                             </div>
                             <div class="modal-footer">
                               <button
-                                type="button"
-                                class="btn btn-secondary"
-                                data-bs-dismiss="modal"
-                              >
-                                닫기
-                              </button>
-                              <button
                                 type="submit"
                                 class="btn btn-primary"
                                 @click="saveAdminProductData"
                               >
                                 등록
+                              </button>
+                              <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                              >
+                                닫기
                               </button>
                             </div>
                           </div>

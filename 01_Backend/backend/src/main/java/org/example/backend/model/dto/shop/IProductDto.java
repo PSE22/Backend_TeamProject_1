@@ -24,5 +24,5 @@ public interface IProductDto {
     Integer getOpId();  // 옵션 ID
     String getOpName(); // 옵션명
     Integer getOpPrice();   // 옵션추가금액
-
+    String getPdThumbnail();
 }
