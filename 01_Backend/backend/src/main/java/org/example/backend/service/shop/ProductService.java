@@ -61,19 +61,19 @@ public class ProductService {
      * @param pdId
      * @return
      */
-    public Optional<Product> findById(int pdId) {
+    public Optional<Product> findById(long pdId) {
         Optional<Product> optionalProduct = productRepository.findById(pdId);
         return optionalProduct;
     }
 
 //    상품 이미지 전체 조회
-    public List<IProductImgDto> findById2(int pdId) {
+    public List<IProductImgDto> findById2(long pdId) {
         List<IProductImgDto> productImgDtoList = productImgRepository.findAllByPdIdContaining(pdId);
         return productImgDtoList;
     }
 
 //    위시 리스트 조회
-    public Integer findBypPdIdAndUserId(Integer pdId, String userId) {
+    public Integer findBypPdIdAndUserId(Long pdId, String userId) {
         Integer wishListNum = productWishListRepository.findBypPdIdAndUserId(pdId, userId);
         return wishListNum;
     }
