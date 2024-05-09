@@ -11,7 +11,7 @@
         <div class="col-8 mx-auto">
           <div>
             <!-- 상품문의번호 시작 -->
-            <div class="row g-3 align-items-center mb-3">
+            <div class="row g-3 align-items-center mt-3 mb-3">
               <div class="col-4">
                 <label htmlFor="pdQnaId" class="col-form-label"> 상품문의번호 </label>
               </div>
@@ -20,10 +20,11 @@
                 <input
                   type="text"
                   id="pdQnaId"
+                  disabled
                   required
                   class="form-control"
                   name="pdQnaId"
-                  v-model="adminPdQnaReplyEdit.pdQnaId"
+                  v-model="adminPdQnaReply.pdQnaId"
                 />
               </div>
             </div>
@@ -38,14 +39,13 @@
               </div>
 
               <div class="col-8">
-                <input
-                  type="text"
+                <textarea
                   id="pdQnaReplyContent"
                   required
                   class="form-control"
                   name="pdQnaReplyContent"
-                  v-model="adminPdQnaReplyEdit.pdQnaReplyContent"
-                />
+                  v-model="adminPdQnaReply.pdQnaReplyContent"
+                ></textarea>
               </div>
             </div>
             <!-- 관리자 답변 내용 끝 -->
@@ -61,7 +61,7 @@
                     id="inlineRadio1"
                     name="status"
                     value="Y"
-                    v-model="adminPdQnaReplyEdit.status"
+                    v-model="adminPdQnaReply.status"
                   />
                   <label class="form-check-label" for="inlineRadio1"
                     >활성</label
@@ -74,7 +74,7 @@
                     id="inlineRadio2"
                     name="status"
                     value="N"
-                    v-model="adminPdQnaReplyEdit.status"
+                    v-model="adminPdQnaReply.status"
                   />
                   <label class="form-check-label" for="inlineRadio2"
                     >비활성</label
@@ -143,9 +143,9 @@ export default {
       try {
         // 임시 객체 변수
         let data = {
-          pdQnaId: this.adminPdQnaEdit.pdQnaId,
-          pdQnaReplyContent: this.adminPdQnaEdit.pdQnaReplyContent, // 화면 입력
-          status: this.adminPdQnaEdit.status,
+          pdQnaId: this.adminPdQnaReply.pdQnaId,
+          pdQnaReplyContent: this.adminPdQnaReply.pdQnaReplyContent, // 화면 입력
+          status: this.adminPdQnaReply.status,
         };
         console.log(data);
         // TODO: 벡엔드로 객체 추가 요청
@@ -184,7 +184,7 @@ export default {
   mounted() {
     // TODO: 수정/삭제 시작
     this.message = ""; // 변수 초기화
-    this.getAdminPdQnaReply(this.$route.params.pdQnaReplyId); // 쿠폰메뉴를 클릭하면 cpid 옴
+    this.getAdminPdQnaReply(this.$route.params.pdQnaReplyId); // 답변메뉴를 클릭하면 pdQnaReplyId 옴
     // TODO: 수정/삭제 끝
   },
 };
@@ -195,8 +195,8 @@ export default {
   background-color: rgba(255, 255, 255, 1);
   padding: 40px 30px;
   border: 3px solid #505050;
-  width: 700px;
-  height: 600px;
+  width: 750px;
+  height: 400px;
 }
 .a1 {
   position: relative;
