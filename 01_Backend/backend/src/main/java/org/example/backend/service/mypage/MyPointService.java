@@ -53,4 +53,3 @@ public class MyPointService {
         return updatedCount;
     }
 }
-

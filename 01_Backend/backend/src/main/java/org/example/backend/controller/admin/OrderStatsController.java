@@ -1,14 +1,16 @@
 package org.example.backend.controller.admin;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.backend.model.entity.OrderStats;
+import org.example.backend.model.dto.admin.DailyOrderStatsDto;
+import org.example.backend.model.dto.admin.MonthlyOrderStatsDto;
+import org.example.backend.model.dto.admin.YearlyOrderStatsDto;
 import org.example.backend.service.admin.OrderStatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,20 +29,41 @@ import java.util.List;
  * 2024-05-01         kimtaewan          최초 생성
  */
 @Slf4j
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class OrderStatsController {
 
     @Autowired
     OrderStatsService orderStatsService;
 
-    @GetMapping("/orderstats")
-    public ResponseEntity<?> getOrderStats() {
-        List<OrderStats> orderStatsList = orderStatsService.getOrderStats();
-        if (orderStatsList.isEmpty()) {
+    @GetMapping("/dailyOrderStats")
+    public ResponseEntity<?> getDailyOrderStats(@RequestParam String odStatDate) {
+        try {
+            List<DailyOrderStatsDto> orderStatsList = orderStatsService.getDailyOrderStats(odStatDate);
+            return ResponseEntity.ok(orderStatsList);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주문통계 데이터가 존재하지 않습니다.");
         }
-        return ResponseEntity.ok(orderStatsList);
+    }
+
+    @GetMapping("/monthlyOrderStats")
+    public ResponseEntity<?> getMonthlyOrderStats(@RequestParam String odStatDate) {
+        try {
+            List<MonthlyOrderStatsDto> orderStatsList = orderStatsService.getMonthlyOrderStats(odStatDate);
+            return ResponseEntity.ok(orderStatsList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주문통계 데이터가 존재하지 않습니다.");
+        }
+    }
+
+    @GetMapping("/yearlyOrderStats")
+    public ResponseEntity<?> getYearlyOrderStats() {
+        try {
+            List<YearlyOrderStatsDto> orderStatsList = orderStatsService.getYearlyOrderStats();
+            return ResponseEntity.ok(orderStatsList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주문통계 데이터가 존재하지 않습니다.");
+        }
     }
 }
