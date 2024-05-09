@@ -14,7 +14,7 @@ class MyWishListService {
 
   // 삭제함수: 특정 상품을 위시리스트에서 삭제
   // URL 수정 및 올바른 HTTP 메소드 호출
-  deleteProduct(userId, pdId) { 
+  deleteWishlistItem(userId, pdId) { 
     return http.delete(`/mypage/wishlist/${userId}/${pdId}`, {
       headers: LoginHeader()
     });

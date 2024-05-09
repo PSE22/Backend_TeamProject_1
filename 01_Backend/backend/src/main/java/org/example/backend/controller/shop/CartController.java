@@ -93,23 +93,41 @@ public class CartController {
     }
 
     //    TODO: 삭제함수
-    @DeleteMapping("/cart/deletion/{cartId}")
-    public ResponseEntity<Object> delete(
-            @PathVariable int cartId
+//    @DeleteMapping("/cart/deletion/{cartId}")
+//    public ResponseEntity<Object> delete(
+//            @PathVariable int cartId
+//    ) {
+//        try {
+////        DB 삭제 서비스 함수 실행
+//            boolean success = cartService.removeById(cartId);
+//            if (success == true) {
+////                삭제 성공
+//                return new ResponseEntity<>(HttpStatus.OK);
+//            } else {
+////                삭제 실패 : 삭제할 데이터 없음
+//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//            }
+//        } catch (Exception e) {
+//            log.debug("에러 : " + e.getMessage());
+//
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
+    // 장바구니 여러 개 삭제
+    @DeleteMapping("/cart/deletion")
+    public ResponseEntity<Object> deleteMultiple(
+            @RequestBody List<Integer> cartIds
     ) {
         try {
-//        DB 삭제 서비스 함수 실행
-            boolean success = cartService.removeById(cartId);
-            if (success == true) {
-//                삭제 성공
+            boolean success = cartService.removeByIds(cartIds);
+            if (success) {
                 return new ResponseEntity<>(HttpStatus.OK);
             } else {
-//                삭제 실패 : 삭제할 데이터 없음
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
         } catch (Exception e) {
             log.debug("에러 : " + e.getMessage());
-
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

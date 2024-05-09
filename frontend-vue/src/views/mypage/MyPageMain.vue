@@ -52,19 +52,19 @@
         </div>
         <div class="orderInfoBox">
           <li class="type1">
-            <strong>0</strong>
+            <strong>{{ getCountByOrderCode('PO03') }}</strong>
             <span>결제완료</span>
           </li>
           <li class="type2">
-            <strong>0</strong>
+            <strong>{{ getCountByOrderCode('OD0101') }}</strong>
             <span>상품준비중</span>
           </li>
           <li class="type3">
-            <strong>0</strong>
+            <strong>{{ getCountByOrderCode('OD0103') }}</strong>
             <span>배송중</span>
           </li>
           <li class="type4">
-            <strong>0</strong>
+            <strong>{{ getCountByOrderCode('OD0104') }}</strong>
             <span>배송완료</span>
           </li>
         </div>
@@ -122,6 +122,7 @@ export default {
       inquiryCount: 0,
       userPoint: 0,
       userName: "",
+      orderCode: [],
     };
   },
   // created() {
@@ -129,6 +130,18 @@ export default {
   //           this.$router.push("/login"); // home 강제 이동
   //       }
   //   },
+  methods: {
+  getCountByOrderCode(code) {
+    let count = 0;
+    for (let i = 0; i < this.orderCode.length; i++) {
+      if (this.orderCode[i].orderCode === code) {
+        count = this.orderCode[i].count;
+        break;
+      }
+    }
+    return count;
+  }
+},
   async mounted() {
     try {
       let response = await MyPageService.getOrderCnt(this.$store.state.user.userId);
@@ -137,13 +150,15 @@ export default {
       let response4 = await MyPageService.getInquiryCnt(this.$store.state.user.userId);
       let response5 = await MyPageService.getUserPoint(this.$store.state.user.userId);
       let response6 = await MyPageService.getUserName(this.$store.state.user.userId);
+      let response7 = await MyPageService.getOrderCode(this.$store.state.user.userId);
       this.orderCount = response.data;
       this.couponCount = response2.data;
       this.reviewCount = response3.data;
       this.inquiryCount = response4.data;
       this.userPoint = response5.data;
       this.userName = response6.data;
-      console.log(response.data); // 웹브라우저 콘솔탬에 백앤드 데이터 표시
+      this.orderCode = response7.data;
+      console.log(response7.data); // 웹브라우저 콘솔탬에 백앤드 데이터 표시
     } catch (e) {
       console.log(e);
     }
