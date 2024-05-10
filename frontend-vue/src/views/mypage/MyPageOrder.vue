@@ -5,16 +5,18 @@
       <div class="col">
         <div class="mypageOrderMain">
           <div class="mypageSubTitle">주문/배송 조회</div>
+          <div class="mypage-filter" role="group" aria-label="Basic example">
           <div class="dateSelect" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-primary">1 개월</button>
             <button type="button" class="btn btn-primary">3 개월</button>
             <button type="button" class="btn btn-primary">6 개월</button>
           </div>
+          </div>
           <div v-for="(orderItems, orderId) in groupedOrders" :key="orderId" class="orderContainer">
             <div class="headTitle">
               <strong>{{ orderItems[0].addDate }}</strong>
               <div class="link">
-                <router-link :to="`/order/${orderId}`"> 상세보기 </router-link>
+                <router-link :to="`/mypage/order/${orderId}`"> 상세보기 </router-link>
               </div>
             </div>
             <div class="orderStepBox">{{ orderItems[0].orderCode }}</div> <!-- 주문 상태 한 번만 출력 -->
