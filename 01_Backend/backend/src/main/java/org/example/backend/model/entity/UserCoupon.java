@@ -42,7 +42,7 @@ import org.hibernate.annotations.Where;
 @IdClass(CpIdUserIdPk.class)
 public class UserCoupon extends BaseTimeEntity2 {
     @Id
-    private Integer cpId;
+    private Long cpId;
     @Id
     private String userId;
 }

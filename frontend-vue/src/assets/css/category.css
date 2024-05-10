@@ -2,6 +2,7 @@
 .banner-container {
     background-color: rgb(72, 165, 241);
     color: white;
+    margin-bottom: 50px;
 }
 
 /* 상단 배너 제목 */

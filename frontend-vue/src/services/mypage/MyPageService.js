@@ -32,9 +32,15 @@ class MyPageService {
       headers: LoginHeader(),
     });
   }
-  // 회원명
+  // 적립금
   getUserPoint(userId) {
     return http.get(`/shop/order/point/${userId}`, {
+      headers: LoginHeader(),
+    });
+  }
+  // 적립금
+  getOrderCode(userId) {
+    return http.get(`/mypage/orderCode/${userId}`, {
       headers: LoginHeader(),
     });
   }

@@ -5,11 +5,9 @@ import org.example.backend.service.mypage.MyPointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -36,13 +34,16 @@ public class MyPointDetailController {
 
     // 사용자의 적립금 상세 정보 조회
     @GetMapping("/point/{userId}")
-    public ResponseEntity<List<PointDto>> getPointDetailsByUserId(@PathVariable String userId) {
-        List<PointDto> pointDetails = myPointService.getPointDetailsByUserId(userId);
-        if (pointDetails.isEmpty()) {
+    public ResponseEntity<List<PointDto>> getPointsByPeriod(@PathVariable String userId,
+                                                            @RequestParam LocalDate startDate,
+                                                            @RequestParam LocalDate endDate) {
+        List<PointDto> point = myPointService.getPointByPeriod(userId, startDate, endDate);
+        if (point.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(pointDetails, HttpStatus.OK);
+        return new ResponseEntity<>(point, HttpStatus.OK);
     }
+
 
     // 테스트용 만료 포인트 업데이트 메서드
     @GetMapping("/testUpdateExpiredPointsStatus")
