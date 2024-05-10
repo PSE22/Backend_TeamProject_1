@@ -5,21 +5,23 @@ import http from "@/utils/http-common";
 import LoginHeader from "../login/LoginHeader";
 
 class MyPointService {
-  // TODO: 전체 조회
-  getAll(userId) {
-    return http.get(`/mypage/point/${userId}`  ,{
-      headers: LoginHeader()
-  });
-  }
+
 
     // 특정 기간의 적립금 내역 조회
     getPointsForPeriod(userId, startDate, endDate) {
-      return http.get(`/mypage/point/period/${userId}`, {
+      return http.get(`/mypage/point/${userId}`, {
         params: {
           startDate,
           endDate
         },
         headers: LoginHeader()
+      });
+    }
+
+    // 잔액 조회
+    getPointBalance(userId) {
+      return http.get(`/shop/order/point/${userId}`, {
+        headers: LoginHeader(),
       });
     }
 }

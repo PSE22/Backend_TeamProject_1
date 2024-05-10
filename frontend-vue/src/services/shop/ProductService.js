@@ -44,5 +44,10 @@ class ProductService {
     AddCart(data) {
         return http.post("/shop/product/cart", data);
     }
+
+    // 쿠폰 저장
+    AddCoupon(data) {
+        return http.post("/shop/product/coupon", data);
+    }
 }
 export default new ProductService();
