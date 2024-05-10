@@ -209,7 +209,7 @@ export default {
   padding: 40px 30px;
   border: 3px solid #505050;
   width: 750px;
-  height: 600px;
+  height: 500px;
 }
 .a1 {
   position: relative;

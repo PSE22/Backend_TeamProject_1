@@ -7,110 +7,126 @@
         </div>
       </div>
       <!-- null -> 거짓(false) -->
-      <div v-if="adminProductEdit">
-        <div class="col-10 mx-auto">
+      <div v-if="adminPdReviewEdit">
+        <div class="col-8 mx-auto">
           <div>
-
-            <!-- 상품명 시작 -->
-            <div class="row g-3 align-items-center mb-3 mt-3">
+            <!-- 회원ID 시작 -->
+            <div class="row g-3 align-items-center mt-3 mb-3">
               <div class="col-4">
-                <label htmlFor="pdName" class="col-form-label"> 상품명 </label>
+                <label htmlFor="userId" class="col-form-label"> 회원ID </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="pdName"
+                  id="userId"
                   required
                   class="form-control"
-                  name="pdName"
-                  v-model="adminProductEdit.pdName"
+                  name="userId"
+                  v-model="adminPdReviewEdit.userId"
                 />
               </div>
             </div>
-            <!-- 상품명 끝 -->
-
-            <!-- 가격 시작 -->
+            <!-- 회원ID 끝 -->
+            
+            <!-- 상품번호 시작 -->
             <div class="row g-3 align-items-center mb-3">
               <div class="col-4">
-                <label htmlFor="cpName" class="col-form-label"> 가격 </label>
+                <label htmlFor="pdId" class="col-form-label"> 상품번호 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="pdPrice"
+                  id="pdId"
                   required
                   class="form-control"
-                  name="pdPrice"
-                  v-model="adminProductEdit.pdPrice"
+                  name="pdId"
+                  v-model="adminPdReviewEdit.pdId"
                 />
               </div>
             </div>
-            <!-- 가격 끝 -->
+            <!-- 상품번호 끝 -->
 
-            <!-- 재고 시작 -->
+            <!-- 제목 시작 -->
             <div class="row g-3 align-items-center mb-3">
               <div class="col-4">
-                <label htmlFor="pdStock" class="col-form-label">
-                  재고
+                <label htmlFor="reviewTitle" class="col-form-label"> 제목 </label>
+              </div>
+
+              <div class="col-8">
+                <input
+                  type="text"
+                  id="reviewTitle"
+                  required
+                  class="form-control"
+                  name="reviewTitle"
+                  v-model="adminPdReviewEdit.reviewTitle"
+                />
+              </div>
+            </div>
+            <!-- 제목 끝 -->
+
+            <!-- 내용 시작 -->
+            <div class="row g-3 align-items-center mb-3">
+              <div class="col-4">
+                <label htmlFor="reviewContent" class="col-form-label"> 내용 </label>
+              </div>
+
+              <div class="col-8">
+                <input
+                  type="text"
+                  id="reviewContent"
+                  required
+                  class="form-control"
+                  name="reviewContent"
+                  v-model="adminPdReviewEdit.reviewContent"
+                />
+              </div>
+            </div>
+            <!-- 내용 끝 -->
+
+            <!-- 별점 시작 -->
+            <div class="row g-3 align-items-center mb-3">
+              <div class="col-4">
+                <label htmlFor="reviewRate" class="col-form-label">
+                  별점
                 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="pdStock"
+                  id="reviewRate"
                   required
                   class="form-control"
-                  name="pdStock"
-                  v-model="adminProductEdit.pdStock"
+                  name="reviewRate"
+                  v-model="adminPdReviewEdit.reviewRate"
                 />
               </div>
             </div>
-            <!-- 재고 끝 -->
+            <!-- 별점 끝 -->
 
-            <!-- 카테고리분류코드 시작 -->
+            <!-- 게시판 분류코드 시작 -->
             <div class="row g-3 align-items-center mb-3">
               <div class="col-4">
-                <label htmlFor="categoryCode" class="col-form-label">
-                  카테고리분류코드
+                <label htmlFor="reviewCode" class="col-form-label">
+                  게시판 분류코드
                 </label>
               </div>
 
               <div class="col-8">
                 <input
                   type="text"
-                  id="categoryCode"
+                  id="reviewCode"
                   required
                   class="form-control"
-                  name="categoryCode"
-                  v-model="adminProductEdit.categoryCode"
+                  name="reviewCode"
+                  v-model="adminPdReviewEdit.reviewCode"
                 />
               </div>
             </div>
-            <!-- 카테고리분류코드 끝 -->
-
-            <!-- 썸네일URL 시작 -->
-            <div class="row g-3 align-items-center mb-3">
-              <div class="col-4">
-                <label htmlFor="pdThumbnail" class="col-form-label">
-                  썸네일URL
-                </label>
-              </div>
-
-              <div class="col-8">
-                <input
-                  type="text"
-                  id="pdThumbnail"
-                  required
-                  class="form-control"
-                  name="pdThumbnail"
-                  v-model="adminProductEdit.pdThumbnail"
-                />
-              </div>
-            </div>
-            <!-- 썸네일URL 끝 -->
+            <!-- 게시판 분류코드 끝 -->
 
             <!-- 상태 시작 -->
             <div class="row g-3 align-items-center mb-3">
@@ -122,8 +138,8 @@
                     class="form-check-input mb-4"
                     id="inlineRadio1"
                     name="status"
-                    value="활성"
-                    v-model="adminProductEdit.status"
+                    value="Y"
+                    v-model="adminPdReviewEdit.status"
                   />
                   <label class="form-check-label" for="inlineRadio1"
                     >활성</label
@@ -135,8 +151,8 @@
                     class="form-check-input mb-4"
                     id="inlineRadio2"
                     name="status"
-                    value="비활성"
-                    v-model="adminProductEdit.status"
+                    value="N"
+                    v-model="adminPdReviewEdit.status"
                   />
                   <label class="form-check-label" for="inlineRadio2"
                     >비활성</label
@@ -151,14 +167,14 @@
             <button
               type="submit"
               class="btn btn-outline-secondary ms-2 col"
-              @click="updateAdminProduct"
+              @click="updateAdminPdReview"
             >
               수정
             </button>
 
             <button
               class="btn btn-outline-danger ms-3 col"
-              @click="deleteAdminProduct"
+              @click="deleteAdminPdReview"
             >
               삭제
             </button>
@@ -179,22 +195,22 @@
   </div>
 </template>
 <script>
-import AdminProductService from "@/services/admin/AdminProductService";
+import AdminPdReviewService from '@/services/admin/AdminPdReviewService';
 export default {
   data() {
     return {
       // TODO: 수정
-      adminProductEdit: null, //초기값
+      adminPdReviewEdit: null, //초기값
       message: "", // 수정성공시 화면 성공메세지 출력하는 변수
     };
   },
   methods: {
     // TODO: 수정/삭제 시작
     // 함수정의
-    async getAdminProduct(pdId) {
+    async getAdminPdReview(reviewId) {
       try {
-        let response = await AdminProductService.get(pdId);
-        this.adminProductEdit = response.data; // spring 결과를 바인딩 속성변수 emp 저장
+        let response = await AdminPdReviewService.get(reviewId);
+        this.adminPdReviewEdit = response.data; // spring 결과를 바인딩 속성변수 emp 저장
         // 로깅
         console.log(response.data);
       } catch (e) {
@@ -202,33 +218,33 @@ export default {
       }
     },
     // 수정요청 함수
-    async updateAdminProduct() {
+    async updateAdminPdReview() {
       try {
-        let response = await AdminProductService.update(
-          this.adminProductEdit.pdId,
-          this.adminProductEdit
+        let response = await AdminPdReviewService.update(
+          this.adminPdReviewEdit.reviewId,
+          this.adminPdReviewEdit
         );
         // 로깅
         console.log(response.data);
         // 화면에 성공메세지 출력 : message
         alert("수정이 성공했습니다.");
-        this.$router.push("/admin-product");
+        this.$router.push("/admin-pdqna");
       } catch (e) {
         console.log(e);
       }
     },
     // 삭제요청 함수
-    async deleteAdminProduct() {
-      let response = await AdminProductService.delete(this.adminProductEdit.pdId);
+    async deleteAdminPdReview() {
+      let response = await AdminPdReviewService.delete(this.adminPdReviewEdit.reviewId);
       console.log(response.data);
-      this.$router.push("/admin-product");
+      this.$router.push("/admin-pdqna");
     },
   },
   // TODO: 수정/삭제 끝
   mounted() {
     // TODO: 수정/삭제 시작
     this.message = ""; // 변수 초기화
-    this.getAdminProduct(this.$route.params.pdId); // 상품메뉴를 클릭하면 pdId 옴
+    this.getAdminPdReview(this.$route.params.reviewId); // 리뷰메뉴를 클릭하면 reviewId 옴
     // TODO: 수정/삭제 끝
   },
 };
@@ -239,7 +255,7 @@ export default {
   background-color: rgba(255, 255, 255, 1);
   padding: 40px 30px;
   border: 3px solid #505050;
-  width: 650px;
+  width: 700px;
   height: 600px;
 }
 .a1 {

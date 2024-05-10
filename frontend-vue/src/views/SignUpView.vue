@@ -122,6 +122,7 @@
               <option value="1">google.com</option>
               <option value="2">daum.net</option>
               <option value="3">nate.com</option>
+              <option value="4">직접입력</option>
             </select>
           </div>
 
@@ -132,15 +133,6 @@
           </div>
         </div>
       </div>
-
-      <!-- <div align="center">
-        <button type="submit" 
-        class="btn btn-outline-secondary btn-user mt-3 col-12"
-        @click="address"
-        >
-          주소 검색
-        </button>
-      </div> -->
 
       <!-- 휴대폰 번호 -->
       <div align="center">
@@ -220,8 +212,8 @@ export default {
         userPw: "",
         rePw: "",
         userName: "",
+        userBirth: "",
         gender: "",
-        address: "",
         userEmail: "",
         userPhone: "",
         userPromo: "",

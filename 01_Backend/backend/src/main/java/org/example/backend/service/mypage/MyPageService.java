@@ -1,14 +1,18 @@
 package org.example.backend.service.mypage;
 
+import org.example.backend.model.dto.mypage.IOrderCodeDto;
+import org.example.backend.model.entity.Order;
 import org.example.backend.model.entity.User;
 import org.example.backend.repository.UserRepository;
 import org.example.backend.repository.mypage.MyCouponRepository;
 import org.example.backend.repository.mypage.MyOrderCheckRepository;
 import org.example.backend.repository.mypage.MyQnaRepository;
 import org.example.backend.repository.mypage.MyReviewRepository;
+import org.example.backend.repository.order.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -67,5 +71,13 @@ public class MyPageService {
     public String findByUserName(String userId){
         String findByUserId = userRepository.findByUserName(userId);
         return findByUserId;
+    }
+
+//    주문정보 카운트
+    @Autowired
+    OrderRepository orderRepository;
+    public List<IOrderCodeDto> orderCodeCount(String userId) {
+        List<IOrderCodeDto> orderCodeCount = orderRepository.orderCodeCount(userId);
+        return orderCodeCount;
     }
 }

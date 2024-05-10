@@ -41,17 +41,6 @@
       </div>
     </div>
   </div>
-
-  <!-- b-pagination 페이징 -->
-  <div class="product-paging">
-    <b-pagination
-      class="col-12 mb-3"
-      v-model="page"
-      :total-rows="count"
-      :per-page="pageSize"
-      @click="retrieveProduct"
-    ></b-pagination>
-  </div>
 </template>
 
 <script>
