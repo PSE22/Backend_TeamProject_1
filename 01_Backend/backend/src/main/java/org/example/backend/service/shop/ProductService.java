@@ -2,7 +2,6 @@ package org.example.backend.service.shop;
 
 import org.example.backend.model.common.CpIdUserIdPk;
 import org.example.backend.model.common.PdIdUserIdPk;
-import org.example.backend.model.dto.shop.IProductDto;
 import org.example.backend.model.dto.shop.IProductImgDto;
 import org.example.backend.model.entity.Cart;
 import org.example.backend.model.entity.Product;
@@ -10,8 +9,6 @@ import org.example.backend.model.entity.UserCoupon;
 import org.example.backend.model.entity.Wishlist;
 import org.example.backend.repository.shop.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,15 +44,22 @@ public class ProductService {
     @Autowired
     UserCouponRepository userCouponRepository;
 
-    /**
-     * 상품 전체 조회
-     * @param categoryCode
-     * @param pageable
-     * @return
-     */
-    public Page<IProductDto> findAllByCategoryCodeContaining(String categoryCode, Pageable pageable) {
-        Page<IProductDto> page = productRepository.findAllByCategoryCodeContaining(categoryCode, pageable);
-        return page;
+//    신상품 전체 조회
+    public List<Product> findAllProduct() {
+        List<Product> list = productRepository.findAllOrderByAddDate();
+        return list;
+    }
+
+//    신상품 전체 조회(높은 가격순)
+    public List<Product> findAllProductHigh() {
+        List<Product> list = productRepository.findAllOrderByAddDateAndPriceDesc();
+        return list;
+    }
+
+//    신상품 전체 조회(낮은 가격순)
+    public List<Product> findAllProductLow() {
+        List<Product> list = productRepository.findAllOrderByAddDateAndPrice();
+        return list;
     }
 
     /**
