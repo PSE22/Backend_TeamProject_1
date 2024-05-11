@@ -354,7 +354,7 @@ export default {
         orderDetail.opId = data.opId;                                   // 상품(옵션) 번호
         orderDetail.orderDetailCnt = data.cartCount;                    // 상품 개수 (장바구니 수량)
         orderDetail.orderDetailPrice = data.opPrice + data.pdPrice;     // 주문상세가격
-        orderDetail.orderDetailCode = "OD01";                           // 주문상태코드
+        orderDetail.orderDetailCode = "OD0101";                           // 주문상태코드
         orderDetailList.push(orderDetail);    // 주문 상세 배열에 값 넣기
       }
 
@@ -370,7 +370,7 @@ export default {
           shipMemo: this.orderShipMemo,          // 배송메모
           orderPrice: this.totalPrice - (parseInt(this.discount) + parseInt(this.tmpPoint)),           // 결제금액
           orderPayment: this.orderPayment,       // 결제수단
-          orderCode: "OD0105",                   // 주문상태코드
+          orderCode: "OD0101",                   // 주문상태코드
           postcode: this.orderPostcode,          // 우편번호
         }
         let response = await OrderService.create(data);       // 주문 추가(create) 서비스 함수 실행 
