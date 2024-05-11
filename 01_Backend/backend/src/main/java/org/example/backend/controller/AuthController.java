@@ -80,6 +80,21 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/signup/{userId}")
+    public ResponseEntity<Object> reId(@RequestParam String userId) {
+        try {
+            if(signUpService.existsById(userId)) {
+                return ResponseEntity.badRequest().body("이미 가입된 회원입니다.");
+            } else if () {
+                
+            } else {
+                return ResponseEntity.ok("사용 가능한 ID 입니다.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<Object> signUp(@RequestBody SignUpRequest signUpRequest) {
         try {
