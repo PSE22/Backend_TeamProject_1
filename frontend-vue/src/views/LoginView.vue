@@ -34,7 +34,7 @@
     <div class="mb-3 form-check">
       <input
         type="checkbox"
-        class="form-check-input"
+        class="form-check-input-A"
         placeholder="체크박스"
         name="rememId"
       />

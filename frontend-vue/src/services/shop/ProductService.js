@@ -2,9 +2,19 @@
 import http from "@/utils/http-common";
 
 class ProductService {
-    // 모든 상품 조회
-    getAllProduct() {
+    // 신상품 전체 조회
+    getAllNewProduct() {
         return http.get(`/shop/home/product`);
+    }
+
+    // 신상품 전체 조회(높은 가격순)
+    getAllNewProductHigh() {
+        return http.get(`/shop/home/product/high`);
+    }
+
+    // 신상품 전체 조회(낮은 가격순)
+    getAllNewProductLow() {
+        return http.get(`/shop/home/product/low`);
     }
 
     // 카테고리 상품 전체 조회
