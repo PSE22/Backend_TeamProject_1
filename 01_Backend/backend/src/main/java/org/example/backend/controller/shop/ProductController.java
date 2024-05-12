@@ -42,38 +42,57 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-    // 상품 전체 조회
-    @GetMapping("/category")
-    public ResponseEntity<Object> findAllByCategoryCodeContaining(
-            @RequestParam(defaultValue = "") String categoryCode,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "4") int size) {
+//    신상품 전체 조회
+    @GetMapping("/home/product")
+    public ResponseEntity<Object> findAllProduct() {
         try {
-            // 페이징 객체 생성
-            Pageable pageable = PageRequest.of(page, size);
-
-            // 전체 조회 서비스 실행
-            Page<IProductDto> productPage = productService.findAllByCategoryCodeContaining(categoryCode, pageable);
-
-            // 공통 페이징 객체 생성 : 자료구조 맵 사용
-            Map<String, Object> response = new HashMap<>();
-            response.put("product", productPage.getContent());          // product 배열
-            response.put("currentPage", productPage.getNumber());       // 현재 페이지 번호
-            response.put("totalItems", productPage.getTotalElements()); // 전체 데이터 수
-            response.put("totalPages", productPage.getTotalPages());    // 전체 페이지 수
-
-            if (productPage.isEmpty() == false) {
-                // 조회 성공
-                return new ResponseEntity<>(response, HttpStatus.OK);
-            } else {
+            List<Product> list = productService.findAllProduct();
+            if (list.isEmpty() == true) {
                 // 데이터 없음
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                // 조회 성공
+                return new ResponseEntity<>(list, HttpStatus.OK);
             }
-
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+//    신상품 전체 조회(높은 가격순)
+    @GetMapping("/home/product/high")
+    public ResponseEntity<Object> findAllProductHigh() {
+        try {
+            List<Product> list = productService.findAllProductHigh();
+            if (list.isEmpty() == true) {
+                // 데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                // 조회 성공
+                return new ResponseEntity<>(list, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    신상품 전체 조회(낮은 가격순)
+    @GetMapping("/home/product/low")
+    public ResponseEntity<Object> findAllProductLow() {
+        try {
+            List<Product> list = productService.findAllProductLow();
+            if (list.isEmpty() == true) {
+                // 데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                // 조회 성공
+                return new ResponseEntity<>(list, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     // 상품 상세 조회 함수
     @GetMapping("/product/{pdId}")
