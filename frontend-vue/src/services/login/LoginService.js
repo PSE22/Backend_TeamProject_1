@@ -31,6 +31,16 @@ class LoginService {
         }
         return http.post("/auth/signup", data);
     }
+
+    // TODO: 아이디 중복확인 함수
+    reId(userId) {
+        let data = {
+            userId: userId
+        };
+        return http.get(`/auth/signup/${userId}?userId=${userId}`, data);
+    }
+
+    // TODO: 이메일 중복확인 함수
 }
 
 export default new LoginService();

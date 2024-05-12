@@ -49,8 +49,10 @@ public interface PointDetailRepository extends JpaRepository<DetailPoint, PtIdUs
             // 사용된 적립금 정보를 선택: 사용된 적립금을 기간 내에서 선택
             "SELECT NULL AS pointId, up.user_id AS userId, NULL AS pointAdd, " +
             "NULL AS pointCode, up.add_date AS addDate, NULL AS delDate, " +
-            "NULL AS pointExpireStatus, '사용' AS actionType, " +
-            "up.use_point_id AS usePointId, up.use_point_price AS usePointPrice, " +
+            "NULL AS pointExpireStatus, " +
+            "'사용' AS actionType, " +
+            "up.use_point_id AS usePointId, " +
+            "up.use_point_price AS usePointPrice, " +
             "up.add_date AS orderDate " +
             "FROM tb_use_point up " +
             "WHERE up.user_id = :userId " +
@@ -59,7 +61,8 @@ public interface PointDetailRepository extends JpaRepository<DetailPoint, PtIdUs
             // 만료된 적립금 정보를 선택: 만료된 상태의 적립금을 만료 날짜 기준으로 기간 내에서 선택
             "SELECT p.point_id AS pointId, p.user_id AS userId, p.point_add AS pointAdd, " +
             "NULL AS pointCode, p.add_date AS addDate, p.del_date AS delDate, " +
-            "p.point_expire_status AS pointExpireStatus, '만료' AS actionType, " +
+            "p.point_expire_status AS pointExpireStatus, " +
+            "'만료' AS actionType, " +
             "NULL AS usePointId, NULL AS usePointPrice, " +
             "p.del_date AS orderDate " +
             "FROM tb_point p " +
@@ -77,9 +80,6 @@ public interface PointDetailRepository extends JpaRepository<DetailPoint, PtIdUs
     int updatePointsToExpired();
 
     
-
-    @Query(value = "SELECT p FROM Point p WHERE p.userId = :userId AND (p.addDate BETWEEN :startDate AND :endDate OR p.delDate BETWEEN :startDate AND :endDate)")
-    List<PointDto> findPointDetailsByPeriod(@Param("userId") String userId, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
 
     @Query(value = "SELECT UP.USE_POINT_ID,\n" +
