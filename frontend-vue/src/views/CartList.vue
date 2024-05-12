@@ -25,7 +25,7 @@
         </thead>
         <tbody class="table-group-divider align-middle">
           <tr v-for="(data, index) in cart" :key="index">
-            <td class="col-1">
+            <td class="col-1 align-middle">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -40,7 +40,7 @@
                   <img
                     type="button"
                     :src="data.pdThumbnail"
-                    class="img-thumbnail me-3"
+                    class="img-thumbnail me-3 "
                     style="width: 100px; height: 100px"
                     @click="goProduct(data.pdId)"
                   />
@@ -54,9 +54,9 @@
                 </div>
               </div>
             </td>
-            <td class="col-1">{{ data.opName }}</td>
+            <td class="col-1 align-middle">{{ data.opName }}</td>
 
-            <td class="col-2">
+            <td class="col-2 align-middle">
               <div>
                 <!-- 장바구니 수량 -->
                 <div class="btn-group" role="group" aria-label="Basic example">
@@ -98,7 +98,7 @@
                 수량변경
               </button>
             </td>
-            <td class="col-2">
+            <td class="col-2 align-middle">
               {{ data.pdPrice + data.opPrice }}
             </td>
           </tr>
@@ -326,4 +326,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+</style>

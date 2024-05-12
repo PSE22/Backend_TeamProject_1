@@ -7,8 +7,8 @@
   </div>
 
   <!-- 개별 이벤트 이미지 -->
-  <div class="event-img" v-for="(data, index) in event" :key="index" type="button" @click="goEventDetail(data.eventId)">
-    <img :src="data.eventThumbnail" class="img-fluid" alt="이벤트이미지" />
+  <div class="event-img" v-for="(data, index) in event" :key="index">
+    <img :src="data.eventThumbnail" class="img-fluid" alt="이벤트이미지" type="button" @click="goEventDetail(data.eventId)"/>
   </div>
 </template>
 <script>

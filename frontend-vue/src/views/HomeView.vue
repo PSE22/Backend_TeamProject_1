@@ -9,8 +9,8 @@
       </div>
       <!-- 슬라이드 내용 (반복) -->
       <div class="carousel-inner">
-        <div class="carousel-item active" v-for="(data, index) in event" :key="index">
-          <img :src="data.eventThumbnail" class="d-block mx-auto" alt="" />
+        <div class="carousel-item active" v-for="(data, index) in event" :key="index" type="button" @click="goEventDetail(data.eventId)">
+          <img :src="data.eventThumbnail" class="d-block mx-auto" alt="이벤트 슬라이드 이미지"/>
         </div>
       </div>
       <!-- 이전 슬라이드 버튼 -->
@@ -77,6 +77,10 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    },
+    // 이벤트 상세 페이지로 이동
+    goEventDetail(eventId) {
+      this.$router.push(`/event/${eventId}`);
     },
     // 상품 상세 페이지로 이동
     goProductDetail(pdId) {
