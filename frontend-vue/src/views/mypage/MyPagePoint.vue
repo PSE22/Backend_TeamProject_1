@@ -7,113 +7,79 @@
         <div class="pointIntro">
           <dl class="usablePoint">
             <dt>사용가능 적립금</dt>
-            <dd>
-              <strong>0</strong>
-              P
-            </dd>
+            <dd><strong>{{ pointBalance.resultPoint }}</strong> P</dd>
           </dl>
         </div>
         <div class="mypage-filter" role="group" aria-label="Basic example">
           <div class="dateSelect">
-            <button type="button" class="btn btn-primary">1 개월</button>
-            <button type="button" class="btn btn-primary">3 개월</button>
-            <button type="button" class="btn btn-primary">6 개월</button>
+            <button type="button" class="btn btn-primary" @click="retrievePointsForPeriod(1)">1 개월</button>
+            <button type="button" class="btn btn-primary" @click="retrievePointsForPeriod(3)">3 개월</button>
+            <button type="button" class="btn btn-primary" @click="retrievePointsForPeriod(6)">6 개월</button>
           </div>
-          <p class="pointDate">24.03.19 ~ 24.04.19</p>
+          <p class="pointDate">기간: {{ displayPeriod }}</p>
         </div>
-
-        <div class="pointWrap">
-          <ul class="pointList">
-            <li class="pointItem">
-              <p class="date">24.03.24</p>
-              <dl class="pointInfo">
-                <dt>소멸</dt>
-                <dd>유효기간만료</dd>
-              </dl>
-              <div class="state minus"><strong>-10</strong>P</div>
-            </li>
-          </ul>
-          <div class="mypageNotice">
-            <h3 class="title" style="margin-left: 20px;"  >적립/사용 유의사항</h3>
-            <ul class="content">
-              <li>
-                마일리지는 홈플러스 회원만 적립 및 사용이 가능합니다. (비회원
-                제외)
-              </li>
-              <li>
-                마일리지는 주문/결제 시 할인 받을 금액을 10원단위로 기입하여
-                사용 가능한 쿠폰입니다.
-              </li>
-              <li>
-                주문/결제 시 다른 쿠폰 및 결제수단과 함께 이용할 수 있습니다.
-              </li>
-              <li>
-                마일리지를 사용 하실 때, 남은 최종 실 결제금액이 1,000원 이상
-                되어야 사용 가능합니다.
-              </li>
-              <li>
-                마일리지는 전체주문취소/전체반품 시 자동 환원되어 재사용
-                가능합니다.
-              </li>
-              <li>
-                마일리지의 유효기간은 쿠폰별 상이할 수 있으며, 만료시 자동
-                소멸됩니다. (유효기간은 연장되지 않습니다.)
-              </li>
-              <li>마일리지는 회원탈퇴 시 모두 소멸됩니다.</li>
-            </ul>
-          </div>
-        </div>
+        <ul class="pointList">
+          <li class="pointItem" v-for="(item, index) in points" :key="index">
+            <p class="date">{{ item.actionType === '만료' ? item.delDate : item.addDate }}</p>
+            <dl class="pointInfo">
+              <dt>{{ item.actionType === '만료' ? '만료' : (item.pointAdd ? '적립 (' + item.pointCode + ')' : '사용') }}</dt>
+              <dd>{{ item.actionType === '만료' ? '만료금액' : (item.pointAdd ? '적립금액' : '사용금액') }}</dd>
+            </dl>
+            <div :class="{ 'plus': item.pointAdd, 'minus': item.usePointPrice }">
+              <strong>{{ item.actionType === '적립' ? `+${item.pointAdd}` : (item.actionType === '사용' ? `-${item.usePointPrice}` : (item.actionType === '만료' ? `-${item.pointAdd}` : '')) }}P</strong>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </template>
+
 <script>
+import dayjs from 'dayjs';
 import MyPageMainMenu from "@/components/mypage/MyPageMainMenu.vue";
 import MyPointService from "@/services/mypage/MyPointService";
+
 export default {
   components: {
-    MyPageMainMenu,
+    MyPageMainMenu
   },
-
-  // 데이터 정의
   data() {
     return {
-      point: [], // 장바구니 객체배열
-      page: 1, // 현재페이지번호
-      count: 0, // 전체 데이터개수
-      pageSize: 3, // 화면에 보여질 개수
-
-      pointId: 0,      // 포인트 ID
-      pointBalance: 0, // 포인트 잔액   (전체조회)
-      pointAdd: 0,     // 적립된 포인트 (상세조회)
+      points: [],
+      displayPeriod: '',
+      pointBalance: 0
     };
   },
-  // 전체조회 함수
   methods: {
-    // 전체조회 함수 (포인트 잔액)
-    async retrievePoint() {
+    async retrievePointsForPeriod(months) {
+      const userId = this.$store.state.user.userId;
+      const endDate = dayjs().format('YYYY-MM-DD');
+      const startDate = dayjs().subtract(months, 'month').format('YYYY-MM-DD');
+      this.displayPeriod = `${startDate} ~ ${endDate}`;
+      
+
       try {
-        let response = await MyPointService.getAll(
-          this.pointId,      // 포인트 ID
-          this.pointBalance, // 포인트 잔액 
-          
-        );
-        const { point, totalItems } = response.data;
-        this.point = point;
-        this.count = totalItems;
-        // 로깅
-        console.log(response.data); // 웹브라우저 콘솔탭에 벡엔드 데이터 표시
+        const response = await MyPointService.getPointsForPeriod(userId, startDate, endDate);
+        this.points = response.data; 
+        console.log("Loaded data:", this.points); 
       } catch (e) {
-        console.log(e); // 웹브라우저 콘솔탭에 에러 표시
+        console.error("적립금 정보 로딩 실패:", e);
       }
     },
-
-  // 상세조회 함수
-
+    
+    async retrievePointBalance() {
+     let response = await MyPointService.getPointBalance(this.$store.state.user.userId);
+     this.pointBalance = response.data
+    }
+  },
+  mounted() {
+    this.retrievePointsForPeriod(1); // 초기 로딩 시 기본적으로 1개월치 데이터 로드
+    this.retrievePointBalance();
   }
-
 };
 </script>
+
 <style>
 @import "@/assets/css/mypage.css";
 @import "@/assets/css/mypagepoint.css";

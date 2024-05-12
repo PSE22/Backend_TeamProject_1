@@ -8,11 +8,18 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "axios": "^1.6.8",
     "bootstrap": "^5.2.3",
     "bootstrap-vue-3": "^0.5.1",
+    "chart.js": "^3.9.1",
+    "chartjs-adapter-moment": "^1.0.1",
     "core-js": "^3.8.3",
+    "dayjs": "^1.11.11",
+    "flatpickr": "^4.6.13",
     "vue": "^3.2.13",
+    "vue-chartjs": "^5.3.1",
+    "vue-flatpickr-component": "^11.0.5",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
   },

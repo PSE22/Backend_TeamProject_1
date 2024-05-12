@@ -95,3 +95,11 @@
     right: 5px;
     bottom: 260px;
   }
+
+  /* 썸네일 이미지의 높이를 일정하게 설정 */
+/* 위시리스트 페이지에서 썸네일 이미지 크기 조정 */
+.mypage-product-box .card-img-top {
+    height: 200px; /* 이미지 높이 조정 */
+    object-fit: cover; /* 컨테이너에 맞게 이미지 비율 유지 */
+  }
+

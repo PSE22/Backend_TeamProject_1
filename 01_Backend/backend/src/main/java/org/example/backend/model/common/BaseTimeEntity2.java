@@ -37,7 +37,7 @@ public abstract class BaseTimeEntity2 {
     void OnPrePersist() {
         this.addDate = LocalDateTime.now()
                 .format(DateTimeFormatter
-                        .ofPattern("yyyy-MM-dd HH24:mm:ss"));
+                        .ofPattern("yyyy-MM-dd HH:mm:ss"));
         this.status = "Y";
     }
 
@@ -45,7 +45,7 @@ public abstract class BaseTimeEntity2 {
     void OnPreUpdate() {
         this.modDate = LocalDateTime.now()
                 .format(DateTimeFormatter
-                        .ofPattern("yyyy-MM-dd HH24:mm:ss"));
+                        .ofPattern("yyyy-MM-dd HH:mm:ss"));
         this.addDate = this.modDate;
         this.status = "Y";
     }

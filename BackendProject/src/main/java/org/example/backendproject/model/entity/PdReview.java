@@ -1,8 +1,6 @@
 package org.example.backendproject.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.example.backendproject.model.common.BaseTimeEntity2;
 import org.hibernate.annotations.DynamicInsert;
@@ -25,6 +23,12 @@ import org.hibernate.annotations.Where;
  */
 @Entity
 @Table(name="TB_PD_REVIEW")
+@SequenceGenerator(
+        name = "SEQ_TB_PD_REVIEW_REVIEW_ID_GENERATOR"
+        , sequenceName = "SEQ_TB_PD_REVIEW_REVIEW_ID"
+        , initialValue = 1
+        , allocationSize = 1
+)
 @Getter
 @Setter
 @ToString
@@ -47,6 +51,9 @@ public class PdReview extends BaseTimeEntity2 {
 //    review_code	varchar2(100 byte)
 //    status	char(1 byte)
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE
+            , generator = "SEQ_TB_PD_REVIEW_REVIEW_ID_GENERATOR"
+    )
     private Integer reviewId;
     private String userId;
     private Integer pdId;

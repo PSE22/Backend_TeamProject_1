@@ -14,8 +14,7 @@
               <input
                 class="form-check-input"
                 type="checkbox"
-                v-model="allChecked"
-                @click="checkedAll($event.target.checked)"
+                @click="checkedAll"
               />
             </th>
             <th scope="col">상품</th>
@@ -26,69 +25,81 @@
         </thead>
         <tbody class="table-group-divider align-middle">
           <tr v-for="(data, index) in cart" :key="index">
-            <td class="col-1">
+            <td class="col-1 align-middle">
               <input
                 class="form-check-input"
                 type="checkbox"
-                :id="'check' + data.index"
-                :value="data.index"
-                v-model="data.selected"
-                @change="selected($event)"
+                :value="data"
+                v-model="orderList"
+                @change="selectProduct"
               />
             </td>
             <td class="col-4">
               <div class="d-flex align-items-center text-start">
                 <div class="flex-shrink-0">
                   <img
-                    :src="data.pdThumblail"
-                    class="img-thumbnail me-3"
+                    type="button"
+                    :src="data.pdThumbnail"
+                    class="img-thumbnail me-3 "
                     style="width: 100px; height: 100px"
+                    @click="goProduct(data.pdId)"
                   />
                 </div>
-                <div class="flex-grow-1 ms-3">
+                <div
+                  type="button"
+                  class="flex-grow-1 ms-3"
+                  @click="goProduct(data.pdId)"
+                >
                   {{ data.pdName }}
                 </div>
               </div>
             </td>
-            <td class="col-1">{{ data.opName }}</td>
+            <td class="col-1 align-middle">{{ data.opName }}</td>
 
-            <td class="col-2">
-              <!-- 장바구니 수량 -->
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button
-                  type="button"
-                  class="btn btn-outline-secondary"
-                  @click="decreaseCount(data)"
-                >
-                  -
-                </button>
-                <!-- 장바구니 개수 표시 : 버튼 제목 -->
-                <button
-                  type="button"
-                  class="btn btn-outline-dark"
-                  style="width: 60px"
-                  disabled
-                >
-                  {{ data.cartCount }}
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-secondary"
-                  @click="increaseCount(data)"
-                >
-                  +
-                </button>
+            <td class="col-2 align-middle">
+              <div>
+                <!-- 장바구니 수량 -->
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    @click="decreaseCount(data)"
+                  >
+                    -
+                  </button>
+                  <!-- 장바구니 개수 표시 : 버튼 제목 -->
+                  <button
+                    type="button"
+                    class="btn btn-outline-dark"
+                    style="width: 60px"
+                    disabled
+                  >
+                    {{ data.cartCount }}
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    @click="increaseCount(data)"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
               <button
                 type="button"
-                class="btn btn-outline-secondary"
+                class="btn btn-outline-dark mt-2"
+                style="
+                  --bs-btn-padding-y: 0.25rem;
+                  --bs-btn-padding-x: 0.5rem;
+                  --bs-btn-font-size: 0.75rem;
+                "
                 @click="selectedCount(data)"
               >
                 수량변경
               </button>
             </td>
-            <td class="col-2">
-              {{ (data.pdPrice + data.opPrice) * data.cartCount }}
+            <td class="col-2 align-middle">
+              {{ data.pdPrice + data.opPrice }}
             </td>
           </tr>
         </tbody>
@@ -132,7 +143,7 @@
         <button
           class="btn btn-outline-dark btn-lg me-md-2 col-2"
           type="button"
-          @click="goOrder"
+          @click="sendOrderList"
         >
           선택주문
         </button>
@@ -157,8 +168,11 @@ export default {
       cart: [], // 장바구니 객체배열
       userId: this.$store.state.userId, // 회원아이디 받아오기
       shipPrice: 3000, // 배송비
-      allChecked: false, // 체크박스 전체선택
-      totalPrice: 0,
+      totalPrice: 0, // 총 가격
+
+      orderList: [], // 선택된 체크박스 배열 저장
+      allChecked: false,
+      
     };
   },
   methods: {
@@ -168,31 +182,40 @@ export default {
         let response = await CartService.getAll(userId);
         this.cart = response.data;
         console.log(response.data); // 웹브라우저 콘솔탬에 백앤드 데이터 표시
-        this.getTotalPrice();
+        this.getTotalPrice(); // 총 가격
       } catch (e) {
         console.log(e);
       }
     },
+    // 해당 상품페이지 이동
+    goProduct(pdId) {
+      this.$router.push(`/product/${pdId}`);
+    },
 
+    // 체크 가격
+    selectProduct() {
+      this.getTotalPrice(); // 총 가격
+    },
     // TODO: 장바구니 개수 증가 함수
     increaseCount(data) {
       data.cartCount += 1;
-      this.getTotalPrice();
+      this.getTotalPrice(); // 개수 증가 가격
     },
     // TODO: 장바구니 개수 감소 함수
     decreaseCount(data) {
       if (data.cartCount > 1) {
         data.cartCount -= 1;
-        this.getTotalPrice();
+        this.getTotalPrice(); // 개수 감소 가격
       }
     },
     // 장바구니 수량 변경
-    async selectedCount(data) { // data는 클릭한 객체를 나타냄
+    async selectedCount(data) {
+      // data는 클릭한 객체를 나타냄
       console.log("정보 :", data);
       try {
-        let response = await CartService.updated(data,data.cartId);
-        console.log("수정 : ",response);
-      } catch(e) {
+        let response = await CartService.updated(data, data.cartId); // cartId 수량 변경
+        console.log("수정 : ", response);
+      } catch (e) {
         console.log(e);
       }
     },
@@ -201,17 +224,17 @@ export default {
     async deleteCart() {
       try {
         // 선택된 체크박스만 삭제
-        const selectedIds = this.cart
-          .filter((product) => product.selected)
-          .map((product) => product.cartId);
-        if (selectedIds === 0) {
+        const check = this.orderList
+          .filter((product) => product.cartId) // 필터가 선택된 체크박스만 찾아 배열로 만들어줌
+          .map((product) => product.cartId); // 필터된 cartId만 배열로 추출
+        if (check.length === 0) {
           return;
         }
         // 장바구니 삭제 서비스 함수
-        let response = await CartService.remove(selectedIds);
+        let response = await CartService.remove(check);
         console.log(response.data);
         // 삭제 후 재조회
-        this.allCart();
+        this.allCart(this.$store.state.user.userId);
       } catch (e) {
         console.log(e);
       }
@@ -219,45 +242,89 @@ export default {
 
     // 장바구니 총 가격
     getTotalPrice() {
-      if (this.cart.length > 0) {
-        this.totalPrice = this.cart
+      if (this.orderList.length > 0) {
+        this.totalPrice = this.orderList
           .map((data) => (data.pdPrice + data.opPrice) * data.cartCount)
           .reduce((acc, cur) => acc + cur);
         // 총 가격이 60000 이상이면 배송비 무료
         this.shipPrice = this.totalPrice >= 60000 ? 0 : 3000;
+      } else {
+        this.totalPrice = 0;
       }
     },
     // 체크박스 전체선택
-    checkedAll(checked) {
-      this.allChecked = checked;
-      for (let i in this.cart) {
-        this.cart[i].selected = this.allChecked;
+    checkedAll() {
+      if (this.orderList.length === this.cart.length) {
+        this.orderList = [];
+        this.totalPrice = 0;
+      } else {
+        this.orderList = [...this.cart]; // 카트에 있는 배열을 모두 orderList로 넣기
+        this.selectProduct();
       }
     },
-    // 목록 체크박스
-    selected() {
-      for (let i in this.cart) {
-        if (!this.cart[i].selected) {
-          this.allChecked = false;
-          return;
+
+    // 선택주문
+    sendOrderList() {
+      try {
+        // 선택된 상품이 있는지 확인
+        if (this.orderList.length > 0) {
+          console.log(this.orderList);
+          this.$store.commit("setOrderList", this.orderList);
+          this.$router.push("/order");
         } else {
-          this.allChecked = true;
+          alert("상품을 선택해주세요.");
         }
+      } catch (e) {
+        console.log(e);
+        this.orderList = [];
       }
     },
-    getSelected() {
-      let cartId = [];
-      for (let i in this.cart) {
-        if (this.cart[i].selected) {
-          cartId.push(this.cart[i].cartId);
-        }
+
+    // TODO: 전체주문
+    goOrder() {
+      try {
+        this.$store.commit("setOrderList", this.cart);
+        console.log("카트배열", this.cart);
+        this.$router.push("/order");
+      } catch (e) {
+        console.log(e);
+        this.orderList = [];
       }
     },
   },
+
+  async deleteCart() {
+    try {
+        // 선택된 체크박스만 삭제
+        const cartIds = this.orderList
+            .filter(product => product.cartId) // 필터가 선택된 체크박스만 찾아 배열로 만들어줌
+            .map(product => product.cartId); // 필터된 cartId만 배열로 추출
+        if (cartIds.length === 0) {
+            return;
+        }
+        // 장바구니 삭제 서비스 함수
+        let response = await CartService.remove(cartIds);
+        console.log("삭제 성공", response);
+        // 삭제 후 재조회
+        this.allCart(this.$store.state.user.userId);
+        this.getTotalPrice();
+    } catch (e) {
+        console.error("장바구니 삭제 실패", e);
+    }
+},
+  // created() {
+  //   if (this.$store.state.loggedIn == false) {
+  //     this.$router.push("/login"); // home 강제 이동
+  //   }
+  // },
   mounted() {
+    if (this.$store.state.loggedIn == false) {
+      this.$router.push("/login"); // home 강제 이동
+    }
     this.allCart(this.$store.state.user.userId);
   },
 };
 </script>
 
-<style></style>
+<style>
+</style>

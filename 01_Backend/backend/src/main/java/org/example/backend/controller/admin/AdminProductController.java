@@ -1,7 +1,6 @@
 package org.example.backend.controller.admin;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.backend.model.entity.admin.AdminCoupon;
 import org.example.backend.model.entity.admin.AdminProduct;
 import org.example.backend.service.admin.AdminProductService;
 import org.springframework.beans.factory.annotation.Autowired;

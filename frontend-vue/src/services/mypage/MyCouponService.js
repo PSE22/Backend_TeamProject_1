@@ -1,9 +1,12 @@
 import http from "@/utils/http-common";
+import LoginHeader from "../login/LoginHeader";
 
 class MyCouponService {
   // 전체조회 공통함수
-  getAll(page, size) {
-    return http.get(`/mypage/coupon?page=${page}&size=${size}`);
+  getAll(userId, page, size) {
+    return http.get(`/mypage/coupon/${userId}?page=${page}&size=${size}`, {
+      headers: LoginHeader(),
+    });
   }
 
 }

@@ -7,17 +7,8 @@
   </div>
 
   <!-- 개별 이벤트 이미지 -->
-  <div class="event-img" v-for="(data, index) in eventImg" :key="index">
-    <!-- <img
-      src="https://via.placeholder.com/1200x300?text=Image"
-      class="img-fluid"
-      alt="이벤트이미지"
-    /> -->
-    <img
-      :src="data.eventImgUrl"
-      class="img-fluid"
-      alt="이벤트이미지"
-    />
+  <div class="event-img" v-for="(data, index) in event" :key="index">
+    <img :src="data.eventThumbnail" class="img-fluid" alt="이벤트이미지" type="button" @click="goEventDetail(data.eventId)"/>
   </div>
 </template>
 <script>
@@ -26,21 +17,24 @@ import EventService from "@/services/shop/EventService";
 export default {
   data() {
     return {
-      eventImg: [],
+      event: [],
     }
   },
-
   methods: {
-      async retrieveEvent() {
-        await EventService.getAll()
-          .then((response) => {
-            this.eventImg = response.data;
-            console.log(response.data);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+    // 전체 이벤트 가져오기
+    async retrieveEvent() {
+      try {
+        let response = await EventService.getAll();
+        this.event = response.data;
+        console.log("전체 이벤트 : ", response.data);
+      } catch (e) {
+        console.log(e);
       }
+    },
+    // 상세 이벤트 페이지로 이동
+    goEventDetail(eventId) {
+      this.$router.push(`/event/${eventId}`);
+    }
   },
   mounted() {
     this.retrieveEvent();
@@ -49,8 +43,9 @@ export default {
 </script>
 <style>
 @import "@/assets/css/category.css";
+
 .event-img {
-  margin: 50px 0px;
+  margin-bottom: 40px;
   text-align: center;
 }
 </style>

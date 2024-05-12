@@ -3,7 +3,6 @@ package org.example.backendproject.controller.shop;
 import lombok.extern.slf4j.Slf4j;
 import org.example.backendproject.model.dto.shop.IPointDto;
 import org.example.backendproject.model.dto.shop.IUserCouponDto;
-import org.example.backendproject.model.entity.Point;
 import org.example.backendproject.model.entity.ShipAddress;
 import org.example.backendproject.model.entity.User;
 import org.example.backendproject.service.shop.OrderService;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 
 /**

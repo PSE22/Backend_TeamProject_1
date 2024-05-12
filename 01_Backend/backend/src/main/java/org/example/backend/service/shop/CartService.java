@@ -36,12 +36,6 @@ public class CartService {
     @Autowired
     CartRepository cartRepository;
 
-    @Autowired
-    JwtUtils jwtUtils;
-
-    @Autowired
-    UserRepository userRepository;
-
     //    TODO: 저장(수정)함수
     public Cart save(Cart cart) {
 //        DB 저장 함수 실행
@@ -55,11 +49,21 @@ public class CartService {
             return list;
     }
 
-
     //    TODO: 삭제 함수
-    public boolean removeById(int cartId) {
-        if (cartRepository.existsById(cartId)) {
-            cartRepository.deleteById(cartId);  // DB 삭제
+//    public boolean removeById(int cartId) {
+//        if (cartRepository.existsById(cartId)) {
+//            cartRepository.deleteById(cartId);  // DB 삭제
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+
+    public boolean removeByIds(List<Integer> cartIds) {
+        if (!cartIds.isEmpty()) {
+            cartIds.forEach(cartId -> {
+                cartRepository.deleteById(cartId);
+            });
             return true;
         } else {
             return false;
