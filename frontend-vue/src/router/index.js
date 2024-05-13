@@ -202,7 +202,7 @@ const routes = [
   },
   // 마이페이지 -> 회원정보 관리
   {
-    path: "/mypage/info",
+    path: "/mypage/editProfile",
     component: () => import("../views/mypage/MyPageInfo.vue"),
   },
 ];
