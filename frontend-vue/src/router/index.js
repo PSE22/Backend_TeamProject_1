@@ -38,6 +38,11 @@ const routes = [
     component: () => import("../views/admin/AdminOrderView.vue"),
     beforeEnter: [routeGuard],
   },
+  {
+    path: '/admin-order/detail',
+    component: () => import('../views/admin/AdminOrderDetailView.vue'),
+    beforeEnter: [routeGuard],
+  },
   // 관리자 상품 관리
   {
     path: "/admin-product",
@@ -182,8 +187,8 @@ const routes = [
   },
   // 마이페이지 -> 적립금
   {
-    path: "/mypage/point",
-    component: () => import("../views/mypage/MyPagePoint.vue"),
+    // path: "/mypage/point",
+    // component: () => import("../views/mypage/MyPagePoint.vue"),
   },
   // 마이페이지 -> 위시리스트
   {

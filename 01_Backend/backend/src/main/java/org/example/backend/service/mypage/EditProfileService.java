@@ -46,20 +46,15 @@ public class EditProfileService {
         return false;
     }
 
-    public User getCurrentUser() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = userDetails.getUsername();
-        Optional<User> optionalUser = userRepository.findById(userId);
-        return optionalUser.orElse(null);
+    public String getCurrentUser(String userId) {
+        return userRepository.findByUserId(userId);
     }
 
     public void updateUser(User user) {
         userRepository.save(user);
     }
 
-    public void withdrawUser(String userPw) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = userDetails.getUsername();
+    public void withdrawUser(String userId, String userPw) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();

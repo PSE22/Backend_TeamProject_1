@@ -44,4 +44,5 @@ public class OrderCancel extends BaseTimeEntity {
     private Integer ocPrice;        // 취소금액
     private String ocCode;          // 주문상태코드
     private String ocReason;        // 취소사유
+    private String ocDenyReason;        // 취소철회사유
 }
