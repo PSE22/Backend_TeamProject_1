@@ -18,26 +18,6 @@
   <div class="row row-cols-1 row-cols-md-4 g-4" id="category-products">
     <div v-for="(data, index) in product" :key="index" class="col">
       <div class="card h-100">
-        <div class="product-image">
-          <img :src="data.pdImgUrl" class="card-img-top" />
-        </div>
-        <!-- 하트 이미지 : 위시 리스트 등록 -->
-        <div class="heart-icon-white" @click="toggleShow">
-          <!-- 빈 하트 이미지 : 위시 리스트 등록 전 -->
-          <img
-            v-if="show"
-            src="@/assets/img/free-icon-font-circle-heart-9272486.png"
-          />
-          <!-- 검정 하트 이미지 : 위시 리스트 등록 후 -->
-          <img
-            v-else
-            src="@/assets/img/free-icon-font-circle-heart-9270879.png"
-          />
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">{{ data.pdName }}</h5>
-          <span>{{ data.pdPrice }}</span>
-        </div>
       </div>
     </div>
   </div>

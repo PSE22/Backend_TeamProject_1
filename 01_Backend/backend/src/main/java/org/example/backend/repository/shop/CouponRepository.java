@@ -33,7 +33,8 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
             ", CP_MAX_DC_PRICE AS cpMaxDcPrice\n" +
             ", CP_EXPIRE_DATE AS cpExpireDate\n" +
             "FROM TB_COUPON\n" +
-            "WHERE STATUS = 'Y'"
+            "WHERE PD_ID LIKE '%' || :pdId || '%'\n" +
+            "AND STATUS = 'Y'"
     , nativeQuery = true)
     List<ICouponDto> findAllByPdidContaining(@Param("pdId") Integer pdId);
 }

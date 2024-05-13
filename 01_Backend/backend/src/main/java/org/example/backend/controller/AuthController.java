@@ -3,7 +3,9 @@ package org.example.backend.controller;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.backend.model.dto.shop.ICartDto;
 import org.example.backend.model.entity.User;
+import org.example.backend.repository.UserRepository;
 import org.example.backend.security.jwt.JwtUtils;
 import org.example.backend.service.dto.LoginRequest;
 import org.example.backend.service.dto.LoginResponse;
@@ -75,6 +77,19 @@ public class AuthController {
             return new ResponseEntity<>(loginResponse, HttpStatus.OK);
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("ID 또는 비밀번호가 일치하지 않습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/signup/{userId}")
+    public ResponseEntity<Object> reId(@RequestParam String userId) {
+        try {
+            if(signUpService.existsById(userId)) {
+                return ResponseEntity.badRequest().body("이미 가입된 회원입니다.");
+            } else {
+                return ResponseEntity.ok("사용 가능한 ID 입니다.");
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

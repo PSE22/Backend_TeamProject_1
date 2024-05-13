@@ -134,4 +134,12 @@ public class OrderService {
         Optional<IPointDto> optionalPoint = pointRepository.findByResultPoint(userId);
         return optionalPoint;
     }
+
+    public void updateOrderCode(Order order) {
+        orderRepository.save(order);
+    }
+
+    public Optional<Order> findByOrderId(Long orderId) {
+        return orderRepository.findById(orderId);
+    }
 }

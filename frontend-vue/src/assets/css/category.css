@@ -1,6 +1,7 @@
 /* 상단 배너 */
 .banner-container {
-    background-color: rgb(72, 165, 241);
+    /* background-color: rgb(72, 165, 241); */
+    background-image: linear-gradient(to top left,  rgb(72, 165, 241), yellow);;
     color: white;
     margin-bottom: 50px;
 }

@@ -16,6 +16,7 @@
           <div class="col-9">
             <label for="userId"></label>
             <input
+              id="inputId"
               type="text"
               class="form-control"
               placeholder="아이디"
@@ -26,7 +27,12 @@
 
           <div class="col align-self-end">
             <div align="right">
-              <button type="button" id="idcheck" class="btn btn-secondary">
+              <button
+                type="button"
+                id="idcheck"
+                class="btn btn-secondary"
+                @click="heckUserId"
+              >
                 중복확인
               </button>
             </div>
@@ -35,28 +41,32 @@
       </div>
       <!-- 비밀번호 -->
       <div align="center">
-        <div class="form-group col">
-          <label for="userPw"></label>
-          <input
-            type="password"
-            class="form-control"
-            placeholder="비밀번호"
-            name="userPw"
-            v-model="user.userPw"
-          />
+        <div class="row">
+          <div class="form-group col">
+            <label for="userPw"></label>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="비밀번호"
+              name="userPw"
+              v-model="user.userPw"
+            />
+          </div>
         </div>
       </div>
 
       <div align="center">
-        <div class="form-group col">
-          <label for="userPw"></label>
-          <input
-            type="password"
-            class="form-control"
-            placeholder="비밀번호 재확인"
-            name="userPw"
-            v-model="user.rePw"
-          />
+        <div class="row">
+          <div class="form-group col">
+            <label for="userPw"></label>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="비밀번호 재확인"
+              name="userPw"
+              v-model="user.rePw"
+            />
+          </div>
         </div>
       </div>
       <!-- 비밀번호 일치 여부를 표시하는 메시지 -->
@@ -64,15 +74,17 @@
 
       <!-- 이름 -->
       <div align="center">
-        <div class="form-group col">
-          <label for="userName"></label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="이름"
-            name="userName"
-            v-model="user.userName"
-          />
+        <div class="row">
+          <div class="form-group col">
+            <label for="userName"></label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="이름"
+              name="userName"
+              v-model="user.userName"
+            />
+          </div>
         </div>
       </div>
 
@@ -100,7 +112,7 @@
       <!-- 이메일 -->
       <div align="center">
         <div class="row">
-          <div class="col-5">
+          <div class="col">
             <label for="userEmail"></label>
             <input
               type="text"
@@ -110,26 +122,30 @@
               v-model="user.userEmail"
             />
           </div>
+        </div>
+      </div>
 
-          <div class="col-1 a1">
-            <span class="a">@</span>
-          </div>
-
-          <div class="col-3">
-            <label for="email"></label>
-            <select class="form-select" aria-label="Default select example">
-              <option selected>naver.com</option>
-              <option value="1">google.com</option>
-              <option value="2">daum.net</option>
-              <option value="3">nate.com</option>
-              <option value="4">직접입력</option>
-            </select>
-          </div>
-
-          <div class="col align-self-end">
-            <div align="right">
-              <button type="button" class="btn btn-secondary">중복확인</button>
-            </div>
+      <!-- 주소 -->
+      <div align="center">
+        <div class="row">
+          <div class="col">
+            <label for="userEmail"></label>
+            <input
+              type="text"
+              disabled
+              class="form-control"
+              placeholder="주소검색"
+              name="userEmail"/>
+              <input
+              type="text"
+              disabled
+              class="form-control"
+              name="userEmail"/>
+              <input
+              type="text"
+              disabled
+              class="form-control"
+              name="userEmail"/>
           </div>
         </div>
       </div>
@@ -224,6 +240,25 @@ export default {
   },
   // TODO: 함수 정의
   methods: {
+    async heckUserId() {
+      var userId = this.user.userId.trim();
+      if (userId.length < 8 || !/^[a-zA-Z0-9]+$/.test(userId)) {
+        alert("아이디는 영문자와 숫자 조합의 8자리 이상이어야 합니다.");
+        return;
+      }
+      this.failMessage = "";
+      this.successMessage = "";
+      try {
+        this.successMessage = ""; // 성공 메시지 초기화
+        let response = await LoginService.reId(this.user.userId); // user.userId만 전달
+        alert("사용 가능한 아이디입니다."); // 성공 메시지 알림창 표시
+        return response.data;
+      } catch (e) {
+        this.failMessage = ""; // 실패 메시지 초기화
+        alert("중복된 아이디 입니다."); // 실패 메시지 알림창 표시
+        console.log(e);
+      }
+    },
     async handleSignUp() {
       this.message = "";
       try {
@@ -257,7 +292,7 @@ export default {
   padding: 40px 30px;
   border: 3px solid #505050;
   width: 600px;
-  height: 700px;
+  height: 900px;
 }
 .a1 {
   position: relative;

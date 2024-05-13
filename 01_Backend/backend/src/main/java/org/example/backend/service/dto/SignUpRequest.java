@@ -3,8 +3,6 @@ package org.example.backend.service.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import org.example.backend.model.entity.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * packageName : org.example.backend.model.dto

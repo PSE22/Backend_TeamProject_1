@@ -34,86 +34,91 @@ const routes = [
   },
   // 관리자 주문 관리
   {
-    path: '/admin-order',
-    component: () => import('../views/admin/AdminOrderView.vue'),
+    path: "/admin-order",
+    component: () => import("../views/admin/AdminOrderView.vue"),
+    beforeEnter: [routeGuard],
+  },
+  {
+    path: '/admin-order/detail',
+    component: () => import('../views/admin/AdminOrderDetailView.vue'),
     beforeEnter: [routeGuard],
   },
   // 관리자 상품 관리
   {
-    path: '/admin-product',
-    component: () => import('../views/admin/AdminProductView.vue'),
+    path: "/admin-product",
+    component: () => import("../views/admin/AdminProductView.vue"),
     beforeEnter: [routeGuard],
   },
   // 관리자 상품옵션 관리
   {
-    path: '/admin-option',
-    component: () => import('../views/admin/AdminProductView.vue'),
+    path: "/admin-option",
+    component: () => import("../views/admin/AdminProductView.vue"),
     beforeEnter: [routeGuard],
   },
   // 관리자 상품 수정/삭제
   {
-    path: '/admin-product-edit/:pdId',
-    component: () => import('../views/admin/AdminProductEdit.vue'),
+    path: "/admin-product-edit/:pdId",
+    component: () => import("../views/admin/AdminProductEdit.vue"),
     beforeEnter: [routeGuard],
   },
   // 관리자 상품옵션 관리
   {
-    path: '/admin-option',
-    component: () => import('../views/admin/AdminProductView.vue'),
+    path: "/admin-option",
+    component: () => import("../views/admin/AdminProductView.vue"),
     beforeEnter: [routeGuard],
   },
   // 관리자 상품옵션 수정/삭제
   {
-    path: '/admin-option-edit/:opId',
-    component: () => import('../views/admin/AdminOptionEdit.vue'),
+    path: "/admin-option-edit/:opId",
+    component: () => import("../views/admin/AdminOptionEdit.vue"),
     beforeEnter: [routeGuard],
   },
   // 관리자 쿠폰 관리
   {
-    path: '/admin-coupon',
-    component: () => import('../views/admin/AdminCouponView.vue'),
+    path: "/admin-coupon",
+    component: () => import("../views/admin/AdminCouponView.vue"),
     beforeEnter: [routeGuard],
   },
   // 관리자 쿠폰 수정/삭제
   {
-    path: '/admin-coupon-edit/:cpId',
-    component: () => import('../views/admin/AdminCouponEdit.vue'),
+    path: "/admin-coupon-edit/:cpId",
+    component: () => import("../views/admin/AdminCouponEdit.vue"),
     beforeEnter: [routeGuard],
   },
   // 관리자 통계
   {
-    path: '/admin-chart',
-    component: () => import('../views/admin/AdminChartView.vue'),
+    path: "/admin-chart",
+    component: () => import("../views/admin/AdminChartView.vue"),
     beforeEnter: [routeGuard],
   },
   // 관리자 상품문의 관리
   {
-    path: '/admin-pdqna',
-    component: () => import('../views/admin/AdminPdQnaView.vue'),
+    path: "/admin-pdqna",
+    component: () => import("../views/admin/AdminPdQnaView.vue"),
     beforeEnter: [routeGuard],
   },
   // 관리자 상품문의 관리 수정/삭제
   {
-    path: '/admin-pdqna-edit/:pdQnaId',
-    component: () => import('../views/admin/AdminPdQnaEdit.vue'),
+    path: "/admin-pdqna-edit/:pdQnaId",
+    component: () => import("../views/admin/AdminPdQnaEdit.vue"),
     beforeEnter: [routeGuard],
   },
   // 관리자 상품문의 답변 등록/취소
   {
-    path: '/admin-pdqna-reply/:pdQnaId',
-    component: () => import('../views/admin/AdminPdQnaReply.vue'),
+    path: "/admin-pdqna-reply/:pdQnaId",
+    component: () => import("../views/admin/AdminPdQnaReply.vue"),
     beforeEnter: [routeGuard],
   },
   // 관리자 상품문의 답변 수정/삭제
   {
-    path: '/admin-pdqna-reply-edit/:pdQnaReplyId',
-    component: () => import('../views/admin/AdminPdQnaReplyEdit.vue'),
+    path: "/admin-pdqna-reply-edit/:pdQnaReplyId",
+    component: () => import("../views/admin/AdminPdQnaReplyEdit.vue"),
     beforeEnter: [routeGuard],
   },
   // 관리자 상품리뷰 수정/삭제
   {
-    path: '/admin-pdqna-review-edit/:reviewId',
-    component: () => import('../views/admin/AdminPdReviewEdit.vue'),
+    path: "/admin-pdqna-review-edit/:reviewId",
+    component: () => import("../views/admin/AdminPdReviewEdit.vue"),
     beforeEnter: [routeGuard],
   },
   // 장바구니
@@ -158,7 +163,7 @@ const routes = [
     component: () => import("../views/EventDetailView.vue"),
   },
 
-  // TODO: 마이페이지 
+  // TODO: 마이페이지
   // 마이페이지
   {
     path: "/mypage",
@@ -169,6 +174,12 @@ const routes = [
     path: "/mypage/order",
     component: () => import("../views/mypage/MyPageOrder.vue"),
   },
+  // 마이페이지 -> 주문상세
+  // 주소 앞에 mypage 추가해야함
+  {
+    path: "/order/:orderId",
+    component: () => import("../views/mypage/MyPageOrderDetail.vue"),
+  },
   // 마이페이지 -> 쿠폰함
   {
     path: "/mypage/coupon",
@@ -176,8 +187,8 @@ const routes = [
   },
   // 마이페이지 -> 적립금
   {
-    path: "/mypage/point",
-    component: () => import("../views/mypage/MyPagePoint.vue"),
+    // path: "/mypage/point",
+    // component: () => import("../views/mypage/MyPagePoint.vue"),
   },
   // 마이페이지 -> 위시리스트
   {
@@ -199,7 +210,6 @@ const routes = [
     path: "/mypage/info",
     component: () => import("../views/mypage/MyPageInfo.vue"),
   },
-
 ];
 
 const router = createRouter({
@@ -211,15 +221,15 @@ const router = createRouter({
 // TODO: 메뉴 클릭시 인증된 유저가 아니면 다른 페이지로 강제 이동시킴, 인증된 유저이면 정상적으로 페이지이동됨
 // TODO: routeGuard((이동후경로객체(to), 이동전경로객체(from), 이동시키는함수(next))
 function routeGuard(to, from, next) {
-  const user = JSON.parse(localStorage.getItem("user"));  // 로컬스토리지에 값이 있으면
+  const user = JSON.parse(localStorage.getItem("user")); // 로컬스토리지에 값이 있으면
 
   // 이 경로에 user(로컬스토리지의 값) 가 없는 사람이 들어오면 로그인 페이지로 강제이동
   if (user === null) {
-    next("/login")                // 이동불가 및 로그인페이지로 강제이동(라우터가드에서 사용가능) == push 비슷
-  } else if(user !== null && user.userCode === 'AT02') {
-    next("/")
+    next("/login"); // 이동불가 및 로그인페이지로 강제이동(라우터가드에서 사용가능) == push 비슷
+  } else if (user !== null && user.userCode === "AT02") {
+    next("/");
   } else {
-    next()                        // 이동 허가 및 정상적으로 다음 경로이 이동됨
+    next(); // 이동 허가 및 정상적으로 다음 경로이 이동됨
   }
 }
 
