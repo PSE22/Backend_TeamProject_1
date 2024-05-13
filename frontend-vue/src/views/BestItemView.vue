@@ -8,10 +8,9 @@
 
   <!-- 베스트 상품 페이지 : 정렬 버튼 -->
   <div class="main-nav-list col align-self-end" id="sorting">
-    <button id="button">신상품순</button> |
-    <button id="button">판매량순</button> |
-    <button id="button">낮은 가격순</button> |
-    <button id="button">높은 가격순</button>
+    <button id="button" @click="retrieveProduct">판매량순</button> |
+    <button id="button" @click="retrieveProductLow">낮은 가격순</button> |
+    <button id="button" @click="retrieveProductHigh">높은 가격순</button>
   </div>
 
   <!-- 베스트 상품 페이지 : card  -->
@@ -42,7 +41,7 @@ export default {
   methods: {
     async retrieveProduct() {
       try {
-        let response = await ProductService.getAllNewProduct();
+        let response = await ProductService.getAllBestProduct();
         this.product = response.data;
         console.log( response.data);
       } catch (e) {
@@ -51,7 +50,7 @@ export default {
     },
     async retrieveProductHigh() {
       try {
-        let response = await ProductService.getAllNewProductHigh();
+        let response = await ProductService.getAllBestProductHigh();
         this.product = response.data;
         console.log(response.data);
       } catch (e) {
@@ -60,7 +59,7 @@ export default {
     },
     async retrieveProductLow() {
       try {
-        let response = await ProductService.getAllNewProductLow();
+        let response = await ProductService.getAllBestProductLow();
         this.product = response.data;
         console.log(response.data);
       } catch (e) {

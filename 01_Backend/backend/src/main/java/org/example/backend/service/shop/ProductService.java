@@ -2,6 +2,7 @@ package org.example.backend.service.shop;
 
 import org.example.backend.model.common.CpIdUserIdPk;
 import org.example.backend.model.common.PdIdUserIdPk;
+import org.example.backend.model.dto.shop.IBestProductDto;
 import org.example.backend.model.dto.shop.IProductImgDto;
 import org.example.backend.model.entity.Cart;
 import org.example.backend.model.entity.Product;
@@ -44,21 +45,39 @@ public class ProductService {
     @Autowired
     UserCouponRepository userCouponRepository;
 
+//    베스트 상품 전체 조회
+    public List<IBestProductDto> findAllBestProduct() {
+        List<IBestProductDto> list = productRepository.findAllBestProductOrderByAddDate();
+        return list;
+    }
+
+//    베스트 상품 전체 조회(높은 가격순)
+    public List<IBestProductDto> findAllBestProductHigh() {
+        List<IBestProductDto> list = productRepository.findAllBestProductOrderByAddDateAndPriceDesc();
+        return list;
+    }
+
+//    베스트 상품 전체 조회(낮은 가격순)
+    public List<IBestProductDto> findAllBestProductLow() {
+        List<IBestProductDto> list = productRepository.findAllBestProductOrderByAddDateAndPrice();
+        return list;
+    }
+
 //    신상품 전체 조회
-    public List<Product> findAllProduct() {
-        List<Product> list = productRepository.findAllOrderByAddDate();
+    public List<Product> findAllNewProduct() {
+        List<Product> list = productRepository.findAllNewProductOrderByAddDate();
         return list;
     }
 
 //    신상품 전체 조회(높은 가격순)
-    public List<Product> findAllProductHigh() {
-        List<Product> list = productRepository.findAllOrderByAddDateAndPriceDesc();
+    public List<Product> findAllNewProductHigh() {
+        List<Product> list = productRepository.findAllNewProductOrderByAddDateAndPriceDesc();
         return list;
     }
 
 //    신상품 전체 조회(낮은 가격순)
-    public List<Product> findAllProductLow() {
-        List<Product> list = productRepository.findAllOrderByAddDateAndPrice();
+    public List<Product> findAllNewProductLow() {
+        List<Product> list = productRepository.findAllNewProductOrderByAddDateAndPrice();
         return list;
     }
 
