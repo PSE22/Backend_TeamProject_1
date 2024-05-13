@@ -38,6 +38,11 @@ const routes = [
     component: () => import("../views/admin/AdminOrderView.vue"),
     beforeEnter: [routeGuard],
   },
+  {
+    path: '/admin-order/detail',
+    component: () => import('../views/admin/AdminOrderDetailView.vue'),
+    beforeEnter: [routeGuard],
+  },
   // 관리자 상품 관리
   {
     path: "/admin-product",
