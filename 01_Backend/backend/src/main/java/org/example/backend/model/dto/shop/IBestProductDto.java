@@ -16,7 +16,7 @@ package org.example.backend.model.dto.shop;
 public interface IBestProductDto {
     Integer getPdId();
     String getPdName();
-    String getPdThunbnail();
-    String getPdAddDate();
+    String getPdThumbnail();
+    String getAddDate();
     Integer getPdPrice();
 }

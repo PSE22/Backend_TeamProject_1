@@ -2,19 +2,34 @@
 import http from "@/utils/http-common";
 
 class ProductService {
-    // 베스트 상품 전체 조회
-    getAllBestProduct() {
-        return http.get(`/shop/home/best/product`);
+    // 모든 상품 조회
+    getAllProduct() {
+        
     }
 
-    // 베스트 상품 전체 조회(높은 가격순)
-    getAllBestProductHigh() {
-        return http.get(`/shop/home/best/product/high`);
+    // // 모든 상품 조회(검색)
+    // getAllProductSearch() {
+
+    // }
+    
+    // 베스트 상품 3개 조회
+    getThreeBestProduct() {
+        return http.get(`/shop/home/best3/product`);
     }
 
-    // 베스트 상품 전체 조회(낮은 가격순)
-    getAllBestProductLow() {
-        return http.get(`/shop/home/best/product/low`);
+    // 베스트 상품 전체 조회(일간 판매량 높은순)
+    getAllBestProductDay() {
+        return http.get(`/shop/home/best/product/day`);
+    }
+
+    // 베스트 상품 전체 조회(월간 판매량 높은순)
+    getAllBestProductMonth() {
+        return http.get(`/shop/home/best/product/month`);
+    }
+
+    // 베스트 상품 전체 조회(연간 판매량 높은순)
+    getAllBestProductYear() {
+        return http.get(`/shop/home/best/product/year`);
     }
 
     // 신상품 전체 조회
