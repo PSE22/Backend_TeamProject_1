@@ -36,6 +36,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     , nativeQuery = true)
     Page<Product> findAllByPdNameContaining(Pageable pageable);
 
+//    카테고리별 전체 상품 조회
+    @Query(value = "SELECT *\n" +
+            "FROM TB_PRODUCT\n" +
+            "WHERE CATEGORY_CODE = :categoryCode", nativeQuery = true)
+    Page<Product> findByCategoryAll(@Param("categoryCode") String categoryCode, Pageable pageable);
+
 //    베스트 상품 3개 조회
     @Query(value = "SELECT pdId, pdName, pdThumbnail, addDate, pdPrice\n" +
             "FROM\n" +
