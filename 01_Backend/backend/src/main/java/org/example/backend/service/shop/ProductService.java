@@ -10,6 +10,8 @@ import org.example.backend.model.entity.UserCoupon;
 import org.example.backend.model.entity.Wishlist;
 import org.example.backend.repository.shop.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,21 +47,35 @@ public class ProductService {
     @Autowired
     UserCouponRepository userCouponRepository;
 
-//    베스트 상품 전체 조회
-    public List<IBestProductDto> findAllBestProduct() {
-        List<IBestProductDto> list = productRepository.findAllBestProductOrderByAddDate();
+//    모든 상품 조회(검색)
+    public Page<Product> findAllByPdNameContaining(
+            Pageable pageable
+    ) {
+        Page<Product> page = productRepository.findAllByPdNameContaining(pageable);
+        return page;
+    }
+
+//    베스트 상품 3개 조회
+    public List<IBestProductDto> findThreeBestProduct() {
+        List<IBestProductDto> list = productRepository.findThreeBestProductOrderByAddDate();
         return list;
     }
 
-//    베스트 상품 전체 조회(높은 가격순)
-    public List<IBestProductDto> findAllBestProductHigh() {
-        List<IBestProductDto> list = productRepository.findAllBestProductOrderByAddDateAndPriceDesc();
+//    베스트 상품 전체 조회(일간 판매량 높은순)
+    public List<IBestProductDto> findAllBestProductDay() {
+        List<IBestProductDto> list = productRepository.findAllBestProductOrderByCountDay();
         return list;
     }
 
-//    베스트 상품 전체 조회(낮은 가격순)
-    public List<IBestProductDto> findAllBestProductLow() {
-        List<IBestProductDto> list = productRepository.findAllBestProductOrderByAddDateAndPrice();
+//    베스트 상품 전체 조회(월간 판매량 높은순)
+    public List<IBestProductDto> findAllBestProductMonth() {
+        List<IBestProductDto> list = productRepository.findAllBestProductOrderByCountMonth();
+        return list;
+    }
+
+//    베스트 상품 전체 조회(연간 판매량 높은순)
+    public List<IBestProductDto> findAllBestProductYear() {
+        List<IBestProductDto> list = productRepository.findAllBestProductOrderByCountYear();
         return list;
     }
 

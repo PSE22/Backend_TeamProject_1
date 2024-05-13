@@ -52,19 +52,19 @@
         </div>
         <div class="orderInfoBox">
           <li class="type1">
-            <strong>{{ getCountByOrderCode('PO03') }}</strong>
+            <strong>{{ getCountByOrderCode("PO03") }}</strong>
             <span>결제완료</span>
           </li>
           <li class="type2">
-            <strong>{{ getCountByOrderCode('OD0101') }}</strong>
+            <strong>{{ getCountByOrderCode("OD0101") }}</strong>
             <span>상품준비중</span>
           </li>
           <li class="type3">
-            <strong>{{ getCountByOrderCode('OD0103') }}</strong>
+            <strong>{{ getCountByOrderCode("OD0103") }}</strong>
             <span>배송중</span>
           </li>
           <li class="type4">
-            <strong>{{ getCountByOrderCode('OD0104') }}</strong>
+            <strong>{{ getCountByOrderCode("OD0104") }}</strong>
             <span>배송완료</span>
           </li>
         </div>
@@ -131,26 +131,40 @@ export default {
   //       }
   //   },
   methods: {
-  getCountByOrderCode(code) {
-    let count = 0;
-    for (let i = 0; i < this.orderCode.length; i++) {
-      if (this.orderCode[i].orderCode === code) {
-        count = this.orderCode[i].count;
-        break;
+    getCountByOrderCode(code) {
+      let count = 0;
+      for (let i = 0; i < this.orderCode.length; i++) {
+        if (this.orderCode[i].orderCode === code) {
+          count = this.orderCode[i].count;
+          break;
+        }
       }
-    }
-    return count;
-  }
-},
+      return count;
+    },
+  },
   async mounted() {
     try {
-      let response = await MyPageService.getOrderCnt(this.$store.state.user.userId);
-      let response2 = await MyPageService.getCouponCnt(this.$store.state.user.userId);
-      let response3 = await MyPageService.getReviewCnt(this.$store.state.user.userId);
-      let response4 = await MyPageService.getInquiryCnt(this.$store.state.user.userId);
-      let response5 = await MyPageService.getUserPoint(this.$store.state.user.userId);
-      let response6 = await MyPageService.getUserName(this.$store.state.user.userId);
-      let response7 = await MyPageService.getOrderCode(this.$store.state.user.userId);
+      let response = await MyPageService.getOrderCnt(
+        this.$store.state.user.userId
+      );
+      let response2 = await MyPageService.getCouponCnt(
+        this.$store.state.user.userId
+      );
+      let response3 = await MyPageService.getReviewCnt(
+        this.$store.state.user.userId
+      );
+      let response4 = await MyPageService.getInquiryCnt(
+        this.$store.state.user.userId
+      );
+      let response5 = await MyPageService.getUserPoint(
+        this.$store.state.user.userId
+      );
+      let response6 = await MyPageService.getUserName(
+        this.$store.state.user.userId
+      );
+      let response7 = await MyPageService.getOrderCode(
+        this.$store.state.user.userId
+      );
       this.orderCount = response.data;
       this.couponCount = response2.data;
       this.reviewCount = response3.data;

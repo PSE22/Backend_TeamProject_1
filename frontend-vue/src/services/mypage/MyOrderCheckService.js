@@ -11,12 +11,18 @@ class OrderCheck {
   }
 
   getOrder(orderId) {
+    return http.get(`/mypage/orderlist/${orderId}`, {
+      headers: LoginHeader(),
+    });
+  }
+  getOrderDetail(orderId) {
     return http.get(`/mypage/orderdetail/${orderId}`, {
       headers: LoginHeader(),
     });
   }
-  getOrderList(orderId) {
-    return http.get(`/mypage/orderlist/${orderId}`, {
+  
+  getOrderPrice(orderId) {
+    return http.get(`/mypage/orderprice/${orderId}`, {
       headers: LoginHeader(),
     });
   }

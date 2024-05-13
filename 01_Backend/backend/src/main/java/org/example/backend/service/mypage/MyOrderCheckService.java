@@ -6,6 +6,7 @@ import org.example.backend.repository.mypage.MyWishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -27,10 +28,9 @@ public class MyOrderCheckService {
     @Autowired
     MyOrderCheckRepository myOrderCheckRepository;
 
-//    전체조회
-public List<OrderCheckDto> getOrderCheck(String userId)
-{
-    List<OrderCheckDto> list = myOrderCheckRepository.selectOrderCheck(userId);
-    return list;
+
+// 특정 기간 동안의 주문 정보 조회
+public List<OrderCheckDto> findOrdersByDateRange(String userId, String startDate, String endDate) {
+    return myOrderCheckRepository.findOrdersByDateRange(userId, startDate, endDate);
 }
 }

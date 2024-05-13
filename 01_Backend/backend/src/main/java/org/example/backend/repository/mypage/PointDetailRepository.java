@@ -31,7 +31,6 @@ import java.util.List;
 public interface PointDetailRepository extends JpaRepository<DetailPoint, PtIdUseptIdPk> {
 
     @Query(value = "SELECT * FROM (" +
-            // 적립된 적립금 정보를 선택: 적립 상태이며 만료되지 않은 포인트를 기간 내에서 선택
             "SELECT p.point_id AS pointId, " +
             "p.user_id AS userId, " +
             "p.point_add AS pointAdd, " +
@@ -44,10 +43,9 @@ public interface PointDetailRepository extends JpaRepository<DetailPoint, PtIdUs
             "p.add_date AS orderDate " +
             "FROM tb_point p " +
             "WHERE p.user_id = :userId AND p.status = 'Y' AND p.point_expire_status = 'N' " +
-            "AND p.add_date BETWEEN :startDate AND :endDate " + // 기간 필터를 적용하여 선택된 날짜 범위 내의 적립 정보만 조회
+            "AND p.add_date BETWEEN :startDate AND :endDate " +
             "UNION ALL " +
-            // 사용된 적립금 정보를 선택: 사용된 적립금을 기간 내에서 선택
-            "SELECT NULL AS pointId, up.user_id AS userId, NULL AS pointAdd, " +
+            "SELECT NULL AS pointId, o.user_id AS userId, NULL AS pointAdd, " +
             "NULL AS pointCode, up.add_date AS addDate, NULL AS delDate, " +
             "NULL AS pointExpireStatus, " +
             "'사용' AS actionType, " +
@@ -55,10 +53,10 @@ public interface PointDetailRepository extends JpaRepository<DetailPoint, PtIdUs
             "up.use_point_price AS usePointPrice, " +
             "up.add_date AS orderDate " +
             "FROM tb_use_point up " +
-            "WHERE up.user_id = :userId " +
-            "AND up.add_date BETWEEN :startDate AND :endDate " + // 기간 필터를 적용하여 선택된 날짜 범위 내의 사용 정보만 조회
+            "JOIN tb_order o ON up.order_id = o.order_id " +
+            "WHERE o.user_id = :userId " +
+            "AND up.add_date BETWEEN :startDate AND :endDate " +
             "UNION ALL " +
-            // 만료된 적립금 정보를 선택: 만료된 상태의 적립금을 만료 날짜 기준으로 기간 내에서 선택
             "SELECT p.point_id AS pointId, p.user_id AS userId, p.point_add AS pointAdd, " +
             "NULL AS pointCode, p.add_date AS addDate, p.del_date AS delDate, " +
             "p.point_expire_status AS pointExpireStatus, " +
@@ -67,7 +65,7 @@ public interface PointDetailRepository extends JpaRepository<DetailPoint, PtIdUs
             "p.del_date AS orderDate " +
             "FROM tb_point p " +
             "WHERE p.user_id = :userId AND p.status = 'N' AND p.point_expire_status = 'Y' " +
-            "AND p.del_date BETWEEN :startDate AND :endDate " + // 만료 날짜를 기준으로 기간 필터를 적용하여 선택된 날짜 범위 내의 만료 정보만 조회
+            "AND p.del_date BETWEEN :startDate AND :endDate " +
             ") ORDER BY orderDate DESC", nativeQuery = true)
     List<PointDto> findPointDetailsByUserId(@Param("userId") String userId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
