@@ -31,4 +31,6 @@ public interface UserRepository extends JpaRepository<User, String> {
             "WHERE USER_ID = :userId",
             nativeQuery = true)
     String findByUserName(@Param("userId") String userId);
+
+    String findByUserId(String userId);
 }
