@@ -85,8 +85,6 @@ public class AuthController {
         try {
             if(signUpService.existsById(userId)) {
                 return ResponseEntity.badRequest().body("이미 가입된 회원입니다.");
-            } else if () {
-                
             } else {
                 return ResponseEntity.ok("사용 가능한 ID 입니다.");
             }

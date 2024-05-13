@@ -2,7 +2,7 @@ package org.example.backend.controller.shop;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.backend.model.common.PdIdUserIdPk;
-import org.example.backend.model.dto.shop.IProductDto;
+import org.example.backend.model.dto.shop.IBestProductDto;
 import org.example.backend.model.dto.shop.IProductImgDto;
 import org.example.backend.model.entity.Cart;
 import org.example.backend.model.entity.Product;
@@ -10,16 +10,11 @@ import org.example.backend.model.entity.UserCoupon;
 import org.example.backend.model.entity.Wishlist;
 import org.example.backend.service.shop.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -42,11 +37,62 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-//    신상품 전체 조회
-    @GetMapping("/home/product")
-    public ResponseEntity<Object> findAllProduct() {
+//    베스트 상품 전체 조회
+    @GetMapping("/home/best/product")
+    public ResponseEntity<Object> findAllBestProduct() {
         try {
-            List<Product> list = productService.findAllProduct();
+            List<IBestProductDto> list = productService.findAllBestProduct();
+            if (list.isEmpty() == true) {
+                // 데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                // 조회 성공
+                return new ResponseEntity<>(list, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    베스트 상품 전체 조회(높은 가격순)
+    @GetMapping("/home/best/product/high")
+    public ResponseEntity<Object> findAllBestProductHigh() {
+        try {
+            List<IBestProductDto> list = productService.findAllBestProductHigh();
+            if (list.isEmpty() == true) {
+                // 데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                // 조회 성공
+                return new ResponseEntity<>(list, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    베스트 상품 조회(낮은 가격순)
+    @GetMapping("/home/best/product/low")
+    public ResponseEntity<Object> findAllBestProductLow() {
+        try {
+            List<IBestProductDto> list = productService.findAllBestProductLow();
+            if (list.isEmpty() == true) {
+                // 데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                // 조회 성공
+                return new ResponseEntity<>(list, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    신상품 전체 조회
+    @GetMapping("/home/new/product")
+    public ResponseEntity<Object> findAllNewProduct() {
+        try {
+            List<Product> list = productService.findAllNewProduct();
             if (list.isEmpty() == true) {
                 // 데이터 없음
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -60,10 +106,10 @@ public class ProductController {
     }
 
 //    신상품 전체 조회(높은 가격순)
-    @GetMapping("/home/product/high")
-    public ResponseEntity<Object> findAllProductHigh() {
+    @GetMapping("/home/new/product/high")
+    public ResponseEntity<Object> findAllNewProductHigh() {
         try {
-            List<Product> list = productService.findAllProductHigh();
+            List<Product> list = productService.findAllNewProductHigh();
             if (list.isEmpty() == true) {
                 // 데이터 없음
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -77,10 +123,10 @@ public class ProductController {
     }
 
 //    신상품 전체 조회(낮은 가격순)
-    @GetMapping("/home/product/low")
-    public ResponseEntity<Object> findAllProductLow() {
+    @GetMapping("/home/new/product/low")
+    public ResponseEntity<Object> findAllNewProductLow() {
         try {
-            List<Product> list = productService.findAllProductLow();
+            List<Product> list = productService.findAllNewProductLow();
             if (list.isEmpty() == true) {
                 // 데이터 없음
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -92,7 +138,6 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
     // 상품 상세 조회 함수
     @GetMapping("/product/{pdId}")
