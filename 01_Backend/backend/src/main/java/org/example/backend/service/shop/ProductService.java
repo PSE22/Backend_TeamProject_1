@@ -55,6 +55,12 @@ public class ProductService {
         return page;
     }
 
+//    카테고리별 전체 상품 조회
+    public Page<Product> findByCategoryAll(String categoryCode, Pageable pageable) {
+        Page<Product> page = productRepository.findByCategoryAll(categoryCode, pageable);
+        return page;
+    }
+
 //    베스트 상품 3개 조회
     public List<IBestProductDto> findThreeBestProduct() {
         List<IBestProductDto> list = productRepository.findThreeBestProductOrderByAddDate();

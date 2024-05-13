@@ -2,10 +2,10 @@
 import http from "@/utils/http-common";
 
 class ProductService {
-    // // 모든 상품 조회
-    // getAllProduct() {
-
-    // }
+    // 모든 상품 조회
+    getAllProduct() {
+        
+    }
 
     // // 모든 상품 조회(검색)
     // getAllProductSearch() {

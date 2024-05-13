@@ -10,11 +10,16 @@ import org.example.backend.model.entity.UserCoupon;
 import org.example.backend.model.entity.Wishlist;
 import org.example.backend.service.shop.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -36,6 +41,33 @@ import java.util.Optional;
 public class ProductController {
     @Autowired
     ProductService productService;
+
+//    카테고리별 전체 상품 조회
+    @GetMapping("/category")
+    public ResponseEntity<Object> findByCategoryAll(@RequestParam(defaultValue = "") String categoryCode,
+                                                    @RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "3") int size) {
+        try {
+            // 페이징 객체 생성
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Product> categoryPage = productService.findByCategoryAll(categoryCode, pageable);
+            // 공통 페이징 객체 생성
+            Map<String, Object> response = new HashMap<>();
+            response.put("product", categoryPage.getContent()); // product 배열
+            response.put("currentPage", categoryPage.getNumber()); // 현재페이지번호
+            response.put("totalItems", categoryPage.getTotalElements()); // 총건수(개수)
+            response.put("totalPages", categoryPage.getTotalPages()); // 총페이지수
+            log.debug("에러33: ", response);
+
+            if(categoryPage.isEmpty() == false) {
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 //    베스트 상품 3개 조회
     @GetMapping("/home/best3/product")
