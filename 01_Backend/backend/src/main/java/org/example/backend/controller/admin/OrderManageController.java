@@ -2,11 +2,16 @@ package org.example.backend.controller.admin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.backend.model.CmCode;
 import org.example.backend.model.entity.Order;
 import org.example.backend.model.entity.OrderCancel;
 import org.example.backend.model.entity.OrderDetail;
 import org.example.backend.model.entity.Refund;
+import org.example.backend.service.CmCodeService;
+import org.example.backend.service.OrderCancelService;
+import org.example.backend.service.RefundService;
 import org.example.backend.service.admin.OrderManageService;
+import org.example.backend.service.shop.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,6 +46,18 @@ public class OrderManageController {
 
     @Autowired
     OrderManageService orderManageService;
+
+    @Autowired
+    CmCodeService cmCodeService;
+
+    @Autowired
+    OrderService orderService;
+
+    @Autowired
+    OrderCancelService orderCancelService;
+
+    @Autowired
+    RefundService refundService;
 
     @GetMapping("/orders")
     public ResponseEntity<Object> findAll(
@@ -95,6 +112,50 @@ public class OrderManageController {
             } else {
                 return ResponseEntity.notFound().build();
             }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/orders/cmcd")
+    public ResponseEntity<Object> getCmCode() {
+        try {
+            List<CmCode> cmCode = cmCodeService.findByUpCmCd();
+            return ResponseEntity.ok(cmCode);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/orders/{orderId}/{upCmCd}")
+    public ResponseEntity<Object> codeChange(@PathVariable String upCmCd, @RequestParam Long orderId, @RequestParam Long opId) {
+        try {
+            if (upCmCd.startsWith("OD01")) {
+                Optional<Order> order = orderService.findByOrderId(orderId); // orderId를 사용하여 주문 검색
+                if (order.isPresent()) {
+                    orderService.updateOrderCode(order.orElse(null));
+                    return ResponseEntity.ok().build();
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주문정보를 찾을 수 없습니다.");
+                }
+            }else if (upCmCd.startsWith("OD02")) {
+                Optional<OrderCancel> orderCancel = orderCancelService.findByOrderId(orderId); // orderId를 사용하여 주문 검색
+                if (orderCancel.isPresent()) {
+                    orderCancelService.updateOrderCancel(orderCancel.orElse(null));
+                    return ResponseEntity.ok().build();
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주문정보를 찾을 수 없습니다.");
+                }
+            } else if (upCmCd.startsWith("OD03")) {
+                Optional<Refund> refund = refundService.findByOpId(opId); // orderId를 사용하여 주문 검색
+                if (refund.isPresent()) {
+                    refundService.updateRefund(refund.orElse(null));
+                    return ResponseEntity.ok().build();
+                } else {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("주문정보를 찾을 수 없습니다.");
+                }
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("주문정보를 찾을 수 없습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

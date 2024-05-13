@@ -1,23 +1,4 @@
 <template>
-  <!-- Custom fonts for this template -->
-  <link
-    href="../../../public/vendor/fontawesome-free/css/all.min.css"
-    rel="stylesheet"
-    type="text/css"
-  />
-  <link
-    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-    rel="stylesheet"
-  />
-
-  <!-- Custom styles for this template -->
-  <link href="../../../public/css/sb-admin-2.min.css" rel="stylesheet" />
-
-  <!-- Custom styles for this page -->
-  <link
-    href="../../../public/vendor/datatables/dataTables.bootstrap4.min.css"
-    rel="stylesheet"
-  />
   <div>
     <!-- TODO: 여기 -->
     <body id="page-top">
@@ -104,7 +85,6 @@
             <nav
               class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
             >
-
               <!-- 좌측상단 검색 -->
               <form
                 class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
@@ -116,9 +96,14 @@
                     placeholder="검색"
                     aria-label="Search"
                     aria-describedby="basic-addon2"
+                    v-model="searchCpName"
                   />
                   <div class="input-group-append">
-                    <button class="btn btn-primary" type="button">
+                    <button
+                      class="btn btn-primary"
+                      type="button"
+                      @click="retrieveAdminCoupon"
+                    >
                       <i class="fas fa-search fa-sm"></i>
                     </button>
                   </div>
@@ -220,7 +205,7 @@
             </nav>
             <!-- 상단 메뉴 끝 -->
 
-            <!-- TODO: 상품 관리 시작 -->
+            <!-- TODO: 쿠폰 관리 시작 -->
             <div class="container-fluid">
               <!-- Page Heading -->
               <h1 class="h3 mb-2 text-gray-800">주문관리</h1>
@@ -233,138 +218,87 @@
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    <!-- TODO: 등록/수정/삭제 시작 백에서 연결 해야함 -->
-                    <button type="button" class="btn btn-primary mr-3 mb-3">등록</button>
-                    <button type="button" class="btn btn-secondary mr-3 mb-3">수정</button>
-                    <button type="button" class="btn btn-danger mr-3 mb-3">삭제</button>
-                    <!-- 등록/수정/삭제 끝 -->
-                    <div class="row">
-                      <div class="col-sm-12">
-                        <table
-                          class="table table-bordered dataTable"
-                          width="100%"
-                          cellspacing="0"
-                          role="grid"
-                          aria-describedby="dataTable_info"
-                          style="width: 100%"
-                        >
-                          <thead>
-                            <tr role="row">
-                              <th>Name</th>
-                              <th>Position</th>
-                              <th>Office</th>
-                              <th>Age</th>
-                              <th>Start date</th>
-                              <th>Salary</th>
-                            </tr>
-                          </thead>
-                          <tfoot>
-                            <tr>
-                              <th>Name</th>
-                              <th>Position</th>
-                              <th>Office</th>
-                              <th>Age</th>
-                              <th>Start date</th>
-                              <th>Salary</th>
-                            </tr>
-                          </tfoot>
-                          <tbody>
-                            <tr>
-                              <td>Tiger Nixon</td>
-                              <td>System Architect</td>
-                              <td>Edinburgh</td>
-                              <td>61</td>
-                              <td>2011/04/25</td>
-                              <td>$320,800</td>
-                            </tr>
-                            <tr>
-                              <td>Donna Snider</td>
-                              <td>Customer Support</td>
-                              <td>New York</td>
-                              <td>27</td>
-                              <td>2011/01/25</td>
-                              <td>$112,000</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- TODO: 페이지 시작 / 페이지 네이션 백에서 해야함 -->
-                  <div class="row">
-                    <div class="col-sm-12 col-md-5">
-                      <div
-                        class="dataTables_info"
-                        role="status"
-                        aria-live="polite"
-                      >
-                        검색결과 총 ? 건 중 ? 건
-                      </div>
-                    </div>
-                    <div class="col-sm-12 col-md-7">
-                      <div class="dataTables_paginate paging_Simple_numbers">
-                        <ul class="pagination justify-content-end">
-                          <li
-                            class="paginate_button page-item previous disabled"
+                    <div v-if="!submitted">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <table
+                            class="table table-bordered dataTable"
+                            width="100%"
+                            cellspacing="0"
+                            role="grid"
+                            aria-describedby="dataTable_info"
+                            style="width: 100%"
                           >
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx="0"
-                              tabindex="0"
-                              class="page-link"
-                              >이전</a
-                            >
-                          </li>
-                          <li class="page-item">
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx="1"
-                              tabindex="0"
-                              class="page-link"
-                              >1</a
-                            >
-                          </li>
-                          <li class="page-item">
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx="2"
-                              tabindex="0"
-                              class="page-link"
-                              >2</a
-                            >
-                          </li>
-                          <li class="page-item">
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx="3"
-                              tabindex="0"
-                              class="page-link"
-                              >3</a
-                            >
-                          </li>
-                          <li class="page-item">
-                            <a
-                              href="#"
-                              aria-controls="dataTable"
-                              data-dt-idx="4"
-                              tabindex="0"
-                              class="page-link"
-                              >다음</a
-                            >
-                          </li>
-                        </ul>
+                            <thead>
+                              <tr role="row">
+                                <th>주문번호</th>
+                                <th>회원 ID</th>
+                                <th>결제금액</th>
+                                <th>주문상태코드</th>
+                                <th>주문일자</th>
+                                <th>주문상태 변경일자</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr v-for="(order, index) in orders" :key="index">
+                                <!-- <td> -->
+                                  <!-- TODO: 링크 : a 태그 (전체 새로고침(성능저하) -> 페이지전환) -->
+                                  <!-- TODO: 뷰에서제공 링크 : router-link (부분 새로고침: 성능향상) -->
+                                <!-- </td> -->
+                                <td>{{ order.orderId }}</td>
+                                <td>{{ order.userId }}</td>
+                                <td>{{ order.orderPrice }}</td>
+                                <td>{{ order.orderCode }}</td>
+                                <td>{{ order.addDate }}</td>
+                                <td>{{ order.modDate }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
+                    <!-- TODO: 페이지 시작 / 페이지 네이션 백에서 해놓음 -->
+                    <div class="row">
+                      <div class="col-sm-12 col-md-5">
+                        <div
+                          class="dataTables_info"
+                          role="status"
+                          aria-live="polite"
+                        >
+                          <!-- 복습 : select 태그 -> v-model="pageSize" : 화면에 보일 초기값이 지정 -->
+                          <!-- <select
+                            class="form-select form-select-sm"
+                            v-model="pageSize"
+                            @change="pageSizeChange"
+                          > -->
+                          <!-- TODO: vue 반복문 실행 -->
+                          <!-- <option
+                            v-for="(data, index) in pageSizes"
+                            :key="index"
+                            :value="data"
+                          > -->
+                          검색결과 총 {{ count }} 건
+                          <!-- </select> -->
+                          <!-- </option> -->
+                        </div>
+                      </div>
+                      <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_Simple_numbers">
+                          <b-pagination
+                            v-model="page"
+                            :total-rows="count"
+                            :per-page="pageSize"
+                            @click="retrieveAdminCoupon"
+                          ></b-pagination>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- TODO: 페이지 끝 -->
                   </div>
-                  <!-- TODO: 페이지 끝 -->
                 </div>
               </div>
+              <!-- /.container-fluid -->
             </div>
-            <!-- /.container-fluid -->
           </div>
           <!-- TODO: 게시판 끝 -->
 
@@ -387,49 +321,57 @@
         <i class="fas fa-angle-up"></i>
       </a>
     </body>
-
-    <!-- TODO: 로그아웃 모달 화면 -->
-    <div
-      class="modal fade"
-      id="logoutModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button
-              class="close"
-              type="button"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Select "Logout" below if you are ready to end your current session.
-          </div>
-          <div class="modal-footer">
-            <button
-              class="btn btn-secondary"
-              type="button"
-              data-dismiss="modal"
-            >
-              Cancel
-            </button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 <script>
-export default {};
+import AdminOrderService from "@/services/admin/AdminOrderService";
+
+export default {
+  data() {
+    return {
+      orders: [], // 주문 목록을 저장할 배열
+      searchOrderId: "",
+
+      // 공통 속성(현재페이지, 전체데이터개수,1페이지당개수)
+      page: 1, // 현재페이지번호
+      count: 0, // 전체데이터개수
+      pageSize: 10, // 1페이지당개수(select태그)
+
+      pageSizes: [10, 25, 50], //1페이지당개수 배열(select태그-option)
+    };
+  },
+  methods: {
+    // 페이지 번호 변경시
+    pageNoChange(value) {
+      this.page = value; // 1) 현재페이지 변경
+      this.retrieveAdminOrders(); // 2) 재조회 요청
+    },
+    // 페이지 사이즈 변경시
+    pageSizeChange() {
+      this.page = 1; // 2) 현재 페이지번호 초기화(1)
+      this.retrieveAdminOrders(); // 3) 재조회 요청
+    },
+    // 주문 목록을 불러오는 메서드
+    async retrieveAdminOrders() {
+      try {
+        let response = await AdminOrderService.getAll(
+          this.searchOrderId, 
+          this.page - 1,
+          this.pageSize 
+        );
+        const { orders, totalItems } = response.data;
+        this.orders = orders;
+        this.count = totalItems;
+        console.log("전체조회", response.data);
+      } catch (error) {
+        console.error("Error fetching orders: ", error);
+      }
+    },
+  },
+  mounted() {
+    this.retrieveAdminOrders();
+  },
+};
 </script>
 <style>
 @font-face {
@@ -443,5 +385,13 @@ export default {};
   /* background-color: rgb(115, 235, 67); */
   font-size: 30px;
   font-family: "YClover-Bold";
+}
+.table th {
+  white-space: nowrap; /* 줄바꿈 방지 */
+  text-overflow: ellipsis; /* 텍스트 생략 */
+  padding: 0 30px; /* 좌우 여백 추가 */
+}
+.table td {
+  text-align: center; /* 가운데 정렬 */
 }
 </style>
