@@ -187,8 +187,8 @@ const routes = [
   },
   // 마이페이지 -> 적립금
   {
-    // path: "/mypage/point",
-    // component: () => import("../views/mypage/MyPagePoint.vue"),
+    path: "/mypage/point",
+    component: () => import("../views/mypage/MyPagePoint.vue"),
   },
   // 마이페이지 -> 위시리스트
   {
