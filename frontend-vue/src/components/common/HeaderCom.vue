@@ -67,7 +67,7 @@
         <div class="category-menu" id="category-tab" @click="toggleCategory">
           카테고리
           <ul v-if="categoryTab">
-            <router-link to="/category/CG01" class="router-link"
+            <router-link to="/category/CG01"  class="router-link"
               ><li>필기류/필통</li></router-link
             >
             <router-link to="/category/CG02" class="router-link"
@@ -114,9 +114,6 @@ export default {
     toggleCategory() {
       this.categoryTab = !this.categoryTab;
     },
-    // categoryOver: function () {
-    //       this.categoryTab = !this.categoryTab;
-    //     }
     closeCategoryTab(event) {
       if (!event.target.closest("#category-tab")) {
         this.categoryTab = false;

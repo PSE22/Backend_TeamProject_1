@@ -68,10 +68,10 @@ export default {
         console.log(e);
       }
     },
-    // 전체 상품 가져오기
+    // 추천 상품 가져오기
     async retrieveProduct() {
       try {
-        let response = await ProductService.getAllProduct();
+        let response = await ProductService.getAllBestProductMonth();
         this.product = response.data;
         console.log("전체 상품 : ", response.data);
       } catch (e) {

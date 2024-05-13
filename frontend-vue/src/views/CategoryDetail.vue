@@ -44,13 +44,9 @@
 
 </template>
 <script>
-// import HeaderCom from "./components/common/HeaderCom.vue";
 import ProductService from "@/services/shop/ProductService";
 
 export default {
-  // components: {
-  //   HeaderCom,
-  // },
   data() {
     return {
       product: [],
