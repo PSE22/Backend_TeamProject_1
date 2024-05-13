@@ -57,7 +57,6 @@ public class ProductController {
             response.put("currentPage", categoryPage.getNumber()); // 현재페이지번호
             response.put("totalItems", categoryPage.getTotalElements()); // 총건수(개수)
             response.put("totalPages", categoryPage.getTotalPages()); // 총페이지수
-            log.debug("에러33: ", response);
 
             if(categoryPage.isEmpty() == false) {
                 return new ResponseEntity<>(response, HttpStatus.OK);
