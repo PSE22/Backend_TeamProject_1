@@ -56,28 +56,28 @@ public class SecurityConfig {
         http.formLogin(req -> req.disable());
 
         http.authorizeHttpRequests(req -> req
-                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                .requestMatchers("/api/admin/**").hasAuthority("AT01")
-                .requestMatchers("/api/mypage/**").hasAuthority("AT02")
-                .requestMatchers("/api/cart/**").hasAuthority("AT02")
-                .requestMatchers("/api/order/**").hasAuthority("AT02")
-                .requestMatchers("/api/admin-coupon/**").hasAuthority("AT01")
-                .requestMatchers("/api/admin-coupon-edit/**").hasAuthority("AT01")
-                .requestMatchers("/api/admin-product/**").hasAuthority("AT01")
-                .requestMatchers("/api/admin-product-edit/**").hasAuthority("AT01")
-                .requestMatchers("/api/admin-option/**").hasAuthority("AT01")
-                .requestMatchers("/api/admin-option-edit/**").hasAuthority("AT01")
-                .requestMatchers("/api/admin-pdqna/**").hasAuthority("AT01")
-                .requestMatchers("/api/admin-pdqna-edit/**").hasAuthority("AT01")
-                .requestMatchers("/api/admin-pdqna-reply/**").hasAuthority("AT01")
-                .requestMatchers("/api/admin-pdqna-reply-edit/**").hasAuthority("AT01")
-                .requestMatchers("/api/admin-pdqna-review/**").hasAuthority("AT01")
-                .requestMatchers("/api/admin-pdqna-review-edit/**").hasAuthority("AT01")
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/shop/**").permitAll()
-                .requestMatchers("/").permitAll()
-                .anyRequest().authenticated());
-//                .anyRequest().permitAll()); // 임시로 권한 풀기 함수
+//                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+//                .requestMatchers("/api/admin/**").hasAuthority("AT01")
+//                .requestMatchers("/api/mypage/**").hasAuthority("AT02")
+//                .requestMatchers("/api/cart/**").hasAuthority("AT02")
+//                .requestMatchers("/api/order/**").hasAuthority("AT02")
+//                .requestMatchers("/api/admin-coupon/**").hasAuthority("AT01")
+//                .requestMatchers("/api/admin-coupon-edit/**").hasAuthority("AT01")
+//                .requestMatchers("/api/admin-product/**").hasAuthority("AT01")
+//                .requestMatchers("/api/admin-product-edit/**").hasAuthority("AT01")
+//                .requestMatchers("/api/admin-option/**").hasAuthority("AT01")
+//                .requestMatchers("/api/admin-option-edit/**").hasAuthority("AT01")
+//                .requestMatchers("/api/admin-pdqna/**").hasAuthority("AT01")
+//                .requestMatchers("/api/admin-pdqna-edit/**").hasAuthority("AT01")
+//                .requestMatchers("/api/admin-pdqna-reply/**").hasAuthority("AT01")
+//                .requestMatchers("/api/admin-pdqna-reply-edit/**").hasAuthority("AT01")
+//                .requestMatchers("/api/admin-pdqna-review/**").hasAuthority("AT01")
+//                .requestMatchers("/api/admin-pdqna-review-edit/**").hasAuthority("AT01")
+//                .requestMatchers("/api/auth/**").permitAll()
+//                .requestMatchers("/api/shop/**").permitAll()
+//                .requestMatchers("/").permitAll()
+//                .anyRequest().authenticated());
+                .anyRequest().permitAll()); // 임시로 권한 풀기 함수
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

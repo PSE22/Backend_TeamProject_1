@@ -25,8 +25,8 @@ import java.util.Optional;
  */
 @Repository
 public interface MyOrderDetailRepository extends JpaRepository<Order, Long> {
-
-    @Query(value = "SELECT \n" +
+//    배송지
+    @Query(value = "SELECT DISTINCT\n" +
             "O.ORDER_ID AS orderId,\n" +
             "O.ORDER_ADDR AS orderAddr,\n" +
             "O.ORDER_NAME AS orderName,\n" +
@@ -37,29 +37,22 @@ public interface MyOrderDetailRepository extends JpaRepository<Order, Long> {
             "O.ORDER_PAYMENT AS orderPayment,\n" +
             "O.ADD_DATE AS orAddDate,\n" +
             "O.ORDER_CODE AS orderCode,\n" +
-            "OD.ORDER_DETAIL_CNT AS orderDetailCnt,\n" +
-            "OD.ORDER_DETAIL_PRICE AS orderDetailPrice,\n" +
             "OC.ADD_DATE AS ocAddDate,\n" +
             "OC.OC_REASON AS ocReason,\n" +
             "OC.OC_DENY_REASON AS ocDenyReason,\n" +
             "RE.ADD_DATE AS reAddDate,\n" +
             "RE.REFUND_REASON AS refundReason,\n" +
-            "RE.REFUND_DENY_REASON AS refundDenyReason,\n" +
-            "P.PD_THUMBNAIL AS pdThumbnail,\n" +
-            "P.PD_NAME AS pdName,\n" +
-            "P.PD_PRICE AS pdPrice,\n" +
-            "OP.OP_NAME AS opName\n" +
-            "FROM TB_ORDER O, TB_ORDER_DETAIL OD, TB_ORDER_CANCEL OC, TB_REFUND RE, TB_PRODUCT P, TB_OPTION OP\n" +
+            "RE.REFUND_DENY_REASON AS refundDenyReason\n" +
+            "FROM TB_ORDER O, TB_ORDER_DETAIL OD, TB_ORDER_CANCEL OC, TB_REFUND RE\n" +
             "WHERE O.ORDER_ID = OC.ORDER_ID(+)\n" +
             "AND O.ORDER_ID = OD.ORDER_ID\n" +
             "AND O.ORDER_ID = RE.ORDER_ID(+)\n" +
-            "AND OD.OP_ID = OP.OP_ID\n" +
-            "AND P.PD_ID = OP.PD_ID\n" +
             "AND O.STATUS = 'Y'\n" +
             "AND O.ORDER_ID = :orderId",
     nativeQuery = true)
     Optional<IMyOrderDetailDto> findByOrderId(@Param("orderId") Long orderId );
 
+//    주문 상품리스트
     @Query(value = "SELECT\n" +
             "P.PD_NAME AS pdName,\n" +
             "P.PD_THUMBNAIL AS pdThumbnail,\n" +
@@ -75,4 +68,18 @@ public interface MyOrderDetailRepository extends JpaRepository<Order, Long> {
             "AND O.ORDER_ID = :orderId",
     nativeQuery = true)
     List<IMyOrderDetailDto> findByOrderList(@Param("orderId") Long orderId);
+
+//    주문 금액
+    @Query(value = "SELECT\n" +
+            "C.CP_DC_PRICE AS cpDcPrice,\n" +
+            "C.CP_DC_RATE AS cpDcRate,\n" +
+            "UP.USE_POINT_PRICE AS usePointPrice\n" +
+            "FROM TB_USER_COUPON UC, TB_COUPON C, TB_ORDER O, TB_USE_POINT UP\n" +
+            "WHERE UC.CP_ID = C.CP_ID(+)\n" +
+            "AND UC.ORDER_ID(+) = O.ORDER_ID\n" +
+            "AND O.ORDER_ID = UP.ORDER_ID(+)\n" +
+            "AND O.STATUS = 'Y'\n" +
+            "AND O.ORDER_ID = :orderId",
+    nativeQuery = true)
+    Optional<IMyOrderDetailDto> findByOrderPrice(@Param("orderId") Long orderId);
 }

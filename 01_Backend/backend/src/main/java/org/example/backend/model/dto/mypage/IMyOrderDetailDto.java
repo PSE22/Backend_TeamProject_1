@@ -25,7 +25,7 @@ public interface IMyOrderDetailDto {
     String getOrAddDate();    // 주문일자
     String getOrderCode();  // 주문상태코드
     String getOrderDetailCnt();  // 주문수량
-    String getOrderDetailPrice();  // 상품 금액
+    Integer getOrderDetailPrice();  // 상품 금액
     String getOcAddDate();  // 취소 신청일
     String getOcReason();  // 취소사유
     String getOcDenyReason();  // 취소 취소사유
@@ -36,4 +36,8 @@ public interface IMyOrderDetailDto {
     String getPdName();  // 상품명
     String getOpName();  // 옵션명
     Integer getPdPrice();  // 상품가격
+    Integer getCpDcPrice(); // 할인금액
+    Double getCpDcRate();   // 할인율
+    Integer getUsePointPrice(); // 사용포인트
+
 }

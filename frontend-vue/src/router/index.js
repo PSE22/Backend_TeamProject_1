@@ -172,7 +172,7 @@ const routes = [
   // 마이페이지 -> 주문상세
   // 주소 앞에 mypage 추가해야함
   {
-    path: "/order/:orderId",
+    path: "/mypage/order/:orderId",
     component: () => import("../views/mypage/MyPageOrderDetail.vue"),
   },
   // 마이페이지 -> 쿠폰함
