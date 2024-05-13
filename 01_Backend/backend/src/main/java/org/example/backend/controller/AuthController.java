@@ -3,7 +3,9 @@ package org.example.backend.controller;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.backend.model.dto.shop.ICartDto;
 import org.example.backend.model.entity.User;
+import org.example.backend.repository.UserRepository;
 import org.example.backend.security.jwt.JwtUtils;
 import org.example.backend.service.dto.LoginRequest;
 import org.example.backend.service.dto.LoginResponse;
