@@ -1,7 +1,7 @@
 <template>
   <!-- 신상품 페이지 : 배너 -->
   <div class="row">
-    <div class="container-fluid banner-container">
+    <div class="container-fluid banner-container-new">
       <h1 class="banner-title">New Item</h1>
     </div>
   </div>

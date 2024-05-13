@@ -3,7 +3,9 @@ package org.example.backend.controller;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.backend.model.dto.shop.ICartDto;
 import org.example.backend.model.entity.User;
+import org.example.backend.repository.UserRepository;
 import org.example.backend.security.jwt.JwtUtils;
 import org.example.backend.service.dto.LoginRequest;
 import org.example.backend.service.dto.LoginResponse;
@@ -80,13 +82,12 @@ public class AuthController {
         }
     }
 
+
     @GetMapping("/signup/{userId}")
     public ResponseEntity<Object> reId(@RequestParam String userId) {
         try {
             if(signUpService.existsById(userId)) {
                 return ResponseEntity.badRequest().body("이미 가입된 회원입니다.");
-            } else if () {
-                
             } else {
                 return ResponseEntity.ok("사용 가능한 ID 입니다.");
             }
@@ -94,6 +95,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 
     @PostMapping("/signup")
     public ResponseEntity<Object> signUp(@RequestBody SignUpRequest signUpRequest) {
