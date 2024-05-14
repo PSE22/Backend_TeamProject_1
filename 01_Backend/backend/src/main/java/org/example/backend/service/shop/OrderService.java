@@ -14,6 +14,7 @@ import org.example.backend.repository.order.OrderRepository;
 import org.example.backend.repository.shop.PointRepository;
 import org.example.backend.repository.shop.ShipAddressRepository;
 import org.example.backend.repository.shop.UserCouponRepository;
+import org.example.backend.service.admin.OrderStatsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -56,42 +57,42 @@ public class OrderService {
     @Autowired
     OrderDetailRepository orderDetailRepository;
 
+    @Autowired
+    OrderStatsService orderStatsService;
+
     // DTO 변환
     ModelMapper modelMapper = new ModelMapper();
+
     /**
      * 저장 함수
      * @param orderDto
      * @return
      */
-    // 저장함수: 주문 테이블 insert + 주문 상세 (배열) insert(반복문)
-    //      => 주문 객체 DTO 정의 : 주문상세 객체배열(List), 주문상태 등
     @Transactional
     public Order insert(OrderDto orderDto) {
         // insert 할 때는 DTO -> Entity 형태로 변환해서 insert 해야 함
         //      방법 (1) : 직접 변환 로직 코딩
         //      방법 (2) : 자동 변환 패키지 사용 (ModelMapper 패키지, 단점: 성능저하)
 
-        // TODO: 1) DTO -> Entity 변환
-        // 사용법 : modelMapper.map(DTO_클래스, 엔티티명.class);
+        // 1) DTO -> Entity 변환
         Order order = modelMapper.map(orderDto, Order.class);
 
-        // TODO: 2) 부모 테이블 저장 (부모 먼저)
+        // 2) 부모 테이블 저장 (부모 먼저)
         Order order2 = orderRepository.save(order);
 
-        // TODO: 3) 자식 테이블 저장 (주문 상세 테이블)
-        //  트랜잭션(transaction) :
-        //      - CUD 작업에 대해 여러 개가 있을 경우 중간에 에러가 발생하면 모두 롤백함
-        //      - @Transactional 어노테이션 사용, 함수 위에 붙임
+        // 3) 자식 테이블 저장 (주문 상세 테이블)
+        //  트랜잭션(transaction) : CUD 작업에 대해 여러 개가 있을 경우 중간에 에러가 발생하면 모두 롤백함
         for (int i = 0; i < orderDto.getOrderDetailList().size(); i++) {
             // 자식 테이블 insert : 기본키(부모쪽 insert 할 때 시퀀스로 생성되어 있음)
             // 생성된 주문 번호 -> 주문 상세 객체에 저장
-//            simpleOrderDto.getSimpleOrderDetailList().get(i).setSono(simpleOrder2.getSono());
-
             OrderDetail tmpOrderDetail = orderDto.getOrderDetailList().get(i);
             tmpOrderDetail.setOrderId(order2.getOrderId());
             // DB 저장
             orderDetailRepository.save(tmpOrderDetail);
         }
+        // 태완님 코드 (주문통계) 호출
+//        orderStatsService.updateStatsOnOrderCreation();
+
         return order2;  // 저장된 주문 객체
     }
 
