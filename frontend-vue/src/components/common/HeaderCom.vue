@@ -27,7 +27,7 @@
           class="router-link"
           >장바구니 |
         </router-link>
-        <router-link v-if="showAdminBoard" to="/admin" class="router-link"
+        <router-link v-if="showAdminBoard" to="/admin-product" class="router-link"
           >관리페이지 |</router-link
         >
         <!-- 로그인 / 회원가입 -->

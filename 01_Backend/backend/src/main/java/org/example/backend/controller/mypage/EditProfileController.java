@@ -1,6 +1,6 @@
 package org.example.backend.controller.mypage;
 
-import org.example.backend.model.entity.admin.AdminCoupon;
+import org.example.backend.service.SignUpService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +12,8 @@ import org.example.backend.model.entity.User;
 import org.example.backend.service.mypage.EditProfileService;
 import org.example.backend.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Optional;
 
 /**
  * packageName : org.example.backend.controller
@@ -41,21 +43,24 @@ public class EditProfileController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @GetMapping("/editProfile/{userId}")
-    public ResponseEntity<Object> showUpdateProfileForm() {
-        try {
-        String currentUser = editProfileService.getCurrentUser(userId);
-            if (currentUser == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
-            }
+    @Autowired
+    SignUpService signUpService;
 
-            return ResponseEntity.ok(currentUser);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류가 발생했습니다.");
-        }
-    }
+//    @GetMapping("/editProfile/{userId}")
+//    public ResponseEntity<Object> showUpdateProfileForm(@PathVariable String userId) {
+//        try {
+//        String currentUser = editProfileService.getCurrentUser(userId);
+//            if (currentUser == null) {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
+//            }
+//
+//            return ResponseEntity.ok(currentUser);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류가 발생했습니다.");
+//        }
+//    }
 
-//    @PutMapping("/editProfile/{userId}")
+    //    @PutMapping("/editProfile/{userId}")
 //    public ResponseEntity<Object> updateProfile(
 //            @PathVariable String userId,
 //            @RequestBody User user
@@ -93,6 +98,28 @@ public class EditProfileController {
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원정보 수정 중 오류가 발생했습니다.");
 //        }
 //    }
+//    TODO: 상세조회
+    @GetMapping("/editProfile/{userId}")
+    public ResponseEntity<Object> findById(
+            @PathVariable String userId
+    ) {
+        try {
+//            DB 상세조회 서비스 함수 실행
+            Optional<User> optionalUser = signUpService.findById(userId);
+
+            if (optionalUser.isEmpty() == true) {
+//                데이터 없음(203)
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+//                데이터 있음(200)
+                return new ResponseEntity<>(optionalUser.get()
+                        , HttpStatus.OK);
+            }
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     //    TODO: 수정함수
     @PutMapping("/editProfile/{userId}")
@@ -101,7 +128,15 @@ public class EditProfileController {
             @RequestBody User user
     ) {
         try {
-            log.debug("확인 필요"+user);
+            log.debug("확인 필요" + user);
+            if (user.getUserPw().equals("")) {
+                //유저를 상세조회해서 패스워드를 가져와서 유저패스워드에 넣기
+                Optional<User> optionalUser = signUpService.findById(userId);
+                user.setUserPw(optionalUser.get().getUserPw());
+            } else {
+                user.setUserPw(passwordEncoder.encode(user.getUserPw()));
+            }
+            log.debug("확인 해야함" + user);
             User user2 = editProfileService.updateUser(user);  // 수정
 
             return new ResponseEntity<>(user2, HttpStatus.OK);
@@ -141,24 +176,33 @@ public class EditProfileController {
 //        }
 //    }
 
-    //     TODO: 삭제 함수
-    @DeleteMapping("/editProfile/deletion/{userId}")
-    public ResponseEntity<Object> delete(
-            @PathVariable String userId
-    ) {
+//    TODO: 탈퇴 함수
+    @DeleteMapping("/editProfile/deletion/{userId}/{userPw}")
+    public boolean withdrawUser(@PathVariable String userId, @PathVariable String userPw) {
         try {
-//            DB 서비스 삭제 함수 실행
-            boolean success = editProfileService.withdrawUser(userId);
-
-            if (success == true) {
-                return new ResponseEntity<>(HttpStatus.OK);
+            // 사용자 ID로 사용자 정보 조회
+            Optional<User> optionalUser = signUpService.findById(userId);
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                // 입력한 비밀번호와 사용자의 저장된 비밀번호를 비교하여 일치하는지 확인
+                if (passwordEncoder.matches(userPw, user.getUserPw())) {
+                    // 일치할 경우 회원 탈퇴 수행
+                    editProfileService.withdrawUser(userId, userPw);
+                    return true;
+                } else {
+                    // 비밀번호가 일치하지 않을 경우 예외 발생
+                    throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+                }
             } else {
-                // 삭제 실행 : 0건 삭제(삭제할 데이터 없음)
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                // 사용자가 존재하지 않을 경우 예외 발생
+                throw new IllegalArgumentException("사용자가 존재하지 않습니다.");
             }
         } catch (Exception e) {
-//            서버(DB) 에러
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            // 예외 처리
+            log.error("탈퇴 중 오류 발생: " + e.getMessage());
+            return false;
         }
     }
+
+
 }

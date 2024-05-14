@@ -12,7 +12,7 @@
           <!-- Sidebar - Brand -->
           <a
             class="sidebar-brand d-flex align-items-center justify-content-center"
-            href="/admin"
+            href="/admin-product"
           >
             <div class="sidebar-brand-icon rotate-n-15"></div>
             <div class="sidebar-brand-text mx-3 logo">서울쥐</div>
@@ -23,7 +23,7 @@
 
           <!-- Nav Item - Dashboard -->
           <li class="nav-item active">
-            <a class="nav-link" href="/admin">
+            <a class="nav-link" href="/admin-product">
               <i class="fas fa-fw fa-tachometer-alt"></i>
               <span>처음으로</span></a
             >
@@ -96,13 +96,13 @@
                     placeholder="검색"
                     aria-label="Search"
                     aria-describedby="basic-addon2"
-                    v-model="searchCpName"
+                    v-model="searchOrderId"
                   />
                   <div class="input-group-append">
                     <button
                       class="btn btn-primary"
                       type="button"
-                      @click="retrieveAdminCoupon"
+                      @click="retrieveAdminOrders"
                     >
                       <i class="fas fa-search fa-sm"></i>
                     </button>
@@ -288,7 +288,7 @@
                             v-model="page"
                             :total-rows="count"
                             :per-page="pageSize"
-                            @click="retrieveAdminCoupon"
+                            @click="retrieveAdminOrders"
                           ></b-pagination>
                         </div>
                       </div>

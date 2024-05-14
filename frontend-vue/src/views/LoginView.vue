@@ -30,16 +30,6 @@
         v-model="user.userPw"
       />
     </div>
-    <!-- 아이디 저장 체크박스 -->
-    <div class="mb-3 form-check">
-      <input
-        type="checkbox"
-        class="form-check-input-A"
-        placeholder="체크박스"
-        name="rememId"
-      />
-      <label class="form-check-label" for="exampleCheck1">아이디 저장</label>
-    </div>
     <!-- 로그인 박스 -->
     <div align="center">
       <button
@@ -51,19 +41,13 @@
       </button>
     </div>
 
-    <!-- 찾기 및 회원 가입 -->
+    <!-- 회원 가입 -->
     <nav class="mt-3 mb-3" align="center">
-      <router-link align="left" to="/find-id">아이디 찾기</router-link> |
-      <router-link align="center" to="/find-password"
-        >비밀번호 찾기</router-link
-      >
-      | <router-link align="right" to="/signup">회원가입</router-link> |
+      <router-link align="right" to="/signup">회원가입</router-link>
     </nav>
 
     <!-- 소셜 페이지 로그인 기능 연동 -->
     <div class="social-container" align="center">
-      <router-link href="#" class="social" to="facebook">facebook</router-link>
-      <router-link href="#" class="social" to="google">google</router-link>
       <router-link href="#" class="social" to="kakao">kakao</router-link>
     </div>
     <router-view />
@@ -113,7 +97,7 @@ export default {
   padding: 40px 30px;
   border: 3px solid #505050;
   width: 500px;
-  height: 500px;
+  height: 450px;
 }
 
 .social-container {
