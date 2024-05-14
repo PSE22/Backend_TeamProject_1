@@ -1,13 +1,404 @@
 <template>
-    <div>
-        회원 정보 관리 페이지입니다.
+  <div align="center" class="mt-5">
+    <h2>회원정보수정</h2>
+  </div>
+  <div class="container mt-5 signup-box">
+    <div align="center">
+      <div class="logo">
+        <h2>서울쥐</h2>
+      </div>
     </div>
+    <!-- 회원정보수정 폼 -->
+    <div v-if="user">
+      <!-- 아이디 -->
+      <div align="center">
+        <div class="row">
+          <div class="col">
+            <label for="userId"></label>
+            <input
+              id="inputId"
+              type="text"
+              class="form-control"
+              placeholder="아이디"
+              name="userId"
+              disabled
+              v-model="user.userId"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- 비밀번호 변경 -->
+      <div align="center">
+        <div class="row">
+          <div class="form-group col">
+            <label for="userPw"></label>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="기존 비밀번호 확인"
+              name="userPw"
+              v-model="userPw"
+            />
+            <label for="newPassword"></label>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="새로운 비밀번호"
+              name="newPassword"
+              v-model="newPassword"
+            />
+            <label for="newPasswordConfirm"></label>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="비밀번호 재확인"
+              name="newPasswordConfirm"
+              v-model="newPasswordConfirm"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- 비밀번호 일치 여부를 표시하는 메시지 -->
+      <div v-if="!isNewPasswordMatch">비밀번호가 일치하지 않습니다.</div>
+
+      <div class="row">
+        <div class="col"></div>
+        <!-- 왼쪽 여백 -->
+        <div class="col-auto">
+          <!-- 비밀번호 변경 버튼 -->
+          <button type="button" @click="changePassword">비밀번호 변경</button>
+        </div>
+      </div>
+
+      <!-- 이름 -->
+      <div align="center">
+        <div class="row">
+          <div class="form-group col">
+            <label for="userName"></label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="이름"
+              name="userName"
+              v-model="user.userName"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- 성별 -->
+      <div class="form-check form-check-inline mt-3">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="gender"
+          value="M"
+          v-model="user.gender"
+        />
+        <label class="form-check-label" for="inlineRadio1">남</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="gender"
+          value="F"
+          v-model="user.gender"
+        />
+        <label class="form-check-label" for="inlineRadio2">여</label>
+      </div>
+      <!-- 이메일 -->
+      <div align="center">
+        <div class="row">
+          <div class="col">
+            <label for="userEmail"></label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="이메일"
+              name="userEmail"
+              v-model="user.userEmail"
+            />
+          </div>
+        </div>
+      </div>
+      <br />
+      <!-- 주소 -->
+      <div align="center">
+        <div class="row">
+          <div class="col">
+            <label for="userEmail" class="mb-3">기본배송지</label>
+            <div class="input-group">
+              <input
+                type="text"
+                name="zipcode"
+                id="zipcode"
+                class="form-control"
+                value=""
+                placeholder="우편번호"
+                readonly
+              />
+              <button
+                class="btn btn-primary btn-sm"
+                type="button"
+                @click="showApi"
+              >
+                주소검색
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col">
+            <input
+              type="text"
+              name="roadaddress"
+              id="roadaddress"
+              class="form-control"
+              value=""
+              placeholder="도로명주소"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col">
+            <input
+              type="text"
+              name="detailaddress"
+              id="detailaddress"
+              class="form-control"
+              value=""
+              placeholder="상세주소"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- 휴대폰 번호 -->
+      <div align="center">
+        <div class="row">
+          <div class="col">
+            <label for="userPhone"></label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="휴대폰 번호"
+              name="userPhone"
+              v-model="user.userPhone"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- 광고수신동의 -->
+      광고 수신 동의 :
+      <div class="form-check form-check-inline mt-3">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="userPromo"
+          value="Y"
+          v-model="user.userPromo"
+        />
+        <label class="form-check-label" for="promoYes">동의</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="userPromo"
+          value="N"
+          v-model="user.userPromo"
+        />
+        <label class="form-check-label" for="promoNo">미동의</label>
+      </div>
+
+      <!-- 계정분류 라디오버튼 삭제 - 김태완 -->
+
+      <!-- 회원가입 -->
+      <br />
+      <div align="center">
+        <div class="row g-3 mt-2 mb-3">
+          <button
+            type="submit"
+            class="btn btn-outline-primary ms-2 col"
+            @click="updateProfile"
+          >
+            회원정보수정
+          </button>
+
+          <button class="btn btn-outline-danger ms-3 col" @click="withdrawUser">
+            회원탈퇴
+          </button>
+        </div>
+      </div>
+    </div>
+    <router-view />
+    <p v-if="message" class="alert alert-success" role="alert">
+      {{ message }}
+    </p>
+  </div>
 </template>
 <script>
+import LoginService from "@/services/login/LoginService";
+import MyEditProfile from "@/services/mypage/MyEditProfile";
+
 export default {
-    
-}
+  // 데이터 바인딩
+  data() {
+    return {
+      openDaumAddrApi: {
+        addressName: "기본배송지",
+        zipcode: "", // 우편번호
+        address: "", // 기본주소
+        roadAddress: "", // 도로명 주소
+        roadAddressEnglish: "", //영문 도로명 주소
+        jibunAddress: "", // 지번 주소
+        jibunAddressEnglish: "", // 영문 지번 주소
+      },
+      user: null, // 초기값
+      message: "", // 성공메세지 화면 출력속성
+      // 비밀번호
+      userPw: "", // 기존 비밀번호
+      newPassword: "", // 새로운 비밀번호
+      newPasswordConfirm: "", // 비밀번호 재확인
+    };
+  },
+  // TODO: 함수 정의
+  methods: {
+    showApi() {
+      new window.daum.Postcode({
+        oncomplete: (data) => {
+          let fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+          let extraRoadAddr = ""; // 도로명 조합형 주소 변수
+
+          // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+          // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+          if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+            extraRoadAddr += data.bname;
+          }
+          // 건물명이 있고, 공동주택일 경우 추가한다.
+          if (data.buildingName !== "" && data.apartment === "Y") {
+            extraRoadAddr +=
+              extraRoadAddr !== ""
+                ? ", " + data.buildingName
+                : data.buildingName;
+          }
+          // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+          if (extraRoadAddr !== "") {
+            extraRoadAddr = " (" + extraRoadAddr + ")";
+          }
+          // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+          if (fullRoadAddr !== "") {
+            fullRoadAddr += extraRoadAddr;
+          }
+          document.getElementById("zipcode").value = data.zonecode;
+          document.getElementById("roadaddress").value = data.roadAddress;
+        },
+      }).open({
+        popupName: "postcodePopup",
+      });
+    },
+    async changePassword() {
+      // 새로운 비밀번호와 비밀번호 재확인이 일치하는지 확인
+      if (!this.isNewPasswordMatch) {
+        alert("새로운 비밀번호가 일치하지 않습니다.");
+        return;
+      }
+
+      try {
+        // 비밀번호 변경 API 호출
+        alert("비밀번호가 변경되었습니다.");
+      } catch (error) {
+        alert("비밀번호 변경에 실패했습니다.");
+      }
+    },
+    async getUser(userId) {
+      try {
+        let response = await LoginService.findById(userId);
+        this.user = response.data; // spring 결과를 바인딩 속성변수 user 저장
+        // 로깅
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    // 수정요청 함수
+    async updateProfile() {
+      try {
+        let temp = {
+          // 임시 수정될 객체
+          userId: this.user.userId,
+          userPw: this.newPassword,
+          userName: this.user.userName,
+          gender: this.user.gender,
+          userEmail: this.user.userEmail,
+          userPhone: this.user.userPhone,
+          userPromo: this.user.userPromo,
+        };
+        let response = await MyEditProfile.updateProfile(
+          this.user.userId,
+          temp
+        );
+        // 로깅
+        console.log(response.data);
+        // 화면에 성공메세지 출력 : message
+        alert("수정이 성공했습니다.");
+        this.$router.push("/mypage/editProfile");
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    // 삭제요청 함수
+    async withdrawUser() {
+      let response = await MyEditProfile.withdrawUser(this.user.userId);
+      console.log(response.data);
+      this.$router.push("/");
+    },
+  },
+  computed: {
+    isPasswordMatch() {
+      return this.user.userPw === this.user.rePw;
+    },
+    isNewPasswordMatch() {
+      return this.newPassword === this.newPasswordConfirm;
+    },
+  },
+  mounted() {
+    this.message = ""; // 변수 초기화
+    this.getUser(this.$route.params.userId);
+  },
+};
 </script>
 <style>
-    
+.signup-box {
+  margin: 100px auto;
+  background-color: rgba(255, 255, 255, 1);
+  padding: 40px 30px;
+  border: 3px solid #505050;
+  width: 600px;
+  height: 1000px;
+}
+.a1 {
+  position: relative;
+}
+.a {
+  position: absolute;
+  top: 50%;
+}
+
+@font-face {
+  font-family: "YClover-Bold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/YClover-Bold.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+.logo {
+  /* background-color: rgb(115, 235, 67); */
+  font-size: 30px;
+  font-family: "YClover-Bold";
+}
 </style>

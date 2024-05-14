@@ -26,7 +26,8 @@ import java.util.List;
 public interface ProductImgRepository extends JpaRepository<ProductImage, Long> {
     @Query(value = "SELECT PD_IMG_URL AS pdImgUrl\n" +
             "FROM TB_PRODUCT_IMAGE\n" +
-            "WHERE PD_ID LIKE '%' || PD_ID || '%'\n" +
+            "WHERE PD_ID LIKE '%' || :pdId || '%'\n" +
+            "AND STATUS = 'Y'\n" +
             "ORDER BY PD_IMG_ID"
     , nativeQuery = true)
     List<IProductImgDto> findAllByPdIdContaining(@Param("pdId") Long pdId);

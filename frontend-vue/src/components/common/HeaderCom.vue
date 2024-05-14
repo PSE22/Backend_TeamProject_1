@@ -15,9 +15,21 @@
       </div>
       <!-- navbar #1 : 우측 리스트 -->
       <div class="main-nav-list col align-self-center">
-        <router-link to="/mypage" v-if="this.$store.state.loggedIn==true" class="router-link">마이페이지 | </router-link>
-        <router-link to="/cart" v-if="this.$store.state.loggedIn==true"  class="router-link">장바구니 | </router-link>
-        <router-link v-if="showAdminBoard" to="/admin" class="router-link">관리페이지 |</router-link>
+        <router-link
+          to="/mypage"
+          v-if="this.$store.state.loggedIn == true"
+          class="router-link"
+          >마이페이지 |
+        </router-link>
+        <router-link
+          to="/cart"
+          v-if="this.$store.state.loggedIn == true"
+          class="router-link"
+          >장바구니 |
+        </router-link>
+        <router-link v-if="showAdminBoard" to="/admin" class="router-link"
+          >관리페이지 |</router-link
+        >
         <!-- 로그인 / 회원가입 -->
         <router-link
           v-if="this.$store.state.loggedIn == false"
@@ -55,7 +67,7 @@
         <div class="category-menu" id="category-tab" @click="toggleCategory">
           카테고리
           <ul v-if="categoryTab">
-            <router-link to="/category/CG01" class="router-link"
+            <router-link to="/category/CG01"  class="router-link"
               ><li>필기류/필통</li></router-link
             >
             <router-link to="/category/CG02" class="router-link"
@@ -102,9 +114,11 @@ export default {
     toggleCategory() {
       this.categoryTab = !this.categoryTab;
     },
-    // categoryOver: function () {
-    //       this.categoryTab = !this.categoryTab;
-    //     }
+    closeCategoryTab(event) {
+      if (!event.target.closest("#category-tab")) {
+        this.categoryTab = false;
+      }
+    },
     handleLogout() {
       LoginService.logout();
       this.$store.commit("logout");
@@ -118,6 +132,12 @@ export default {
       }
       return false;
     },
+  },
+  mounted() {
+    document.addEventListener("click", this.closeCategoryTab);
+  },
+  beforeUnmount() {
+    document.removeEventListener("click", this.closeCategoryTab);
   },
 };
 </script>

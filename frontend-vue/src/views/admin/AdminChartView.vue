@@ -177,7 +177,7 @@
               <div class="row">
                 <div class="col-xl-8 col-lg-7">
                   <!-- Daily Sales Chart -->
-                  <div class="col-xl-4 col-lg-5">
+                  <div class="col-xl-12 col-lg-12">
                     <div class="card shadow mb-4">
                       <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">
@@ -199,7 +199,7 @@
                     </div>
                   </div>
                   <!-- Monthly Sales Chart -->
-                  <div class="col-xl-4 col-lg-5">
+                  <div class="col-xl-12 col-lg-12">
                     <div class="card shadow mb-4">
                       <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">
@@ -230,7 +230,7 @@
                   </div>
 
                   <!-- Yearly Sales Chart -->
-                  <div class="col-xl-4 col-lg-5">
+                  <div class="col-xl-12 col-lg-12">
                     <div class="card shadow mb-4">
                       <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">
@@ -240,8 +240,8 @@
                       <div class="card-body">
                         <canvas
                           id="yearlyChart"
-                          width="100%"
-                          height="50"
+                          width="1000%"
+                          height="600px"
                         ></canvas>
                       </div>
                     </div>

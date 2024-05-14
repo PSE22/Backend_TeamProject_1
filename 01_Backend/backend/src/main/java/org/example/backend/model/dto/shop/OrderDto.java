@@ -30,7 +30,6 @@ public class OrderDto {
     private String orderName;                       // 수령인
     private String orderAddr;                       // 배송지 주소
     private String orderPhone;                      // 수령인 연락처
-    private String orderMemo;                       // 주문메모
     private String shipMemo;                        // 배송메모
     private Integer orderPrice;                     // 결제금액
     private String orderPayment;                    // 결제 수단

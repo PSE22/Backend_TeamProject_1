@@ -28,6 +28,7 @@ public class MyOrderDetailService {
     @Autowired
     MyOrderDetailRepository myOrderDetailRepository;
 
+//    TODO: 배송지
     public Optional<IMyOrderDetailDto> findByOrderId(Long orderId) {
 //        DB 상세조회 실행
         Optional<IMyOrderDetailDto> optionalIMyOrderDetail
@@ -35,10 +36,19 @@ public class MyOrderDetailService {
         return optionalIMyOrderDetail;
     }
 
+//    TODO: 주문 상품리스트
     public List<IMyOrderDetailDto> findByOrderList(Long orderId) {
 //        DB 상세조회 실행
         List<IMyOrderDetailDto> findByOrderList
                 = myOrderDetailRepository.findByOrderList(orderId);
         return findByOrderList;
     }
+
+//    주문 금액
+public Optional<IMyOrderDetailDto> findByOrderPrice(Long orderId) {
+//        DB 상세조회 실행
+    Optional<IMyOrderDetailDto> findByOrderPrice
+            = myOrderDetailRepository.findByOrderPrice(orderId);
+    return findByOrderPrice;
+}
 }

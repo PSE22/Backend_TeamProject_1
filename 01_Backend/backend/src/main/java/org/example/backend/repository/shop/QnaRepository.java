@@ -34,11 +34,8 @@ public interface QnaRepository extends JpaRepository<PdQna, Integer> {
             "FROM TB_PD_QNA PQ, TB_PD_QNA_IMG PQI, TB_PD_QNA_REPLY QR\n" +
             "WHERE PQ.PD_QNA_ID = PQI.PD_QNA_ID(+)\n" +
             "AND PQ.PD_QNA_ID = QR.PD_QNA_ID(+)\n" +
+            "AND PQ.STATUS = 'Y'\n" +
             "AND QR.STATUS = 'Y'"
-    , countQuery = "SELECT Count(*)\n" +
-            "FROM TB_PD_QNA PQ, TB_PD_QNA_IMG PQI, TB_PD_QNA_REPLY QR\n" +
-            "WHERE PQ.PD_QNA_ID = PQI.PD_QNA_ID(+)\n" +
-            "AND PQ.PD_QNA_ID = QR.PD_QNA_ID(+)"
     , nativeQuery = true)
     Page<IQnaDto> selectByQnaContaining(Integer pdQnaId, Pageable pageable);
 }
