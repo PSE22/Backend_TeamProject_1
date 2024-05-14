@@ -2,8 +2,11 @@ package org.example.backend.service.mypage;
 
 import org.example.backend.model.dto.mypage.IMyOrderDetailDto;
 import org.example.backend.model.dto.shop.ICartDto;
+import org.example.backend.model.entity.Order;
+import org.example.backend.model.entity.Refund;
 import org.example.backend.repository.CmCodeRepository;
 import org.example.backend.repository.mypage.MyOrderDetailRepository;
+import org.example.backend.repository.order.RefundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,5 +54,13 @@ public class MyOrderDetailService {
         Optional<IMyOrderDetailDto> findByOrderPrice
                 = myOrderDetailRepository.findByOrderPrice(orderId);
         return findByOrderPrice;
+    }
+
+    @Autowired
+    RefundRepository refundRepository;
+    public Refund save(Refund refund) {
+//        JPA 저장 함수 : return 값 : 저장된 객체
+        Refund refund2 = refundRepository.save(refund);
+        return refund2;
     }
 }
