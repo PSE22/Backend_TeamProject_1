@@ -12,7 +12,7 @@
           <!-- Sidebar - Brand -->
           <a
             class="sidebar-brand d-flex align-items-center justify-content-center"
-            href="/admin"
+            href="/admin-product"
           >
             <div class="sidebar-brand-icon rotate-n-15"></div>
             <div class="sidebar-brand-text mx-3 logo">서울쥐</div>
@@ -23,7 +23,7 @@
 
           <!-- Nav Item - Dashboard -->
           <li class="nav-item active">
-            <a class="nav-link" href="/admin">
+            <a class="nav-link" href="/admin-product">
               <i class="fas fa-fw fa-tachometer-alt"></i>
               <span>처음으로</span></a
             >
@@ -295,9 +295,9 @@
                       <div class="col-sm-12 col-md-7">
                         <div class="dataTables_paginate paging_Simple_numbers">
                           <b-pagination
-                            v-model="page"
+                            v-model="pdQnaPage"
                             :total-rows="pdQnaCount"
-                            :per-page="pageSize"
+                            :per-page="pdQnaPageSize"
                             @click="retrieveAdminPdQna"
                           ></b-pagination>
                         </div>
@@ -414,9 +414,9 @@
                       <div class="col-sm-12 col-md-7">
                         <div class="dataTables_paginate paging_Simple_numbers">
                           <b-pagination
-                            v-model="page"
+                            v-model="pdQnaReplyPage"
                             :total-rows="pdQnaReplyCount"
-                            :per-page="pageSize"
+                            :per-page="pdQnaReplyPageSize"
                             @click="retrieveAdminPdQnaReply"
                           ></b-pagination>
                         </div>
@@ -541,9 +541,9 @@
                       <div class="col-sm-12 col-md-7">
                         <div class="dataTables_paginate paging_Simple_numbers">
                           <b-pagination
-                            v-model="page"
+                            v-model="pdReviewPage"
                             :total-rows="pdReviewCount"
-                            :per-page="pageSize"
+                            :per-page="pdReviewPageSize"
                             @click="retrieveAdminPdReview"
                           ></b-pagination>
                         </div>
@@ -607,10 +607,15 @@ export default {
       searchReviewTitle: "", // 리뷰 제목
 
       // 공통 속성(현재페이지, 전체데이터개수,1페이지당개수)
-      page: 1, // 현재페이지번호
+      pdQnaPage: 1, // 현재페이지번호
+      pdQnaReplyPage: 1, // 현재페이지번호
+      pdReviewPage: 1, // 현재페이지번호
       pdQnaCount: 0, // 전체데이터개수
       pdQnaReplyCount: 0, // 전체데이터개수
-      pageSize: 10, // 1페이지당개수(select태그)
+      pdReviewCount: 0, // 전체데이터개수
+      pdQnaPageSize: 10, // 1페이지당개수(select태그)
+      pdQnaReplyPageSize: 10, // 1페이지당개수(select태그)
+      pdReviewPageSize: 10, // 1페이지당개수(select태그)
 
       pageSizes: [10, 25, 50], //1페이지당개수 배열(select태그-option)
     };
@@ -700,13 +705,17 @@ export default {
     // TODO: 리뷰 등록 끝
     // TODO: 백엔드 연결
     pageNoChange(value) {
-      this.page = value; // 1) 현재페이지 변경
+      this.pdQnaPage = value; // 1) 현재페이지 변경
+      this.pdQnaReplyPage = value; // 1) 현재페이지 변경
+      this.pdReviewPage = value; // 1) 현재페이지 변경
       this.retrieveAdminPdQna(); // 2) 재조회 요청
       this.retrieveAdminPdQnaReply(); // 3) 재조회 요청
       this.retrieveAdminPdReview(); // 4) 재조회 요청
     },
     pageSizeChange() {
-      this.page = 1; // 2) 현재 페이지번호 초기화(1)
+      this.pdQnaPage = 1; // 1) 현재 페이지번호 초기화(1)
+      this.pdQnaReplyPage = 1; // 1) 현재 페이지번호 초기화(1)
+      this.pdReviewPage = 1; // 1) 현재 페이지번호 초기화(1)
       this.retrieveAdminPdQna(); // 3) 재조회 요청
       this.retrieveAdminPdQnaReply(); // 4) 재조회 요청
       this.retrieveAdminPdReview(); // 5) 재조회 요청
@@ -715,8 +724,8 @@ export default {
       try {
         let response = await AdminPdQnaService.getAll(
           this.searchPdQnaTitle, // 검색어
-          this.page - 1, // 현재페이지번호-1
-          this.pageSize // 1페이지당개수(size)
+          this.pdQnaPage - 1, // 현재페이지번호-1
+          this.pdQnaPageSize // 1페이지당개수(size)
         );
         const { adminPdQna, totalItems } = response.data; // 쿠폰배열(벡엔드 전송)
         this.adminPdQna = adminPdQna; // 쿠폰배열(벡엔드 전송)
@@ -730,8 +739,8 @@ export default {
       try {
         let response = await AdminPdQnaReplyService.getAll(
           this.searchPdQnaReplyContent, // 검색어
-          this.page - 1, // 현재페이지번호-1
-          this.pageSize // 1페이지당개수(size)
+          this.pdQnaReplyPage - 1, // 현재페이지번호-1
+          this.pdQnaReplyPageSize // 1페이지당개수(size)
         );
         const { adminPdQnaReply, totalItems } = response.data; // 쿠폰배열(벡엔드 전송)
         this.adminPdQnaReply = adminPdQnaReply; // 쿠폰배열(벡엔드 전송)
@@ -745,8 +754,8 @@ export default {
       try {
         let response = await AdminPdReviewService.getAll(
           this.searchReviewTitle, // 검색어
-          this.page - 1, // 현재페이지번호-1
-          this.pageSize // 1페이지당개수(size)
+          this.pdReviewPage - 1, // 현재페이지번호-1
+          this.pdReviewPageSize // 1페이지당개수(size)
         );
         const { adminPdReview, totalItems } = response.data; // 리뷰배열(벡엔드 전송)
         this.adminPdReview = adminPdReview; // 리뷰배열(벡엔드 전송)

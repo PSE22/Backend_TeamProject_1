@@ -28,4 +28,10 @@ public class CmCodeService {
     public List<CmCode> findByUpCmCd() {
         return cmCodeRepository.findByUpCmCd();
     }
+
+    //    주문 상세 오더코드
+    public String findByCmCdName(Long orderId) {
+        String findByCmCdName = cmCodeRepository.findByCmCdName(orderId);
+        return findByCmCdName;
+    }
 }

@@ -6,20 +6,20 @@
         <div class="mypageOrderMain">
           <div class="mypageSubTitle">주문/배송 조회</div>
           <div class="mypage-filter" role="group" aria-label="Basic example">
-          <div class="dateSelect" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-primary" @click="retrieveOrdersByPeriod(1)">1 개월</button>
-            <button type="button" class="btn btn-primary" @click="retrieveOrdersByPeriod(3)">3 개월</button>
-            <button type="button" class="btn btn-primary" @click="retrieveOrdersByPeriod(6)">6 개월</button>
-          </div>
+            <div class="dateSelect" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-primary" @click="retrieveOrdersByPeriod(1)">1 개월</button>
+              <button type="button" class="btn btn-primary" @click="retrieveOrdersByPeriod(3)">3 개월</button>
+              <button type="button" class="btn btn-primary" @click="retrieveOrdersByPeriod(6)">6 개월</button>
+            </div>
           </div>
           <div v-for="(orderItems, orderId) in groupedOrders" :key="orderId" class="orderContainer">
             <div class="headTitle">
-              <strong>{{ orderItems[0].addDate }}</strong>
+              <strong>{{ (orderItems[0].addDate) }}</strong>
               <div class="link">
                 <router-link :to="`/mypage/order/${orderId}`"> 상세보기 </router-link>
               </div>
             </div>
-            <div class="orderStepBox">{{ orderItems[0].orderCode }}</div> <!-- 주문 상태 한 번만 출력 -->
+            <div class="orderStepBox">{{ orderItems[0].cmCdName }}</div> <!-- 주문 상태 한 번만 출력 -->
             <div class="productRow">
               <div v-for="item in orderItems" :key="item.id" class="orderItemBoxWrap">
                 <router-link to="/" class="thumb">
@@ -53,15 +53,15 @@ export default {
   data() {
     return {
       orders: [], // 원본 데이터 배열
-      groupedOrders: {}, // 그룹화된 주문 데이터
+      groupedOrders: [], // 그룹화된 주문 데이터 (배열 형태로 변경)
       userId: this.$store.state.user.userId,
       displayPeriod: '', // 선택한 기간 표시
     };
   },
   methods: {
     async retrieveOrdersByPeriod(months) {
-      const endDate = dayjs().format('YYYY-MM-DD');
-      const startDate = dayjs().subtract(months, 'month').format('YYYY-MM-DD');
+      const endDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
+      const startDate = dayjs().subtract(months, 'month').format('YYYY-MM-DD HH:mm:ss');
       this.displayPeriod = `${startDate} ~ ${endDate}`;
       
       try {
@@ -73,23 +73,28 @@ export default {
         console.error("Error fetching orders for period:", e);
       }
     },
+    formatDate(date) {
+      return dayjs(date).format('YYYY-MM-DD HH:mm:ss');
+    },
+    groupOrders() {
+      // orderId별로 그룹화
+      const grouped = this.orders.reduce((acc, order) => {
+        if (!acc[order.orderId]) {
+          acc[order.orderId] = [];
+        }
+        acc[order.orderId].push(order);
+        return acc;
+      }, {});
 
-groupOrders() {
-  this.groupedOrders = this.orders.reduce((acc, order) => {
-    if (!acc[order.orderId]) {
-      acc[order.orderId] = [];
+      // 그룹을 addDate 기준으로 정렬
+      this.groupedOrders = Object.values(grouped).sort((a, b) => {
+        const dateA = new Date(a[0].addDate);
+        const dateB = new Date(b[0].addDate);
+        return dateB - dateA; // 최신 날짜가 먼저 오도록 내림차순 정렬
+      });
+
+      console.log('Final groupedOrders:', this.groupedOrders);
     }
-    acc[order.orderId].push(order);
-    return acc;
-  }, {});
-
-  // 각 주문 그룹을 addDate 기준으로 내림차순 정렬합니다.
-  Object.keys(this.groupedOrders).forEach(key => {
-    this.groupedOrders[key].sort((a, b) => dayjs(b.addDate).diff(dayjs(a.addDate)));
-  });
-  
-}
-    
   },
   mounted() {
     this.retrieveOrdersByPeriod(1); // 기본으로 1개월치 주문 데이터 로딩
