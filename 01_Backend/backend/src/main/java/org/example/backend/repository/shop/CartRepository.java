@@ -25,7 +25,7 @@ import java.util.List;
  * 4/23/24         gumiji          최초 생성
  */
 @Repository
-public interface CartRepository extends JpaRepository<Cart, Integer> {
+public interface CartRepository extends JpaRepository<Cart, Long> {
     //    장바구니 전체조회
     @Query(value = "SELECT\n" +
             "C.CART_ID AS cartId, C.CART_COUNT AS cartCount, " +
