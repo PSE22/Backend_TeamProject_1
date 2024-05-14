@@ -7,9 +7,9 @@
           <div class="mypageSubTitle">주문/배송 조회</div>
           <div class="mypage-filter" role="group" aria-label="Basic example">
           <div class="dateSelect" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-primary">1 개월</button>
-            <button type="button" class="btn btn-primary">3 개월</button>
-            <button type="button" class="btn btn-primary">6 개월</button>
+            <button type="button" class="btn btn-primary" @click="retrieveOrdersByPeriod(1)">1 개월</button>
+            <button type="button" class="btn btn-primary" @click="retrieveOrdersByPeriod(3)">3 개월</button>
+            <button type="button" class="btn btn-primary" @click="retrieveOrdersByPeriod(6)">6 개월</button>
           </div>
           </div>
           <div v-for="(orderItems, orderId) in groupedOrders" :key="orderId" class="orderContainer">
@@ -44,6 +44,7 @@
 <script>
 import OrderCheck from "@/services/mypage/MyOrderCheckService.js";
 import MyPageMainMenu from "@/components/mypage/MyPageMainMenu.vue";
+import dayjs from 'dayjs'; // dayjs import
 
 export default {
   components: {
@@ -54,34 +55,48 @@ export default {
       orders: [], // 원본 데이터 배열
       groupedOrders: {}, // 그룹화된 주문 데이터
       userId: this.$store.state.user.userId,
+      displayPeriod: '', // 선택한 기간 표시
     };
   },
   methods: {
-    async retrieveOrderCheck(userId) {
+    async retrieveOrdersByPeriod(months) {
+      const endDate = dayjs().format('YYYY-MM-DD');
+      const startDate = dayjs().subtract(months, 'month').format('YYYY-MM-DD');
+      this.displayPeriod = `${startDate} ~ ${endDate}`;
+      
       try {
-        const response = await OrderCheck.getAll(userId);
+        const response = await OrderCheck.getAllByDateRange(this.userId, startDate, endDate);
         this.orders = response.data;
         this.groupOrders();
+        console.log("Loaded orders:", this.orders);
       } catch (e) {
-        console.error("Error fetching orders:", e);
+        console.error("Error fetching orders for period:", e);
       }
     },
-    groupOrders() {
-      this.groupedOrders = this.orders.reduce((acc, order) => {
-        if (!acc[order.orderId]) {
-          acc[order.orderId] = [];
-        }
-        acc[order.orderId].push(order);
-        return acc;
-      }, {});
+
+groupOrders() {
+  this.groupedOrders = this.orders.reduce((acc, order) => {
+    if (!acc[order.orderId]) {
+      acc[order.orderId] = [];
     }
+    acc[order.orderId].push(order);
+    return acc;
+  }, {});
+
+  // 각 주문 그룹을 addDate 기준으로 내림차순 정렬합니다.
+  Object.keys(this.groupedOrders).forEach(key => {
+    this.groupedOrders[key].sort((a, b) => dayjs(b.addDate).diff(dayjs(a.addDate)));
+  });
+  
+}
+    
   },
   mounted() {
-    this.retrieveOrderCheck(this.$store.state.user.userId);
+    this.retrieveOrdersByPeriod(1); // 기본으로 1개월치 주문 데이터 로딩
   },
 };
-
 </script>
+
 <style>
 @import "@/assets/css/mypageorder.css";
 @import "@/assets/css/mypage.css";
