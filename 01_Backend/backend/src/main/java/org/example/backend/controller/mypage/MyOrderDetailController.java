@@ -2,6 +2,7 @@ package org.example.backend.controller.mypage;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.backend.model.dto.mypage.IMyOrderDetailDto;
+import org.example.backend.model.entity.Refund;
 import org.example.backend.service.CmCodeService;
 import org.example.backend.service.mypage.MyOrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class MyOrderDetailController {
 
     //    TODO: 배송지
 //    조회(select) -> get 방식 -> @GetMapping
-    @GetMapping("/orderdetail/{orderId}")
+    @GetMapping("/order-detail/{orderId}")
     public ResponseEntity<Object> findByOrderId(
             @PathVariable Long orderId
     ) {
@@ -59,7 +60,7 @@ public class MyOrderDetailController {
     }
 
     //    TODO: 주문 상품리스트
-    @GetMapping("/orderlist/{orderId}")
+    @GetMapping("/order-list/{orderId}")
     public ResponseEntity<Object> findByOrderList(
             @PathVariable Long orderId
     ) {
@@ -82,7 +83,7 @@ public class MyOrderDetailController {
     }
 
 //    TODO: 주문 결제금액
-    @GetMapping("/orderprice/{orderId}")
+    @GetMapping("/order-price/{orderId}")
     public ResponseEntity<Object> findByOrderPrice(
             @PathVariable Long orderId
     ) {
@@ -105,7 +106,7 @@ public class MyOrderDetailController {
     }
 
 //    주문 코드
-    @GetMapping("/ordercode/{orderId}")
+    @GetMapping("/order-code/{orderId}")
     public ResponseEntity<Object> findByCmCdName(
             @PathVariable Long orderId
     ) {
@@ -116,6 +117,26 @@ public class MyOrderDetailController {
             return new ResponseEntity<>(findByCmCdName, HttpStatus.OK);
         } catch (Exception e) {
             log.debug("에러 : " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //    TODO: 저장 함수
+//    1) 저장페이지 열기 함수(x) => 뷰 자체 디자인 실행
+//    2) 저장버튼(뷰) 클릭 시 실행될 함수
+    @PostMapping("/order-cancel")
+    public ResponseEntity<Object> create(
+//            @ModelAttribute 유사, 객체 전달받는 어노테이션
+            @RequestBody Refund refund
+    ) {
+        try{
+//            DB 서비스 저장함수 실행
+            Refund refund2 = myOrderDetailService.save(refund);
+
+//            성공(OK) 메세지 + 저장된객체(dept2)
+            return new ResponseEntity<>(refund2, HttpStatus.OK);
+        } catch (Exception e) {
+//            500 전송
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
