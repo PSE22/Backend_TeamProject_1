@@ -24,7 +24,7 @@
             <td class="col-4">
               <div class="d-flex align-items-center text-start">
                 <div class="flex-shrink-0">
-                  <img :src="data.pdThumblail" class="img-thumbnail me-3" style="width: 100px; height: 100px" />
+                  <img :src="data.pdThumbnail" class="img-thumbnail me-3" style="width: 100px; height: 100px" />
                 </div>
                 <div class="flex-grow-1 ms-3">
                   {{ data.pdName }}
@@ -300,7 +300,7 @@
         주문취소
       </button>
       <button class="btn btn-danger btn-lg me-md-2 col-3 mt-5 mb-5" type="button" @click="goApproval()">
-        결제하기
+        주문하기
       </button>
     </div>
   </div>
@@ -311,7 +311,7 @@ import OrderService from "@/services/shop/OrderService";
 export default {
   data() {
     return {
-      userId: this.$store.state.userId,   
+      userId: this.$store.state.userId,
       orderList: [],            // 임시 장바구니 배열(로컬 저장소)
       selectCoupon: {},         // 사용할 쿠폰의 값을 담을 객체
       selectedAddr: 'option1',  // 배송지 선택 라디오 버튼 값 초기 설정
@@ -375,11 +375,59 @@ export default {
         }
         let response = await OrderService.create(data);       // 주문 추가(create) 서비스 함수 실행 
         console.log(response.data);
-        alert("주문이 완료되었습니다.")
-        // 결제 페이지로 이동 (✅결제 Api 사용은 여기서!!!!)
-        this.$router.push("/approval/" + response.data.orderId);    // 결제 페이지로 주문 번호(response.data.orderId) 함께 전송
+        // 장바구니 삭제 반복문
+        for (const data of this.orderList) {
+          this.deleteCart(data.cartId);
+        }
+        alert("주문이 완료되었습니다.");
+        // 장바구니 페이지로 이동
+        this.$router.push("/cart");
       } catch (e) {
         console.log(e);
+      }
+    },
+
+    // 사용 포인트 테이블에 데이터 저장
+    // async saveUsePoint() {
+    //   try {
+    //     let data = {
+    //       spno: this.simpleProduct.spno,     // 상품 번호
+    //       cartCount: this.cartCount          // 장바구니 개수
+    //     }
+
+    //     // 공통 저장 서비스 함수 실행
+    //     let response = await SimpleCartService.create(data);
+    //     console.log(response.data);
+    //     // 장바구니 담기 성공 메세지 출력
+    //     this.message = "장바구니에 담기 완료❗"
+
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // },
+
+    // 쿠폰함 status='N' 수정 (스프링에서?)
+
+    // 장바구니 정보 가져오기
+    async getCart(userId) {
+      try {
+        let response = await OrderService.getCart(userId);
+        this.cart = response.data;
+        console.log("회원의 장바구니 정보 : ", response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    // 장바구니 삭제
+    async deleteCart(cartId) {
+      try {
+        let response = await OrderService.removeCart(cartId);
+        console.log("장바구니 삭제 완료", response.data);
+        // 삭제 후 재조회
+        this.getCart();
+      } catch (e) {
+        console.log("장바구니 삭제 실패 : ", e);
       }
     },
 
@@ -399,13 +447,13 @@ export default {
         this.orderList = this.$store.getters.getOrderList;
         // 장바구니의 물품별 금액(단가*개수)을 구해서 모든 상품별 총금액 구하기
         this.totalPrice = this.orderList
-        .map((data) => (data.pdPrice + data.opPrice) * data.cartCount)   // 상품별 금액 배열
-        .reduce((acc, cur) => acc + cur);          // acc 는 반환값을 누적, cur 는 배열의 현재 요소를 가리킴
+          .map((data) => (data.pdPrice + data.opPrice) * data.cartCount)   // 상품별 금액 배열
+          .reduce((acc, cur) => acc + cur);          // acc 는 반환값을 누적, cur 는 배열의 현재 요소를 가리킴
         if (this.totalPrice < 60000) {
           this.totalPrice += 3000;   // 상품 총 금액이 6만원 미만이면 배송비(3000원) 추가
         }
         console.log(this.totalPrice);
-      } catch(e) {
+      } catch (e) {
         console.log(e);
       }
     },
@@ -502,7 +550,7 @@ export default {
           // 쿠폰의 할인율(cpDcRate)이 null 이면, "할인금액"만큼 할인하기
           this.discount = this.selectCoupon.cpDcPrice;
         }
-      } catch(e) {
+      } catch (e) {
         console.log(e);
       }
     },
@@ -570,6 +618,7 @@ export default {
   },
   mounted() {
     this.sumOrderAmount();
+    this.getCart(this.$store.state.user.userId);
     this.getUser(this.$store.state.user.userId);
     this.getShipAddress(this.$store.state.user.userId);
     this.getUserCoupon(this.$store.state.user.userId);
