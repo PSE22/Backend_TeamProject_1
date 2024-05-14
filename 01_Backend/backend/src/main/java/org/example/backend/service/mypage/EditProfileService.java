@@ -55,22 +55,45 @@ public class EditProfileService {
         return user;
     }
 
-    public boolean withdrawUser(String userPw) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = userDetails.getUsername();
+//    public boolean withdrawUser(String userPw) {
+//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        String userId = userDetails.getUsername();
+//        Optional<User> optionalUser = userRepository.findById(userId);
+//        if (optionalUser.isPresent()) {
+//            User user = optionalUser.get();
+//            if (passwordEncoder.matches(userPw, user.getUserPw())) {
+//                userRepository.delete(user);
+//            } else {
+//                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+//            }
+//        } else {
+//            throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
+//        }
+//        return false;
+//    }
+
+    public String withdrawUser(String userId, String userPw) {
+        // 사용자 ID로 사용자 정보 조회
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
+
+            // 입력한 비밀번호와 사용자의 저장된 비밀번호를 비교하여 일치하는지 확인
             if (passwordEncoder.matches(userPw, user.getUserPw())) {
-                userRepository.delete(user);
+                // 일치할 경우 회원 탈퇴 수행
+                userRepository.deleteById(userId);
+                return "회원 탈퇴가 완료되었습니다.";
             } else {
-                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+                // 비밀번호가 일치하지 않을 경우 실패 메시지 반환
+                return "비밀번호가 일치하지 않습니다.";
             }
         } else {
-            throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
+            // 사용자가 존재하지 않을 경우 실패 메시지 반환
+            return "사용자가 존재하지 않습니다.";
         }
-        return false;
     }
+
+
 
     @Scheduled(cron = "0 0 0 * * *")
     public void deleteInactiveUsers() {

@@ -1,5 +1,4 @@
 import http from "@/utils/http-common";
-import LoginHeader from "../login/LoginHeader";
 
 class LoginService {
     // TODO: 로그인 공통함수
@@ -40,13 +39,6 @@ class LoginService {
         };
         return http.get(`/auth/signup/${userId}?userId=${userId}`, data);
     }
-
-    // TODO: 회원정보 상세조회
-    findById(userId) {
-        return http.get(`/mypage/editProfile/${userId}`, {
-            headers: LoginHeader()
-          });
-      }
 }
 
 export default new LoginService();

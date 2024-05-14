@@ -180,7 +180,7 @@
       <!-- 휴대폰 번호 -->
       <div align="center">
         <div class="row">
-          <div class="col-10">
+          <div class="col">
             <label for="userPhone"></label>
             <input
               type="text"
@@ -189,14 +189,6 @@
               name="userPhone"
               v-model="user.userPhone"
             />
-          </div>
-
-          <div class="col align-self-end">
-            <div align="right">
-              <button type="button" id="phonecheck" class="btn btn-secondary">
-                인증
-              </button>
-            </div>
           </div>
         </div>
       </div>
