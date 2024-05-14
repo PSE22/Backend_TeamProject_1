@@ -35,7 +35,7 @@ public class MyOrderDetailController {
     @Autowired
     MyOrderDetailService myOrderDetailService;
 
-    //    TODO: 상세조회 함수
+    //    TODO: 배송지
 //    조회(select) -> get 방식 -> @GetMapping
     @GetMapping("/orderdetail/{orderId}")
     public ResponseEntity<Object> findByOrderId(
@@ -45,21 +45,19 @@ public class MyOrderDetailController {
 //            상세조회 서비스 실행
             Optional<IMyOrderDetailDto> optionalIMyOrderDetail
                     = myOrderDetailService.findByOrderId(orderId);
-
             if(optionalIMyOrderDetail.isEmpty() == true) {
 //                데이터 없음
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
 //                조회 성공
                 return new ResponseEntity<>(optionalIMyOrderDetail.get(), HttpStatus.OK);
-
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    //    조회(select) -> get 방식 -> @GetMapping
+    //    TODO: 주문 상품리스트
     @GetMapping("/orderlist/{orderId}")
     public ResponseEntity<Object> findByOrderList(
             @PathVariable Long orderId
@@ -75,6 +73,29 @@ public class MyOrderDetailController {
             } else {
 //                조회 성공
                 return new ResponseEntity<>(findByOrderList, HttpStatus.OK);
+
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    TODO: 주문 결제금액
+    @GetMapping("/orderprice/{orderId}")
+    public ResponseEntity<Object> findByOrderPrice(
+            @PathVariable Long orderId
+    ) {
+        try {
+//            상세조회 서비스 실행
+            Optional<IMyOrderDetailDto> optionalIMyOrderDetail
+                    = myOrderDetailService.findByOrderPrice(orderId);
+
+            if(optionalIMyOrderDetail.isEmpty() == true) {
+//                데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+//                조회 성공
+                return new ResponseEntity<>(optionalIMyOrderDetail.get(), HttpStatus.OK);
 
             }
         } catch (Exception e) {

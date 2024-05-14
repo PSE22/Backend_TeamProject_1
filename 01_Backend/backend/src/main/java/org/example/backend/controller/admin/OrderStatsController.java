@@ -29,7 +29,6 @@ import java.util.List;
  * 2024-05-01         kimtaewan          최초 생성
  */
 @Slf4j
-//@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/admin")
 public class OrderStatsController {

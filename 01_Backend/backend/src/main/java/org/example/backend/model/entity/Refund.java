@@ -41,4 +41,5 @@ public class Refund extends BaseTimeEntity {
     private Integer refundPrice;        // 환불금액
     private String refundCode;          // 주문상태코드
     private Integer refundReason;       // 환불사유
+    private Integer refundDenyReason;       // 환불철회사유
 }

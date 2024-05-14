@@ -46,6 +46,8 @@ public abstract class BaseTimeEntity2 {
         this.modDate = LocalDateTime.now()
                 .format(DateTimeFormatter
                         .ofPattern("yyyy-MM-dd HH:mm:ss"));
+//        1. 업데이트 -> 인서트타임과 같이 날라올 때 널로 저장되므로 modDate를 넣어줌(자바 시점에선 과거일시 없음)
+//        2. DB에 저장 : 서비스에서 상세조회함, 생성일시 가져와서 객체에 넣어줌 -> 소스가 길어짐
         this.addDate = this.modDate;
         this.status = "Y";
     }

@@ -3,14 +3,8 @@ package org.example.backend.controller.mypage;
 import org.example.backend.model.entity.admin.AdminCoupon;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,24 +44,12 @@ public class EditProfileController {
     @GetMapping("/editProfile/{userId}")
     public ResponseEntity<Object> showUpdateProfileForm() {
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String userId = authentication.getName();
-
-            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-            boolean hasPermission = authorities.stream()
-                    .anyMatch(auth -> auth.getAuthority().equals("AT02"));
-            if (!hasPermission) {
-                throw new AccessDeniedException("해당 권한이 없습니다.");
-            }
-
-            User currentUser = editProfileService.getCurrentUser();
+        String currentUser = editProfileService.getCurrentUser(userId);
             if (currentUser == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
             }
 
             return ResponseEntity.ok(currentUser);
-        } catch (AccessDeniedException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류가 발생했습니다.");
         }
@@ -174,7 +156,6 @@ public class EditProfileController {
                 // 삭제 실행 : 0건 삭제(삭제할 데이터 없음)
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-
         } catch (Exception e) {
 //            서버(DB) 에러
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

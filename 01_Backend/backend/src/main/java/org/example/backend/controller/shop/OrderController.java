@@ -39,14 +39,18 @@ public class OrderController {
     OrderService orderService;
 
     // 주문 저장 함수
-    // 저장 (insert) -> POST
     @PostMapping("/order")
     public ResponseEntity<Object> create(@RequestBody OrderDto orderDto) {
         try {
             // 저장 서비스 실행
+            log.debug("11 : ");
             Order order2 = orderService.insert(orderDto);
+            log.debug("22 : ");
+
             return new ResponseEntity<>(order2, HttpStatus.OK);
         } catch (Exception e) {
+            log.debug("33 : ");
+
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

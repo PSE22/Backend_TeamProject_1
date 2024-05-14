@@ -46,11 +46,8 @@ public class EditProfileService {
         return false;
     }
 
-    public User getCurrentUser() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = userDetails.getUsername();
-        Optional<User> optionalUser = userRepository.findById(userId);
-        return optionalUser.orElse(null);
+    public String getCurrentUser(String userId) {
+        return userRepository.findByUserId(userId);
     }
 
     public User updateUser(User user) {

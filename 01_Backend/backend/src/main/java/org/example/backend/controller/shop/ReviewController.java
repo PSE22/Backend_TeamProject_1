@@ -50,7 +50,7 @@ public class ReviewController {
     }
 
 //    TODO: 전체 조회 함수 + like 검색
-    @GetMapping("/product2")
+    @GetMapping("/productReview")
     public ResponseEntity<Object> findAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size

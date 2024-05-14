@@ -85,6 +85,7 @@ public class AuthController {
         }
     }
 
+
     @GetMapping("/signup/{userId}")
     public ResponseEntity<Object> reId(@RequestParam String userId) {
         try {
@@ -97,6 +98,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 
     @PostMapping("/signup")
     public ResponseEntity<Object> signUp(@RequestBody SignUpRequest signUpRequest) {
