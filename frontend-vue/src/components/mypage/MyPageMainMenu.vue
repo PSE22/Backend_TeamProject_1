@@ -8,7 +8,7 @@
         <li class="my-page-menu2"><router-link to="/mypage/wish" class="router-link">위시리스트</router-link></li>
         <li class="my-page-menu2"><router-link to="/mypage/inquiry" class="router-link">1:1 문의내역</router-link></li>
         <li class="my-page-menu2"><router-link to="/mypage/review" class="router-link">나의 리뷰활동</router-link></li>
-        <li class="my-page-menu2"><router-link to="/mypage/info" class="router-link">회원정보 관리</router-link></li>
+        <li class="my-page-menu2"><router-link to="/mypage/editProfile" class="router-link">회원정보 관리</router-link></li>
     </div>
 </template>
 

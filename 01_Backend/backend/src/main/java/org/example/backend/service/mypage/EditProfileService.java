@@ -50,11 +50,14 @@ public class EditProfileService {
         return userRepository.findByUserId(userId);
     }
 
-    public void updateUser(User user) {
+    public User updateUser(User user) {
         userRepository.save(user);
+        return user;
     }
 
-    public void withdrawUser(String userId, String userPw) {
+    public boolean withdrawUser(String userPw) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userId = userDetails.getUsername();
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -66,6 +69,7 @@ public class EditProfileService {
         } else {
             throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
         }
+        return false;
     }
 
     @Scheduled(cron = "0 0 0 * * *")

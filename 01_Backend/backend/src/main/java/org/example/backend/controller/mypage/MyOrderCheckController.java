@@ -41,8 +41,8 @@ public class MyOrderCheckController {
     @GetMapping("/ordercheck/{userId}")
     public ResponseEntity<List<OrderCheckDto>> getOrdersByDateRange(
             @PathVariable String userId,
-            @RequestParam String startDate,
-            @RequestParam String  endDate) {
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate  endDate) {
         try {
             List<OrderCheckDto> orders = myOrderCheckService.findOrdersByDateRange(userId, startDate, endDate);
             if (orders.isEmpty()) {

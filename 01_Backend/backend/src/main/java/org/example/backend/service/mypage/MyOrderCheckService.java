@@ -30,7 +30,7 @@ public class MyOrderCheckService {
 
 
 // 특정 기간 동안의 주문 정보 조회
-public List<OrderCheckDto> findOrdersByDateRange(String userId, String startDate, String endDate) {
+public List<OrderCheckDto> findOrdersByDateRange(String userId, LocalDate startDate, LocalDate endDate) {
     return myOrderCheckRepository.findOrdersByDateRange(userId, startDate, endDate);
 }
 }
