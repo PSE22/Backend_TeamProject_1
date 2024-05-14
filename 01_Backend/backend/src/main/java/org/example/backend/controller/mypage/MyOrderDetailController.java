@@ -2,14 +2,12 @@ package org.example.backend.controller.mypage;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.backend.model.dto.mypage.IMyOrderDetailDto;
+import org.example.backend.service.CmCodeService;
 import org.example.backend.service.mypage.MyOrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +32,9 @@ public class MyOrderDetailController {
 
     @Autowired
     MyOrderDetailService myOrderDetailService;
+
+    @Autowired
+    CmCodeService cmCodeService;
 
     //    TODO: 배송지
 //    조회(select) -> get 방식 -> @GetMapping
@@ -99,6 +100,22 @@ public class MyOrderDetailController {
 
             }
         } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    주문 코드
+    @GetMapping("/ordercode/{orderId}")
+    public ResponseEntity<Object> findByCmCdName(
+            @PathVariable Long orderId
+    ) {
+        try {
+//            전체 조회 서비스 함수 실행
+            String findByCmCdName
+                    = cmCodeService.findByCmCdName(orderId);
+            return new ResponseEntity<>(findByCmCdName, HttpStatus.OK);
+        } catch (Exception e) {
+            log.debug("에러 : " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

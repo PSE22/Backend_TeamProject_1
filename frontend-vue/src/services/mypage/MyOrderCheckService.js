@@ -31,6 +31,12 @@ class OrderCheck {
       headers: LoginHeader(),
     });
   }
+
+  getOrderCode(orderId) {
+    return http.get(`/mypage/ordercode/${orderId}`, {
+      headers: LoginHeader(),
+    });
+  }
 }
 
 export default new OrderCheck();

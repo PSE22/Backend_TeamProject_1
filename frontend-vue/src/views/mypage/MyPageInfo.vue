@@ -62,15 +62,6 @@
       <!-- 비밀번호 일치 여부를 표시하는 메시지 -->
       <div v-if="!isNewPasswordMatch">비밀번호가 일치하지 않습니다.</div>
 
-      <div class="row">
-        <div class="col"></div>
-        <!-- 왼쪽 여백 -->
-        <div class="col-auto">
-          <!-- 비밀번호 변경 버튼 -->
-          <button type="button" @click="changePassword">비밀번호 변경</button>
-        </div>
-      </div>
-
       <!-- 이름 -->
       <div align="center">
         <div class="row">
@@ -137,12 +128,13 @@
                 class="form-control"
                 value=""
                 placeholder="우편번호"
+                v-model="orderPostcode"
                 readonly
               />
               <button
                 class="btn btn-primary btn-sm"
                 type="button"
-                @click="showApi"
+                @click="execDaumPostcode"
               >
                 주소검색
               </button>
@@ -214,7 +206,22 @@
         <label class="form-check-label" for="promoNo">미동의</label>
       </div>
 
-      <!-- 계정분류 라디오버튼 삭제 - 김태완 -->
+      <!-- 권한 -->
+      <div align="center">
+        <div class="row">
+          <div class="col">
+            <label for="userCode"></label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="선택 없음"
+              name="userCode"
+              disabled
+              v-model="user.userCode"
+            />
+          </div>
+        </div>
+      </div>
 
       <!-- 회원가입 -->
       <br />
@@ -228,9 +235,75 @@
             회원정보수정
           </button>
 
-          <button class="btn btn-outline-danger ms-3 col" @click="withdrawUser">
+          <!-- TODO: 탈퇴 시작 -->
+          <button
+            type="button"
+            class="btn btn-outline-danger ms-3 col"
+            data-bs-toggle="modal"
+            :data-bs-target="'#exampleModal-1'"
+          >
             회원탈퇴
           </button>
+
+          <!-- 탈퇴 모달 -->
+          <div class="modal fade" id="exampleModal-1" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    회원 탈퇴
+                  </h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                  ></button>
+                </div>
+                <!-- 탈퇴 모달 내 목록 -->
+                <div class="modal-body">
+                  <!-- 회원아이디 -->
+                  <h3 class="fs-5 mt-1">회원아이디</h3>
+                  <label for="text" class="form-label"></label>
+                  <input
+                    disabled
+                    type="text"
+                    class="form-control mb-4"
+                    name="text"
+                    v-model="user.userId"
+                  />
+                  <!-- 비밀번호 -->
+                  <h3 class="fs-5 mt-1">비밀번호</h3>
+                  <label for="text" class="form-label"></label>
+                  <input
+                    type="text"
+                    class="form-control mb-4"
+                    placeholder="비밀번호를 입력하세요"
+                    name="text"
+                    v-model="userPwData.userPw"
+                  />
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    @click="withdrawUser"
+                  >
+                    탈퇴
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    취소
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 탈퇴 모달 끝 -->
+
+          <!-- TODO: 탈퇴 끝 -->
         </div>
       </div>
     </div>
@@ -241,8 +314,8 @@
   </div>
 </template>
 <script>
-import LoginService from "@/services/login/LoginService";
 import MyEditProfile from "@/services/mypage/MyEditProfile";
+import OrderService from '@/services/shop/OrderService';
 
 export default {
   // 데이터 바인딩
@@ -263,6 +336,11 @@ export default {
       userPw: "", // 기존 비밀번호
       newPassword: "", // 새로운 비밀번호
       newPasswordConfirm: "", // 비밀번호 재확인
+      userCode: "AT02",
+      userPwData: {
+        userId: this.$store.state.user.userId,
+      },
+      shipAddress: {},
     };
   },
   // TODO: 함수 정의
@@ -315,11 +393,12 @@ export default {
       }
     },
     async getUser(userId) {
+      console.log("아이디 확인", userId);
       try {
-        let response = await LoginService.findById(userId);
+        let response = await MyEditProfile.findById(userId);
         this.user = response.data; // spring 결과를 바인딩 속성변수 user 저장
         // 로깅
-        console.log(response.data);
+        console.log("상세 조회", response.data);
       } catch (e) {
         console.log(e);
       }
@@ -336,6 +415,7 @@ export default {
           userEmail: this.user.userEmail,
           userPhone: this.user.userPhone,
           userPromo: this.user.userPromo,
+          userCode: this.user.userCode,
         };
         let response = await MyEditProfile.updateProfile(
           this.user.userId,
@@ -352,9 +432,49 @@ export default {
     },
     // 삭제요청 함수
     async withdrawUser() {
-      let response = await MyEditProfile.withdrawUser(this.user.userId);
-      console.log(response.data);
-      this.$router.push("/");
+      try {
+        let userPwData = {
+          userPW: this.userPwData.userPw,
+        };
+        console.log("회원탈퇴", userPwData);
+        let response = await MyEditProfile.withdrawUser(this.user.userId, userPwData.userPW);
+        console.log(response.data);
+        alert("회원탈퇴가 성공했습니다.");
+        this.$router.push("/");
+      } catch (e) {
+        console.log("회원탈퇴 실패", e);
+      }
+    },
+    // 배송지 정보 가져오기
+    async getShipAddress(userId) {
+      try {
+        let response = await OrderService.getShipAddress(userId);
+        this.shipAddress = response.data;
+        console.log("회원의 배송지 정보 : ", response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    // 카카오 주소 api 연동 부분
+    execDaumPostcode() {
+      new window.daum.Postcode({
+        oncomplete: function (data) {
+          var addr = ''; // 주소 변수
+
+          //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+          if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+            addr = data.roadAddress;
+          } else { // 사용자가 지번 주소를 선택했을 경우
+            addr = data.jibunAddress;
+          }
+
+          // 우편번호와 주소 정보를 해당 필드에 넣는다.
+          document.getElementById('postcode').value = data.zonecode;
+          document.getElementById("shipAddr").value = addr;
+          // 커서를 상세주소 필드로 이동한다.
+          document.getElementById("shipAddr2").focus();
+        }
+      }).open();
     },
   },
   computed: {
@@ -367,7 +487,8 @@ export default {
   },
   mounted() {
     this.message = ""; // 변수 초기화
-    this.getUser(this.$route.params.userId);
+    this.getUser(this.$store.state.user?.userId);
+    this.getShipAddress(this.$store.state.user.userId);
   },
 };
 </script>
