@@ -168,6 +168,11 @@ const routes = [
     path: "/mypage/order/:orderId",
     component: () => import("../views/mypage/MyPageOrderDetail.vue"),
   },
+  {
+    path: "/mypage/order/cancel/:orderId",
+    component: () => import("../views/mypage/MyPageOrderCancel.vue"),
+  },
+  
   // 마이페이지 -> 쿠폰함
   {
     path: "/mypage/coupon",
