@@ -41,19 +41,19 @@ public class EditProfileController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @GetMapping("/editProfile/{userId}")
-    public ResponseEntity<Object> showUpdateProfileForm() {
-        try {
-        String currentUser = editProfileService.getCurrentUser(userId);
-            if (currentUser == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
-            }
-
-            return ResponseEntity.ok(currentUser);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류가 발생했습니다.");
-        }
-    }
+//    @GetMapping("/editProfile/{userId}")
+//    public ResponseEntity<Object> showUpdateProfileForm() {
+//        try {
+//        String currentUser = editProfileService.getCurrentUser(userId);
+//            if (currentUser == null) {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
+//            }
+//
+//            return ResponseEntity.ok(currentUser);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류가 발생했습니다.");
+//        }
+//    }
 
 //    @PutMapping("/editProfile/{userId}")
 //    public ResponseEntity<Object> updateProfile(

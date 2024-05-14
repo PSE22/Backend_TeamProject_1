@@ -136,7 +136,11 @@ const routes = [
     path: "/category/:categoryCode",
     component: () => import("../views/CategoryDetail.vue"),
   },
-
+  // 상품 검색 페이지
+  {
+    path: "/product-search",
+    component: () => import("../views/SearchPage.vue"),
+  },
   // 상품 상세
   {
     path: "/product/:pdId",
