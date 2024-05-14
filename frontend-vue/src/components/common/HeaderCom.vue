@@ -9,8 +9,8 @@
       <!-- navbar #1 : 검색창 -->
       <div class="main-nav-search col-6">
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="검색" />
-          <button class="btn btn-outline-secondary" type="button">검색</button>
+          <input v-model="search" type="text" class="form-control" placeholder="검색" />
+          <a :href="`/product-search?search=${search}`"><button class="btn btn-outline-secondary" type="button">검색</button></a>
         </div>
       </div>
       <!-- navbar #1 : 우측 리스트 -->
@@ -67,17 +67,17 @@
         <div class="category-menu" id="category-tab" @click="toggleCategory">
           카테고리
           <ul v-if="categoryTab">
-            <router-link to="/category/CG01"  class="router-link"
-              ><li>필기류/필통</li></router-link
+            <a :href="`/category/CG01`"  class="router-link"
+              ><li>필기류/필통</li></a
             >
-            <router-link to="/category/CG02" class="router-link"
-              ><li>다이어리/플래너</li></router-link
+            <a :href="`/category/CG02`" class="router-link"
+              ><li>다이어리/플래너</li></a
             >
-            <router-link to="/category/CG03" class="router-link"
-              ><li>노트/메모지</li></router-link
+            <a :href="`/category/CG03`" class="router-link"
+              ><li>노트/메모지</li></a
             >
-            <router-link to="/category/CG04" class="router-link"
-              ><li>사무용품</li></router-link
+            <a :href="`/category/CG04`" class="router-link"
+              ><li>사무용품</li></a
             >
           </ul>
         </div>
@@ -108,6 +108,7 @@ export default {
     return {
       categoryTab: false,
       categoryCode: "",
+      search: ""
     };
   },
   methods: {
