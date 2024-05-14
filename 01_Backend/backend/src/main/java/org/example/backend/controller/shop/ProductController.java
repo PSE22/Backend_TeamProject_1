@@ -42,6 +42,40 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+//    전체 조회 함수 + like 검색
+    @GetMapping("/product/search")
+    public ResponseEntity<Object> findAllByPdNameContaining(
+            @RequestParam(defaultValue = "") String pdName,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        try {
+//            페이징 객체 생성
+            Pageable pageable = PageRequest.of(page, size);
+
+//            전체 조회 서비스 실행
+            Page<Product> productPage
+                    = productService.findAllByPdNameContaining(pdName, pageable);
+
+//            공통 페이징 객체 생성 : 자료 구조 맵 사용
+            Map<String, Object> response = new HashMap<>();
+            response.put("product", productPage.getContent()); // product 배열
+            response.put("currentPage", productPage.getNumber()); // 현재페이지번호
+            response.put("totalItems", productPage.getTotalElements()); // 총건수(개수)
+            response.put("totalPages", productPage.getTotalPages()); // 총페이지수
+
+            if (productPage.isEmpty() == false) {
+//                조회 성공
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } else {
+//                데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 //    카테고리별 전체 상품 조회
     @GetMapping("/category")
     public ResponseEntity<Object> findByCategoryAll(@RequestParam(defaultValue = "") String categoryCode,

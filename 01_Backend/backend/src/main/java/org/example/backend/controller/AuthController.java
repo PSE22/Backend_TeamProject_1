@@ -124,27 +124,4 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-    //    TODO: 상세조회
-    @GetMapping("/editProfile/{userId}")
-    public ResponseEntity<Object> findById(
-            @PathVariable String userId
-    ) {
-        try {
-//            DB 상세조회 서비스 함수 실행
-            Optional<User> optionalUser = signUpService.findById(userId);
-
-            if (optionalUser.isEmpty() == true) {
-//                데이터 없음(203)
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            } else {
-//                데이터 있음(200)
-                return new ResponseEntity<>(optionalUser.get()
-                        , HttpStatus.OK);
-            }
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }

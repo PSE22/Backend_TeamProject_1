@@ -48,10 +48,12 @@ public class ProductService {
     UserCouponRepository userCouponRepository;
 
 //    모든 상품 조회(검색)
-    public Page<Product> findAllByPdNameContaining(
-            Pageable pageable
-    ) {
-        Page<Product> page = productRepository.findAllByPdNameContaining(pageable);
+    public Page<Product> findAllByPdNameContaining(String pdName,
+                                                   Pageable pageable) {
+//        DB like 검색 함수 실행 : 페이징 처리
+        Page<Product> page =
+                productRepository
+                        .findAllByPdNameContaining(pdName, pageable);
         return page;
     }
 

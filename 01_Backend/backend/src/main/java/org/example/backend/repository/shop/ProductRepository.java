@@ -31,10 +31,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 //    모든 상품 조회(검색)
     @Query(value = "SELECT *\n" +
             "FROM TB_PRODUCT\n" +
-            "WHERE PD_NAME LIKE '%' || PD_NAME || '%'\n" +
+            "WHERE PD_NAME LIKE '%' || :pdName || '%'\n" +
             "AND STATUS = 'Y'"
     , nativeQuery = true)
-    Page<Product> findAllByPdNameContaining(Pageable pageable);
+    Page<Product> findAllByPdNameContaining(@Param("pdName")String pdName, Pageable pageable);
 
 //    카테고리별 전체 상품 조회
     @Query(value = "SELECT *\n" +

@@ -18,7 +18,8 @@ public interface OrderCheckDto {
     String getPdName();            // 상품명
     Integer getOrderDetailCnt();    // 주문상품수량
     Integer getOrderDetailPrice();  // 주문상품가격
-    String  getOrderCode();         // 주문상태코드
     String getAddDate();            // 주문날짜
+
+    String getCmCdName();
     Integer getOrderId();
 }

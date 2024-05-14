@@ -12,7 +12,7 @@
           <!-- Sidebar - Brand -->
           <a
             class="sidebar-brand d-flex align-items-center justify-content-center"
-            href="/admin"
+            href="/admin-product"
           >
             <div class="sidebar-brand-icon rotate-n-15"></div>
             <div class="sidebar-brand-text mx-3 logo">서울쥐</div>
@@ -23,7 +23,7 @@
 
           <!-- Nav Item - Dashboard -->
           <li class="nav-item active">
-            <a class="nav-link" href="/admin">
+            <a class="nav-link" href="/admin-product">
               <i class="fas fa-fw fa-tachometer-alt"></i>
               <span>처음으로</span></a
             >
@@ -441,9 +441,9 @@
                       <div class="col-sm-12 col-md-7">
                         <div class="dataTables_paginate paging_Simple_numbers">
                           <b-pagination
-                            v-model="page"
+                            v-model="productPage"
                             :total-rows="productCount"
-                            :per-page="pageSize"
+                            :per-page="productPageSize"
                             @click="retrieveAdminProduct"
                           ></b-pagination>
                         </div>
@@ -715,9 +715,9 @@
                       <div class="col-sm-12 col-md-7">
                         <div class="dataTables_paginate paging_Simple_numbers">
                           <b-pagination
-                            v-model="page"
+                            v-model="optionPage"
                             :total-rows="optionCount"
-                            :per-page="pageSize"
+                            :per-page="optionPageSize"
                             @click="retrieveAdminOption"
                           ></b-pagination>
                         </div>
@@ -775,10 +775,12 @@ export default {
       searchOpName: "", // 옵션명
 
       // 공통 속성(현재페이지, 전체데이터개수,1페이지당개수)
-      page: 1, // 현재페이지번호
+      productPage: 1, // 현재페이지번호
+      optionPage: 1, // 현재페이지번호
       productCount: 0, // 전체데이터개수
       optionCount: 0, // 전체데이터개수
-      pageSize: 10, // 1페이지당개수(select태그)
+      productPageSize: 10, // 1페이지당개수(select태그)
+      optionPageSize: 10, // 1페이지당개수(select태그)
 
       pageSizes: [10, 25, 50], //1페이지당개수 배열(select태그-option)
     };
@@ -846,21 +848,24 @@ export default {
     // TODO: 상품 옵션 등록 끝
     // TODO: 백엔드 연결
     pageNoChange(value) {
-      this.page = value; // 1) 현재페이지 변경
+      this.productPage = value; // 1) 현재페이지 변경
+      this.optionPage = value; // 1) 현재페이지 변경
       this.retrieveAdminProduct(); // 2) 재조회 요청
       this.retrieveAdminOption();
     },
     pageSizeChange() {
-      this.page = 1; // 2) 현재 페이지번호 초기화(1)
+      this.productPage = 1; // 2) 현재 페이지번호 초기화(1)
+      this.optionPage = 1; // 2) 현재 페이지번호 초기화(1)
       this.retrieveAdminProduct(); // 3) 재조회 요청
       this.retrieveAdminOption();
     },
     async retrieveAdminProduct() {
       try {
+        console.log("상품",this.productPageSize);
         let response = await AdminProuctService.getAll(
           this.searchPdName, // 검색어
-          this.page - 1, // 현재페이지번호-1
-          this.pageSize // 1페이지당개수(size)
+          this.productPage - 1, // 현재페이지번호-1
+          this.productPageSize // 1페이지당개수(size)
         );
         const { adminProduct, totalItems } = response.data; // 쿠폰배열(벡엔드 전송)
         this.adminProduct = adminProduct; // 쿠폰배열(벡엔드 전송)
@@ -874,8 +879,8 @@ export default {
       try {
         let response = await AdminOptionService.getAll(
           this.searchOpName, // 검색어
-          this.page - 1, // 현재페이지번호-1
-          this.pageSize // 1페이지당개수(size)
+          this.optionPage - 1, // 현재페이지번호-1
+          this.optionPageSize // 1페이지당개수(size)
         );
         const { adminOption, totalItems } = response.data; // 쿠폰배열(벡엔드 전송)
         this.adminOption = adminOption; // 쿠폰배열(벡엔드 전송)

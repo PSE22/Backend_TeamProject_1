@@ -9,14 +9,14 @@
         >
           <a
             class="sidebar-brand d-flex align-items-center justify-content-center"
-            href="/admin"
+            href="/admin-product"
           >
             <div class="sidebar-brand-icon rotate-n-15"></div>
             <div class="sidebar-brand-text mx-3 logo">서울쥐</div>
           </a>
           <hr class="sidebar-divider my-0" />
           <li class="nav-item active">
-            <a class="nav-link" href="/admin">
+            <a class="nav-link" href="/admin-product">
               <i class="fas fa-fw fa-tachometer-alt"></i>
               <span>처음으로</span></a
             >
