@@ -145,7 +145,7 @@
 
   <!-- {/* paging 시작 */} -->
   <b-pagination
-    class="col-12 mb-3"
+    class="col-12 mb-3 justify-content-center"
     v-model="reviewPage"
     :total-rows="reviewCount"
     :per-page="reviewPageSize"
@@ -160,17 +160,17 @@
         type="button"
         class="btn btn-primary"
         data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
+        data-bs-target="#reviewModal"
       >
         후기 작성
       </button>
 
       <!-- Modal -->
-      <div class="modal fade" id="exampleModal" tabindex="-1">
+      <div class="modal fade" id="reviewModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">
+              <h1 class="modal-title fs-5" id="modalLabel">
                 상품 후기 작성
               </h1>
               <button
@@ -239,7 +239,7 @@
                 type="button"
                 class="ms-3 qna-link"
                 data-bs-toggle="modal"
-                :data-bs-target="'#exampleModal-' + index"
+                :data-bs-target="'#qnaModal-' + index"
               >
                 {{ data.pdQnaTitle }}
               </div>
@@ -254,7 +254,7 @@
                 type="button"
                 class="ms-3 qna-link"
                 data-bs-toggle="modal"
-                :data-bs-target="'#exampleModal-' + index"
+                :data-bs-target="'#qnaModal-' + index"
               >
                 {{ data.pdQnaTitle }}
               </div>
@@ -265,14 +265,14 @@
             <!-- Modal -->
             <div
               class="modal fade"
-              :id="'exampleModal-' + index"
+              :id="'qnaModal-' + index"
               tabindex="-1"
-              aria-labelledby="exampleModalLabel"
+              aria-labelledby="modalLabel"
             >
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    <h1 class="modal-title fs-5" id="modalLabel">
                       {{ data.pdQnaTitle }} / {{ data.pdQnaSecret }}
                     </h1>
                     <button
@@ -321,7 +321,7 @@
   </div>
   <!-- {/* paging 시작 */} -->
   <b-pagination
-    class="col-12 mb-3"
+    class="col-12 mb-3 justify-content-center"
     v-model="qnaPage"
     :total-rows="qnaCount"
     :per-page="qnaPageSize"
@@ -335,21 +335,21 @@
         type="button"
         class="btn btn-primary"
         data-bs-toggle="modal"
-        data-bs-target="#exampleModal-3"
+        data-bs-target="#qnaModal"
       >
         문의 작성
       </button>
       <div
         class="modal fade"
-        id="exampleModal-3"
+        id="qnaModal"
         tabindex="-1"
-        aria-labelledby="exampleModalLabel"
+        aria-labelledby="modalLabel"
         aria-hidden="true"
       >
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">
+              <h1 class="modal-title fs-5" id="modalLabel">
                 1:1 문의 작성
               </h1>
               <button
