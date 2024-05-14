@@ -1,7 +1,7 @@
 <template>
   <!-- 이벤트 페이지 배너 -->
   <div class="row">
-    <div class="container-fluid banner-container">
+    <div class="container-fluid banner-container-event">
       <h1 class="banner-title">Event</h1>
     </div>
   </div>

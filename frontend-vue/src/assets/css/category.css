@@ -1,7 +1,21 @@
 /* 상단 배너 */
-.banner-container {
+.banner-container-best {
     /* background-color: rgb(72, 165, 241); */
-    background-image: linear-gradient(to top left,  rgb(72, 165, 241), yellow);;
+    background-image: linear-gradient(to top left,  #ffb6c1, #e6e6fa);
+    color: white;
+    margin-bottom: 50px;
+}
+
+.banner-container-new {
+    /* background-color: rgb(72, 165, 241); */
+    background-image: linear-gradient(to top left,  #ffdab9, #ff7f50);
+    color: white;
+    margin-bottom: 50px;
+}
+
+.banner-container-event {
+    /* background-color: rgb(72, 165, 241); */
+    background-image: linear-gradient(to top left,  #8a2be2, #191970);
     color: white;
     margin-bottom: 50px;
 }

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public interface MyOrderCheckRepository extends JpaRepository<OrderDetail, Order
     @Query(value = "SELECT od.ORDER_DETAIL_CNT AS orderDetailCnt, " +
             "od.ORDER_DETAIL_PRICE AS orderDetailPrice, " +
             "od.ORDER_DETAIL_CODE AS orderCode, " +
-            "od.ADD_DATE AS addDate, " +
+            "o.ADD_DATE AS addDate, " +  
             "pd.PD_THUMBNAIL AS pdThumbnail, " +
             "pd.PD_NAME AS pdName, " +
             "o.ORDER_ID AS orderId " +
@@ -36,11 +37,13 @@ public interface MyOrderCheckRepository extends JpaRepository<OrderDetail, Order
             "JOIN TB_ORDER o ON od.ORDER_ID = o.ORDER_ID " +
             "JOIN TB_OPTION opt ON od.OP_ID = opt.OP_ID " +
             "JOIN TB_PRODUCT pd ON opt.PD_ID = pd.PD_ID " +
-            "WHERE o.STATUS = 'Y' " +
-            "AND o.USER_ID = :userId " +
-            "ORDER BY od.ADD_DATE DESC",
+            "WHERE o.STATUS = 'Y' AND o.USER_ID = :userId " +
+            "AND o.ADD_DATE BETWEEN :startDate AND :endDate " +
+            "ORDER BY o.ADD_DATE DESC",
             nativeQuery = true)
-    List<OrderCheckDto> selectOrderCheck(@Param("userId") String userId);
+    List<OrderCheckDto> findOrdersByDateRange(@Param("userId") String userId,
+                                              @Param("startDate") LocalDate startDate,
+                                              @Param("endDate") LocalDate endDate);
 
 //    주문 카운트
     @Query(value = "SELECT count(*) FROM TB_ORDER o\n" +

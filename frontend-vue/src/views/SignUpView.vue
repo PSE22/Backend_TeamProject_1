@@ -124,28 +124,55 @@
           </div>
         </div>
       </div>
-
+      <br />
       <!-- 주소 -->
       <div align="center">
         <div class="row">
           <div class="col">
             <label for="userEmail"></label>
+            <div class="input-group">
+              <input
+                type="text"
+                name="zipcode"
+                id="zipcode"
+                class="form-control"
+                value=""
+                placeholder="우편번호"
+                readonly
+              />
+              <button
+                class="btn btn-primary btn-sm"
+                type="button"
+                @click="showApi"
+              >
+                주소검색
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col">
             <input
               type="text"
-              disabled
+              name="roadaddress"
+              id="roadaddress"
               class="form-control"
-              placeholder="주소검색"
-              name="userEmail"/>
-              <input
+              value=""
+              placeholder="도로명주소"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col">
+            <input
               type="text"
-              disabled
+              name="detailaddress"
+              id="detailaddress"
               class="form-control"
-              name="userEmail"/>
-              <input
-              type="text"
-              disabled
-              class="form-control"
-              name="userEmail"/>
+              value=""
+              placeholder="상세주소"
+            />
           </div>
         </div>
       </div>
@@ -223,6 +250,15 @@ export default {
   // 데이터 바인딩
   data() {
     return {
+      openDaumAddrApi: {
+        addressName: "기본배송지",
+        zipcode: "", // 우편번호
+        address: "", // 기본주소
+        roadAddress: "", // 도로명 주소
+        roadAddressEnglish: "", //영문 도로명 주소
+        jibunAddress: "", // 지번 주소
+        jibunAddressEnglish: "", // 영문 지번 주소
+      },
       user: {
         userId: "",
         userPw: "",
@@ -240,6 +276,39 @@ export default {
   },
   // TODO: 함수 정의
   methods: {
+    showApi() {
+      new window.daum.Postcode({
+        oncomplete: (data) => {
+          let fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+          let extraRoadAddr = ""; // 도로명 조합형 주소 변수
+
+          // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+          // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+          if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+            extraRoadAddr += data.bname;
+          }
+          // 건물명이 있고, 공동주택일 경우 추가한다.
+          if (data.buildingName !== "" && data.apartment === "Y") {
+            extraRoadAddr +=
+              extraRoadAddr !== ""
+                ? ", " + data.buildingName
+                : data.buildingName;
+          }
+          // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+          if (extraRoadAddr !== "") {
+            extraRoadAddr = " (" + extraRoadAddr + ")";
+          }
+          // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+          if (fullRoadAddr !== "") {
+            fullRoadAddr += extraRoadAddr;
+          }
+          document.getElementById("zipcode").value = data.zonecode;
+          document.getElementById("roadaddress").value = data.roadAddress;
+        },
+      }).open({
+      popupName: 'postcodePopup'
+    });
+    },
     async heckUserId() {
       var userId = this.user.userId.trim();
       if (userId.length < 8 || !/^[a-zA-Z0-9]+$/.test(userId)) {

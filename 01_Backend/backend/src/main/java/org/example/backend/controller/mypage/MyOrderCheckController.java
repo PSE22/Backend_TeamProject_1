@@ -10,11 +10,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,25 +39,20 @@ public class MyOrderCheckController {
     MyOrderCheckService myOrderCheckService;
 
     @GetMapping("/ordercheck/{userId}")
-    public ResponseEntity<Object> findAll(
-            @PathVariable String userId
-    )     {
-        try{
-//            전체 조회 서비스 함수 실행
-            List<OrderCheckDto> getOrderCheck
-                    = myOrderCheckService.getOrderCheck(userId);
-
-            if(getOrderCheck.isEmpty() == false) {
-//                조회성공
-                return new ResponseEntity<>(getOrderCheck, HttpStatus.OK);
+    public ResponseEntity<List<OrderCheckDto>> getOrdersByDateRange(
+            @PathVariable String userId,
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate  endDate) {
+        try {
+            List<OrderCheckDto> orders = myOrderCheckService.findOrdersByDateRange(userId, startDate, endDate);
+            if (orders.isEmpty()) {
+                return ResponseEntity.noContent().build();
             } else {
-//                조회실패
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return ResponseEntity.ok(orders);
             }
-
         } catch (Exception e) {
-            log.debug("에러 : "+ e.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Error retrieving orders for user " + userId + " between " + startDate + " and " + endDate + ": " + e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

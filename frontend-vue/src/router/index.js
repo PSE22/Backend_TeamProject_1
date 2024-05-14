@@ -177,7 +177,7 @@ const routes = [
   // 마이페이지 -> 주문상세
   // 주소 앞에 mypage 추가해야함
   {
-    path: "/order/:orderId",
+    path: "/mypage/order/:orderId",
     component: () => import("../views/mypage/MyPageOrderDetail.vue"),
   },
   // 마이페이지 -> 쿠폰함
@@ -187,8 +187,8 @@ const routes = [
   },
   // 마이페이지 -> 적립금
   {
-    // path: "/mypage/point",
-    // component: () => import("../views/mypage/MyPagePoint.vue"),
+    path: "/mypage/point",
+    component: () => import("../views/mypage/MyPagePoint.vue"),
   },
   // 마이페이지 -> 위시리스트
   {
@@ -207,7 +207,7 @@ const routes = [
   },
   // 마이페이지 -> 회원정보 관리
   {
-    path: "/mypage/info",
+    path: "/mypage/editProfile",
     component: () => import("../views/mypage/MyPageInfo.vue"),
   },
 ];

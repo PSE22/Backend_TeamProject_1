@@ -10,11 +10,16 @@ import org.example.backend.model.entity.UserCoupon;
 import org.example.backend.model.entity.Wishlist;
 import org.example.backend.service.shop.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -37,11 +42,37 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-//    베스트 상품 전체 조회
-    @GetMapping("/home/best/product")
-    public ResponseEntity<Object> findAllBestProduct() {
+//    카테고리별 전체 상품 조회
+    @GetMapping("/category")
+    public ResponseEntity<Object> findByCategoryAll(@RequestParam(defaultValue = "") String categoryCode,
+                                                    @RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "3") int size) {
         try {
-            List<IBestProductDto> list = productService.findAllBestProduct();
+            // 페이징 객체 생성
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Product> categoryPage = productService.findByCategoryAll(categoryCode, pageable);
+            // 공통 페이징 객체 생성
+            Map<String, Object> response = new HashMap<>();
+            response.put("product", categoryPage.getContent()); // product 배열
+            response.put("currentPage", categoryPage.getNumber()); // 현재페이지번호
+            response.put("totalItems", categoryPage.getTotalElements()); // 총건수(개수)
+            response.put("totalPages", categoryPage.getTotalPages()); // 총페이지수
+
+            if(categoryPage.isEmpty() == false) {
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    베스트 상품 3개 조회
+    @GetMapping("/home/best3/product")
+    public ResponseEntity<Object> findThreeBestProduct() {
+        try {
+            List<IBestProductDto> list = productService.findThreeBestProduct();
             if (list.isEmpty() == true) {
                 // 데이터 없음
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -54,11 +85,11 @@ public class ProductController {
         }
     }
 
-//    베스트 상품 전체 조회(높은 가격순)
-    @GetMapping("/home/best/product/high")
-    public ResponseEntity<Object> findAllBestProductHigh() {
+//    베스트 상품 전체 조회(일간 판매량 높은순)
+    @GetMapping("/home/best/product/day")
+    public ResponseEntity<Object> findAllBestProductDay() {
         try {
-            List<IBestProductDto> list = productService.findAllBestProductHigh();
+            List<IBestProductDto> list = productService.findAllBestProductDay();
             if (list.isEmpty() == true) {
                 // 데이터 없음
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -71,11 +102,28 @@ public class ProductController {
         }
     }
 
-//    베스트 상품 조회(낮은 가격순)
-    @GetMapping("/home/best/product/low")
-    public ResponseEntity<Object> findAllBestProductLow() {
+//    베스트 상품 전체 조회(월간 판매량 높은순)
+    @GetMapping("/home/best/product/month")
+    public ResponseEntity<Object> findAllBestProductMonth() {
         try {
-            List<IBestProductDto> list = productService.findAllBestProductLow();
+            List<IBestProductDto> list = productService.findAllBestProductMonth();
+            if (list.isEmpty() == true) {
+                // 데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                // 조회 성공
+                return new ResponseEntity<>(list, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    베스트 상품 전체 조회(연간 판매량 높은순)
+    @GetMapping("/home/best/product/year")
+    public ResponseEntity<Object> findAllBestProductYear() {
+        try {
+            List<IBestProductDto> list = productService.findAllBestProductYear();
             if (list.isEmpty() == true) {
                 // 데이터 없음
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
