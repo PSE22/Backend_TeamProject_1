@@ -39,8 +39,6 @@ class LoginService {
         };
         return http.get(`/auth/signup/${userId}?userId=${userId}`, data);
     }
-
-    // TODO: 이메일 중복확인 함수
 }
 
 export default new LoginService();

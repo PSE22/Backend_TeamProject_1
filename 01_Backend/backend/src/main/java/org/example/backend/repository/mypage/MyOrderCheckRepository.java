@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -28,18 +29,19 @@ import java.util.List;
 public interface MyOrderCheckRepository extends JpaRepository<OrderDetail, OrderIdOpIdPk> {
     @Query(value = "SELECT od.ORDER_DETAIL_CNT AS orderDetailCnt, " +
             "od.ORDER_DETAIL_PRICE AS orderDetailPrice, " +
-            "od.ORDER_DETAIL_CODE AS orderCode, " +
-            "od.ADD_DATE AS addDate, " +
+            "o.ADD_DATE AS addDate, " +
             "pd.PD_THUMBNAIL AS pdThumbnail, " +
             "pd.PD_NAME AS pdName, " +
-            "o.ORDER_ID AS orderId " +
+            "o.ORDER_ID AS orderId, " +
+            "cm.CM_CD_NAME AS cmCdName " +
             "FROM TB_ORDER_DETAIL od " +
             "JOIN TB_ORDER o ON od.ORDER_ID = o.ORDER_ID " +
             "JOIN TB_OPTION opt ON od.OP_ID = opt.OP_ID " +
             "JOIN TB_PRODUCT pd ON opt.PD_ID = pd.PD_ID " +
+            "JOIN TB_CM_CODE cm ON o.ORDER_CODE = cm.CM_CD " +
             "WHERE o.STATUS = 'Y' AND o.USER_ID = :userId " +
-            "AND od.ADD_DATE BETWEEN TO_DATE(:startDate, 'YYYY-MM-DD') AND TO_DATE(:endDate, 'YYYY-MM-DD') " +
-            "ORDER BY od.ADD_DATE DESC", nativeQuery = true)
+            "AND o.ADD_DATE BETWEEN :startDate AND :endDate " +
+            "ORDER BY o.ADD_DATE DESC", nativeQuery = true)
     List<OrderCheckDto> findOrdersByDateRange(@Param("userId") String userId,
                                               @Param("startDate") String startDate,
                                               @Param("endDate") String endDate);

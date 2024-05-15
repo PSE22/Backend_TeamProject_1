@@ -3,15 +3,18 @@ package org.example.backend.controller;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.backend.model.dto.shop.ICartDto;
+import org.example.backend.model.dto.mypage.OrderCheckDto;
 import org.example.backend.model.entity.User;
-import org.example.backend.repository.UserRepository;
+import org.example.backend.model.entity.admin.AdminCoupon;
 import org.example.backend.security.jwt.JwtUtils;
 import org.example.backend.service.dto.LoginRequest;
 import org.example.backend.service.dto.LoginResponse;
 import org.example.backend.service.dto.SignUpRequest;
 import org.example.backend.service.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -23,7 +26,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * packageName : org.example.backend.controller
