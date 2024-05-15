@@ -32,6 +32,7 @@ public interface MyOrderCheckRepository extends JpaRepository<OrderDetail, Order
             "o.ADD_DATE AS addDate, " +
             "pd.PD_THUMBNAIL AS pdThumbnail, " +
             "pd.PD_NAME AS pdName, " +
+            "pd.PD_ID AS pdId, " +
             "o.ORDER_ID AS orderId, " +
             "cm.CM_CD_NAME AS cmCdName " +
             "FROM TB_ORDER_DETAIL od " +
