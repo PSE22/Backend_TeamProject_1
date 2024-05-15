@@ -91,7 +91,7 @@ public class CartController {
     // 장바구니 여러 개 삭제
     @DeleteMapping("/cart/deletion")
     public ResponseEntity<Object> deleteMultiple(
-            @RequestBody List<Integer> cartIds
+            @RequestBody List<Long> cartIds
     ) {
         try {
             boolean success = cartService.removeByIds(cartIds);
