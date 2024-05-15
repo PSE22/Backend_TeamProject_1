@@ -56,22 +56,4 @@ public class MyOrderCheckController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-    @GetMapping("/ordercheck/{userId}")
-    public ResponseEntity<List<OrderCheckDto>> getByDateRange(
-            @PathVariable String userId,
-            @RequestParam String startDate,
-            @RequestParam String endDate) {
-        try {
-            List<OrderCheckDto> orders = myOrderCheckService.findOrdersByDateRange(userId, startDate, endDate);
-            if (orders.isEmpty()) {
-                return ResponseEntity.noContent().build();
-            } else {
-                return ResponseEntity.ok(orders);
-            }
-        } catch (Exception e) {
-            log.error(" 오류 " + e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
 }
