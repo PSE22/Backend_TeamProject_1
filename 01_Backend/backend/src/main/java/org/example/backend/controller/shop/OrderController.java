@@ -1,6 +1,7 @@
 package org.example.backend.controller.shop;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.backend.model.dto.shop.ICartDto;
 import org.example.backend.model.dto.shop.IPointDto;
 import org.example.backend.model.dto.shop.IUserCouponDto;
 import org.example.backend.model.dto.shop.OrderDto;
@@ -117,6 +118,42 @@ public class OrderController {
             } else {
                 // 조회 성공
                 return new ResponseEntity<>(optionalPoint.get(), HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    // 회원의 장바구니 정보 전체 조회
+    @GetMapping("/order/cart/{userId}")
+    public ResponseEntity<Object> findByCartUserId(@PathVariable String userId) {
+        try {
+            List<ICartDto> list = orderService.findByCartUserId(userId);
+            if (list.isEmpty() == true) {
+                // 데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                // 조회 성공
+                return new ResponseEntity<>(list, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // 장바구니 삭제
+    @DeleteMapping("/order/deletion/cart/{cartId}")
+    public ResponseEntity<Object> delete(@PathVariable Long cartId) {
+        try {
+            // DB 삭제 서비스 함수 실행
+            boolean success = orderService.removeByCartId(cartId);
+            if(success == true) {
+                // 삭제 성공
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                // 삭제 실패 (삭제할 데이터 없음)
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -11,26 +11,10 @@ const routes = [
     path: "/login",
     component: () => import("../views/LoginView.vue"),
   },
-  // 아이디 찾기
-  {
-    path: "/find-id",
-    component: () => import("../views/IdView.vue"),
-  },
-  // 비밀번호 찾기
-  {
-    path: "/find-password",
-    component: () => import("../views/PasswordView.vue"),
-  },
   // 회원가입
   {
     path: "/signup",
     component: () => import("../views/SignUpView.vue"),
-  },
-  // 관리자 메인
-  {
-    path: "/admin",
-    component: () => import("../views/admin/AdminView.vue"),
-    beforeEnter: [routeGuard],
   },
   // 관리자 주문 관리
   {
@@ -43,7 +27,7 @@ const routes = [
     component: () => import('../views/admin/AdminOrderDetailView.vue'),
     beforeEnter: [routeGuard],
   },
-  // 관리자 상품 관리
+  // 관리자 메인 / 상품 관리
   {
     path: "/admin-product",
     component: () => import("../views/admin/AdminProductView.vue"),
@@ -184,6 +168,11 @@ const routes = [
     path: "/mypage/order/:orderId",
     component: () => import("../views/mypage/MyPageOrderDetail.vue"),
   },
+  {
+    path: "/mypage/order/cancel/:orderId",
+    component: () => import("../views/mypage/MyPageOrderCancel.vue"),
+  },
+  
   // 마이페이지 -> 쿠폰함
   {
     path: "/mypage/coupon",

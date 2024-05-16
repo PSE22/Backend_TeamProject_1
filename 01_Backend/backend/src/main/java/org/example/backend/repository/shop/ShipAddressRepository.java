@@ -2,6 +2,7 @@ package org.example.backend.repository.shop;
 
 import org.example.backend.model.entity.ShipAddress;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -21,5 +22,11 @@ import java.util.Optional;
  */
 @Repository
 public interface ShipAddressRepository extends JpaRepository<ShipAddress, Long> {
+    @Query(value = "SELECT * FROM TB_SHIP_ADDRESS\n" +
+            "WHERE USER_ID LIKE '%' || :userId || '%'"
+            ,countQuery = "SELECT count(*) FROM TB_SHIP_ADDRESS\n" +
+            "WHERE USER_ID LIKE '%' || :userId || '%'"
+            ,nativeQuery = true
+    )
     Optional<ShipAddress> findByUserId(String userId);
 }
