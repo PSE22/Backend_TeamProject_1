@@ -52,7 +52,6 @@
 import LoginService from "@/services/login/LoginService";
 
 export default {
-  // 데이터 바인딩 속성
   data() {
     return {
       user: {

@@ -164,8 +164,6 @@
         <label class="form-check-label" for="promoNo">미동의</label>
       </div>
 
-      <!-- 계정분류 라디오버튼 삭제 - 김태완 -->
-
       <!-- 회원가입 -->
       <br />
       <div align="center">
@@ -188,7 +186,6 @@
 import LoginService from "@/services/login/LoginService";
 
 export default {
-  // 데이터 바인딩
   data() {
     return {
       user: {
@@ -201,9 +198,9 @@ export default {
         userEmail: "",
         userPhone: "",
         userPromo: "",
-        userCode: "AT02", // 계정분류코드 고정 - 김태완
+        userCode: "AT02",
       },
-      message: "", // 성공메세지 화면 출력속성
+      message: "",
     };
   },
   // TODO: 함수 정의
@@ -217,13 +214,13 @@ export default {
       this.failMessage = "";
       this.successMessage = "";
       try {
-        this.successMessage = ""; // 성공 메시지 초기화
-        let response = await LoginService.reId(this.user.userId); // user.userId만 전달
-        alert("사용 가능한 아이디입니다."); // 성공 메시지 알림창 표시
+        this.successMessage = "";
+        let response = await LoginService.reId(this.user.userId);
+        alert("사용 가능한 아이디입니다.");
         return response.data;
       } catch (e) {
-        this.failMessage = ""; // 실패 메시지 초기화
-        alert("중복된 아이디 입니다."); // 실패 메시지 알림창 표시
+        this.failMessage = "";
+        alert("중복된 아이디 입니다.");
         console.log(e);
       }
     },
@@ -232,14 +229,11 @@ export default {
       try {
         // TODO: 공통 사용자등록 서비스 함수 실행
         let response = await LoginService.signup(this.user);
-        // 공유저장소의 signUp 성공함수 실행
         this.$store.commit("signUpSuccess");
         this.message = "사용자가 등록되었습니다.";
-        this.$router.push("/api/login"); // 회원가입 성공시 로그인 페이지로 이동 - 김태완
-        // 로깅
+        this.$router.push("/login");
         console.log(response.data);
       } catch (e) {
-        // 공유저장소의 signUp 실패함수 실행
         this.$store.commit("signupFailure");
         this.message = "에러 : " + e;
         console.log(e);

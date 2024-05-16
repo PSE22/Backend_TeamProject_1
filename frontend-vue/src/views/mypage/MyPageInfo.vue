@@ -265,11 +265,10 @@
 import MyEditProfile from "@/services/mypage/MyEditProfile";
 
 export default {
-  // 데이터 바인딩
   data() {
     return {
-      user: null, // 초기값
-      message: "", // 성공메세지 화면 출력속성
+      user: null,
+      message: "",
       // 비밀번호
       userPw: "", // 기존 비밀번호
       newPassword: "", // 새로운 비밀번호
@@ -301,7 +300,6 @@ export default {
       try {
         let response = await MyEditProfile.findById(userId);
         this.user = response.data; // spring 결과를 바인딩 속성변수 user 저장
-        // 로깅
         console.log("상세 조회", response.data);
       } catch (e) {
         console.log(e);
@@ -311,7 +309,6 @@ export default {
     async updateProfile() {
       try {
         let temp = {
-          // 임시 수정될 객체
           userId: this.user.userId,
           userPw: this.newPassword,
           userName: this.user.userName,
@@ -325,7 +322,6 @@ export default {
           this.user.userId,
           temp
         );
-        // 로깅
         console.log(response.data);
         // 화면에 성공메세지 출력 : message
         alert("수정이 성공했습니다.");
@@ -340,7 +336,6 @@ export default {
         let userPwData = {
           userPW: this.userPwData.userPw,
         };
-        console.log("회원탈퇴", userPwData);
         let response = await MyEditProfile.withdrawUser(this.user.userId, userPwData.userPW);
         console.log(response.data);
         alert("회원탈퇴가 성공했습니다.");
@@ -359,7 +354,7 @@ export default {
     },
   },
   mounted() {
-    this.message = ""; // 변수 초기화
+    this.message = "";
     this.getUser(this.$store.state.user?.userId);
   },
 };

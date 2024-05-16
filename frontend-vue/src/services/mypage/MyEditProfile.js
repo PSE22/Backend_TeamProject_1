@@ -1,4 +1,3 @@
-// 상품 공통 함수
 import http from "@/utils/http-common";
 import LoginHeader from "../login/LoginHeader";
 
