@@ -21,20 +21,17 @@
         font-size: 19px;
         font-weight: 700;
         color: rgb(17, 17, 17);
-        background-color: rgb(223, 208, 208);
-        padding: 10px 10px 20px 10px;
-        padding-bottom: 70px;
+        padding: 10px 10px 0px 10px;
     }
 
     .mypage-subtitle {
         display: flex;
         -webkit-box-pack: start;
         justify-content: flex-start;
-        font-size: 26px;
-        font-weight: 700;
+        font-size: 2.5rem;
         color: rgb(17, 17, 17);
         background-color: rgb(255, 255, 255);
-        padding: 10px 10px 20px 0px;
+        padding: 50px 10px 20px 0px;
     }
 
     .pointIntro .usablePoint dd {
@@ -49,7 +46,7 @@
         color: rgb(51, 51, 51);
     }
 
-    .mypage-filter{
+    .mypagepoint-filter{
         display: flex;
         -webkit-box-align: center;
         align-items: center;
@@ -62,24 +59,15 @@
     
     }
 
-    .mypage-filter .dateSelect{
-        flex: 1 1 160px;
-    }
-    .mypage-filter .dateSelect button {
-        border: 0px;
-        color: rgb(249, 250, 251);
-        width: 60px;
-        height: 30px;
-        line-height: 1;
-        margin-right: 5px;
-        border: 1px solid rgb(221, 221, 221);
-        border-radius: 2px;
-        font-size: 13px;
-        color: rgb(51, 51, 51);
-        background: rgb(255, 255, 255);
-        padding: 0px;
-        
-    }
+.dateSelect button {
+    margin-left: 20px;
+    color: #333; /* 버튼 텍스트 색상 변경 */
+    background-color: #fff; /* 버튼 배경색 변경 */
+    border: 1px solid #ddd; /* 버튼 테두리 추가 */
+    border-radius: 2px;
+    font-size: 14px; /* 버튼 텍스트 크기 조정 */
+    padding: 5px 10px; /* 버튼 패딩 조정 */
+}
 
     .pointDate {
         justify-content: flex-end;
@@ -129,8 +117,142 @@
         color: rgb(223, 0, 17);
         margin-right: 20px;
     }
-    .pointList .pointItem .state strong {
-        font-size: 18px;
+    .pointList .pointItem .state strong {a.mypage-layout {
+        display: flex;
+        flex-flow: row;
+    }
+    
+    .mypage-backcolor {
+        background-color: rgb(249, 250, 251);
+    }
+    
+    .mypage-layout .mypage-contents {
+        margin-top: 40px;
+        flex: 1 1 auto;
+        background-color: rgb(255, 255, 255);
+    }
+    
+    .tabList {
+        width: 100%;
+        background: rgb(249, 250, 251);
+    }
+    
+    .tabList .mypage-wish-subtitle {
+        display: flex;
+        justify-content: center;
+        font-size: 26px;
+        font-weight: 700;
+        color: rgb(17, 17, 17);
+        background-color: rgb(223, 208, 208);
+        padding: 10px 10px 20px 0px;
+    }
+    
+    .form-check {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+        padding: 19px 20px;
+        border-bottom: 1px solid rgb(238, 238, 238);
+        background: rgb(255, 255, 255);
+    }
+    
+    .form-check-input[type=checkbox] {
+        margin-left: 0; /* 왼쪽 마진 제거 */
+        margin-right: 10px; /* 오른쪽 마진 추가 */
+    }
+    
+    .form-check-label {
+        font-size: 20px;
+        color: rgb(102, 102, 102);
+    }
+    
+    .form-check button {
+        font-size: 13px;
+        color: rgb(102, 102, 102);
+        border: 0px;
+        background: none;
+        cursor: pointer;
+        outline: 0px;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .check-all {
+        display: flex;
+        align-items: center; /* 수직 정렬 */
+    }
+    
+    .check-item {
+        position: absolute; /* 절대 위치 지정 */
+        top: 10px; /* 상품 이미지 상단에서 10px 아래 */
+        left: 10px; /* 상품 이미지 왼쪽에서 10px 오른쪽 */
+        background-color: transparent; /* 백그라운드 효과 제거 */
+        padding: 0; /* 패딩 제거 */
+    }
+    
+    .mypage-product-box .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* 카드 간격 조정 */
+    }
+    
+    .mypage-product-box .col {
+        flex: 1 1 calc(25% - 20px); /* 카드 너비 조정 */
+        max-width: calc(25% - 20px);
+    }
+    
+    .mypage-product-box .card {
+        position: relative; /* 자식 요소의 절대 위치를 위해 필요 */
+        border: 1px solid rgb(221, 221, 221); /* 카드 테두리 추가 */
+        border-radius: 4px; /* 카드 경계선 둥글게 처리 */
+        background-color: rgb(255, 255, 255); /* 카드 배경색 */
+        transition: transform 0.3s, box-shadow 0.3s; /* 호버 효과 추가 */
+    }
+    
+    .mypage-product-box .card:hover {
+        transform: translateY(-5px); /* 호버 시 위로 이동 */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 호버 시 그림자 효과 */
+    }
+    
+    .mypage-product-box .card-img-top {
+        height: 200px; /* 이미지 높이 조정 */
+        object-fit: cover; /* 컨테이너에 맞게 이미지 비율 유지 */
+        border-bottom: 1px solid rgb(221, 221, 221); /* 하단 테두리 추가 */
+    }
+    
+    .mypage-product-box .card-body {
+        padding: 10px; /* 패딩 조정 */
+    }
+    
+    .mypage-product-box .card-title {
+        font-size: 16px; /* 텍스트 크기 조정 */
+        font-weight: bold; /* 텍스트 굵기 조정 */
+        color: rgb(51, 51, 51); /* 텍스트 색상 조정 */
+        margin-bottom: 10px; /* 아래 마진 조정 */
+    }
+    
+    .mypage-product-box .card-text {
+        font-size: 14px; /* 텍스트 크기 조정 */
+        color: rgb(102, 102, 102); /* 텍스트 색상 조정 */
+        margin-bottom: 10px; /* 아래 마진 조정 */
+    }
+    
+    /* 상품의 체크박스를 좌상단에 위치시키기 위한 추가 CSS */
+    .mypage-product-box .form-check {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .mypage-product-box .form-check-input[type=checkbox] {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        margin: 0; /* 마진 제거 */
+        background-color: transparent; /* 백그라운드 효과 제거 */
+        padding: 0; /* 패딩 제거 */
+    }
     }
 
     .mypageNotice{

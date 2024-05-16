@@ -67,7 +67,7 @@ public interface PointDetailRepository extends JpaRepository<DetailPoint, PtIdUs
             "WHERE p.user_id = :userId AND p.status = 'N' AND p.point_expire_status = 'Y' " +
             "AND p.del_date BETWEEN :startDate AND :endDate " +
             ") ORDER BY orderDate DESC", nativeQuery = true)
-    List<PointDto> findPointDetailsByUserId(@Param("userId") String userId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    List<PointDto> findPointDetailsByUserId(@Param("userId") String userId, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
 //    delDate 가 되면 point_expire_status Y(만료) 로 변경, status N 으로 변경
     @Modifying

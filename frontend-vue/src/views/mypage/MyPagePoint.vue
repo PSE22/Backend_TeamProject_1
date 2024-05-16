@@ -10,7 +10,7 @@
               <dd><strong>{{ pointBalance.resultPoint }}</strong> P</dd>
             </dl>
           </div>
-          <div class="mypage-filter" role="group" aria-label="Basic example">
+          <div class="mypagepoint-filter" role="group" aria-label="Basic example">
             <div class="dateSelect">
               <button type="button" class="btn btn-primary" @click="retrievePointsForPeriod(1)">1 개월</button>
               <button type="button" class="btn btn-primary" @click="retrievePointsForPeriod(3)">3 개월</button>
