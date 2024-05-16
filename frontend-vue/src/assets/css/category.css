@@ -61,11 +61,17 @@
 }
 
 #sorting {
+    text-align: end;
     margin-top: 50px;
-    margin-right: 115px;
 }
 
 #button {
     background-color: white;
     border: none;
+}
+
+.searchContent {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    text-align: center;
 }

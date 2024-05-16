@@ -2,15 +2,10 @@
 import http from "@/utils/http-common";
 
 class ProductService {
-    // // 모든 상품 조회
-    // getAllProduct() {
-
-    // }
-
-    // // 모든 상품 조회(검색)
-    // getAllProductSearch() {
-
-    // }
+    // 모든 상품 조회(검색)
+    getAllProductSearch(pdName, page, size) {
+        return http.get(`/shop/product/search?pdName=${pdName}&page=${page}&size=${size}`);
+    }
     
     // 베스트 상품 3개 조회
     getThreeBestProduct() {

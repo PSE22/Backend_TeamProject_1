@@ -59,7 +59,7 @@ public class CartService {
 //        }
 //    }
 
-    public boolean removeByIds(List<Integer> cartIds) {
+    public boolean removeByIds(List<Long> cartIds) {
         if (!cartIds.isEmpty()) {
             cartIds.forEach(cartId -> {
                 cartRepository.deleteById(cartId);

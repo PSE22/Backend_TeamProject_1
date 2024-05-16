@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +42,8 @@ public class MyOrderCheckController {
     @GetMapping("/ordercheck/{userId}")
     public ResponseEntity<List<OrderCheckDto>> getOrdersByDateRange(
             @PathVariable String userId,
-            @RequestParam LocalDate startDate,
-            @RequestParam LocalDate  endDate) {
+            @RequestParam String startDate,
+            @RequestParam String endDate) {
         try {
             List<OrderCheckDto> orders = myOrderCheckService.findOrdersByDateRange(userId, startDate, endDate);
             if (orders.isEmpty()) {
@@ -51,7 +52,7 @@ public class MyOrderCheckController {
                 return ResponseEntity.ok(orders);
             }
         } catch (Exception e) {
-            log.error("Error retrieving orders for user " + userId + " between " + startDate + " and " + endDate + ": " + e.getMessage(), e);
+            log.error(" 오류 " + e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

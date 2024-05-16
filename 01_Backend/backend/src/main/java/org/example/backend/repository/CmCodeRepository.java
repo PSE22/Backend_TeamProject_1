@@ -23,7 +23,16 @@ import java.util.List;
  * 2024-05-10         kimtaewan          최초 생성
  */
 @Repository
-public interface CmCodeRepository extends JpaRepository<CmCode, String > {
+public interface CmCodeRepository extends JpaRepository<CmCode, String> {
     @Query(value = "SELECT * FROM TB_CM_CODE WHERE UP_CM_CD LIKE 'OD%'", nativeQuery = true)
     List<CmCode> findByUpCmCd();
+
+//    주문 상세 오더코드 쿼리문
+    @Query(value = "SELECT\n" +
+            "CM_CD_NAME\n" +
+            "FROM TB_CM_CODE, TB_ORDER\n" +
+            "WHERE ORDER_CODE = CM_CD\n" +
+            "AND ORDER_ID = :orderId",
+            nativeQuery = true)
+    String findByCmCdName(@Param("orderId") Long orderId);
 }

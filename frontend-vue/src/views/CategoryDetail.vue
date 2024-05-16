@@ -7,7 +7,7 @@
   </div>
 
   <!-- 카테고리 상품 페이지 : 정렬 버튼 -->
-  <div class="main-nav-list col align-self-end" id="sorting">
+  <div class="main-nav-list col" id="sorting">
     <button id="button">신상품순</button> |
     <button id="button">판매량순</button> |
     <button id="button">낮은 가격순</button> |
@@ -27,20 +27,8 @@
     </div>
   </div>
 
-  <!-- {/* paging 시작 */} -->
-  <div class="col-12 w-25 mb-3">
-    1페이지당 화면에 보일 개수
-    <select class="form-select form-select-sm" v-model="pageSize" @change="pageSizeChange">
-      <!-- TODO: vue 반복문 실행 -->
-      <option v-for="(data, index) in pageSizes" :key="index" :value="data">
-        {{ data }}
-      </option>
-    </select>
-  </div>
-
-  <b-pagination class="col-12 mb-3" v-model="page" :total-rows="count" :per-page="pageSize"
+  <b-pagination class="col-12 mb-3 justify-content-center" v-model="page" :total-rows="count" :per-page="pageSize"
     @click="retrieveProduct"></b-pagination>
-  <!-- {/* paging 끝 */} -->
 
 </template>
 <script>
