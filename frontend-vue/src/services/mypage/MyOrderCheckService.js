@@ -37,12 +37,14 @@ class OrderCheck {
   }
   // TODO: 취소 저장함수(insert)
   create(data) {
+    console.log("통신",data)
     return http.post("/mypage/order-cancel", data);
   }
 
-  // TODO: 오더코드 수정함수
-  updateCode(orderId, data) {
-    return http.put(`/mypage/order-update/${orderId}`, data);
+  // 상세조회
+  get(orderId) {
+    console.log("orderId", orderId)
+    return http.get(`/mypage/order-orderId/${orderId}`);
   }
 }
 
