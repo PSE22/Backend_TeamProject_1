@@ -531,8 +531,20 @@ export default {
     async getUserCoupon(userId) {
       try {
         let response = await OrderService.getUserCoupon(userId);
-        this.coupon = response.data;
         console.log("회원의 보유 쿠폰 정보 : ", response.data);
+        // 주문한 상품에 사용가능한 쿠폰만 가져오기
+        for (const data of response.data) {
+          for (const data2 of this.orderList) {
+            if (data.pdId === data2.pdId) {
+              console.log("pdId 같음: ", data.pdId);
+              this.coupon.push(data);
+            } else {
+              console.log("pdId 다름(사용불가): ", data.pdId);
+            }
+          }
+        }
+        console.log("최종 사용 가능 쿠폰 정보 : ", this.coupon);
+
       } catch (e) {
         console.log(e);
       }

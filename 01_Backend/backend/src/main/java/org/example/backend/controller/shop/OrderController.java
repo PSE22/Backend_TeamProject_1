@@ -5,9 +5,7 @@ import org.example.backend.model.dto.shop.ICartDto;
 import org.example.backend.model.dto.shop.IPointDto;
 import org.example.backend.model.dto.shop.IUserCouponDto;
 import org.example.backend.model.dto.shop.OrderDto;
-import org.example.backend.model.entity.Order;
-import org.example.backend.model.entity.ShipAddress;
-import org.example.backend.model.entity.User;
+import org.example.backend.model.entity.*;
 import org.example.backend.service.shop.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,6 +53,22 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+//    쿠폰함 STATUS 수정
+//    @PostMapping("/product/userCoupon")
+//    public ResponseEntity<Object> update(
+//            @RequestBody UserCoupon userCoupon
+//    ) {
+//        try {
+////            DB 서비스 저장 함수 실행
+//            UserCoupon userCoupon2 = orderService.save(userCoupon);
+////            성공(OK) 메세지 + 저장된 객체(wishList2)
+//            return new ResponseEntity<>(userCoupon2, HttpStatus.OK);
+//        } catch (Exception e) {
+////            500 전송
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
     // 주문자(User) 정보 상세 조회
     @GetMapping("/order/{userId}")
