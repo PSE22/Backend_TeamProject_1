@@ -35,8 +35,8 @@ public class MyPointDetailController {
     // 사용자의 적립금 상세 정보 조회
     @GetMapping("/point/{userId}")
     public ResponseEntity<List<PointDto>> getPointsByPeriod(@PathVariable String userId,
-                                                            @RequestParam LocalDate startDate,
-                                                            @RequestParam LocalDate endDate) {
+                                                            @RequestParam String  startDate,
+                                                            @RequestParam String  endDate) {
         List<PointDto> point = myPointService.getPointByPeriod(userId, startDate, endDate);
         if (point.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
