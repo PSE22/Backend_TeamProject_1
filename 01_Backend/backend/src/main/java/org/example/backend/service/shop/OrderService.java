@@ -73,8 +73,6 @@ public class OrderService {
     @Transactional
     public Order insert(OrderDto orderDto) {
         // insert 할 때는 DTO -> Entity 형태로 변환해서 insert 해야 함
-        //      방법 (1) : 직접 변환 로직 코딩
-        //      방법 (2) : 자동 변환 패키지 사용 (ModelMapper 패키지, 단점: 성능저하)
 
         // 1) DTO -> Entity 변환
         Order order = modelMapper.map(orderDto, Order.class);
@@ -97,6 +95,14 @@ public class OrderService {
 
         return order2;  // 저장된 주문 객체
     }
+
+
+    // 사용쿠폰 STATUS 수정
+//    public UserCoupon save(UserCoupon userCoupon) {
+//        UserCoupon userCoupon2 = userCouponRepository.updateStatus(userCoupon.getUserId(), userCoupon.getCpId());
+//
+//        return userCoupon2;
+//    }
 
     /**
      * 주문자(User) 정보 상세 조회

@@ -1,82 +1,116 @@
 <template>
-    <div class="cancel-page-container">
-      <div class="cancel_container mt-5">
-        <h2>취소 신청</h2>
-        <div class="card p-3 mb-3">
-          <p class="h5">취소사유를 선택해주세요</p>
-          <div class="form-check">
-            <input 
-              class="form-check-input" 
-              type="radio" 
-              name="cancelReason" 
-              id="reason1" 
-              value="상품이 마음에 들지 않음 (단순변심)" 
-              v-model="selectedReason">
-            <label class="form-check-label" for="reason1">
-              상품이 마음에 들지 않음 (단순변심)
-            </label>
-          </div>
-          <div class="form-check">
-            <input 
-              class="form-check-input" 
-              type="radio" 
-              name="cancelReason" 
-              id="reason2" 
-              value="다른 상품 추가 후 재주문 예정" 
-              v-model="selectedReason">
-            <label class="form-check-label" for="reason2">
-              다른 상품 추가 후 재주문 예정
-            </label>
-          </div>
-        </div>
-        <div class="d-flex justify-content-between">
-          <button class="btn btn-secondary" @click="goBack">이전 단계</button>
-          <button class="btn btn-primary" :disabled="!selectedReason" @click="nextStep">다음 단계</button>
+  <div class="cancel-page-container">
+    <div class="cancel_container mt-5">
+      <h2>주문 취소 신청</h2>
+      <div class="card p-3 mb-3">
+        <p class="h5">취소사유를 선택해주세요</p>
+        <div class="form-check" v-for="(reason, index) in reasons" :key="index">
+          <input
+            class="form-check-input"
+            type="radio"
+            :id="`reason${index}`"
+            v-model="ocReason"
+            :value="reason"
+          />
+          <label class="form-check-label" :for="`reason${index}`">
+            {{ reason }}
+          </label>
         </div>
       </div>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary" @click="goBack">이전 단계</button>
+        <button
+          class="btn btn-primary"
+          :disabled="!ocReason"
+          @click="confirmCancellation"
+        >
+          다음 단계
+        </button>
+      </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        selectedReason: '',
-      };
+  </div>
+</template>
+
+<script>
+import MyOrderCheckService from "@/services/mypage/MyOrderCheckService";
+
+export default {
+  data() {
+    return {
+      orderId: this.$route.params.orderId,
+      opIds: [], // 주문 상세 옵션 ID 목록
+      ocPrice: 0, // 취소 금액, 필요에 따라 설정
+      ocReason: "", // 선택된 취소 사유
+      reasons: [
+        "상품이 마음에 들지 않음 (단순변심)",
+        "다른 상품 추가 후 재주문 예정",
+        "그냥",
+      ],
+    };
+  },
+  methods: {
+    async retriveOrder(orderId) {
+      // 주문 상세 정보 조회
+      try {
+        let response = await MyOrderCheckService.get(orderId);
+        this.opIds = response.data.map(detail => detail.opId); // opId 목록 추출
+      } catch (e) {
+        console.error("주문 상세 조회 실패:", e);
+      }
     },
-    methods: {
-      goBack() {
-        this.$router.go(-1);
-      },
-      nextStep() {
-        if (this.selectedReason) {
-          // 다음 단계로 이동하는 로직 추가
-          console.log('취소 사유:', this.selectedReason);
-          // 예를 들어, 다음 단계 페이지로 라우팅
-          this.$router.push({ name: 'NextCancelStep', params: { reason: this.selectedReason } });
+    goBack() {
+      this.$router.go(-1);
+    },
+    async confirmCancellation() {
+      if (this.ocReason) {
+        if (confirm("정말로 주문을 취소하시겠습니까?")) {
+          await this.confirmCancel();
         }
-      },
+      } else {
+        alert("취소 사유를 선택해 주세요.");
+      }
     },
-  };
-  </script>
-  
-  <style scoped>
-  .cancel-page-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 50px; /* 상단 여백 조정 */
-    min-height: 100vh; /* Viewport height */
-    background-color: #f8f9fa; /* Optional: Background color for the page */
-  }
-  
-  .cancel_container {
-    max-width: 500px;
-    width: 100%;
-    padding: 20px;
-    background-color: #ffffff; /* Background color for the form */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add some shadow */
-    border-radius: 8px; /* Optional: Rounded corners */
-  }
-  </style>
-  
+    async confirmCancel() {
+      try {
+        let data = {
+          orderId: this.orderId,
+          opIds: this.opIds, // 전체 opId 목록
+          ocPrice: this.ocPrice, // 취소 금액
+          ocCode: "OD0201", // 주문 상태 코드
+          ocReason: this.ocReason // 사용자가 선택한 취소 사유
+        };
+        let response = await MyOrderCheckService.create(data);
+        console.log("Order Cancel Response:", response);
+        alert("주문이 취소되었습니다.");
+        this.$router.push(`/mypage/order/${this.orderId}`);
+      } catch (e) {
+        console.error("주문 취소 실패:", e);
+        alert("주문 취소 처리 중 문제가 발생했습니다.");
+      }
+    }
+  },
+  mounted() {
+    this.retriveOrder(this.$route.params.orderId);
+  },
+};
+</script>
+
+<style scoped>
+.cancel-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 50px; /* 상단 여백 조정 */
+  min-height: 100vh; /* Viewport height */
+  background-color: #f8f9fa; /* Optional: Background color for the page */
+}
+
+.cancel_container {
+  max-width: 500px;
+  width: 100%;
+  padding: 20px;
+  background-color: #ffffff; /* Background color for the form */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add some shadow */
+  border-radius: 8px; /* Optional: Rounded corners */
+}
+</style>
