@@ -46,58 +46,6 @@ public class EditProfileController {
     @Autowired
     SignUpService signUpService;
 
-//    @GetMapping("/editProfile/{userId}")
-//    public ResponseEntity<Object> showUpdateProfileForm(@PathVariable String userId) {
-//        try {
-//        String currentUser = editProfileService.getCurrentUser(userId);
-//            if (currentUser == null) {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
-//            }
-//
-//            return ResponseEntity.ok(currentUser);
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류가 발생했습니다.");
-//        }
-//    }
-
-    //    @PutMapping("/editProfile/{userId}")
-//    public ResponseEntity<Object> updateProfile(
-//            @PathVariable String userId,
-//            @RequestBody User user
-//    ) {
-//        try {
-//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//            String currentUserId = authentication.getName();
-//
-//            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//            boolean hasPermission = authorities.stream()
-//                    .anyMatch(auth -> auth.getAuthority().equals("AT02"));
-//            if (!hasPermission) {
-//                throw new AccessDeniedException("해당 권한이 없습니다.");
-//            }
-//
-//            // 클라이언트에서 전달된 비밀번호 확인
-//            boolean isPasswordCorrect = editProfileService.isPasswordCorrect(userId, user.getUserPw());
-//            if (!isPasswordCorrect) {
-//                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("현재 비밀번호가 일치하지 않습니다.");
-//            }
-//
-//            // 새로운 비밀번호 암호화
-//            if (user.getUserPw() != null && !user.getUserPw().isEmpty()) {
-//                String encryptedNewPassword = passwordEncoder.encode(user.getUserPw());
-//                user.setUserPw(encryptedNewPassword);
-//            }
-//
-//            // 사용자 정보 업데이트
-//            editProfileService.updateUser(user);
-//
-//            return ResponseEntity.ok("회원정보가 수정되었습니다.");
-//        } catch (AccessDeniedException e) {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원정보 수정 중 오류가 발생했습니다.");
-//        }
-//    }
 //    TODO: 상세조회
     @GetMapping("/editProfile/{userId}")
     public ResponseEntity<Object> findById(
@@ -107,6 +55,14 @@ public class EditProfileController {
 //            DB 상세조회 서비스 함수 실행
             Optional<User> optionalUser = signUpService.findById(userId);
 
+//    TODO: 상세조회
+    @GetMapping("/editProfile/{userId}")
+    public ResponseEntity<Object> findById(
+            @PathVariable String userId
+    ) {
+        try {
+//            DB 상세조회 서비스 함수 실행
+            Optional<User> optionalUser = signUpService.findById(userId);
             if (optionalUser.isEmpty() == true) {
 //                데이터 없음(203)
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -145,37 +101,6 @@ public class EditProfileController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-//    @DeleteMapping("/editProfile/{userId}")
-//    public ResponseEntity<Object> withdrawUser(@RequestParam("userPw") String userPw) {
-//        try {
-//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//            String userId = authentication.getName();
-//
-//            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//            boolean hasPermission = authorities.stream()
-//                    .anyMatch(auth -> auth.getAuthority().equals("AT02"));
-//            if (!hasPermission) {
-//                throw new AccessDeniedException("해당 권한이 없습니다.");
-//            }
-//
-//            boolean isPasswordCorrect = editProfileService.isPasswordCorrect(userId, userPw);
-//            if (!isPasswordCorrect) {
-//                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("비밀번호가 일치하지 않습니다.");
-//            }
-//
-//            editProfileService.withdrawUser(userPw);
-//
-//            return ResponseEntity.ok("회원탈퇴가 완료되었습니다.");
-//        } catch (AccessDeniedException e) {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
-//        } catch (IllegalArgumentException e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원탈퇴 중 오류가 발생했습니다.");
-//        }
-//    }
-
 //    TODO: 탈퇴 함수
     @DeleteMapping("/editProfile/deletion/{userId}/{userPw}")
     public boolean withdrawUser(@PathVariable String userId, @PathVariable String userPw) {

@@ -2,7 +2,9 @@
   <div class="container">
     <!-- 장바구니 타이틀 -->
     <h1 style="margin-top: 80px; margin-bottom: 20px">주문 상세 내역</h1>
-    <h5 style="margin-bottom: 20px">{{ orderDetail.orAddDate }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ orderName }}</h5>
+    <h5 style="margin-bottom: 20px">
+      {{ orderDetail.orAddDate }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ orderName }}
+    </h5>
     <div>
       <!-- 장바구니 리스트 -->
       <table class="table text-center">
@@ -172,7 +174,7 @@
         >
           목록
         </button>
-        <!-- 주문, 상품준비중, -->
+        <!-- 주문, 상품준비중 -->
         <button
           v-if="
             orderDetail.orderCode === 'OD01' ||
@@ -182,10 +184,86 @@
           "
           class="btn btn-outline-dark btn-lg col-2"
           type="button"
-          @click="this.$router.push('/mypage/order/cancel/:orderId')"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
         >
           주문취소
         </button>
+      </div>
+      <!-- 주문취소 모달 -->
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">취소 신청</h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <p>취소 사유</p>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="flexRadioDefault"
+                    id="flexRadioDefault1"
+                  />
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    단순 변심
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="flexRadioDefault"
+                    id="flexRadioDefault2"
+                    checked
+                  />
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    상품 옵션 변경
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="flexRadioDefault"
+                    id="flexRadioDefault3"
+                    checked
+                  />
+                  <input
+                    type="text"
+                    class="form-control"
+                    for="flexRadioDefault3"
+                    placeholder="직접입력"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                닫기
+              </button>
+              <button type="button" class="btn btn-primary">확인</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -202,7 +280,7 @@ export default {
       orderId: this.$route.params.orderId,
       totalPrice: 0,
       useCoupon: 0,
-      orderName: ""
+      orderName: "",
     };
   },
   methods: {
@@ -292,8 +370,26 @@ export default {
         console.log("쿠폰", this.useCoupon);
       }
     },
-  },
 
+    // TODO: 
+    async confirmCancel() {
+      try {
+        let data = {
+          orderId: this.$route.params.orderId,
+          opId: this.order.opId,
+          refundPrice: this.getOrderPrice(),
+          refundCode: "OD0301",
+          refundReason: "",
+          refundDenyReason: "",
+          orderCode: "OD0301",
+        };
+        let response = await MyOrderCheckService.create(data);
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+  },
   mounted() {
     this.getOrder(this.orderId);
     this.getOrderDetail(this.orderId);
