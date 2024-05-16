@@ -7,7 +7,7 @@
   </div>
 
   <!-- 신상품 페이지 : 정렬 버튼 -->
-  <div class="main-nav-list col align-self-end" id="sorting">
+  <div class="main-nav-list col" id="sorting">
     <button id="button" @click="retrieveProduct">신상품순</button> |
     <button id="button" @click="retrieveProductLow">낮은 가격순</button> |
     <button id="button" @click="retrieveProductHigh">높은 가격순</button>

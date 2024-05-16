@@ -1,8 +1,10 @@
 <template>
   <div class="container">
     <!-- 장바구니 타이틀 -->
-    <h1 style="margin-top: 80px">주문 상세 내역</h1>
-    <h5 style="margin-bottom: 20px">{{ orderDetail.orAddDate }}</h5>
+    <h1 style="margin-top: 80px; margin-bottom: 20px">주문 상세 내역</h1>
+    <h5 style="margin-bottom: 20px">
+      {{ orderDetail.orAddDate }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ orderName }}
+    </h5>
     <div>
       <!-- 장바구니 리스트 -->
       <table class="table text-center">
@@ -89,7 +91,10 @@
       <!-- 취소신청만 보임 -->
       <div
         class="order-sheet-container"
-        v-if="orderDetail.orderCode === 'OD0201' || orderDetail.orderCode === 'OD0202'"
+        v-if="
+          orderDetail.orderCode === 'OD0201' ||
+          orderDetail.orderCode === 'OD0202'
+        "
       >
         <!-- 적립금 사용 : 제목 -->
         <div class="order-sheet-title">취소/환불</div>
@@ -110,7 +115,10 @@
       <!-- 환불신청만 보임 -->
       <div
         class="order-sheet-container"
-        v-else-if="orderDetail.orderCode === 'OD0301' || orderDetail.orderCode === 'OD0302'"
+        v-else-if="
+          orderDetail.orderCode === 'OD0301' ||
+          orderDetail.orderCode === 'OD0302'
+        "
       >
         <!-- 적립금 사용 : 제목 -->
         <div class="order-sheet-title">취소/환불</div>
@@ -166,13 +174,96 @@
         >
           목록
         </button>
+        <!-- 주문, 상품준비중 -->
         <button
+          v-if="
+            orderDetail.orderCode === 'OD01' ||
+            orderDetail.orderCode === 'OD0101' ||
+            orderDetail.orderCode === 'OD0103' ||
+            orderDetail.orderCode === 'OD0104'
+          "
           class="btn btn-outline-dark btn-lg col-2"
           type="button"
-          @click="goOrder"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
         >
           주문취소
         </button>
+      </div>
+      <!-- 주문취소 모달 -->
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">취소 신청</h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <p>취소 사유</p>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="flexRadioDefault"
+                    id="flexRadioDefault1"
+                  />
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    단순 변심
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="flexRadioDefault"
+                    id="flexRadioDefault2"
+                    checked
+                  />
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    상품 옵션 변경
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="flexRadioDefault"
+                    id="flexRadioDefault3"
+                    checked
+                  />
+                  <input
+                    type="text"
+                    class="form-control"
+                    for="flexRadioDefault3"
+                    placeholder="직접입력"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                닫기
+              </button>
+              <button type="button" class="btn btn-primary">확인</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -189,6 +280,7 @@ export default {
       orderId: this.$route.params.orderId,
       totalPrice: 0,
       useCoupon: 0,
+      orderName: "",
     };
   },
   methods: {
@@ -248,6 +340,16 @@ export default {
         this.totalPrice = 0;
       }
     },
+    // 주문 코드
+    async getOrderCode(orderId) {
+      try {
+        let response = await MyOrderCheckService.getOrderCode(orderId);
+        this.orderName = response.data; // 데이터를 order에 저장
+        console.log(response.data); // 로그 출력
+      } catch (e) {
+        console.error(e); // 콘솔에 에러 출력
+      }
+    },
     //   사용포인트
     getUsePoint() {
       if (this.orderPrice.usePointPrice) {
@@ -259,23 +361,40 @@ export default {
     //   사용쿠폰
     async getUseCoupon() {
       if (this.orderPrice.cpDcPrice) {
-         this.useCoupon = -this.orderPrice.cpDcPrice;
-        console.log("쿠폰",this.useCoupon)
+        this.useCoupon = -this.orderPrice.cpDcPrice;
+        console.log("쿠폰", this.useCoupon);
       } else if (this.orderPrice.cpDcRate) {
         this.useCoupon = -this.totalPrice * this.orderPrice.cpDcRate;
       } else {
         this.useCoupon = 0;
-        console.log("쿠폰",this.useCoupon)
+        console.log("쿠폰", this.useCoupon);
+      }
+    },
 
+    // TODO: 
+    async confirmCancel() {
+      try {
+        let data = {
+          orderId: this.$route.params.orderId,
+          opId: this.order.opId,
+          refundPrice: this.getOrderPrice(),
+          refundCode: "OD0301",
+          refundReason: "",
+          refundDenyReason: "",
+          orderCode: "OD0301",
+        };
+        let response = await MyOrderCheckService.create(data);
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
       }
     },
   },
-
   mounted() {
-    this.getUseCoupon();
     this.getOrder(this.orderId);
     this.getOrderDetail(this.orderId);
     this.getOrderPrice(this.orderId);
+    this.getOrderCode(this.orderId);
   },
 };
 </script>

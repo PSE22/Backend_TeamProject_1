@@ -7,7 +7,7 @@
   </div>
 
   <!-- 베스트 상품 페이지 : 정렬 버튼 -->
-  <div class="main-nav-list col align-self-end" id="sorting">
+  <div class="main-nav-list col" id="sorting">
     <button id="button" @click="retrieveProductDay">일간 베스트</button> |
     <button id="button" @click="retrieveProductMonth">월간 베스트</button> |
     <button id="button" @click="retrieveProductYear">연간 베스트</button>

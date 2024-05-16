@@ -1,16 +1,15 @@
 package org.example.backend.service.shop;
 
 import jakarta.transaction.Transactional;
+import org.example.backend.model.dto.shop.ICartDto;
 import org.example.backend.model.dto.shop.IPointDto;
 import org.example.backend.model.dto.shop.IUserCouponDto;
 import org.example.backend.model.dto.shop.OrderDto;
-import org.example.backend.model.entity.Order;
-import org.example.backend.model.entity.OrderDetail;
-import org.example.backend.model.entity.ShipAddress;
-import org.example.backend.model.entity.User;
+import org.example.backend.model.entity.*;
 import org.example.backend.repository.UserRepository;
 import org.example.backend.repository.order.OrderDetailRepository;
 import org.example.backend.repository.order.OrderRepository;
+import org.example.backend.repository.shop.CartRepository;
 import org.example.backend.repository.shop.PointRepository;
 import org.example.backend.repository.shop.ShipAddressRepository;
 import org.example.backend.repository.shop.UserCouponRepository;
@@ -58,13 +57,16 @@ public class OrderService {
     OrderDetailRepository orderDetailRepository;
 
     @Autowired
+    CartRepository cartRepository;
+
+    @Autowired
     OrderStatsService orderStatsService;
 
     // DTO 변환
     ModelMapper modelMapper = new ModelMapper();
 
     /**
-     * 저장 함수
+     * 주문 정보 저장
      * @param orderDto
      * @return
      */
@@ -134,6 +136,30 @@ public class OrderService {
     public Optional<IPointDto> findByResultPoint(String userId) {
         Optional<IPointDto> optionalPoint = pointRepository.findByResultPoint(userId);
         return optionalPoint;
+    }
+
+    /**
+     * 장바구니 조회
+     * @param userId
+     * @return
+     */
+    public List<ICartDto> findByCartUserId(String userId) {
+        List<ICartDto> list = cartRepository.findByUserId(userId);
+        return list;
+    }
+
+    /**
+     * 장바구니 삭제
+     * @param cartId
+     * @return
+     */
+    public boolean removeByCartId(Long cartId) {
+        if(cartRepository.existsById(cartId)) {
+            cartRepository.deleteById(cartId);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void updateOrderCode(Order order) {
