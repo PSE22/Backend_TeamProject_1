@@ -18,7 +18,7 @@ import java.util.Optional;
 /**
  * packageName : org.example.backend.controller
  * fileName : EditProfileController
- * author : kimtaewan
+ * author :
  * date : 2024-04-25
  * description :
  * 요약 :
@@ -45,15 +45,6 @@ public class EditProfileController {
 
     @Autowired
     SignUpService signUpService;
-
-//    TODO: 상세조회
-    @GetMapping("/editProfile/{userId}")
-    public ResponseEntity<Object> findById(
-            @PathVariable String userId
-    ) {
-        try {
-//            DB 상세조회 서비스 함수 실행
-            Optional<User> optionalUser = signUpService.findById(userId);
 
 //    TODO: 상세조회
     @GetMapping("/editProfile/{userId}")
