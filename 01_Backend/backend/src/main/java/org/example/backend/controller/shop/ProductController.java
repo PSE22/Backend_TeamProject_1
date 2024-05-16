@@ -3,6 +3,7 @@ package org.example.backend.controller.shop;
 import lombok.extern.slf4j.Slf4j;
 import org.example.backend.model.common.PdIdUserIdPk;
 import org.example.backend.model.dto.shop.IBestProductDto;
+import org.example.backend.model.dto.shop.IProductDto;
 import org.example.backend.model.dto.shop.IProductImgDto;
 import org.example.backend.model.entity.Cart;
 import org.example.backend.model.entity.Product;
@@ -42,7 +43,7 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-//    전체 조회 함수 + like 검색
+    //    전체 조회 함수 + like 검색
     @GetMapping("/product/search")
     public ResponseEntity<Object> findAllByPdNameContaining(
             @RequestParam(defaultValue = "") String pdName,
@@ -76,7 +77,7 @@ public class ProductController {
         }
     }
 
-//    카테고리별 전체 상품 조회
+    //    카테고리별 전체 상품 조회
     @GetMapping("/category")
     public ResponseEntity<Object> findByCategoryAll(@RequestParam(defaultValue = "") String categoryCode,
                                                     @RequestParam(defaultValue = "0") int page,
@@ -92,7 +93,7 @@ public class ProductController {
             response.put("totalItems", categoryPage.getTotalElements()); // 총건수(개수)
             response.put("totalPages", categoryPage.getTotalPages()); // 총페이지수
 
-            if(categoryPage.isEmpty() == false) {
+            if (categoryPage.isEmpty() == false) {
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -102,7 +103,111 @@ public class ProductController {
         }
     }
 
-//    베스트 상품 3개 조회
+    //     카테고리별 전체 상품 정렬 (신상품순)
+    @GetMapping("/category/order/new-product")
+    public ResponseEntity<Object> findAllByOrderByNewProduct(@RequestParam(defaultValue = "") String categoryCode,
+                                                             @RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "3") int size) {
+        try {
+            // 페이징 객체 생성
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Product> categoryPage = productService.findAllByOrderByNewProduct(categoryCode, pageable);
+            // 공통 페이징 객체 생성
+            Map<String, Object> response = new HashMap<>();
+            response.put("product", categoryPage.getContent()); // product 배열
+            response.put("currentPage", categoryPage.getNumber()); // 현재페이지번호
+            response.put("totalItems", categoryPage.getTotalElements()); // 총건수(개수)
+            response.put("totalPages", categoryPage.getTotalPages()); // 총페이지수
+
+            if (categoryPage.isEmpty() == false) {
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //     카테고리별 전체 상품 정렬 (인기순)
+    @GetMapping("/category/order/detail-cnt")
+    public ResponseEntity<Object> findAllByOrderByOrderDetailCnt(@RequestParam(defaultValue = "") String categoryCode,
+                                                                 @RequestParam(defaultValue = "0") int page,
+                                                                 @RequestParam(defaultValue = "3") int size) {
+        try {
+            // 페이징 객체 생성
+            Pageable pageable = PageRequest.of(page, size);
+            Page<IProductDto> categoryPage = productService.findAllByOrderByOrderDetailCnt(categoryCode, pageable);
+            // 공통 페이징 객체 생성
+            Map<String, Object> response = new HashMap<>();
+            response.put("product", categoryPage.getContent()); // product 배열
+            response.put("currentPage", categoryPage.getNumber()); // 현재페이지번호
+            response.put("totalItems", categoryPage.getTotalElements()); // 총건수(개수)
+            response.put("totalPages", categoryPage.getTotalPages()); // 총페이지수
+
+            if (categoryPage.isEmpty() == false) {
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //     카테고리별 전체 상품 정렬 (낮은 가격순)
+    @GetMapping("/category/order/price-asc")
+    public ResponseEntity<Object> findAllByOrderByPdPriceAsc(@RequestParam(defaultValue = "") String categoryCode,
+                                                             @RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "3") int size) {
+        try {
+            // 페이징 객체 생성
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Product> categoryPage = productService.findAllByOrderByPdPriceAsc(categoryCode, pageable);
+            // 공통 페이징 객체 생성
+            Map<String, Object> response = new HashMap<>();
+            response.put("product", categoryPage.getContent()); // product 배열
+            response.put("currentPage", categoryPage.getNumber()); // 현재페이지번호
+            response.put("totalItems", categoryPage.getTotalElements()); // 총건수(개수)
+            response.put("totalPages", categoryPage.getTotalPages()); // 총페이지수
+
+            if (categoryPage.isEmpty() == false) {
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //     카테고리별 전체 상품 정렬 (높은 가격순)
+    @GetMapping("/category/order/price-desc")
+    public ResponseEntity<Object> findAllByOrderByPdPriceDesc(@RequestParam(defaultValue = "") String categoryCode,
+                                                              @RequestParam(defaultValue = "0") int page,
+                                                              @RequestParam(defaultValue = "3") int size) {
+        try {
+            // 페이징 객체 생성
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Product> categoryPage = productService.findAllByOrderByPdPriceDesc(categoryCode, pageable);
+            // 공통 페이징 객체 생성
+            Map<String, Object> response = new HashMap<>();
+            response.put("product", categoryPage.getContent()); // product 배열
+            response.put("currentPage", categoryPage.getNumber()); // 현재페이지번호
+            response.put("totalItems", categoryPage.getTotalElements()); // 총건수(개수)
+            response.put("totalPages", categoryPage.getTotalPages()); // 총페이지수
+
+            if (categoryPage.isEmpty() == false) {
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //    베스트 상품 3개 조회
     @GetMapping("/home/best3/product")
     public ResponseEntity<Object> findThreeBestProduct() {
         try {
@@ -119,7 +224,7 @@ public class ProductController {
         }
     }
 
-//    베스트 상품 전체 조회(일간 판매량 높은순)
+    //    베스트 상품 전체 조회(일간 판매량 높은순)
     @GetMapping("/home/best/product/day")
     public ResponseEntity<Object> findAllBestProductDay() {
         try {
@@ -136,7 +241,7 @@ public class ProductController {
         }
     }
 
-//    베스트 상품 전체 조회(월간 판매량 높은순)
+    //    베스트 상품 전체 조회(월간 판매량 높은순)
     @GetMapping("/home/best/product/month")
     public ResponseEntity<Object> findAllBestProductMonth() {
         try {
@@ -153,7 +258,7 @@ public class ProductController {
         }
     }
 
-//    베스트 상품 전체 조회(연간 판매량 높은순)
+    //    베스트 상품 전체 조회(연간 판매량 높은순)
     @GetMapping("/home/best/product/year")
     public ResponseEntity<Object> findAllBestProductYear() {
         try {
@@ -170,7 +275,7 @@ public class ProductController {
         }
     }
 
-//    신상품 전체 조회
+    //    신상품 전체 조회
     @GetMapping("/home/new/product")
     public ResponseEntity<Object> findAllNewProduct() {
         try {
@@ -187,7 +292,7 @@ public class ProductController {
         }
     }
 
-//    신상품 전체 조회(높은 가격순)
+    //    신상품 전체 조회(높은 가격순)
     @GetMapping("/home/new/product/high")
     public ResponseEntity<Object> findAllNewProductHigh() {
         try {
@@ -204,7 +309,7 @@ public class ProductController {
         }
     }
 
-//    신상품 전체 조회(낮은 가격순)
+    //    신상품 전체 조회(낮은 가격순)
     @GetMapping("/home/new/product/low")
     public ResponseEntity<Object> findAllNewProductLow() {
         try {
@@ -324,7 +429,7 @@ public class ProductController {
         }
     }
 
-//    쿠폰 저장
+    //    쿠폰 저장
     @PostMapping("/product/coupon")
     public ResponseEntity<Object> create(
             @RequestBody UserCoupon userCoupon

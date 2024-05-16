@@ -15,7 +15,8 @@ package org.example.backend.model.dto.shop;
  */
 public interface IUserCouponDto {
     String getUserId();
-    String getCpId();
+    Long getCpId();
+    Long getPdId();
     String getCpName();
     Integer getCpDcPrice();
     Double getCpDcRate();
