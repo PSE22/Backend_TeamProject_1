@@ -4,34 +4,38 @@
     <MyPageMainMenu />
     <div class="mypage-contents">
       <div class="mypage-backcolor">
-        <div class="mypage-subtitle">나의 위시리스트</div>
+        <div class="mypage-wish-maintitle">나의 위시리스트</div>
         <div class="tabList"><p class="mypage-wish-subtitle">찜 목록</p></div>
         <div class="mypage-product-box">
           <div class="form-check">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              v-model="selectAll"
-              @change="toggleAll"
-            />
-            <label class="form-check-label">전체선택</label>
+            <div class="check-all"> <!-- 수정된 부분 -->
+              <input
+                class="form-check-input"
+                type="checkbox"
+                v-model="selectAll"
+                @change="toggleAll"
+              />
+              <label class="form-check-label">전체선택</label> <!-- 수정된 부분 -->
+            </div>
             <button type="button" @click="deleteSelectedItems">선택삭제</button>
           </div>
           <div class="row row-cols-1 row-cols-md-4 g-4">
             <div class="col" v-for="item in wishlist" :key="item.pdId">
               <div class="card h-100">
+                <input
+                  class="form-check-input check-item"
+                  type="checkbox"
+                  :value="item.pdId"
+                  v-model="selectedItems"
+                />
+                <router-link :to="`/product/${item.pdId}`"  class="link-custom" >
                 <img :src="item.pdThumbnail" class="card-img-top" alt="...">
+              </router-link>
                 <div class="card-body">
+                  <router-link :to="`/product/${item.pdId}`"  class="link-custom">
                   <h5 class="card-title">{{ item.pdName }}</h5>
+                </router-link>
                   <p class="card-text">{{ item.pdPrice }} 원</p>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    :value="item.pdId"
-                    v-model="selectedItems"
-                  />
                 </div>
               </div>
             </div>
@@ -41,7 +45,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import MyPageMainMenu from "@/components/mypage/MyPageMainMenu.vue";
 import MyWishListService from "@/services/mypage/MyWishListService";
@@ -89,6 +92,12 @@ export default {
 </script>
 
 <style>
+
+.link-custom {
+  text-decoration: none; /* 밑줄 제거 */
+  color: black; /* 텍스트 색상 지정 */
+}
+
 @import "@/assets/css/mypage.css";
 @import "@/assets/css/mypagewish.css";
 </style>

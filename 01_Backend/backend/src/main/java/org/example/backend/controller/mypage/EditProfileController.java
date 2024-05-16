@@ -26,7 +26,7 @@ import java.util.Optional;
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2024-04-25         kimtaewan          최초 생성
+ * 2024-04-25                   최초 생성
  */
 @Slf4j
 @RestController
@@ -45,6 +45,7 @@ public class EditProfileController {
 
     @Autowired
     SignUpService signUpService;
+
 
 //    TODO: 상세조회
     @GetMapping("/editProfile/{userId}")
@@ -92,6 +93,7 @@ public class EditProfileController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 //    TODO: 탈퇴 함수
     @DeleteMapping("/editProfile/deletion/{userId}/{userPw}")
     public boolean withdrawUser(@PathVariable String userId, @PathVariable String userPw) {
