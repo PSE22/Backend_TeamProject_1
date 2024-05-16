@@ -16,6 +16,7 @@ package org.example.backend.model.dto.mypage;
 public interface OrderCheckDto {
     String  getPdThumbnail();       // 상품 썸네일
     String getPdName();            // 상품명
+    Long getPdId();
     Integer getOrderDetailCnt();    // 주문상품수량
     Integer getOrderDetailPrice();  // 주문상품가격
     String getAddDate();            // 주문날짜

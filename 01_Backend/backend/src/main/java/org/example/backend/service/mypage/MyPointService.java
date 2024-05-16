@@ -32,7 +32,7 @@ public class MyPointService {
     PointDetailRepository pointDetailRepository;
 
     // 사용자 ID에 따른 적립금 상세 정보 조회
-    public List<PointDto> getPointByPeriod(String userId, LocalDate startDate, LocalDate endDate) {
+    public List<PointDto> getPointByPeriod(String userId, String  startDate, String  endDate) {
         return pointDetailRepository.findPointDetailsByUserId(userId, startDate, endDate);
     }
 
