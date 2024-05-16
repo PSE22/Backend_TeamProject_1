@@ -105,99 +105,6 @@
                   </div>
                 </div>
               </form>
-
-              <!-- Topbar Navbar -->
-              <ul class="navbar-nav ml-auto">
-                <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                <li class="nav-item dropdown no-arrow d-sm-none">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    id="searchDropdown"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <i class="fas fa-search fa-fw"></i>
-                  </a>
-                  <!-- Dropdown - Messages -->
-                  <div
-                    class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                    aria-labelledby="searchDropdown"
-                  >
-                    <form class="form-inline mr-auto w-100 navbar-search">
-                      <div class="input-group">
-                        <input
-                          type="text"
-                          class="form-control bg-light border-0 small"
-                          placeholder="Search for..."
-                          aria-label="Search"
-                          aria-describedby="basic-addon2"
-                        />
-                        <div class="input-group-append">
-                          <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search fa-sm"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </li>
-
-                <div class="topbar-divider d-none d-sm-block"></div>
-
-                <!-- 우측 상단 유저 -->
-                <li class="nav-item dropdown no-arrow">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    id="userDropdown"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"
-                      >관리자 1</span
-                    >
-                    <img
-                      class="img-profile rounded-circle"
-                      src="img/undraw_profile.svg"
-                    />
-                  </a>
-                  <!-- 드롭다운 우측 상단 유저 -->
-                  <div
-                    class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                    aria-labelledby="userDropdown"
-                  >
-                    <a class="dropdown-item" href="#">
-                      <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                      Profile
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                      Settings
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                      Activity Log
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a
-                      class="dropdown-item"
-                      href="#"
-                      data-toggle="modal"
-                      data-target="#logoutModal"
-                    >
-                      <i
-                        class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
-                      ></i>
-                      로그아웃
-                    </a>
-                  </div>
-                </li>
-              </ul>
             </nav>
             <!-- 상단 메뉴 끝 -->
 
@@ -409,8 +316,6 @@
                                 :key="index"
                               >
                                 <td>
-                                  <!-- TODO: 링크 : a 태그 (전체 새로고침(성능저하) -> 페이지전환) -->
-                                  <!-- TODO: 뷰에서제공 링크 : router-link (부분 새로고침: 성능향상) -->
                                   <router-link
                                     :to="'/admin-coupon-edit/' + data.cpId"
                                   >
@@ -436,7 +341,7 @@
                         </div>
                       </div>
                     </div>
-                    <!-- TODO: 페이지 시작 / 페이지 네이션 백에서 해놓음 -->
+                    <!-- TODO: 페이지 시작 -->
                     <div class="row">
                       <div class="col-sm-12 col-md-5">
                         <div
@@ -444,21 +349,7 @@
                           role="status"
                           aria-live="polite"
                         >
-                          <!-- 복습 : select 태그 -> v-model="pageSize" : 화면에 보일 초기값이 지정 -->
-                          <!-- <select
-                            class="form-select form-select-sm"
-                            v-model="pageSize"
-                            @change="pageSizeChange"
-                          > -->
-                          <!-- TODO: vue 반복문 실행 -->
-                          <!-- <option
-                            v-for="(data, index) in pageSizes"
-                            :key="index"
-                            :value="data"
-                          > -->
                             검색결과 총 {{ count }} 건
-                            <!-- </select> -->
-                          <!-- </option> -->
                         </div>
                       </div>
                       <div class="col-sm-12 col-md-7">
@@ -484,8 +375,8 @@
           <!-- TODO: Footer 부분   -->
           <footer class="sticky-footer bg-white">
             <div class="container my-auto">
-              <div class="copyright text-center my-auto">
-                <span>Copyright &copy; Your Website 2021</span>
+              <div class="logo text-center my-auto">
+                <span>서울쥐</span>
               </div>
             </div>
           </footer>
@@ -508,26 +399,23 @@ export default {
   data() {
     return {
       // TODO: 등록
-      adminCouponData: {}, // 빈객체
-      submitted: false, // 저장버튼 클릭하면 true 바뀜
+      adminCouponData: {},
+      submitted: false,
 
       // TODO: 백엔드 연결
-      adminCoupon: [], // spring 에서 전송
+      adminCoupon: [],
       searchCpName: "",
+      page: 1,
+      count: 0,
+      pageSize: 10,
 
-      // 공통 속성(현재페이지, 전체데이터개수,1페이지당개수)
-      page: 1, // 현재페이지번호
-      count: 0, // 전체데이터개수
-      pageSize: 10, // 1페이지당개수(select태그)
-
-      pageSizes: [10, 25, 50], //1페이지당개수 배열(select태그-option)
+      pageSizes: [10, 25, 50],
     };
   },
   methods: {
     // TODO: 등록 시작
     async saveAdminCouponData() {
       try {
-        // 임시 객체 변수
         let data = {
           cpId: this.adminCouponData.cpId,
           pdId: this.adminCouponData.pdId,
@@ -547,37 +435,35 @@ export default {
         let response = await AdminCouponService.create(data);
         // TODO: 콘솔에 결과 출력
         console.log(response);
-        this.submitted = true; // 저장유무변수=true 변경
+        this.submitted = true;
       } catch (e) {
         console.log(e);
       }
     },
-    // 저장페이지 열기 함수 : 화면 초기화
     newAdminCouponData() {
-      // 뷰/리액트 : 변수값을 조작하면 화면이 자동 갱신됨
       this.submitted = false;
       this.adminCouponData = {};
     },
     // TODO: 등록 끝
     // TODO: 백엔드 연결
     pageNoChange(value) {
-      this.page = value; // 1) 현재페이지 변경
-      this.retrieveAdminCoupon(); // 2) 재조회 요청
+      this.page = value;
+      this.retrieveAdminCoupon();
     },
     pageSizeChange() {
-      this.page = 1; // 2) 현재 페이지번호 초기화(1)
-      this.retrieveAdminCoupon(); // 3) 재조회 요청
+      this.page = 1;
+      this.retrieveAdminCoupon();
     },
     async retrieveAdminCoupon() {
       try {
         let response = await AdminCouponService.getAll(
-          this.searchCpName, // 검색어
-          this.page - 1, // 현재페이지번호-1
-          this.pageSize // 1페이지당개수(size)
+          this.searchCpName,
+          this.page - 1,
+          this.pageSize
         );
-        const { adminCoupon, totalItems } = response.data; // 쿠폰배열(벡엔드 전송)
-        this.adminCoupon = adminCoupon; // 쿠폰배열(벡엔드 전송)
-        this.count = totalItems; // 전체페이지수(벡엔드 전송)
+        const { adminCoupon, totalItems } = response.data;
+        this.adminCoupon = adminCoupon;
+        this.count = totalItems;
         console.log("전체조회", response.data);
       } catch (e) {
         console.log(e);
@@ -587,7 +473,7 @@ export default {
     // TODO: 백엔드 시작
   },
   mounted() {
-    this.retrieveAdminCoupon(); // 전체 조회 함수 실행
+    this.retrieveAdminCoupon();
     // TODO: 백엔드 끝
   },
 };

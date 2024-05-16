@@ -115,58 +115,6 @@
         </div>
       </div>
       <br />
-      <!-- 주소 -->
-      <div align="center">
-        <div class="row">
-          <div class="col">
-            <label for="userEmail" class="mb-3">기본배송지</label>
-            <div class="input-group">
-              <input
-                type="text"
-                name="zipcode"
-                id="zipcode"
-                class="form-control"
-                value=""
-                placeholder="우편번호"
-                v-model="orderPostcode"
-                readonly
-              />
-              <button
-                class="btn btn-primary btn-sm"
-                type="button"
-                @click="execDaumPostcode"
-              >
-                주소검색
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="row mt-2">
-          <div class="col">
-            <input
-              type="text"
-              name="roadaddress"
-              id="roadaddress"
-              class="form-control"
-              value=""
-              placeholder="도로명주소"
-              readonly
-            />
-          </div>
-        </div>
-        <div class="row mt-2">
-          <div class="col">
-            <input
-              type="text"
-              name="detailaddress"
-              id="detailaddress"
-              class="form-control"
-              value=""
-              placeholder="상세주소"
-            />
-          </div>
-        </div>
-      </div>
 
       <!-- 휴대폰 번호 -->
       <div align="center">
@@ -315,23 +263,12 @@
 </template>
 <script>
 import MyEditProfile from "@/services/mypage/MyEditProfile";
-import OrderService from '@/services/shop/OrderService';
 
 export default {
-  // 데이터 바인딩
   data() {
     return {
-      openDaumAddrApi: {
-        addressName: "기본배송지",
-        zipcode: "", // 우편번호
-        address: "", // 기본주소
-        roadAddress: "", // 도로명 주소
-        roadAddressEnglish: "", //영문 도로명 주소
-        jibunAddress: "", // 지번 주소
-        jibunAddressEnglish: "", // 영문 지번 주소
-      },
-      user: null, // 초기값
-      message: "", // 성공메세지 화면 출력속성
+      user: null,
+      message: "",
       // 비밀번호
       userPw: "", // 기존 비밀번호
       newPassword: "", // 새로운 비밀번호
@@ -340,44 +277,10 @@ export default {
       userPwData: {
         userId: this.$store.state.user.userId,
       },
-      shipAddress: {},
     };
   },
   // TODO: 함수 정의
   methods: {
-    showApi() {
-      new window.daum.Postcode({
-        oncomplete: (data) => {
-          let fullRoadAddr = data.roadAddress; // 도로명 주소 변수
-          let extraRoadAddr = ""; // 도로명 조합형 주소 변수
-
-          // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-          // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-          if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
-            extraRoadAddr += data.bname;
-          }
-          // 건물명이 있고, 공동주택일 경우 추가한다.
-          if (data.buildingName !== "" && data.apartment === "Y") {
-            extraRoadAddr +=
-              extraRoadAddr !== ""
-                ? ", " + data.buildingName
-                : data.buildingName;
-          }
-          // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-          if (extraRoadAddr !== "") {
-            extraRoadAddr = " (" + extraRoadAddr + ")";
-          }
-          // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
-          if (fullRoadAddr !== "") {
-            fullRoadAddr += extraRoadAddr;
-          }
-          document.getElementById("zipcode").value = data.zonecode;
-          document.getElementById("roadaddress").value = data.roadAddress;
-        },
-      }).open({
-        popupName: "postcodePopup",
-      });
-    },
     async changePassword() {
       // 새로운 비밀번호와 비밀번호 재확인이 일치하는지 확인
       if (!this.isNewPasswordMatch) {
@@ -397,7 +300,6 @@ export default {
       try {
         let response = await MyEditProfile.findById(userId);
         this.user = response.data; // spring 결과를 바인딩 속성변수 user 저장
-        // 로깅
         console.log("상세 조회", response.data);
       } catch (e) {
         console.log(e);
@@ -407,7 +309,6 @@ export default {
     async updateProfile() {
       try {
         let temp = {
-          // 임시 수정될 객체
           userId: this.user.userId,
           userPw: this.newPassword,
           userName: this.user.userName,
@@ -421,7 +322,6 @@ export default {
           this.user.userId,
           temp
         );
-        // 로깅
         console.log(response.data);
         // 화면에 성공메세지 출력 : message
         alert("수정이 성공했습니다.");
@@ -436,7 +336,6 @@ export default {
         let userPwData = {
           userPW: this.userPwData.userPw,
         };
-        console.log("회원탈퇴", userPwData);
         let response = await MyEditProfile.withdrawUser(this.user.userId, userPwData.userPW);
         console.log(response.data);
         alert("회원탈퇴가 성공했습니다.");
@@ -444,37 +343,6 @@ export default {
       } catch (e) {
         console.log("회원탈퇴 실패", e);
       }
-    },
-    // 배송지 정보 가져오기
-    async getShipAddress(userId) {
-      try {
-        let response = await OrderService.getShipAddress(userId);
-        this.shipAddress = response.data;
-        console.log("회원의 배송지 정보 : ", response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    // 카카오 주소 api 연동 부분
-    execDaumPostcode() {
-      new window.daum.Postcode({
-        oncomplete: function (data) {
-          var addr = ''; // 주소 변수
-
-          //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-          if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-            addr = data.roadAddress;
-          } else { // 사용자가 지번 주소를 선택했을 경우
-            addr = data.jibunAddress;
-          }
-
-          // 우편번호와 주소 정보를 해당 필드에 넣는다.
-          document.getElementById('postcode').value = data.zonecode;
-          document.getElementById("shipAddr").value = addr;
-          // 커서를 상세주소 필드로 이동한다.
-          document.getElementById("shipAddr2").focus();
-        }
-      }).open();
     },
   },
   computed: {
@@ -486,9 +354,8 @@ export default {
     },
   },
   mounted() {
-    this.message = ""; // 변수 초기화
+    this.message = "";
     this.getUser(this.$store.state.user?.userId);
-    this.getShipAddress(this.$store.state.user.userId);
   },
 };
 </script>
@@ -499,7 +366,7 @@ export default {
   padding: 40px 30px;
   border: 3px solid #505050;
   width: 600px;
-  height: 1000px;
+  height: 900px;
 }
 .a1 {
   position: relative;

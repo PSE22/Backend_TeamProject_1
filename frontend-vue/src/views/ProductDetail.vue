@@ -593,6 +593,7 @@ export default {
     async retrieveReview() {
       try {
         let response = await ReviewService.getAll(
+          this.$route.params.pdId,
           this.reviewPage - 1,
           this.reviewPageSize
         );
@@ -625,6 +626,7 @@ export default {
     async retrieveQna() {
       try {
         let response = await QnaService.getAll(
+          this.$route.params.pdId,
           this.qnaPage - 1,
           this.qnaPageSize
         );
