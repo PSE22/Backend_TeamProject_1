@@ -26,7 +26,7 @@ import java.util.Optional;
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2024-04-25                   최초 생성
+ * 2024-04-25                  최초 생성
  */
 @Slf4j
 @RestController
@@ -46,7 +46,6 @@ public class EditProfileController {
     @Autowired
     SignUpService signUpService;
 
-
 //    TODO: 상세조회
     @GetMapping("/editProfile/{userId}")
     public ResponseEntity<Object> findById(
@@ -55,6 +54,7 @@ public class EditProfileController {
         try {
 //            DB 상세조회 서비스 함수 실행
             Optional<User> optionalUser = signUpService.findById(userId);
+
             if (optionalUser.isEmpty() == true) {
 //                데이터 없음(203)
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);

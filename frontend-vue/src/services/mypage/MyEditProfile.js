@@ -24,13 +24,6 @@ class MyEditProfileService {
       headers: LoginHeader()
     });
   }
-
-  // 회원탈퇴 함수
-  // withdrawUser(userId, userPw) {
-  //   return http.delete(`/mypage/editProfile?userId=${userId}userPw=${userPw}`, {
-  //     headers: LoginHeader()
-  //   });
-  // }
 }
 
 export default new MyEditProfileService();
