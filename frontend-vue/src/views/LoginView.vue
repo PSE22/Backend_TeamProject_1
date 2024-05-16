@@ -45,11 +45,6 @@
     <nav class="mt-3 mb-3" align="center">
       <router-link align="right" to="/signup">회원가입</router-link>
     </nav>
-
-    <!-- 소셜 페이지 로그인 기능 연동 -->
-    <div class="social-container" align="center">
-      <router-link href="#" class="social" to="kakao">kakao</router-link>
-    </div>
     <router-view />
   </div>
 </template>
@@ -57,7 +52,6 @@
 import LoginService from "@/services/login/LoginService";
 
 export default {
-  // 데이터 바인딩 속성
   data() {
     return {
       user: {
@@ -97,7 +91,7 @@ export default {
   padding: 40px 30px;
   border: 3px solid #505050;
   width: 500px;
-  height: 450px;
+  height: 400px;
 }
 
 .social-container {

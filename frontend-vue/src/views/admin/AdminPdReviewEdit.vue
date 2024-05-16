@@ -210,8 +210,7 @@ export default {
     async getAdminPdReview(reviewId) {
       try {
         let response = await AdminPdReviewService.get(reviewId);
-        this.adminPdReviewEdit = response.data; // spring 결과를 바인딩 속성변수 emp 저장
-        // 로깅
+        this.adminPdReviewEdit = response.data; // spring 결과를 바인딩 속성변수 저장
         console.log(response.data);
       } catch (e) {
         console.log(e);
@@ -224,7 +223,6 @@ export default {
           this.adminPdReviewEdit.reviewId,
           this.adminPdReviewEdit
         );
-        // 로깅
         console.log(response.data);
         // 화면에 성공메세지 출력 : message
         alert("수정이 성공했습니다.");

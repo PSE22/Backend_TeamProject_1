@@ -194,8 +194,7 @@ export default {
     async getAdminProduct(pdId) {
       try {
         let response = await AdminProductService.get(pdId);
-        this.adminProductEdit = response.data; // spring 결과를 바인딩 속성변수 emp 저장
-        // 로깅
+        this.adminProductEdit = response.data; // spring 결과를 바인딩 속성변수 저장
         console.log(response.data);
       } catch (e) {
         console.log(e);
@@ -208,7 +207,6 @@ export default {
           this.adminProductEdit.pdId,
           this.adminProductEdit
         );
-        // 로깅
         console.log(response.data);
         // 화면에 성공메세지 출력 : message
         alert("수정이 성공했습니다.");

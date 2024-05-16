@@ -125,57 +125,6 @@
         </div>
       </div>
       <br />
-      <!-- 주소 -->
-      <div align="center">
-        <div class="row">
-          <div class="col">
-            <label for="userEmail"></label>
-            <div class="input-group">
-              <input
-                type="text"
-                name="zipcode"
-                id="zipcode"
-                class="form-control"
-                value=""
-                placeholder="우편번호"
-                readonly
-              />
-              <button
-                class="btn btn-primary btn-sm"
-                type="button"
-                @click="showApi"
-              >
-                주소검색
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="row mt-2">
-          <div class="col">
-            <input
-              type="text"
-              name="roadaddress"
-              id="roadaddress"
-              class="form-control"
-              value=""
-              placeholder="도로명주소"
-              readonly
-            />
-          </div>
-        </div>
-        <div class="row mt-2">
-          <div class="col">
-            <input
-              type="text"
-              name="detailaddress"
-              id="detailaddress"
-              class="form-control"
-              value=""
-              placeholder="상세주소"
-            />
-          </div>
-        </div>
-      </div>
 
       <!-- 휴대폰 번호 -->
       <div align="center">
@@ -215,8 +164,6 @@
         <label class="form-check-label" for="promoNo">미동의</label>
       </div>
 
-      <!-- 계정분류 라디오버튼 삭제 - 김태완 -->
-
       <!-- 회원가입 -->
       <br />
       <div align="center">
@@ -239,18 +186,8 @@
 import LoginService from "@/services/login/LoginService";
 
 export default {
-  // 데이터 바인딩
   data() {
     return {
-      openDaumAddrApi: {
-        addressName: "기본배송지",
-        zipcode: "", // 우편번호
-        address: "", // 기본주소
-        roadAddress: "", // 도로명 주소
-        roadAddressEnglish: "", //영문 도로명 주소
-        jibunAddress: "", // 지번 주소
-        jibunAddressEnglish: "", // 영문 지번 주소
-      },
       user: {
         userId: "",
         userPw: "",
@@ -261,46 +198,13 @@ export default {
         userEmail: "",
         userPhone: "",
         userPromo: "",
-        userCode: "AT02", // 계정분류코드 고정 - 김태완
+        userCode: "AT02",
       },
-      message: "", // 성공메세지 화면 출력속성
+      message: "",
     };
   },
   // TODO: 함수 정의
   methods: {
-    showApi() {
-      new window.daum.Postcode({
-        oncomplete: (data) => {
-          let fullRoadAddr = data.roadAddress; // 도로명 주소 변수
-          let extraRoadAddr = ""; // 도로명 조합형 주소 변수
-
-          // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-          // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-          if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
-            extraRoadAddr += data.bname;
-          }
-          // 건물명이 있고, 공동주택일 경우 추가한다.
-          if (data.buildingName !== "" && data.apartment === "Y") {
-            extraRoadAddr +=
-              extraRoadAddr !== ""
-                ? ", " + data.buildingName
-                : data.buildingName;
-          }
-          // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-          if (extraRoadAddr !== "") {
-            extraRoadAddr = " (" + extraRoadAddr + ")";
-          }
-          // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
-          if (fullRoadAddr !== "") {
-            fullRoadAddr += extraRoadAddr;
-          }
-          document.getElementById("zipcode").value = data.zonecode;
-          document.getElementById("roadaddress").value = data.roadAddress;
-        },
-      }).open({
-      popupName: 'postcodePopup'
-    });
-    },
     async heckUserId() {
       var userId = this.user.userId.trim();
       if (userId.length < 8 || !/^[a-zA-Z0-9]+$/.test(userId)) {
@@ -310,13 +214,13 @@ export default {
       this.failMessage = "";
       this.successMessage = "";
       try {
-        this.successMessage = ""; // 성공 메시지 초기화
-        let response = await LoginService.reId(this.user.userId); // user.userId만 전달
-        alert("사용 가능한 아이디입니다."); // 성공 메시지 알림창 표시
+        this.successMessage = "";
+        let response = await LoginService.reId(this.user.userId);
+        alert("사용 가능한 아이디입니다.");
         return response.data;
       } catch (e) {
-        this.failMessage = ""; // 실패 메시지 초기화
-        alert("중복된 아이디 입니다."); // 실패 메시지 알림창 표시
+        this.failMessage = "";
+        alert("중복된 아이디 입니다.");
         console.log(e);
       }
     },
@@ -325,14 +229,11 @@ export default {
       try {
         // TODO: 공통 사용자등록 서비스 함수 실행
         let response = await LoginService.signup(this.user);
-        // 공유저장소의 signUp 성공함수 실행
         this.$store.commit("signUpSuccess");
         this.message = "사용자가 등록되었습니다.";
-        this.$router.push("/api/login"); // 회원가입 성공시 로그인 페이지로 이동 - 김태완
-        // 로깅
+        this.$router.push("/login");
         console.log(response.data);
       } catch (e) {
-        // 공유저장소의 signUp 실패함수 실행
         this.$store.commit("signupFailure");
         this.message = "에러 : " + e;
         console.log(e);
@@ -353,7 +254,7 @@ export default {
   padding: 40px 30px;
   border: 3px solid #505050;
   width: 600px;
-  height: 900px;
+  height: 750px;
 }
 .a1 {
   position: relative;
