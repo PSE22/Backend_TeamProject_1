@@ -42,7 +42,6 @@ export default {
   methods: {
     async retrieveProduct() {
       try {
-        console.log(this.searchPdName);
         let response = await ProductService.getAllProductSearch(
           this.searchPdName,
           this.page - 1,
