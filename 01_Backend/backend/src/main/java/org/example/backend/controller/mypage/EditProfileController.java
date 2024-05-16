@@ -54,7 +54,6 @@ public class EditProfileController {
         try {
 //            DB 상세조회 서비스 함수 실행
             Optional<User> optionalUser = signUpService.findById(userId);
-
             if (optionalUser.isEmpty() == true) {
 //                데이터 없음(203)
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -93,7 +92,7 @@ public class EditProfileController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+  
 //    TODO: 탈퇴 함수
     @DeleteMapping("/editProfile/deletion/{userId}/{userPw}")
     public boolean withdrawUser(@PathVariable String userId, @PathVariable String userPw) {
