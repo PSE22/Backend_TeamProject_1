@@ -4,8 +4,6 @@ import org.example.backend.model.entity.User;
 import org.example.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +15,7 @@ import java.util.Optional;
 /**
  * packageName : org.example.backend.service
  * fileName : EditProfileService
- * author : kimtaewan
+ * author :
  * date : 2024-04-25
  * description : 회원정보수정
  * 요약 :
@@ -25,7 +23,7 @@ import java.util.Optional;
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2024-04-25         kimtaewan          최초 생성
+ * 2024-04-25                   최초 생성
  */
 
 @Service
@@ -54,23 +52,6 @@ public class EditProfileService {
         userRepository.save(user);
         return user;
     }
-
-//    public boolean withdrawUser(String userPw) {
-//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        String userId = userDetails.getUsername();
-//        Optional<User> optionalUser = userRepository.findById(userId);
-//        if (optionalUser.isPresent()) {
-//            User user = optionalUser.get();
-//            if (passwordEncoder.matches(userPw, user.getUserPw())) {
-//                userRepository.delete(user);
-//            } else {
-//                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-//            }
-//        } else {
-//            throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
-//        }
-//        return false;
-//    }
 
     public String withdrawUser(String userId, String userPw) {
         // 사용자 ID로 사용자 정보 조회
