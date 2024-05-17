@@ -52,7 +52,7 @@ public class QnaController {
 //    TODO: 전체 조회 함수 + like 검색
     @GetMapping("/productQna")
     public ResponseEntity<Object> findAll(
-            @RequestParam(defaultValue = "") Integer pdId,
+            @RequestParam(defaultValue = "") long pdId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
     ) {
