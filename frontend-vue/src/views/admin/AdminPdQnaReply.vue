@@ -152,13 +152,13 @@ export default {
   data() {
     return {
       // TODO: 등록
-      adminPdQnaData: null, // 초기값 // 상품문의 객체
+      adminPdQnaData: null,
       adminPdQnaReplyData: {
         pdQnaId: "",
-        pdQnaReplyContent: "", // 화면 입력
+        pdQnaReplyContent: "",
         status: "",
-      }, // 댓글 객체
-      message: "", // 수정성공시 화면 성공메세지 출력하는 변수
+      },
+      message: "",
     };
   },
   methods: {
@@ -167,8 +167,7 @@ export default {
     async getAdminPdQna(pdQnaId) {
       try {
         let response = await AdminPdQnaService.get(pdQnaId);
-        this.adminPdQnaData = response.data; // spring 결과를 바인딩 속성변수 emp 저장
-        // 로깅
+        this.adminPdQnaData = response.data;
         console.log(response.data);
       } catch (e) {
         console.log(e);
@@ -176,10 +175,9 @@ export default {
     },
     async saveAdminPdQnaReplyData() {
       try {
-        // 임시 객체 변수
         let data = {
           pdQnaId: this.adminPdQnaData.pdQnaId,
-          pdQnaReplyContent: this.adminPdQnaReplyData.pdQnaReplyContent, // 화면 입력
+          pdQnaReplyContent: this.adminPdQnaReplyData.pdQnaReplyContent,
           status: this.adminPdQnaReplyData.status,
         };
         console.log(data);
@@ -187,7 +185,7 @@ export default {
         let response = await AdminPdQnaReplyService.create(data);
         // TODO: 콘솔에 결과 출력
         console.log(response);
-        this.submitted = true; // 저장유무변수=true 변경
+        this.submitted = true;
       } catch (e) {
         console.log(e);
       }
@@ -196,8 +194,8 @@ export default {
   // TODO: 등록 끝
   mounted() {
     // TODO: 등록 시작
-    this.message = ""; // 변수 초기화
-    this.getAdminPdQna(this.$route.params.pdQnaId); // 상품문의메뉴를 클릭하면 pdQnaReplyId 옴
+    this.message = "";
+    this.getAdminPdQna(this.$route.params.pdQnaId);
     // TODO: 등록 끝
   },
 };

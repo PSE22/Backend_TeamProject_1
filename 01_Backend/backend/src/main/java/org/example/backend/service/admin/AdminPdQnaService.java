@@ -16,7 +16,7 @@ public class AdminPdQnaService {
     @Autowired
     AdminPdQnaRepository adminPdQnaRepository;
 
-    //    TODO: 전체조회(read)r
+    //    TODO: 전체조회(read)
     public List<AdminPdQna> findAll() {
         List<AdminPdQna> list = adminPdQnaRepository.findAll();
         return list;
@@ -25,7 +25,6 @@ public class AdminPdQnaService {
     //    페이징 처리
     public Page<AdminPdQna> findAllByAdminPdQnaTitleContaining(String pdQnaTitle,
                                                                   Pageable pageable) {
-        //    DB like 검색 함수 실행 : 페이징 처리
         Page<AdminPdQna> page
                 = adminPdQnaRepository
                 .findAllByAdminPdQnaTitleContaining(pdQnaTitle, pageable);
@@ -34,21 +33,19 @@ public class AdminPdQnaService {
 
     //    상세조회
     public Optional<AdminPdQna> findById(Long pdQnaId) {
-        //    JPA 상세조회 함수 실행
         Optional<AdminPdQna> optionalAdminPdQna
                 = adminPdQnaRepository.findById(pdQnaId);
         return optionalAdminPdQna;
     }
 
-    //    TODO: 등록(insert)c,수정(update)u
+    //    TODO: 등록(insert),수정(update)
     public AdminPdQna save(AdminPdQna adminPdQna) {
-        //    JPA 저장 함수 실행 : return 값 : 저장된 객체
         AdminPdQna adminPdQna2 = adminPdQnaRepository.save(adminPdQna);
 
         return adminPdQna2;
     }
 
-    //    TODO: 삭제(delete)d
+    //    TODO: 삭제(delete)
     public boolean removeById(Long pdQnaId) {
         if (adminPdQnaRepository.existsById(pdQnaId) == true) {
             adminPdQnaRepository.deleteById(pdQnaId);

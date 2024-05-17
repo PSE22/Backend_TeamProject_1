@@ -10,10 +10,7 @@ public class ShipAddressService {
 
     @Autowired
     ShipAddressRepository shipAddressRepository;
-
-    //    TODO: 등록(insert)c,수정(update)u
     public ShipAddress save(ShipAddress shipAddress) {
-        //    JPA 저장 함수 실행 : return 값 : 저장된 객체
         ShipAddress shipAddress2 = shipAddressRepository.save(shipAddress);
 
         return shipAddress2;

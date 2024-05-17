@@ -57,6 +57,18 @@ const routes = [
     component: () => import("../views/admin/AdminOptionEdit.vue"),
     beforeEnter: [routeGuard],
   },
+  // 관리자 상품이미지 관리
+  {
+    path: "/admin-product-image",
+    component: () => import("../views/admin/AdminProductView.vue"),
+    beforeEnter: [routeGuard],
+  },
+  // 관리자 상품이미지 수정/삭제
+  {
+    path: "/admin-product-image-edit/:pdImgId",
+    component: () => import("../views/admin/AdminProductImageEdit.vue"),
+    beforeEnter: [routeGuard],
+  },
   // 관리자 쿠폰 관리
   {
     path: "/admin-coupon",
@@ -168,9 +180,14 @@ const routes = [
     path: "/mypage/order/:orderId",
     component: () => import("../views/mypage/MyPageOrderDetail.vue"),
   },
+  // 주문 취소
   {
     path: "/mypage/order/cancel/:orderId",
     component: () => import("../views/mypage/MyPageOrderCancel.vue"),
+  },
+  {
+    path: "/mypage/order/refund/:orderId",
+    component: () => import("../views/mypage/MyPageOrderRefund.vue"),
   },
   
   // 마이페이지 -> 쿠폰함

@@ -225,8 +225,8 @@ export default {
   data() {
     return {
       // TODO: 수정
-      adminCouponEdit: null, //초기값
-      message: "", // 수정성공시 화면 성공메세지 출력하는 변수
+      adminCouponEdit: null,
+      message: "",
     };
   },
   methods: {
@@ -235,8 +235,7 @@ export default {
     async getAdminCoupon(cpId) {
       try {
         let response = await AdminCouponService.get(cpId);
-        this.adminCouponEdit = response.data; // spring 결과를 바인딩 속성변수 emp 저장
-        // 로깅
+        this.adminCouponEdit = response.data;
         console.log(response.data);
       } catch (e) {
         console.log(e);
@@ -249,7 +248,6 @@ export default {
           this.adminCouponEdit.cpId,
           this.adminCouponEdit
         );
-        // 로깅
         console.log(response.data);
         // 화면에 성공메세지 출력 : message
         alert("수정이 성공했습니다.");
@@ -268,8 +266,8 @@ export default {
   // TODO: 수정/삭제 끝
   mounted() {
     // TODO: 수정/삭제 시작
-    this.message = ""; // 변수 초기화
-    this.getAdminCoupon(this.$route.params.cpId); // 쿠폰메뉴를 클릭하면 cpid 옴
+    this.message = "";
+    this.getAdminCoupon(this.$route.params.cpId);
     // TODO: 수정/삭제 끝
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <!-- 이벤트 슬라이드 -->
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+    <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="true">
       <!-- 슬라이드 하단 버튼 -->
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></button>
@@ -95,10 +95,9 @@ export default {
 </script>
 <style>
   /* 이벤트 슬라이드 양쪽 화살표 아이콘 */
-  .carousel-control-prev-icon, .carousel-control-next-icon {
-    background-color: skyblue;
-    border-radius: 5px;
-  }
+  /* .carousel-control-prev-icon, .carousel-control-next-icon {
+  } */
+  
   /* 상품 목록 타이틀 */
   #main-product-title {
     font-family: 'YClover-Regular';

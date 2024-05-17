@@ -122,18 +122,16 @@ export default {
   data() {
     return {
       // TODO: 수정
-      adminPdQnaReply: null, // 초기값
-      message: "", // 수정성공시 화면 성공메세지 출력하는 변수
+      adminPdQnaReply: null,
+      message: "",
     };
   },
   methods: {
     // TODO: 수정/삭제 시작
-    // 함수정의
     async getAdminPdQnaReply(pdQnaReplyId) {
       try {
         let response = await AdminPdQnaReplyService.get(pdQnaReplyId);
-        this.adminPdQnaReply = response.data; // spring 결과를 바인딩 속성변수 emp 저장
-        // 로깅
+        this.adminPdQnaReply = response.data;
         console.log("상세",response.data);
       } catch (e) {
         console.log(e);
@@ -141,10 +139,9 @@ export default {
     },
     async saveAdminPdQnaReplyEdit() {
       try {
-        // 임시 객체 변수
         let data = {
           pdQnaId: this.adminPdQnaReply.pdQnaId,
-          pdQnaReplyContent: this.adminPdQnaReply.pdQnaReplyContent, // 화면 입력
+          pdQnaReplyContent: this.adminPdQnaReply.pdQnaReplyContent,
           status: this.adminPdQnaReply.status,
         };
         console.log(data);
@@ -152,7 +149,7 @@ export default {
         let response = await AdminPdQnaReplyService.update(data);
         // TODO: 콘솔에 결과 출력
         console.log(response);
-        this.submitted = true; // 저장유무변수=true 변경
+        this.submitted = true;
       } catch (e) {
         console.log(e);
       }
@@ -164,7 +161,6 @@ export default {
           this.adminPdQnaReply.pdQnaReplyId,
           this.adminPdQnaReply
         );
-        // 로깅
         console.log(response.data);
         // 화면에 성공메세지 출력 : message
         alert("수정이 성공했습니다.");
@@ -184,7 +180,7 @@ export default {
   mounted() {
     // TODO: 수정/삭제 시작
     this.message = ""; // 변수 초기화
-    this.getAdminPdQnaReply(this.$route.params.pdQnaReplyId); // 답변메뉴를 클릭하면 pdQnaReplyId 옴
+    this.getAdminPdQnaReply(this.$route.params.pdQnaReplyId);
     // TODO: 수정/삭제 끝
   },
 };

@@ -5,9 +5,7 @@ import org.example.backend.model.dto.shop.ICartDto;
 import org.example.backend.model.dto.shop.IPointDto;
 import org.example.backend.model.dto.shop.IUserCouponDto;
 import org.example.backend.model.dto.shop.OrderDto;
-import org.example.backend.model.entity.Order;
-import org.example.backend.model.entity.ShipAddress;
-import org.example.backend.model.entity.User;
+import org.example.backend.model.entity.*;
 import org.example.backend.service.shop.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,15 +41,10 @@ public class OrderController {
     @PostMapping("/order")
     public ResponseEntity<Object> create(@RequestBody OrderDto orderDto) {
         try {
-            // 저장 서비스 실행
-            log.debug("11 : ");
             Order order2 = orderService.insert(orderDto);
-            log.debug("22 : ");
-
             return new ResponseEntity<>(order2, HttpStatus.OK);
-        } catch (Exception e) {
-            log.debug("33 : ");
 
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -107,6 +100,18 @@ public class OrderController {
         }
     }
 
+    // 쿠폰함 STATUS 컬럼을 'N' 으로 수정
+    @PutMapping("/order/user-coupon/{cpId}/{userId}")
+    public ResponseEntity<Object> updateCouponStatus(@PathVariable Long cpId,
+                                                     @PathVariable String userId) {
+        try {
+            orderService.updateCouponStatus(cpId, userId);
+            return new ResponseEntity<>("사용한 쿠폰 상태 'N' 으로 변경", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     // 회원의 포인트 잔액 상세 조회
     @GetMapping("/order/point/{userId}")
     public ResponseEntity<Object> findByResultPoint(@PathVariable String userId) {
@@ -124,6 +129,18 @@ public class OrderController {
         }
     }
 
+    // 회원이 사용한 적립금 저장 (적립 테이블)
+    @PostMapping("/order/point")
+    public ResponseEntity<Object> createUsePoint(@RequestBody UsePoint usePoint) {
+        try {
+            UsePoint usePoint2 = orderService.save(usePoint);
+            log.debug("엘11 : ", usePoint2);
+            return new ResponseEntity<>(usePoint2, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+    }
 
     // 회원의 장바구니 정보 전체 조회
     @GetMapping("/order/cart/{userId}")
@@ -148,7 +165,7 @@ public class OrderController {
         try {
             // DB 삭제 서비스 함수 실행
             boolean success = orderService.removeByCartId(cartId);
-            if(success == true) {
+            if (success == true) {
                 // 삭제 성공
                 return new ResponseEntity<>(HttpStatus.OK);
             } else {
