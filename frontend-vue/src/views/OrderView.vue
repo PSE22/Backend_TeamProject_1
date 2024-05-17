@@ -339,18 +339,10 @@ export default {
   methods: {
     // 주문 정보 저장 (주문 테이블 + 주문 상세 테이블 insert)
     async goApproval() {
-      // 1) 주문 상세 객체 정의
-      let orderDetail = {
-          orderId: null,         // 주문번호 (PK) (최초 주문 번호는 null)
-          opId: 0,               // 옵션번호 (PK)
-          orderDetailCnt: 0,     // 수량
-          orderDetailPrice: 0,   // 금액
-          orderDetailCode: 0,    // 주문상태코드
-      };
-
-      // 2) 주문 상세 배열에 객체 넣기 (반복문)
-      let orderDetailList = [];     // 주문상세 객체배열 정의
+      // 주문 상세 배열에 객체 넣기 (반복문)
+      let orderDetailList = [];                 // 주문상세 객체배열 정의
       for (const data of this.orderList) {
+        let orderDetail = {}                    // 주문 상세 객체 정의
         orderDetail.opId = data.opId;                                   // 상품(옵션) 번호
         orderDetail.orderDetailCnt = data.cartCount;                    // 상품 개수 (장바구니 수량)
         orderDetail.orderDetailPrice = data.opPrice + data.pdPrice;     // 주문상세가격
@@ -399,9 +391,7 @@ export default {
         let data = {
           usePointPrice: this.tmpPoint
         }
-        console.log("11: ", data);
         let response = await OrderService.createUsePoint(data);
-        console.log("22: ", data);
         console.log("사용 포인트 저장 : ", response.data);
 
       } catch (e) {
@@ -513,7 +503,6 @@ export default {
       } catch (e) {
         console.log(e);
       }
-
     },
 
     // 카카오 주소 api 연동 부분
