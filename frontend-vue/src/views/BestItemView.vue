@@ -19,7 +19,7 @@
       <div class="text-center">
       <img src="@/assets/img/free-icon-crown-1141782.png"> Best {{ index + 1 }}
       </div>
-      <div class="card h-100">
+      <div class="card h-100" type="button" @click="goProductDetail(data.pdId)">
         <div class="product-image">
           <img :src="data.pdThumbnail" class="card-img-top" />
         </div>
@@ -33,7 +33,7 @@
   <!-- 베스트 상품 페이지 : card  -->
   <div class="row row-cols-1 row-cols-md-4 g-4" id="category-products">
     <div v-for="(data, index) in product" :key="index" class="col">
-      <div class="card h-100">
+      <div class="card h-100" type="button" @click="goProductDetail(data.pdId)">
         <div class="product-image">
           <img :src="data.pdThumbnail" class="card-img-top" />
         </div>
@@ -101,6 +101,9 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    },
+    goProductDetail(pdId) {
+      this.$router.push(`/product/${pdId}`);
     },
   },
   mounted() {

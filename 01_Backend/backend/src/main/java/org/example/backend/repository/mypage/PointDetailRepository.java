@@ -77,8 +77,6 @@ public interface PointDetailRepository extends JpaRepository<DetailPoint, PtIdUs
             "AND p.POINT_EXPIRE_STATUS = 'N' AND p.STATUS = 'Y'", nativeQuery = true)
     int updatePointsToExpired();
 
-    
-
 
     @Query(value = "SELECT UP.USE_POINT_ID,\n" +
             "       P.POINT_ID,\n" +
@@ -117,21 +115,25 @@ public interface PointDetailRepository extends JpaRepository<DetailPoint, PtIdUs
             "WHERE P.POINT_BALANCE < 0 AND UP.USER_ID = :userId", nativeQuery = true)
     DetailPoint findUnionPointBalanceByUserId(@Param("userId") String userId);
 
+
+    // 적립 포인트, 상세 포인트 테이블 조인해서 잔액이 0 또는 음수인 것만 조회
     @Query(value = "SELECT *\n" +
             "FROM TB_POINT P\n" +
             "JOIN TB_DETAIL_POINT DP ON DP.POINT_ID = P.POINT_ID\n" +
             "WHERE DP.POINT_BALANCE <= 0 AND P.USER_ID = :userId", nativeQuery = true)
     List<Point> findPointByUserId(@Param("userId") String userId);
 
+    // 상세 포인트 테이블의 잔액이 0 또는 음수인 데이터 조회
     @Query(value = "SELECT *\n" +
             "FROM TB_DETAIL_POINT DP\n" +
             "WHERE POINT_BALANCE <= 0 AND USER_ID = :userId", nativeQuery = true)
     List<DetailPoint> findDetailPointByUserId(@Param("userId") String userId);
 
+    // 적립 포인트 테이블에서 회원의 사용 가능한 적립금 데이터 조회
     @Query(value = "SELECT *\n" +
             "FROM TB_POINT\n" +
             "WHERE STATUS = 'Y' AND USER_ID = :userId\n" +
-            "ORDER BY POINT_ID ASC;", nativeQuery = true)
+            "ORDER BY POINT_ID ASC", nativeQuery = true)
     List<DetailPoint> findPointAdd(@Param("userId") String userId);
 }
 

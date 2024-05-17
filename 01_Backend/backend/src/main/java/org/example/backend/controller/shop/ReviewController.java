@@ -52,6 +52,7 @@ public class ReviewController {
 //    TODO: 전체 조회 함수 + like 검색
     @GetMapping("/productReview")
     public ResponseEntity<Object> findAll(
+            @RequestParam(defaultValue = "0") long pdId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
     ) {
@@ -61,7 +62,7 @@ public class ReviewController {
 
 //            전체 조회 서비스 실행
             Page<IReviewDto> reviewDtoPage
-                    = reviewService.selectByReviewContaining(pageable);
+                    = reviewService.selectByReviewContaining(pdId, pageable);
 
 //            공통 페이징 객체 생성 : 자료 구조 맵 사용
             Map<String, Object> response = new HashMap<>();
