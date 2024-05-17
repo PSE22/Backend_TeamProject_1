@@ -16,7 +16,7 @@ public class AdminPdReviewService {
     @Autowired
     AdminPdReviewRepository adminPdReviewRepository;
 
-    //    TODO: 전체조회(read)r
+    //    TODO: 전체조회(read)
     public List<AdminPdReview> findAll() {
         List<AdminPdReview> list = adminPdReviewRepository.findAll();
         return list;
@@ -25,7 +25,6 @@ public class AdminPdReviewService {
     //    페이징 처리
     public Page<AdminPdReview> findAllByAdminReviewTitleContaining(String reviewTitle,
                                                                Pageable pageable) {
-        //    DB like 검색 함수 실행 : 페이징 처리
         Page<AdminPdReview> page
                 = adminPdReviewRepository
                 .findAllByAdminPdReviewTitleContaining(reviewTitle, pageable);
@@ -34,21 +33,19 @@ public class AdminPdReviewService {
 
     //    상세조회
     public Optional<AdminPdReview> findById(Long reviewId) {
-        //    JPA 상세조회 함수 실행
         Optional<AdminPdReview> optionalAdminPdReview
                 = adminPdReviewRepository.findById(reviewId);
         return optionalAdminPdReview;
     }
 
-    //    TODO: 등록(insert)c,수정(update)u
+    //    TODO: 등록(insert),수정(update)
     public AdminPdReview save(AdminPdReview adminPdReview) {
-        //    JPA 저장 함수 실행 : return 값 : 저장된 객체
         AdminPdReview adminPdReview2 = adminPdReviewRepository.save(adminPdReview);
 
         return adminPdReview2;
     }
 
-    //    TODO: 삭제(delete)d
+    //    TODO: 삭제(delete)
     public boolean removeById(Long reviewId) {
         if (adminPdReviewRepository.existsById(reviewId) == true) {
             adminPdReviewRepository.deleteById(reviewId);

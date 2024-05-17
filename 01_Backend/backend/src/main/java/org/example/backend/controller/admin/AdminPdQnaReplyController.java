@@ -1,7 +1,6 @@
 package org.example.backend.controller.admin;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.backend.model.entity.admin.AdminPdQna;
 import org.example.backend.model.entity.admin.AdminPdQnaReply;
 import org.example.backend.service.admin.AdminPdQnaReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,23 +31,18 @@ public class AdminPdQnaReplyController {
             @RequestParam(defaultValue = "10") int size
     ) {
         try{
-//            매개변수(page, size) 페이징 변수에 저장
-//             page : 현재페이지번호, size : 1페이지당개수
             Pageable pageable = PageRequest.of(page, size);
 
 //            전체 조회 서비스 함수 실행
             Page<AdminPdQnaReply> pageList
                     = adminPdQnaReplyService.findAllByAdminPdQnaReplyContentContaining(pdQnaReplyContent,pageable);
 
-//            vue 로 json 데이터를 전송 : jsp (model == Map(키,값))
             Map<String, Object> response = new HashMap<>();
             response.put("adminPdQnaReply", pageList.getContent());  // 상품문의배열
             response.put("currentPage", pageList.getNumber());       // 현재페이지 번호(x)
             response.put("totalItems", pageList.getTotalElements()); // 전체데이터개수
             response.put("totalPages", pageList.getTotalPages());    // 전체페이지수(x)
 
-//            TODO: 1) pageList 값이 없으면 : DB 테이블 없음 => NO_CONTENT(203)
-//                  2) pageList 값이 있으면 : 성공 => OK(200)
             if(pageList.isEmpty() == true) {
 //                1) pageList 값이 없으면 : DB 테이블 없음 => NO_CONTENT(203)
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -91,7 +85,6 @@ public class AdminPdQnaReplyController {
     public ResponseEntity<Object> create(
             @RequestBody AdminPdQnaReply adminPdQnaReply
     ) {
-        log.debug("1");
         try {
 //            DB 서비스 저장 함수 실행
             AdminPdQnaReply adminPdQnaReply2 = adminPdQnaReplyService.save(adminPdQnaReply);
@@ -100,7 +93,6 @@ public class AdminPdQnaReplyController {
             return new ResponseEntity<>(adminPdQnaReply2, HttpStatus.OK);
 
         } catch (Exception e) {
-            log.debug("에러 : " + e.getMessage());
 //            500 전송
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -113,7 +105,7 @@ public class AdminPdQnaReplyController {
             @RequestBody AdminPdQnaReply adminPdQnaReply
     ) {
         try {
-            AdminPdQnaReply adminPdQnaReply2 = adminPdQnaReplyService.save(adminPdQnaReply);  // 수정
+            AdminPdQnaReply adminPdQnaReply2 = adminPdQnaReplyService.save(adminPdQnaReply);
 
             return new ResponseEntity<>(adminPdQnaReply2, HttpStatus.OK);
         } catch (Exception e) {
