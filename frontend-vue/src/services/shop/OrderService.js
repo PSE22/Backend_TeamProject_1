@@ -31,9 +31,24 @@ class OrderService {
     });
   }
 
+  // 사용 쿠폰 상태 'N' 으로 수정
+  updateUserCoupon(cpId, userId) {
+    return http.put(`/shop/order/user-coupon/${cpId}/${userId}`, {
+      headers: LoginHeader(),
+    });
+  }
+
+
   // 회원의 포인트 잔액 조회
   getResultPoint(userId) {
     return http.get(`/shop/order/point/${userId}`, {
+      headers: LoginHeader(),
+    });
+  }
+
+  // 사용 포인트 저장
+  createUsePoint(data) {
+    return http.post("/shop/order/point", data, {
       headers: LoginHeader(),
     });
   }
