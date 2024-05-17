@@ -57,6 +57,18 @@ const routes = [
     component: () => import("../views/admin/AdminOptionEdit.vue"),
     beforeEnter: [routeGuard],
   },
+  // 관리자 상품이미지 관리
+  {
+    path: "/admin-product-image",
+    component: () => import("../views/admin/AdminProductView.vue"),
+    beforeEnter: [routeGuard],
+  },
+  // 관리자 상품이미지 수정/삭제
+  {
+    path: "/admin-product-image-edit/:pdImgId",
+    component: () => import("../views/admin/AdminProductImageEdit.vue"),
+    beforeEnter: [routeGuard],
+  },
   // 관리자 쿠폰 관리
   {
     path: "/admin-coupon",

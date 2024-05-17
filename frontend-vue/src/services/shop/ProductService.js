@@ -6,7 +6,32 @@ class ProductService {
     getAllProductSearch(pdName, page, size) {
         return http.get(`/shop/product/search?pdName=${pdName}&page=${page}&size=${size}`);
     }
-    
+
+    // 카테고리 상품 전체 조회
+    getAll(categoryCode, page, size) {
+        return http.get(`/shop/category?categoryCode=${categoryCode}&page=${page}&size=${size}`);
+    }
+
+    // 카테고리별 신상품순 정렬
+    getAllCategoryNew(categoryCode, page, size) {
+        return http.get(`/shop/category/order/new-product?categoryCode=${categoryCode}&page=${page}&size=${size}`);
+    }
+
+    // 카테고리별 인기순 정렬
+    getAllCategoryBest(categoryCode, page, size) {
+        return http.get(`/shop/category/order/detail-cnt?categoryCode=${categoryCode}&page=${page}&size=${size}`);
+    }
+
+    // 카테고리별 낮은 가격순 정렬
+    getAllCategoryLowPrice(categoryCode, page, size) {
+        return http.get(`/shop/category/order/price-asc?categoryCode=${categoryCode}&page=${page}&size=${size}`);
+    }
+
+    // 카테고리별 높은 가격순 정렬
+    getAllCategoryHighPrice(categoryCode, page, size) {
+        return http.get(`/shop/category/order/price-desc?categoryCode=${categoryCode}&page=${page}&size=${size}`);
+    }
+
     // 베스트 상품 3개 조회
     getThreeBestProduct() {
         return http.get(`/shop/home/best3/product`);
@@ -40,12 +65,6 @@ class ProductService {
     // 신상품 전체 조회(낮은 가격순)
     getAllNewProductLow() {
         return http.get(`/shop/home/new/product/low`);
-    }
-
-    // 카테고리 상품 전체 조회
-    // 조회(select) => GET 방식
-    getAll(categoryCode, page, size) {
-        return http.get(`/shop/category?&categoryCode=${categoryCode}&page=${page}&size=${size}`);
     }
 
     // 상품 상세 조회 

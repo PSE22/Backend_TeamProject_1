@@ -37,17 +37,9 @@ public class ReviewService {
 
 //    TODO: 전체 조회 함수
     public Page<IReviewDto> selectByReviewContaining(
-            Pageable pageable
+            Long pdId, Pageable pageable
     ) {
-        Page<IReviewDto> page = reviewRepository.selectByReviewContaining(pageable);
+        Page<IReviewDto> page = reviewRepository.selectByReviewContaining(pdId, pageable);
         return page;
     }
-
-//    TODO: 상세 조회 함수
-    public Optional<PdReview> findByPdReviewId(Long reviewId) {
-        Optional<PdReview> optionalPdReview = reviewRepository.findById(reviewId);
-        return optionalPdReview;
-    }
-
-
 }
