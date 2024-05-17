@@ -47,7 +47,7 @@
                 <!-- 장바구니 수량 -->
                 <div class="btn-group" role="group" aria-label="Basic example">
                   <!-- 장바구니 개수 표시 : 버튼 제목 -->
-                  {{ data.pdPrice }}
+                  {{ data.orderDetailPrice }}
                 </div>
               </div>
             </td>
@@ -55,7 +55,7 @@
               {{ data.orderDetailCnt }}
             </td>
             <td class="col-2">
-              {{ data.orderDetailPrice }}
+              {{ data.orderDetailPrice * data.orderDetailCnt}}
             </td>
           </tr>
         </tbody>
@@ -179,91 +179,23 @@
           v-if="
             orderDetail.orderCode === 'OD01' ||
             orderDetail.orderCode === 'OD0101' ||
+            orderDetail.orderCode === 'OD0102'
+          "
+          class="btn btn-outline-dark btn-lg col-2"
+          type="button"
+        >
+          <router-link class="link-custom" :to="`/mypage/order/cancel/${this.orderId}`">주문취소</router-link>
+        </button>
+        <button
+          v-if="
             orderDetail.orderCode === 'OD0103' ||
             orderDetail.orderCode === 'OD0104'
           "
           class="btn btn-outline-dark btn-lg col-2"
           type="button"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
         >
-          주문취소
+          <router-link class="link-custom" :to="`/mypage/order/refund/${this.orderId}`">환불신청</router-link>
         </button>
-      </div>
-      <!-- 주문취소 모달 -->
-      <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">취소 신청</h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div class="mb-3">
-                <p>취소 사유</p>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="flexRadioDefault"
-                    id="flexRadioDefault1"
-                  />
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    단순 변심
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="flexRadioDefault"
-                    id="flexRadioDefault2"
-                    checked
-                  />
-                  <label class="form-check-label" for="flexRadioDefault2">
-                    상품 옵션 변경
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="flexRadioDefault"
-                    id="flexRadioDefault3"
-                    checked
-                  />
-                  <input
-                    type="text"
-                    class="form-control"
-                    for="flexRadioDefault3"
-                    placeholder="직접입력"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                닫기
-              </button>
-              <button type="button" class="btn btn-primary">확인</button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -281,6 +213,8 @@ export default {
       totalPrice: 0,
       useCoupon: 0,
       orderName: "",
+      orderTotalPrice: 0
+
     };
   },
   methods: {
@@ -308,6 +242,8 @@ export default {
       }
     },
 
+
+
     // 주문, 결제금액
     async getOrderPrice(orderId) {
       try {
@@ -324,12 +260,9 @@ export default {
       console.log("Order Array:", this.order);
       try {
         if (this.order.length > 0) {
-          //   this.totalPrice = this.order.reduce(
-          //     (acc, data) => acc + Number(data.orderDetailPrice)
-          //   );
           //   누적합 : totalPrice = totalPrice + 값
           for (const data of this.order) {
-            this.totalPrice = this.totalPrice + data.orderDetailPrice;
+            this.totalPrice = this.totalPrice + data.orderDetailPrice*data.orderDetailCnt;
           }
           console.log("총금액", this.totalPrice);
         } else {
@@ -371,24 +304,6 @@ export default {
       }
     },
 
-    // TODO: 
-    async confirmCancel() {
-      try {
-        let data = {
-          orderId: this.$route.params.orderId,
-          opId: this.order.opId,
-          refundPrice: this.getOrderPrice(),
-          refundCode: "OD0301",
-          refundReason: "",
-          refundDenyReason: "",
-          orderCode: "OD0301",
-        };
-        let response = await MyOrderCheckService.create(data);
-        console.log(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    },
   },
   mounted() {
     this.getOrder(this.orderId);
@@ -401,4 +316,8 @@ export default {
 
 <style>
 @import "@/assets/css/orderview.css";
+.link-custom {
+  text-decoration: none; /* 밑줄 제거 */
+  color: black; /* 텍스트 색상 지정 */
+}
 </style>
