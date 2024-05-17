@@ -164,6 +164,38 @@
         <label class="form-check-label" for="promoNo">미동의</label>
       </div>
 
+      <br />
+      <!-- 회원분류 -->
+      회원 :
+      <div class="form-check form-check-inline mt-3">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="userCode"
+          value="AT02"
+          v-model="user.userCode"
+        />
+        <label class="form-check-label" for="userCode">일반회원</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <label
+          class="form-check-label"
+          for="userCodeAdmin"
+          @click="incrementClickCount"
+          >관리자</label
+        >
+      </div>
+      <div class="form-check form-check-inline" v-if="clickCount >= 3">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="userCode"
+          value="AT01"
+          v-model="user.userCode"
+        />
+        <label class="form-check-label" for="userCodeAdmin">관리자</label>
+      </div>
+
       <!-- 회원가입 -->
       <br />
       <div align="center">
@@ -198,9 +230,10 @@ export default {
         userEmail: "",
         userPhone: "",
         userPromo: "",
-        userCode: "AT02",
+        userCode: "",
       },
       message: "",
+      clickCount: 0, // 클릭 횟수를 저장할 변수
     };
   },
   // TODO: 함수 정의
@@ -238,6 +271,9 @@ export default {
         this.message = "에러 : " + e;
         console.log(e);
       }
+    },
+    incrementClickCount() {
+      this.clickCount++;
     },
   },
   computed: {

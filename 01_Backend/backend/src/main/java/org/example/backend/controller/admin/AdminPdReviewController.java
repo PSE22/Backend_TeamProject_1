@@ -31,23 +31,18 @@ public class AdminPdReviewController {
             @RequestParam(defaultValue = "10") int size
     ) {
         try{
-//            매개변수(page, size) 페이징 변수에 저장
-//             page : 현재페이지번호, size : 1페이지당개수
             Pageable pageable = PageRequest.of(page, size);
 
 //            전체 조회 서비스 함수 실행
             Page<AdminPdReview> pageList
                     = adminPdReviewService.findAllByAdminReviewTitleContaining(reviewTitle,pageable);
 
-//            vue 로 json 데이터를 전송 : jsp (model == Map(키,값))
             Map<String, Object> response = new HashMap<>();
             response.put("adminPdReview", pageList.getContent());    // 상품리뷰배열
             response.put("currentPage", pageList.getNumber());       // 현재페이지 번호(x)
             response.put("totalItems", pageList.getTotalElements()); // 전체데이터개수
             response.put("totalPages", pageList.getTotalPages());    // 전체페이지수(x)
 
-//            TODO: 1) pageList 값이 없으면 : DB 테이블 없음 => NO_CONTENT(203)
-//                  2) pageList 값이 있으면 : 성공 => OK(200)
             if(pageList.isEmpty() == true) {
 //                1) pageList 값이 없으면 : DB 테이블 없음 => NO_CONTENT(203)
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -56,8 +51,6 @@ public class AdminPdReviewController {
             }
 
         } catch (Exception e) {
-//            TODO: INTERNAL_SERVER_ERROR(500) : 벡엔드 서버 에러
-//               아래 코드는 프론트로(웹브라우저) 신호를(500) 보냄
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -90,16 +83,13 @@ public class AdminPdReviewController {
     public ResponseEntity<Object> create(
             @RequestBody AdminPdReview adminPdReview
     ) {
-        log.debug("1");
         try {
 //            DB 서비스 저장 함수 실행
             AdminPdReview adminPdReview2 = adminPdReviewService.save(adminPdReview);
 
-//            성공(OK) 메세지 + 저장된객체(dept2)
             return new ResponseEntity<>(adminPdReview2, HttpStatus.OK);
 
         } catch (Exception e) {
-            log.debug("에러 : " + e.getMessage());
 //            500 전송
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -112,7 +102,7 @@ public class AdminPdReviewController {
             @RequestBody AdminPdReview adminPdReview
     ) {
         try {
-            AdminPdReview adminPdReview2 = adminPdReviewService.save(adminPdReview);  // 수정
+            AdminPdReview adminPdReview2 = adminPdReviewService.save(adminPdReview);
 
             return new ResponseEntity<>(adminPdReview2, HttpStatus.OK);
         } catch (Exception e) {

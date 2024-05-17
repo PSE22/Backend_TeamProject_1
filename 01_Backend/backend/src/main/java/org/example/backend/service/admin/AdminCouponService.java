@@ -15,7 +15,7 @@ public class AdminCouponService {
     @Autowired
     AdminCouponRepository adminCouponRepository;
 
-    //    TODO: 전체조회(read)r
+    //    TODO: 전체조회(read)
     public List<AdminCoupon> findAll() {
         List<AdminCoupon> list = adminCouponRepository.findAll();
         return list;
@@ -24,7 +24,6 @@ public class AdminCouponService {
     //    페이징 처리
     public Page<AdminCoupon> findAllByAdminCouponNameContaining(String cpName,
                                                               Pageable pageable) {
-        //    DB like 검색 함수 실행 : 페이징 처리
         Page<AdminCoupon> page
                 = adminCouponRepository
                 .findAllByAdminCouponNameContaining(cpName, pageable);
@@ -39,7 +38,7 @@ public class AdminCouponService {
         return optionalAdminCoupon;
     }
 
-    //    TODO: 등록(insert)c,수정(update)u
+    //    TODO: 등록(insert),수정(update)
     public AdminCoupon save(AdminCoupon adminCoupon) {
         //    JPA 저장 함수 실행 : return 값 : 저장된 객체
         AdminCoupon adminCoupon2 = adminCouponRepository.save(adminCoupon);
@@ -47,7 +46,7 @@ public class AdminCouponService {
         return adminCoupon2;
     }
 
-    //    TODO: 삭제(delete)d
+    //    TODO: 삭제(delete)
     public boolean removeById(Long cpId) {
         if (adminCouponRepository.existsById(cpId) == true) {
             adminCouponRepository.deleteById(cpId);
