@@ -16,5 +16,15 @@ class EventService {
     getEventImage(eventId) {
         return http.get(`/shop/eventImg/${eventId}`);
     }
+
+    // 이벤트 등록
+    create(data) {
+        return http.post("/shop/event", data);
+    }
+
+    // 이벤트 삭제
+    remove(eventId) {
+        return http.delete(`/shop/event/deletion/${eventId}`);
+    }
 }
 export default new EventService();

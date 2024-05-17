@@ -1,6 +1,7 @@
 package org.example.backend.service.shop;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.example.backend.model.dto.shop.ICartDto;
 import org.example.backend.model.dto.shop.IPointDto;
 import org.example.backend.model.dto.shop.IUserCouponDto;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +35,7 @@ import java.util.Optional;
  * -----------------------------------------------------------
  * 2024-05-01         SAMSUNG          최초 생성
  */
+@Slf4j
 @Service
 public class OrderService {
     @Autowired
@@ -77,20 +80,22 @@ public class OrderService {
 
         // 3) 자식 테이블 저장 (주문 상세 테이블)
         //  트랜잭션(transaction) : CUD 작업에 대해 여러 개가 있을 경우 중간에 에러가 발생하면 모두 롤백함
+        List<OrderDetail> orderDetails = new ArrayList<>();
         for (int i = 0; i < orderDto.getOrderDetailList().size(); i++) {
             // 자식 테이블 insert : 기본키(부모쪽 insert 할 때 시퀀스로 생성되어 있음)
             // 생성된 주문 번호 -> 주문 상세 객체에 저장
             OrderDetail tmpOrderDetail = orderDto.getOrderDetailList().get(i);
             tmpOrderDetail.setOrderId(order2.getOrderId());
-            // DB 저장
-            orderDetailRepository.save(tmpOrderDetail);
+            orderDetails.add(tmpOrderDetail);
         }
+        // DB 저장
+        orderDetailRepository.saveAll(orderDetails);
+
         // 태완님 코드 (주문통계) 호출
         // orderStatsService.updateStatsOnOrderCreation();
 
         return order2;  // 저장된 주문 객체
     }
-
 
     // 사용한 쿠폰의 상태 'N' 으로 변경
     public void updateCouponStatus(Long cpId, String userId) {
