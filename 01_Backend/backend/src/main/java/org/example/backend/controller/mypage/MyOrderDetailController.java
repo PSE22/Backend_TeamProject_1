@@ -3,6 +3,7 @@ package org.example.backend.controller.mypage;
 import lombok.extern.slf4j.Slf4j;
 import org.example.backend.model.dto.mypage.IMyOrderDetailDto;
 import org.example.backend.model.dto.mypage.OrderCancelDto;
+import org.example.backend.model.dto.mypage.OrderRefundDto;
 import org.example.backend.model.entity.Order;
 import org.example.backend.model.entity.OrderCancel;
 import org.example.backend.model.entity.OrderDetail;
@@ -10,7 +11,9 @@ import org.example.backend.model.entity.Refund;
 import org.example.backend.service.CmCodeService;
 import org.example.backend.service.mypage.MyOrderCancelService;
 import org.example.backend.service.mypage.MyOrderDetailService;
+import org.example.backend.service.mypage.MyOrderRefundService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +48,8 @@ public class MyOrderDetailController {
     @Autowired
     MyOrderCancelService myOrderCancelService;
 
+    @Autowired
+    MyOrderRefundService myOrderRefundService;
 
     //    TODO: 배송지
 //    조회(select) -> get 방식 -> @GetMapping
@@ -130,26 +135,6 @@ public class MyOrderDetailController {
         }
     }
 
-    //    TODO: 저장 함수
-//    1) 저장페이지 열기 함수(x) => 뷰 자체 디자인 실행
-//    2) 저장버튼(뷰) 클릭 시 실행될 함수
-    @PostMapping("/order-cancel")
-    public ResponseEntity<Object> create(
-//            @ModelAttribute 유사, 객체 전달받는 어노테이션
-            @RequestBody OrderCancelDto orderCancelDto
-    ) {
-        try{
-//            DB 서비스 저장함수 실행
-             myOrderCancelService.insert(orderCancelDto);
-
-//            성공(OK) 메세지 + 저장된객체(dept2)
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-//            500 전송
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     //    TODO: 주문 상세 조회
 //    조회(select) -> get 방식 -> GetMapping
     @GetMapping("/order-orderId/{orderId}")
@@ -170,6 +155,42 @@ public class MyOrderDetailController {
         } catch (Exception e) {
             log.debug("에러:"+e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //    TODO: 주문 취소 저장 함수
+    @PostMapping("/order-cancel")
+    public ResponseEntity<Object> create(@RequestBody OrderCancelDto orderCancelDto) {
+        try {
+            log.debug("데이터 : " + orderCancelDto);
+            myOrderCancelService.insert(orderCancelDto);    // 취소 테이블 저장
+            myOrderCancelService.removeById(orderCancelDto.getOrderId());   // 주문 삭제, 코드 변경
+            return ResponseEntity.ok().build();
+        } catch (DataAccessException e) {
+            log.debug("Database error while processing order cancellation: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Database error: " + e.getMessage());
+        } catch (Exception e) {
+            log.debug("An error occurred while processing order cancellation: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+        }
+    }
+
+
+    //    TODO: 환불신청 저장
+    @PostMapping("/order-refund")
+    public ResponseEntity<?> createRefund(@RequestBody OrderRefundDto orderRefundDto) {
+        try {
+            log.debug("데이터 : " + orderRefundDto);
+            myOrderRefundService.insertRefund(orderRefundDto);
+            myOrderCancelService.removeById(orderRefundDto.getOrderId());
+
+            return ResponseEntity.ok().build();
+        } catch (DataAccessException e) {
+            log.debug("Database error while processing order cancellation: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Database error: " + e.getMessage());
+        } catch (Exception e) {
+            log.debug("An error occurred while processing order cancellation: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 }

@@ -80,8 +80,7 @@
                 </div>
               </div>
             </td>
-            <td class="col-1 text-center" v-if="data.pdQnaSecret==='Y'">🫣</td>
-            <td class="col-1 text-center" v-else>😄</td>
+            <td class="col-1 text-center">{{ data.pdQnaSecret }}</td>
             <td class="col-2 text-center">{{ data.pqAddDate }}</td>
             <td class="col-2 text-center">{{ data.pqrAddDate }}</td>
             <td class="col-2 text-center" v-if="data.pdQnaReplyContent">답변 완료</td>
