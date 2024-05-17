@@ -9,10 +9,7 @@ import org.example.backend.model.entity.*;
 import org.example.backend.repository.UserRepository;
 import org.example.backend.repository.order.OrderDetailRepository;
 import org.example.backend.repository.order.OrderRepository;
-import org.example.backend.repository.shop.CartRepository;
-import org.example.backend.repository.shop.PointRepository;
-import org.example.backend.repository.shop.ShipAddressRepository;
-import org.example.backend.repository.shop.UserCouponRepository;
+import org.example.backend.repository.shop.*;
 import org.example.backend.service.admin.OrderStatsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +48,9 @@ public class OrderService {
     PointRepository pointRepository;
 
     @Autowired
+    UsePointRepository usePointRepository;
+
+    @Autowired
     OrderRepository orderRepository;
 
     @Autowired
@@ -62,14 +62,9 @@ public class OrderService {
     @Autowired
     OrderStatsService orderStatsService;
 
-    // DTO 변환
-    ModelMapper modelMapper = new ModelMapper();
+    ModelMapper modelMapper = new ModelMapper();    // DTO 변환
 
-    /**
-     * 주문 정보 저장
-     * @param orderDto
-     * @return
-     */
+    // 주문 정보 저장
     @Transactional
     public Order insert(OrderDto orderDto) {
         // insert 할 때는 DTO -> Entity 형태로 변환해서 insert 해야 함
@@ -91,74 +86,54 @@ public class OrderService {
             orderDetailRepository.save(tmpOrderDetail);
         }
         // 태완님 코드 (주문통계) 호출
-//        orderStatsService.updateStatsOnOrderCreation();
+        // orderStatsService.updateStatsOnOrderCreation();
 
         return order2;  // 저장된 주문 객체
     }
 
 
-    // 사용쿠폰 STATUS 수정
-//    public UserCoupon save(UserCoupon userCoupon) {
-//        UserCoupon userCoupon2 = userCouponRepository.updateStatus(userCoupon.getUserId(), userCoupon.getCpId());
-//
-//        return userCoupon2;
-//    }
+    // 사용한 쿠폰의 상태 'N' 으로 변경
+    public void updateCouponStatus(Long cpId, String userId) {
+        userCouponRepository.updateCouponStatus(cpId, userId);
+    }
 
-    /**
-     * 주문자(User) 정보 상세 조회
-     * @param userId
-     * @return
-     */
+    // 주문자(User) 정보 상세 조회
     public Optional<User> findById(String userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         return optionalUser;
     }
 
-    /**
-     * 배송지 정보 상세 조회
-     * @param userId
-     * @return
-     */
+    // 배송지 정보 상세 조회
     public Optional<ShipAddress> findByUserId (String userId) {
         Optional<ShipAddress> optionalShipAddress = shipAddressRepository.findByUserId(userId);
         return optionalShipAddress;
     }
 
-    /**
-     * 쿠폰 정보 전체 조회
-     * @param userId
-     * @return
-     */
+    // 쿠폰 정보 전체 조회
     public List<IUserCouponDto> findAllByUserCoupon(String userId) {
         List<IUserCouponDto> listIUserCouponDto = userCouponRepository.findAllByUserCoupon(userId);
         return listIUserCouponDto;
     }
 
-    /**
-     * 포인트 잔액 상세 조회
-     * @param userId
-     * @return
-     */
+    // 포인트 잔액 상세 조회
     public Optional<IPointDto> findByResultPoint(String userId) {
         Optional<IPointDto> optionalPoint = pointRepository.findByResultPoint(userId);
         return optionalPoint;
     }
 
-    /**
-     * 장바구니 조회
-     * @param userId
-     * @return
-     */
+    // 사용 포인트 저장 (insert)
+    public UsePoint save(UsePoint usePoint) {
+        UsePoint usePoint2 = usePointRepository.save(usePoint);
+        return usePoint2;
+    }
+
+    // 장바구니 조회
     public List<ICartDto> findByCartUserId(String userId) {
         List<ICartDto> list = cartRepository.findByUserId(userId);
         return list;
     }
 
-    /**
-     * 장바구니 삭제
-     * @param cartId
-     * @return
-     */
+    // 주문 후 장바구니 삭제
     public boolean removeByCartId(Long cartId) {
         if(cartRepository.existsById(cartId)) {
             cartRepository.deleteById(cartId);

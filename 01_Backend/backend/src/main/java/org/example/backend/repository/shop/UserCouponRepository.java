@@ -1,9 +1,11 @@
 package org.example.backend.repository.shop;
 
+import jakarta.transaction.Transactional;
 import org.example.backend.model.common.CpIdUserIdPk;
 import org.example.backend.model.dto.shop.IUserCouponDto;
 import org.example.backend.model.entity.UserCoupon;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -38,9 +40,11 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, CpIdUser
             "WHERE UC.CP_ID = C.CP_ID AND UC.STATUS = 'Y' AND UC.USER_ID = :userId ", nativeQuery = true)
     List<IUserCouponDto> findAllByUserCoupon(@Param("userId") String userId);
 
-//    @Query(value = "UPDATE TB_USER_COUPON\n" +
-//            "SET STATUS = 'N'\n" +
-//            "WHERE CP_ID = :cpId\n" +
-//            "AND USER_ID = :userId", nativeQuery = true)
-//    UserCoupon updateStatus(@Param("userId")String userId, @Param("cpId")Long cpId);
+    // 사용한 쿠폰의 상태 'N' 으로 변경
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE TB_USER_COUPON\n" +
+            "SET STATUS = 'N'\n" +
+            "WHERE CP_ID = :cpId AND USER_ID = :userId AND STATUS = 'Y'", nativeQuery = true)
+    void updateCouponStatus(@Param("cpId") Long cpId, @Param("userId")String userId);
 }
