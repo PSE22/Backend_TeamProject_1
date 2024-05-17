@@ -40,6 +40,6 @@ public class Refund extends BaseTimeEntity {
     private Long opId;                  // 옵션 ID (PK)
     private Integer refundPrice;        // 환불금액
     private String refundCode;          // 주문상태코드
-    private Integer refundReason;       // 환불사유
-    private Integer refundDenyReason;       // 환불철회사유
+    private String refundReason;       // 환불사유
+    private String refundDenyReason;       // 환불철회사유
 }

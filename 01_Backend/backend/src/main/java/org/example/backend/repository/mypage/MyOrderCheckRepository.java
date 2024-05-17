@@ -40,7 +40,7 @@ public interface MyOrderCheckRepository extends JpaRepository<OrderDetail, Order
             "JOIN TB_OPTION opt ON od.OP_ID = opt.OP_ID " +
             "JOIN TB_PRODUCT pd ON opt.PD_ID = pd.PD_ID " +
             "JOIN TB_CM_CODE cm ON o.ORDER_CODE = cm.CM_CD " +
-            "WHERE o.STATUS = 'Y' AND o.USER_ID = :userId " +
+            "WHERE o.USER_ID = :userId " +
             "AND o.ADD_DATE BETWEEN :startDate AND :endDate " +
             "ORDER BY o.ADD_DATE DESC", nativeQuery = true)
     List<OrderCheckDto> findOrdersByDateRange(@Param("userId") String userId,
@@ -49,8 +49,7 @@ public interface MyOrderCheckRepository extends JpaRepository<OrderDetail, Order
 
 //    주문 카운트
     @Query(value = "SELECT count(*) FROM TB_ORDER o\n" +
-            "WHERE o.STATUS = 'Y'\n" +
-            "AND o.USER_ID = :userId\n" +
+            "WHERE o.USER_ID = :userId\n" +
             "ORDER BY o.ADD_DATE DESC",
             nativeQuery = true)
     Integer orderCount (@Param("userId") String userId);
