@@ -51,7 +51,7 @@
 
 /* navbar #2 : 카테고리 리스트 */
 #category-tab ul {
-    background-color: green;
+    background-color: RGB(255, 204, 153);
     padding: 0;
     position: relative;
     list-style: none;
