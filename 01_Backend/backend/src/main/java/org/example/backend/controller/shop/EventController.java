@@ -1,18 +1,17 @@
 package org.example.backend.controller.shop;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.backend.model.dto.shop.EventDto;
 import org.example.backend.model.dto.shop.IEventDto;
 import org.example.backend.model.entity.Event;
 import org.example.backend.model.entity.EventImg;
+import org.example.backend.model.entity.PdQna;
 import org.example.backend.service.shop.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -83,6 +82,34 @@ public class EventController {
             } else {
                 // 조회 성공
                 return new ResponseEntity<>(list, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // 이벤트 등록
+    @PostMapping("/event")
+    public ResponseEntity<Object> create(@RequestBody EventDto eventDto) {
+        try {
+            Event event2 = eventService.save(eventDto);
+            return new ResponseEntity<>(event2, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // 이벤트 삭제
+    @DeleteMapping("/event/deletion/{eventId}")
+    public ResponseEntity<Object> delete(@PathVariable Long eventId) {
+        try {
+            boolean success = eventService.removeById(eventId);
+            if(success == true) {
+                // 삭제 성공
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                // 삭제 실패 (삭제할 데이터 없음)
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

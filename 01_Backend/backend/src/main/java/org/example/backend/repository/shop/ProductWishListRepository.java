@@ -24,8 +24,8 @@ import org.springframework.stereotype.Repository;
 public interface ProductWishListRepository extends JpaRepository<Wishlist, PdIdUserIdPk> {
     @Query(value = "SELECT count(*)\n" +
             "FROM TB_WISHLIST\n" +
-            "WHERE PD_ID LIKE '%' || :pdId || '%'" +
-            "AND USER_ID LIKE '%' || :userId || '%'"
+            "WHERE PD_ID = :pdId\n" +
+            "AND USER_ID = :userId"
             , nativeQuery = true)
     Integer findBypPdIdAndUserId(@Param("pdId") Long pdId, @Param("userId") String userId);
 }
