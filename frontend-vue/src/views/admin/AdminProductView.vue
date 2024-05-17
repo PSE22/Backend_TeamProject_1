@@ -109,99 +109,6 @@
                   </div>
                 </div>
               </form>
-
-              <!-- Topbar Navbar -->
-              <ul class="navbar-nav ml-auto">
-                <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                <li class="nav-item dropdown no-arrow d-sm-none">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    id="searchDropdown"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <i class="fas fa-search fa-fw"></i>
-                  </a>
-                  <!-- Dropdown - Messages -->
-                  <div
-                    class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                    aria-labelledby="searchDropdown"
-                  >
-                    <form class="form-inline mr-auto w-100 navbar-search">
-                      <div class="input-group">
-                        <input
-                          type="text"
-                          class="form-control bg-light border-0 small"
-                          placeholder="Search for..."
-                          aria-label="Search"
-                          aria-describedby="basic-addon2"
-                        />
-                        <div class="input-group-append">
-                          <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search fa-sm"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </li>
-
-                <div class="topbar-divider d-none d-sm-block"></div>
-
-                <!-- 우측 상단 유저 -->
-                <li class="nav-item dropdown no-arrow">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    id="userDropdown"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"
-                      >관리자 1</span
-                    >
-                    <img
-                      class="img-profile rounded-circle"
-                      src="img/undraw_profile.svg"
-                    />
-                  </a>
-                  <!-- 드롭다운 우측 상단 유저 -->
-                  <div
-                    class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                    aria-labelledby="userDropdown"
-                  >
-                    <a class="dropdown-item" href="#">
-                      <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                      Profile
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                      Settings
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                      Activity Log
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a
-                      class="dropdown-item"
-                      href="#"
-                      data-toggle="modal"
-                      data-target="#logoutModal"
-                    >
-                      <i
-                        class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
-                      ></i>
-                      로그아웃
-                    </a>
-                  </div>
-                </li>
-              </ul>
             </nav>
             <!-- 상단 메뉴 끝 -->
 
@@ -455,6 +362,245 @@
               </div>
               <!-- /.container-fluid -->
             </div>
+
+            <!-- TODO: 상품 상세정보 이미지 시작 -->
+            <!-- 좌측중단 검색 -->
+              <form
+                class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
+              >
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control bg-light border-0 small"
+                    placeholder="상품이미지 검색"
+                    aria-label="Search"
+                    aria-describedby="basic-addon2"
+                    v-model="searchPdid"
+                  />
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-primary"
+                      type="button"
+                      @click="retrieveAdminProductImage"
+                    >
+                      <i class="fas fa-search fa-sm"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            <div class="container-fluid">
+              <!-- Page Heading -->
+              <h1 class="h3 mb-2 mt-3 text-gray-800">상품이미지관리</h1>
+              <br />
+
+              <!-- DataTales Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">상품이미지관리</h6>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <div v-if="!submitted">
+                      <!-- TODO: 등록 시작 -->
+                      <button
+                        type="button"
+                        class="btn btn-primary mr-3 mb-3"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#exampleModal-2'"
+                      >
+                        등록
+                      </button>
+
+                      <!-- 등록 모달 -->
+                      <div class="modal fade" id="exampleModal-2" tabindex="-1">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1
+                                class="modal-title fs-5"
+                                id="exampleModalLabel"
+                              >
+                                옵션 등록
+                              </h1>
+                              <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                              ></button>
+                            </div>
+                            <!-- 등록 모달 내 목록 -->
+                            <div class="modal-body">
+                              <!-- 회원아이디 -->
+                              <h3 class="fs-5 mt-1">회원아이디</h3>
+                              <label for="text" class="form-label"></label>
+                              <input
+                                disabled
+                                type="text"
+                                class="form-control mb-4"
+                                name="text"
+                                v-model="adminProductImageData.userId"
+                              />
+                              <!-- 상품번호 -->
+                              <h3 class="fs-5 mt-1">상품번호</h3>
+                              <label for="text" class="form-label"></label>
+                              <input
+                                type="text"
+                                class="form-control mb-4"
+                                placeholder="상품번호를 입력하세요"
+                                name="text"
+                                v-model="adminProductImageData.pdId"
+                              />
+                              <!-- 이미지 URL -->
+                              <h3 class="fs-5 mt-1">이미지 URL</h3>
+                              <label for="text" class="form-label"></label>
+                              <input
+                                type="text"
+                                class="form-control mb-4"
+                                placeholder="이미지 URL을 입력하세요"
+                                name="text"
+                                v-model="adminProductImageData.pdImgUrl"
+                              />
+                              <!-- 상태 확인 시작 -->
+                              <h3 class="fs-5 mt-3">상태</h3>
+                              <div class="form-check form-check-inline mt-3">
+                                <label
+                                  for="form-check-label"
+                                  class="inlineRadio1"
+                                ></label>
+                                <input
+                                  type="radio"
+                                  class="form-check-input mb-4"
+                                  name="Y"
+                                  value="활성"
+                                  v-model="adminProductImageData.status"
+                                />
+                                <label
+                                  class="form-check-label"
+                                  for="inlineRadio1"
+                                  >활성</label
+                                >
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <label
+                                  for="form-check-label"
+                                  class="inlineRadio2"
+                                ></label>
+                                <input
+                                  type="radio"
+                                  class="form-check-input mb-4"
+                                  name="N"
+                                  value="비활성"
+                                  v-model="adminProductImageData.status"
+                                />
+                                <label
+                                  class="form-check-label"
+                                  for="inlineRadio2"
+                                  >비활성</label
+                                >
+                              </div>
+                              <!-- 상태 확인 끝 -->
+                            </div>
+                            <div class="modal-footer">
+                              <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                              >
+                                닫기
+                              </button>
+                              <button
+                                type="submit"
+                                class="btn btn-primary"
+                                @click="saveAdminProductImageData"
+                              >
+                                등록
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- 등록 모달 끝 -->
+
+                      <!-- TODO: 등록 끝 -->
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <table
+                            class="table table-bordered dataTable"
+                            width="100%"
+                            cellspacing="0"
+                            role="grid"
+                            aria-describedby="dataTable_info"
+                            style="width: 100%"
+                          >
+                            <thead>
+                              <tr role="row">
+                                <th>액션</th>
+                                <th>상품이미지번호</th>
+                                <th>상품번호</th>
+                                <th>이미지 URL</th>
+                                <th>저장일</th>
+                                <th>수정일</th>
+                                <th>삭제일</th>
+                                <th>상태</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr
+                                v-for="(data, index) in productImage"
+                                :key="index"
+                              >
+                              <td>
+                                  <router-link
+                                    :to="'/admin-product-image-edit/' + data.pdImgId"
+                                  >
+                                    <span class="badge text-bg-secondary"
+                                      >수정</span
+                                    >
+                                  </router-link>
+                                </td>
+                                <td>{{ data.pdImgId }}</td>
+                                <td>{{ data.pdId }}</td>
+                                <td>{{ data.pdImgUrl }}</td>
+                                <td>{{ data.addDate }}</td>
+                                <td>{{ data.modDate }}</td>
+                                <td>{{ data.delDate }}</td>
+                                <td>{{ data.status }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- TODO: 페이지 시작 -->
+                    <div class="row">
+                      <div class="col-sm-12 col-md-5">
+                        <div
+                          class="dataTables_info"
+                          role="status"
+                          aria-live="polite"
+                        >
+                          검색결과 총 {{ productImageCount }} 건
+                        </div>
+                      </div>
+                      <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_Simple_numbers">
+                          <b-pagination
+                            v-model="productImagePage"
+                            :total-rows="productImageCount"
+                            :per-page="productImagePageSize"
+                            @click="retrieveAdminProductImage"
+                          ></b-pagination>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- TODO: 페이지 끝 -->
+                  </div>
+                </div>
+              </div>
+              <!-- /.container-fluid -->
+            </div>
+            <!-- TODO: 상품 상세정보 이미지 끝 -->
+
             <!-- TODO: 상품옵션 시작 -->
             <!-- 좌측중단 검색 -->
               <form
@@ -675,8 +821,6 @@
                                 :key="index"
                               >
                               <td>
-                                  <!-- TODO: 링크 : a 태그 (전체 새로고침(성능저하) -> 페이지전환) -->
-                                  <!-- TODO: 뷰에서제공 링크 : router-link (부분 새로고침: 성능향상) -->
                                   <router-link
                                     :to="'/admin-option-edit/' + data.opId"
                                   >
@@ -735,8 +879,8 @@
           <!-- TODO: Footer 부분   -->
           <footer class="sticky-footer bg-white">
             <div class="container my-auto">
-              <div class="copyright text-center my-auto">
-                <span>Copyright &copy; Your Website 2021</span>
+              <div class="logo text-center my-auto">
+                <span>서울쥐</span>
               </div>
             </div>
           </footer>
@@ -755,6 +899,7 @@
 </template>
 <script>
 import AdminProuctService from "@/services/admin/AdminProductService";
+import AdminProductImageService from "@/services/admin/AdminProductImageService";
 import AdminOptionService from "@/services/admin/AdminOptionService";
 export default {
   data() {
@@ -763,6 +908,9 @@ export default {
       adminProductData: {
         userId: this.$store.state.user.userId, // 관리자 ID
       },
+      adminProductImageData: {
+        userId: this.$store.state.user.userId,
+      },
       adminOptionData: {
         userId: this.$store.state.user.userId,
       },
@@ -770,17 +918,21 @@ export default {
 
       // TODO: 백엔드 연결
       adminProduct: [], // spring 에서 전송
-      adminOption: [], // spring 에서 전송
+      productImage: [],
+      adminOption: [],
       searchPdName: "", // 상품명
+      searchPdid: "", // 상품번호
       searchOpName: "", // 옵션명
 
-      // 공통 속성(현재페이지, 전체데이터개수,1페이지당개수)
       productPage: 1, // 현재페이지번호
-      optionPage: 1, // 현재페이지번호
+      productImagePage: 1,
+      optionPage: 1,
       productCount: 0, // 전체데이터개수
-      optionCount: 0, // 전체데이터개수
+      productImageCount: 0,
+      optionCount: 0,
       productPageSize: 10, // 1페이지당개수(select태그)
-      optionPageSize: 10, // 1페이지당개수(select태그)
+      productImagePageSize: 10,
+      optionPageSize: 10,
 
       pageSizes: [10, 25, 50], //1페이지당개수 배열(select태그-option)
     };
@@ -816,17 +968,45 @@ export default {
     },
     // 저장페이지 열기 함수 : 화면 초기화
     newAdminProductData() {
-      // 뷰/리액트 : 변수값을 조작하면 화면이 자동 갱신됨
       this.submitted = false;
       this.adminProductData = {};
     },
     // TODO: 상품 등록 끝
+    // TODO: 상품 이미지 등록 시작
+    async saveAdminProductImageData() {
+      try {
+        let data = {
+          // 상품 이미지 관리
+          pdImgId: this.adminProductImageData.pdImgId,
+          pdId: this.adminProductImageData.pdId,
+          pdImgUrl: this.adminProductImageData.pdImgUrl,
+          addDate: this.adminProductImageData.addDate,
+          modDate: this.adminProductImageData.modDate,
+          delDate: this.adminProductImageData.delDate,
+          status: this.adminProductImageData.status,
+        };
+        console.log(data);
+        // TODO: 벡엔드로 객체 추가 요청
+        let response = await AdminProductImageService.create(data);
+        // TODO: 콘솔에 결과 출력
+        console.log(response);
+        this.submitted = true;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    newAdminProductImageData() {
+      this.submitted = false;
+      this.adminProductImageData = {};
+    },
+    // TODO: 상품 이미지 등록 끝
     // TODO: 상품 옵션 등록 시작
     async saveAdminOptionData() {
+      alert("확인");
       try {
         let optionData = {
           opId: this.adminOptionData.opId,
-          pdId: this.adminOptionData.pdId, // 상품 ID
+          pdId: this.adminOptionData.pdId,
           opName: this.adminOptionData.opName,
           opPrice: this.adminOptionData.opPrice,
           opStock: this.adminOptionData.opStock,
@@ -835,13 +1015,12 @@ export default {
         console.log("옵션저장",optionData);
         let response = await AdminOptionService.create(optionData);
         console.log(response);
+        this.$router.push("/admin-product");
       } catch (e) {
         console.log(e);
       }
     },
-    // 저장페이지 열기 함수 : 화면 초기화
     newAdminOptionData() {
-      // 뷰/리액트 : 변수값을 조작하면 화면이 자동 갱신됨
       this.submitted = false;
       this.adminOptionData = {};
     },
@@ -849,14 +1028,18 @@ export default {
     // TODO: 백엔드 연결
     pageNoChange(value) {
       this.productPage = value; // 1) 현재페이지 변경
-      this.optionPage = value; // 1) 현재페이지 변경
+      this.productImagePage = value;
+      this.optionPage = value;
       this.retrieveAdminProduct(); // 2) 재조회 요청
+      this.retrieveAdminProductImage();
       this.retrieveAdminOption();
     },
     pageSizeChange() {
       this.productPage = 1; // 2) 현재 페이지번호 초기화(1)
-      this.optionPage = 1; // 2) 현재 페이지번호 초기화(1)
+      this.productImagePage = 1;
+      this.optionPage = 1;
       this.retrieveAdminProduct(); // 3) 재조회 요청
+      this.retrieveAdminProductImage();
       this.retrieveAdminOption();
     },
     async retrieveAdminProduct() {
@@ -867,9 +1050,25 @@ export default {
           this.productPage - 1, // 현재페이지번호-1
           this.productPageSize // 1페이지당개수(size)
         );
-        const { adminProduct, totalItems } = response.data; // 쿠폰배열(벡엔드 전송)
-        this.adminProduct = adminProduct; // 쿠폰배열(벡엔드 전송)
+        const { adminProduct, totalItems } = response.data; // 배열(벡엔드 전송)
+        this.adminProduct = adminProduct; // 배열(벡엔드 전송)
         this.productCount = totalItems; // 전체페이지수(벡엔드 전송)
+        console.log("전체조회", response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async retrieveAdminProductImage() {
+      try {
+        console.log("상품이미지",this.productImagePageSize);
+        let response = await AdminProductImageService.getAll(
+          this.searchPdid,
+          this.productImagePage - 1,
+          this.productImagePageSize
+        );
+        const { productImage, totalItems } = response.data;
+        this.productImage = productImage;
+        this.productImageCount = totalItems;
         console.log("전체조회", response.data);
       } catch (e) {
         console.log(e);
@@ -878,13 +1077,13 @@ export default {
     async retrieveAdminOption() {
       try {
         let response = await AdminOptionService.getAll(
-          this.searchOpName, // 검색어
-          this.optionPage - 1, // 현재페이지번호-1
-          this.optionPageSize // 1페이지당개수(size)
+          this.searchOpName,
+          this.optionPage - 1,
+          this.optionPageSize
         );
-        const { adminOption, totalItems } = response.data; // 쿠폰배열(벡엔드 전송)
-        this.adminOption = adminOption; // 쿠폰배열(벡엔드 전송)
-        this.optionCount = totalItems; // 전체페이지수(벡엔드 전송)
+        const { adminOption, totalItems } = response.data;
+        this.adminOption = adminOption;
+        this.optionCount = totalItems;
         console.log("전체조회", response.data);
       } catch (e) {
         console.log(e);
@@ -895,6 +1094,7 @@ export default {
   },
   mounted() {
     this.retrieveAdminProduct(); // 전체 조회 함수 실행
+    this.retrieveAdminProductImage();
     this.retrieveAdminOption();
     // TODO: 백엔드 끝
   },

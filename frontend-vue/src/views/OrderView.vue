@@ -311,7 +311,7 @@ import OrderService from "@/services/shop/OrderService";
 export default {
   data() {
     return {
-      userId: this.$store.state.userId,
+      userId: this.$store.state.user.userId,
       orderList: [],            // 임시 장바구니 배열(로컬 저장소)
       selectCoupon: {},         // 사용할 쿠폰의 값을 담을 객체
       selectedAddr: 'option1',  // 배송지 선택 라디오 버튼 값 초기 설정
@@ -337,15 +337,15 @@ export default {
     };
   },
   methods: {
-    // 주문 함수 (주문 테이블 + 주문 상세 테이블 insert) : 결제 페이지로 이동
+    // 주문 정보 저장 (주문 테이블 + 주문 상세 테이블 insert)
     async goApproval() {
       // 1) 주문 상세 객체 정의
       let orderDetail = {
-        orderId: null,         // 주문번호 (PK) (최초 주문 번호는 null)
-        opId: 0,               // 옵션번호 (PK)
-        orderDetailCnt: 0,     // 수량
-        orderDetailPrice: 0,   // 금액
-        orderDetailCode: 0,    // 주문상태코드
+          orderId: null,         // 주문번호 (PK) (최초 주문 번호는 null)
+          opId: 0,               // 옵션번호 (PK)
+          orderDetailCnt: 0,     // 수량
+          orderDetailPrice: 0,   // 금액
+          orderDetailCode: 0,    // 주문상태코드
       };
 
       // 2) 주문 상세 배열에 객체 넣기 (반복문)
@@ -379,34 +379,45 @@ export default {
         for (const data of this.orderList) {
           this.deleteCart(data.cartId);
         }
+        // 쿠폰 삭제함수 실행
+        await this.updateUserCoupon();
+        // 사용포인트 저장함수 실행
+        await this.saveUsePoint();
+
         alert("주문이 완료되었습니다.");
         // 장바구니 페이지로 이동
         this.$router.push("/cart");
+
       } catch (e) {
         console.log(e);
       }
     },
 
     // 사용 포인트 테이블에 데이터 저장
-    // async saveUsePoint() {
-    //   try {
-    //     let data = {
-    //       spno: this.simpleProduct.spno,     // 상품 번호
-    //       cartCount: this.cartCount          // 장바구니 개수
-    //     }
+    async saveUsePoint() {
+      try {
+        let data = {
+          usePointPrice: this.tmpPoint
+        }
+        console.log("11: ", data);
+        let response = await OrderService.createUsePoint(data);
+        console.log("22: ", data);
+        console.log("사용 포인트 저장 : ", response.data);
 
-    //     // 공통 저장 서비스 함수 실행
-    //     let response = await SimpleCartService.create(data);
-    //     console.log(response.data);
-    //     // 장바구니 담기 성공 메세지 출력
-    //     this.message = "장바구니에 담기 완료❗"
+      } catch (e) {
+        console.log("사용 포인트 저장 실패 : ", e);
+      }
+    },
 
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // },
-
-    // 쿠폰함 status='N' 수정 (스프링에서?)
+    // 사용한 쿠폰의 상태 'N(비활성화)' 으로 수정
+    async updateUserCoupon() {
+      try {
+        let response = await OrderService.updateUserCoupon(this.selectCoupon.cpId, this.$store.state.user.userId);
+        console.log("사용 쿠폰 삭제 성공: ", response.data);
+      } catch (e) {
+        console.log("사용 쿠폰 삭제 실패", e);
+      }
+    },
 
     // 장바구니 정보 가져오기
     async getCart(userId) {
@@ -448,11 +459,11 @@ export default {
         // 장바구니의 물품별 금액(단가*개수)을 구해서 모든 상품별 총금액 구하기
         this.totalPrice = this.orderList
           .map((data) => (data.pdPrice + data.opPrice) * data.cartCount)   // 상품별 금액 배열
-          .reduce((acc, cur) => acc + cur);          // acc 는 반환값을 누적, cur 는 배열의 현재 요소를 가리킴
+          .reduce((acc, cur) => acc + cur, 0);          // acc 는 반환값을 누적, cur 는 배열의 현재 요소를 가리킴
         if (this.totalPrice < 60000) {
           this.totalPrice += 3000;   // 상품 총 금액이 6만원 미만이면 배송비(3000원) 추가
         }
-        console.log(this.totalPrice);
+        console.log("상품 금액 + 배송비 : ", this.totalPrice);
       } catch (e) {
         console.log(e);
       }
@@ -531,8 +542,20 @@ export default {
     async getUserCoupon(userId) {
       try {
         let response = await OrderService.getUserCoupon(userId);
-        this.coupon = response.data;
         console.log("회원의 보유 쿠폰 정보 : ", response.data);
+        // 주문한 상품에 사용가능한 쿠폰만 가져오기
+        for (const data of response.data) {
+          for (const data2 of this.orderList) {
+            if (data.pdId === data2.pdId) {
+              console.log("pdId 같음: ", data.pdId);
+              this.coupon.push(data);
+            } else {
+              console.log("pdId 다름(사용불가): ", data.pdId);
+            }
+          }
+        }
+        console.log("최종 사용 가능 쿠폰 정보 : ", this.coupon);
+
       } catch (e) {
         console.log(e);
       }

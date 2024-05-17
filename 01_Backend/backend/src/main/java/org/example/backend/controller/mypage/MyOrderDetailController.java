@@ -2,8 +2,13 @@ package org.example.backend.controller.mypage;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.backend.model.dto.mypage.IMyOrderDetailDto;
+import org.example.backend.model.dto.mypage.OrderCancelDto;
+import org.example.backend.model.entity.Order;
+import org.example.backend.model.entity.OrderCancel;
+import org.example.backend.model.entity.OrderDetail;
 import org.example.backend.model.entity.Refund;
 import org.example.backend.service.CmCodeService;
+import org.example.backend.service.mypage.MyOrderCancelService;
 import org.example.backend.service.mypage.MyOrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +41,10 @@ public class MyOrderDetailController {
 
     @Autowired
     CmCodeService cmCodeService;
+
+    @Autowired
+    MyOrderCancelService myOrderCancelService;
+
 
     //    TODO: 배송지
 //    조회(select) -> get 방식 -> @GetMapping
@@ -127,16 +136,39 @@ public class MyOrderDetailController {
     @PostMapping("/order-cancel")
     public ResponseEntity<Object> create(
 //            @ModelAttribute 유사, 객체 전달받는 어노테이션
-            @RequestBody Refund refund
+            @RequestBody OrderCancelDto orderCancelDto
     ) {
         try{
 //            DB 서비스 저장함수 실행
-            Refund refund2 = myOrderDetailService.save(refund);
+             myOrderCancelService.insert(orderCancelDto);
 
 //            성공(OK) 메세지 + 저장된객체(dept2)
-            return new ResponseEntity<>(refund2, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
 //            500 전송
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //    TODO: 주문 상세 조회
+//    조회(select) -> get 방식 -> GetMapping
+    @GetMapping("/order-orderId/{orderId}")
+    public ResponseEntity<Object> findById(
+            @PathVariable Long orderId
+    ) {
+        try {
+//            상세조회 서비스 실행
+            List<OrderDetail> orderDetailList
+                    = myOrderCancelService.findByOrderIdAndOpId(orderId);
+            if (orderDetailList.isEmpty() == true) {
+//                데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+//                조회 성공
+                return new ResponseEntity<>(orderDetailList, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            log.debug("에러:"+e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -1,7 +1,9 @@
 package org.example.backend.repository.order;
 
+import org.example.backend.model.common.OrderIdOpIdPk;
 import org.example.backend.model.entity.OrderCancel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * packageName : org.example.backend.repository
@@ -16,5 +18,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * -----------------------------------------------------------
  * 2024-04-25         kimtaewan          최초 생성
  */
-public interface OrderCancelRepository extends JpaRepository<OrderCancel, Long> {
+@Repository
+public interface OrderCancelRepository extends JpaRepository<OrderCancel, OrderIdOpIdPk> {
 }

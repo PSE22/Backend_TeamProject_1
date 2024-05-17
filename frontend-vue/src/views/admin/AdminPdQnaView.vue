@@ -106,99 +106,6 @@
                   </div>
                 </div>
               </form>
-
-              <!-- Topbar Navbar -->
-              <ul class="navbar-nav ml-auto">
-                <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                <li class="nav-item dropdown no-arrow d-sm-none">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    id="searchDropdown"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <i class="fas fa-search fa-fw"></i>
-                  </a>
-                  <!-- Dropdown - Messages -->
-                  <div
-                    class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                    aria-labelledby="searchDropdown"
-                  >
-                    <form class="form-inline mr-auto w-100 navbar-search">
-                      <div class="input-group">
-                        <input
-                          type="text"
-                          class="form-control bg-light border-0 small"
-                          placeholder="Search for..."
-                          aria-label="Search"
-                          aria-describedby="basic-addon2"
-                        />
-                        <div class="input-group-append">
-                          <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search fa-sm"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </li>
-
-                <div class="topbar-divider d-none d-sm-block"></div>
-
-                <!-- 우측 상단 유저 -->
-                <li class="nav-item dropdown no-arrow">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    id="userDropdown"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"
-                      >관리자 1</span
-                    >
-                    <img
-                      class="img-profile rounded-circle"
-                      src="img/undraw_profile.svg"
-                    />
-                  </a>
-                  <!-- 드롭다운 우측 상단 유저 -->
-                  <div
-                    class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                    aria-labelledby="userDropdown"
-                  >
-                    <a class="dropdown-item" href="#">
-                      <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                      Profile
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                      Settings
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                      Activity Log
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a
-                      class="dropdown-item"
-                      href="#"
-                      data-toggle="modal"
-                      data-target="#logoutModal"
-                    >
-                      <i
-                        class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
-                      ></i>
-                      로그아웃
-                    </a>
-                  </div>
-                </li>
-              </ul>
             </nav>
             <!-- 상단 메뉴 끝 -->
 
@@ -248,8 +155,6 @@
                                 :key="index"
                               >
                                 <td>
-                                  <!-- TODO: 링크 : a 태그 (전체 새로고침(성능저하) -> 페이지전환) -->
-                                  <!-- TODO: 뷰에서제공 링크 : router-link (부분 새로고침: 성능향상) -->
                                   <router-link
                                     :to="'/admin-pdqna-edit/' + data.pdQnaId"
                                   >
@@ -281,7 +186,7 @@
                         </div>
                       </div>
                     </div>
-                    <!-- TODO: 페이지 시작 / 페이지 네이션 백에서 해놓음 -->
+                    <!-- TODO: 페이지 시작 -->
                     <div class="row">
                       <div class="col-sm-12 col-md-5">
                         <div
@@ -377,8 +282,6 @@
                                 :key="index"
                               >
                                 <td>
-                                  <!-- TODO: 링크 : a 태그 (전체 새로고침(성능저하) -> 페이지전환) -->
-                                  <!-- TODO: 뷰에서제공 링크 : router-link (부분 새로고침: 성능향상) -->
                                   <router-link
                                     :to="'/admin-pdqna-reply-edit/' + data.pdQnaReplyId"
                                   >
@@ -400,7 +303,7 @@
                         </div>
                       </div>
                     </div>
-                    <!-- TODO: 페이지 시작 / 페이지 네이션 백에서 해놓음 -->
+                    <!-- TODO: 페이지 시작 -->
                     <div class="row">
                       <div class="col-sm-12 col-md-5">
                         <div
@@ -500,8 +403,6 @@
                                 :key="index"
                               >
                                 <td>
-                                  <!-- TODO: 링크 : a 태그 (전체 새로고침(성능저하) -> 페이지전환) -->
-                                  <!-- TODO: 뷰에서제공 링크 : router-link (부분 새로고침: 성능향상) -->
                                   <router-link
                                     :to="'/admin-pdqna-review-edit/' + data.reviewId"
                                   >
@@ -527,7 +428,7 @@
                         </div>
                       </div>
                     </div>
-                    <!-- TODO: 페이지 시작 / 페이지 네이션 백에서 해놓음 -->
+                    <!-- TODO: 페이지 시작 -->
                     <div class="row">
                       <div class="col-sm-12 col-md-5">
                         <div
@@ -561,8 +462,8 @@
           <!-- TODO: Footer 부분   -->
           <footer class="sticky-footer bg-white">
             <div class="container my-auto">
-              <div class="copyright text-center my-auto">
-                <span>Copyright &copy; Your Website 2021</span>
+              <div class="logo text-center my-auto">
+                <span>서울쥐</span>
               </div>
             </div>
           </footer>
@@ -589,33 +490,32 @@ export default {
       // TODO: 등록
       adminPdQnaData: {
         userId: this.$store.state.user.userId,
-      }, // 관리자 ID // 상품문의
+      }, // 상품문의
       adminPdQnaReplyData: {
         userId: this.$store.state.user.userId,
       }, // 답변관리
       adminPdReviewData: {
         userId: this.$store.state.user.userId,
       }, // 리뷰관리
-      submitted: false, // 저장버튼 클릭하면 true 바뀜
+      submitted: false,
 
       // TODO: 백엔드 연결
-      adminPdQna: [], // spring 에서 전송 // 상품문의
-      adminPdQnaReply: [], // spring 에서 전송 // 답변관리
-      adminPdReview: [], // spring 에서 전송 // 리뷰관리
+      adminPdQna: [], // 상품문의
+      adminPdQnaReply: [], // 답변관리
+      adminPdReview: [], // 리뷰관리
       searchPdQnaTitle: "", // 문의 내용
       searchPdQnaReplyContent: "", // 답변 내용
       searchReviewTitle: "", // 리뷰 제목
 
-      // 공통 속성(현재페이지, 전체데이터개수,1페이지당개수)
       pdQnaPage: 1, // 현재페이지번호
-      pdQnaReplyPage: 1, // 현재페이지번호
-      pdReviewPage: 1, // 현재페이지번호
+      pdQnaReplyPage: 1,
+      pdReviewPage: 1,
       pdQnaCount: 0, // 전체데이터개수
-      pdQnaReplyCount: 0, // 전체데이터개수
-      pdReviewCount: 0, // 전체데이터개수
+      pdQnaReplyCount: 0,
+      pdReviewCount: 0,
       pdQnaPageSize: 10, // 1페이지당개수(select태그)
-      pdQnaReplyPageSize: 10, // 1페이지당개수(select태그)
-      pdReviewPageSize: 10, // 1페이지당개수(select태그)
+      pdQnaReplyPageSize: 10,
+      pdReviewPageSize: 10,
 
       pageSizes: [10, 25, 50], //1페이지당개수 배열(select태그-option)
     };
@@ -624,7 +524,6 @@ export default {
     // TODO: 상품문의 등록 시작
     async saveAdminPdQnaData() {
       try {
-        // 임시 객체 변수
         let data = {
           pdQnaId: this.adminPdQnaData.pdQnaId,
           userId: this.adminPdQnaData.userId,
@@ -643,14 +542,12 @@ export default {
         let response = await AdminPdQnaService.create(data);
         // TODO: 콘솔에 결과 출력
         console.log(response);
-        this.submitted = true; // 저장유무변수=true 변경
+        this.submitted = true;
       } catch (e) {
         console.log(e);
       }
     },
-    // 저장페이지 열기 함수 : 화면 초기화
     newAdminPdQnaData() {
-      // 뷰/리액트 : 변수값을 조작하면 화면이 자동 갱신됨
       this.submitted = false;
       this.adminPdQnaData = {};
     },
@@ -670,9 +567,7 @@ export default {
         console.log(e);
       }
     },
-    // 저장페이지 열기 함수 : 화면 초기화
     newAdminPdQnaReplyData() {
-      // 뷰/리액트 : 변수값을 조작하면 화면이 자동 갱신됨
       this.submitted = false;
       this.adminPdQnaReplyData = {};
     },
@@ -696,9 +591,7 @@ export default {
         console.log(e);
       }
     },
-    // 저장페이지 열기 함수 : 화면 초기화
     newAdminPdReViewData() {
-      // 뷰/리액트 : 변수값을 조작하면 화면이 자동 갱신됨
       this.submitted = false;
       this.adminPdReViewData = {};
     },
@@ -706,30 +599,30 @@ export default {
     // TODO: 백엔드 연결
     pageNoChange(value) {
       this.pdQnaPage = value; // 1) 현재페이지 변경
-      this.pdQnaReplyPage = value; // 1) 현재페이지 변경
-      this.pdReviewPage = value; // 1) 현재페이지 변경
+      this.pdQnaReplyPage = value;
+      this.pdReviewPage = value;
       this.retrieveAdminPdQna(); // 2) 재조회 요청
-      this.retrieveAdminPdQnaReply(); // 3) 재조회 요청
-      this.retrieveAdminPdReview(); // 4) 재조회 요청
+      this.retrieveAdminPdQnaReply();
+      this.retrieveAdminPdReview();
     },
     pageSizeChange() {
       this.pdQnaPage = 1; // 1) 현재 페이지번호 초기화(1)
-      this.pdQnaReplyPage = 1; // 1) 현재 페이지번호 초기화(1)
-      this.pdReviewPage = 1; // 1) 현재 페이지번호 초기화(1)
-      this.retrieveAdminPdQna(); // 3) 재조회 요청
-      this.retrieveAdminPdQnaReply(); // 4) 재조회 요청
-      this.retrieveAdminPdReview(); // 5) 재조회 요청
+      this.pdQnaReplyPage = 1;
+      this.pdReviewPage = 1;
+      this.retrieveAdminPdQna(); // 2) 재조회 요청
+      this.retrieveAdminPdQnaReply();
+      this.retrieveAdminPdReview();
     },
     async retrieveAdminPdQna() {
       try {
         let response = await AdminPdQnaService.getAll(
-          this.searchPdQnaTitle, // 검색어
-          this.pdQnaPage - 1, // 현재페이지번호-1
-          this.pdQnaPageSize // 1페이지당개수(size)
+          this.searchPdQnaTitle,
+          this.pdQnaPage - 1,
+          this.pdQnaPageSize
         );
-        const { adminPdQna, totalItems } = response.data; // 쿠폰배열(벡엔드 전송)
-        this.adminPdQna = adminPdQna; // 쿠폰배열(벡엔드 전송)
-        this.pdQnaCount = totalItems; // 전체페이지수(벡엔드 전송)
+        const { adminPdQna, totalItems } = response.data;
+        this.adminPdQna = adminPdQna;
+        this.pdQnaCount = totalItems;
         console.log("전체조회", response.data);
       } catch (e) {
         console.log(e);
@@ -738,13 +631,13 @@ export default {
     async retrieveAdminPdQnaReply() {
       try {
         let response = await AdminPdQnaReplyService.getAll(
-          this.searchPdQnaReplyContent, // 검색어
-          this.pdQnaReplyPage - 1, // 현재페이지번호-1
-          this.pdQnaReplyPageSize // 1페이지당개수(size)
+          this.searchPdQnaReplyContent,
+          this.pdQnaReplyPage - 1,
+          this.pdQnaReplyPageSize
         );
-        const { adminPdQnaReply, totalItems } = response.data; // 쿠폰배열(벡엔드 전송)
-        this.adminPdQnaReply = adminPdQnaReply; // 쿠폰배열(벡엔드 전송)
-        this.pdQnaReplyCount = totalItems; // 전체페이지수(벡엔드 전송)
+        const { adminPdQnaReply, totalItems } = response.data;
+        this.adminPdQnaReply = adminPdQnaReply;
+        this.pdQnaReplyCount = totalItems;
         console.log("전체조회", response.data);
       } catch (e) {
         console.log(e);
@@ -753,13 +646,13 @@ export default {
     async retrieveAdminPdReview() {
       try {
         let response = await AdminPdReviewService.getAll(
-          this.searchReviewTitle, // 검색어
-          this.pdReviewPage - 1, // 현재페이지번호-1
-          this.pdReviewPageSize // 1페이지당개수(size)
+          this.searchReviewTitle,
+          this.pdReviewPage - 1,
+          this.pdReviewPageSize
         );
-        const { adminPdReview, totalItems } = response.data; // 리뷰배열(벡엔드 전송)
-        this.adminPdReview = adminPdReview; // 리뷰배열(벡엔드 전송)
-        this.pdReviewCount = totalItems; // 전체페이지수(벡엔드 전송)
+        const { adminPdReview, totalItems } = response.data;
+        this.adminPdReview = adminPdReview;
+        this.pdReviewCount = totalItems;
         console.log("전체조회", response.data);
       } catch (e) {
         console.log(e);
@@ -770,8 +663,8 @@ export default {
   },
   mounted() {
     this.retrieveAdminPdQna(); // 전체 조회 함수 실행
-    this.retrieveAdminPdQnaReply(); // 전체 조회 함수 실행
-    this.retrieveAdminPdReview(); // 전체 조회 함수 실행
+    this.retrieveAdminPdQnaReply();
+    this.retrieveAdminPdReview();
     // TODO: 백엔드 끝
   },
 };
