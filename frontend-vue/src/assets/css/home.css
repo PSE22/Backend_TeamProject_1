@@ -1,39 +1,70 @@
 /* TODO: Header */
 /* navbar #1 */
 .main-nav1 {
-    /* background-color: red; */
+    background-color: #fff7e6; /* 연한 주황색 배경 */
     height: 90px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 /* navbar #1 : 로고 */
 .main-nav-logo {
-    /* background-color: rgb(115, 235, 67); */
     font-size: 30px;
-    font-family: 'YClover-Bold';
+    font-family: 'YClover-Bold', sans-serif;
+    color: #ff6f61; /* 주황색 계열 색상 */
 }
 
 .logo-name {
     display: block;
+    color: inherit;
+    text-decoration: none;
 }
 
 /* navbar #1 : 검색창 */
 .main-nav-search {
-    /* background-color: rgb(29, 103, 37); */
     height: 90px;
     padding-top: 28px;
 }
 
+.main-nav-search .form-control {
+    border-radius: 25px 0 0 25px; /* 둥근 모서리 */
+    border: 1px solid #ff6f61;
+    height: 40px; /* 높이 추가 */
+}
+
+.main-nav-search .btn {
+    border-radius: 0 25px 25px 0; /* 둥근 모서리 */
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    height: 40px; /* 높이 추가 */
+    line-height: 40px; /* 텍스트 정렬 */
+    padding: 0 20px; /* 좌우 여백 조정 */
+}
+
+.main-nav-search .btn:hover {
+    background-color: #ff3d2e; /* 어두운 주황색으로 변경 */
+}
+
 /* navbar #1 : 우측 리스트 */
-.main-nav-list {                                                                                                                                                                                                                                                                                                                
-    /* background-color: rgb(132, 205, 139); */
+.main-nav-list {
     font-size: 13px;
+}
+
+.router-link {
+    color: #ff6f61;
+    text-decoration: none;
+}
+
+.router-link:hover {
+    color: #ff3d2e;
 }
 
 /* navbar #2 */
 .main-nav2 {
-    background-color: orange;
+    background-color: #ffebcc; /* 밝은 주황색 배경 */
     height: 50px;
     line-height: 50px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 /* navbar #2 : 메뉴 */
@@ -42,62 +73,103 @@
     line-height: 50px;
     font-weight: 600;
     display: block;
+    color: #ff6f61;
+    text-decoration: none;
+}
+
+.category-menu:hover {
+    color: #ff3d2e;
 }
 
 /* navbar #2 : 카테고리 탭 */
 #category-tab {
     cursor: pointer;
+    position: relative;
 }
 
 /* navbar #2 : 카테고리 리스트 */
 #category-tab ul {
-    background-color: RGB(255, 204, 153);
+    background-color: #fff7e6; /* 연한 주황색 배경 */
     padding: 0;
-    position: relative;
+    margin: 0;
+    position: absolute;
     list-style: none;
     z-index: 999;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#category-tab ul li {
+    padding: 10px 0;
+    text-align: center;
+}
+
+#category-tab ul li:hover {
+    background-color: #ffebcc; /* 밝은 주황색 배경 */
 }
 
 /* TODO: 본문 */
 /* 메인 페이지 : 추천 상품 제목 */
 #main-product-title {
-    /* background-color: aquamarine; */
     height: 50px;
     line-height: 50px;
-    font-size: 20px;
+    font-size: 24px;
     margin-top: 50px;
+    color: #ff6f61;
+    text-align: center;
+    font-family: 'YClover-Bold', sans-serif;
 }
 
 /* 메인 페이지 : 추천 상품 목록 */
 #main-products {
-    /* background-color: blueviolet; */
-    margin: 0px 100px 0px 100px;
+    margin: 0 100px;
     padding-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#main-products .product-item {
+    background-color: #fff;
+    border: 1px solid #ffebcc;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin: 10px;
+    padding: 10px;
+    width: calc(25% - 40px);
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+#main-products .product-item:hover {
+    transform: translateY(-5px);
 }
 
 /* TODO: footer */
 #footer_box {
     width: 1140px;
     margin: 0 auto;
+    padding: 20px 0;
 }
 
 footer {
-    background-color: #9c9c9c;
+    background-color: #ff6f61;
     height: 150px;
     margin-top: 30px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 100px;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
 }
 
 #footer_logo {
-    float: left;
-    color: white;
     font-size: 30px;
-    margin-left: 100px;
-    line-height: 150px;
-    font-family: 'YClover-Bold';
+    font-family: 'YClover-Bold', sans-serif;
 }
 
 #address {
-    float: right;
-    margin: 50px 30px 0 0;
-    color: white;
+    font-size: 14px;
+    text-align: right;
 }

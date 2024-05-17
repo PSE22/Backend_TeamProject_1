@@ -15,7 +15,7 @@
 
 .banner-container-event {
     /* background-color: rgb(72, 165, 241); */
-    background-image: linear-gradient(to top left,  #8a2be2, #191970);
+    background-image: linear-gradient(to top left,  #9849e1, RGB(255, 182, 193));
     color: white;
     margin-bottom: 50px;
 }
