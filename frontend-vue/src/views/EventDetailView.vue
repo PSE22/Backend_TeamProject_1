@@ -11,7 +11,7 @@
                     {{ event.eventContent }}
                 </div>
             </div>
-            <button type="button" class="btn btn-danger col-1 event-button" @click="deleteEvent">삭제</button>
+            <button v-if="isAdmin" type="button" class="btn btn-danger col-1 event-button" @click="deleteEvent">삭제</button>
             <div class="row text-center">
                 <div class="col-12" v-for="(data, index) in eventImg" :key="index">
                     <img class="img-fluid" :src="data.eventImgUrl" />
@@ -26,6 +26,7 @@ import EventService from "@/services/shop/EventService";
 export default {
     data() {
         return {
+            isAdmin: this.$store.state.user != null && this.$store.state.user.userCode === "AT01",
             eventId: this.$route.params.eventId,
             event: {},
             eventImg: []

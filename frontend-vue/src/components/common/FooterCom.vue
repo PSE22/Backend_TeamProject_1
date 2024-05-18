@@ -5,7 +5,6 @@
       <!-- 꼬리말 로고 시작 -->
       <div id="footer_logo">
         서울쥐
-        <!-- <img src="https://via.placeholder.com/100x100?text=Image" /> -->
       </div>
       <!-- 꼬리말 로고 끝 -->
 
@@ -30,4 +29,5 @@ export default {
 </script>
 
 <style>
+@import "@/assets/css/home.css";
 </style>
