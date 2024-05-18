@@ -180,9 +180,14 @@ const routes = [
     path: "/mypage/order/:orderId",
     component: () => import("../views/mypage/MyPageOrderDetail.vue"),
   },
+  // 주문 취소
   {
     path: "/mypage/order/cancel/:orderId",
     component: () => import("../views/mypage/MyPageOrderCancel.vue"),
+  },
+  {
+    path: "/mypage/order/refund/:orderId",
+    component: () => import("../views/mypage/MyPageOrderRefund.vue"),
   },
   
   // 마이페이지 -> 쿠폰함

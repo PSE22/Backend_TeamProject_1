@@ -16,7 +16,7 @@ public class AdminProductService {
     @Autowired
     AdminProductRepository adminProductRepository;
 
-    //    TODO: 전체조회(read)r
+    //    TODO: 전체조회(read)
     public List<AdminProduct> findAll() {
         List<AdminProduct> list = adminProductRepository.findAll();
         return list;
@@ -25,7 +25,6 @@ public class AdminProductService {
     //    페이징 처리
     public Page<AdminProduct> findAllByAdminProductNameContaining(String pdName,
                                                                 Pageable pageable) {
-        //    DB like 검색 함수 실행 : 페이징 처리
         Page<AdminProduct> page
                 = adminProductRepository
                 .findAllByAdminProductNameContaining(pdName, pageable);
@@ -34,21 +33,19 @@ public class AdminProductService {
 
     //    상세조회
     public Optional<AdminProduct> findById(Long pdId) {
-        //    JPA 상세조회 함수 실행
         Optional<AdminProduct> optionalAdminProduct
                 = adminProductRepository.findById(pdId);
         return optionalAdminProduct;
     }
 
-    //    TODO: 등록(insert)c,수정(update)u
+    //    TODO: 등록(insert),수정(update)
     public AdminProduct save(AdminProduct adminProduct) {
-        //    JPA 저장 함수 실행 : return 값 : 저장된 객체
         AdminProduct adminProduct2 = adminProductRepository.save(adminProduct);
 
         return adminProduct2;
     }
 
-    //    TODO: 삭제(delete)d
+    //    TODO: 삭제(delete)
     public boolean removeById(Long pdId) {
         if (adminProductRepository.existsById(pdId) == true) {
             adminProductRepository.deleteById(pdId);
