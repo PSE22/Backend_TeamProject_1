@@ -15,45 +15,20 @@
       </div>
       <!-- navbar #1 : 우측 리스트 -->
       <div class="main-nav-list col align-self-center">
-        <router-link
-          to="/mypage"
-          v-if="this.$store.state.loggedIn == true"
-          class="router-link"
-          >마이페이지 |
-        </router-link>
-        <router-link
-          to="/cart"
-          v-if="this.$store.state.loggedIn == true"
-          class="router-link"
-          >장바구니 |
-        </router-link>
-        <router-link v-if="showAdminBoard" to="/admin-product" class="router-link"
-          >관리페이지 |</router-link
-        >
-        <!-- 로그인 / 회원가입 -->
-        <router-link
-          v-if="this.$store.state.loggedIn == false"
-          to="/login"
-          class="router-link"
-          >로그인 |</router-link
-        >
-        <router-link
-          v-if="this.$store.state.loggedIn == false"
-          to="/signup"
-          class="router-link"
-        >
-          회원가입</router-link
-        >
+        <!-- 일반 사용자일 때 보여지는 항목 -->
+        <template v-if="this.$store.state.loggedIn && !showAdminBoard">
+          <router-link to="/mypage" class="router-link">마이페이지 | </router-link>
+          <router-link to="/cart" class="router-link">장바구니 | </router-link>
+        </template>
 
-        <!-- 로그아웃 -->
-        <router-link
-          to="#"
-          v-if="this.$store.state.loggedIn == true"
-          class="router-link"
-          @click.prevent="handleLogout"
-        >
-          로그아웃
-        </router-link>
+        <router-link v-if="showAdminBoard" to="/admin-product" class="router-link">관리페이지 | </router-link>
+        
+        <template v-if="!this.$store.state.loggedIn">
+          <router-link to="/login" class="router-link">로그인 | </router-link>
+          <router-link to="/signup" class="router-link">회원가입</router-link>
+        </template>
+
+        <router-link v-if="this.$store.state.loggedIn" to="#" class="router-link" @click.prevent="handleLogout">로그아웃</router-link>
       </div>
     </div>
   </div>

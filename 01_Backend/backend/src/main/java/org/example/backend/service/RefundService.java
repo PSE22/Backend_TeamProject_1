@@ -31,6 +31,6 @@ public class RefundService {
     }
 
     public Optional<Refund> findByOpId(Long opId) {
-        return refundRepository.findById(opId);
+        return refundRepository.findByOpId(opId);
     }
 }
