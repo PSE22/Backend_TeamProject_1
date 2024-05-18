@@ -26,7 +26,6 @@ import java.util.Optional;
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2024-04-25                  최초 생성
  */
 @Slf4j
 @RestController
@@ -52,7 +51,6 @@ public class EditProfileController {
             @PathVariable String userId
     ) {
         try {
-//            DB 상세조회 서비스 함수 실행
             Optional<User> optionalUser = signUpService.findById(userId);
             if (optionalUser.isEmpty() == true) {
 //                데이터 없음(203)
@@ -75,7 +73,6 @@ public class EditProfileController {
             @RequestBody User user
     ) {
         try {
-            log.debug("확인 필요" + user);
             if (user.getUserPw().equals("")) {
                 //유저를 상세조회해서 패스워드를 가져와서 유저패스워드에 넣기
                 Optional<User> optionalUser = signUpService.findById(userId);
@@ -83,8 +80,7 @@ public class EditProfileController {
             } else {
                 user.setUserPw(passwordEncoder.encode(user.getUserPw()));
             }
-            log.debug("확인 해야함" + user);
-            User user2 = editProfileService.updateUser(user);  // 수정
+            User user2 = editProfileService.updateUser(user);
 
             return new ResponseEntity<>(user2, HttpStatus.OK);
         } catch (Exception e) {
@@ -92,7 +88,7 @@ public class EditProfileController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-  
+    
 //    TODO: 탈퇴 함수
     @DeleteMapping("/editProfile/deletion/{userId}/{userPw}")
     public boolean withdrawUser(@PathVariable String userId, @PathVariable String userPw) {

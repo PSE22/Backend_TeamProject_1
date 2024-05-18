@@ -55,7 +55,7 @@
               {{ data.orderDetailCnt }}
             </td>
             <td class="col-2">
-              {{ data.orderDetailPrice * data.orderDetailCnt}}
+              {{ data.orderDetailPrice * data.orderDetailCnt }}
             </td>
           </tr>
         </tbody>
@@ -85,6 +85,31 @@
           <div class="row order-content-row">
             <div class="col-3 row-title">결제수단</div>
             <div class="col-9 row-content">{{ orderDetail.orderPayment }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="order-sheet-container">
+        <div class="order-sheet-title">주문상태 변경</div>
+        <div class="order-sheet-content">
+          <div class="row order-content-row">
+            <div class="col-3 row-title pt-3">주문상태 변경</div>
+            <div class="col-9 row-content">
+              <div class="row row-cols-auto">
+                <div class="col"></div>
+                <div class="col ps-0">
+                  <select class="form-select" v-model="reasonForStatusChange">
+                    <option value="">변경할 주문상태</option>
+                    <option
+                      v-for="code in cmCode"
+                      :key="code.cmCode"
+                      :value="code.cmCode"
+                    >
+                      {{ code.cmCdName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -184,7 +209,11 @@
           class="btn btn-outline-dark btn-lg col-2"
           type="button"
         >
-          <router-link class="link-custom" :to="`/mypage/order/cancel/${this.orderId}`">주문취소</router-link>
+          <router-link
+            class="link-custom"
+            :to="`/mypage/order/cancel/${this.orderId}`"
+            >주문취소</router-link
+          >
         </button>
         <button
           v-if="
@@ -194,7 +223,18 @@
           class="btn btn-outline-dark btn-lg col-2"
           type="button"
         >
-          <router-link class="link-custom" :to="`/mypage/order/refund/${this.orderId}`">환불신청</router-link>
+          <router-link
+            class="link-custom"
+            :to="`/mypage/order/refund/${this.orderId}`"
+            >환불신청</router-link
+          >
+        </button>
+        <button
+          class="btn btn-outline-dark btn-lg col-2"
+          type="button"
+          @click="a"
+        >
+          주문상태 변경
         </button>
       </div>
     </div>
@@ -203,6 +243,8 @@
 
 <script>
 import MyOrderCheckService from "@/services/mypage/MyOrderCheckService";
+import AdminOrderService from "@/services/admin/AdminOrderService";
+
 export default {
   data() {
     return {
@@ -213,11 +255,24 @@ export default {
       totalPrice: 0,
       useCoupon: 0,
       orderName: "",
-      orderTotalPrice: 0
-
+      orderTotalPrice: 0,
+      newOrderCode: "",
+      newOcCode: "",
+      newRefundCode: "",
+      reasonForStatusChange: "",
+      cmCode: [], // cmCodes를 저장할 배열 추가
     };
   },
   methods: {
+    fetchCmCode() {
+      AdminOrderService.getCmCd()
+        .then((response) => {
+          this.cmCode = response.data; // 데이터 저장
+        })
+        .catch((error) => {
+          console.error("주문상태를 확인할 수 없습니다.", error);
+        });
+    },
     // 주문 상품리스트
     async getOrder(orderId) {
       try {
@@ -242,8 +297,6 @@ export default {
       }
     },
 
-
-
     // 주문, 결제금액
     async getOrderPrice(orderId) {
       try {
@@ -262,7 +315,8 @@ export default {
         if (this.order.length > 0) {
           //   누적합 : totalPrice = totalPrice + 값
           for (const data of this.order) {
-            this.totalPrice = this.totalPrice + data.orderDetailPrice*data.orderDetailCnt;
+            this.totalPrice =
+              this.totalPrice + data.orderDetailPrice * data.orderDetailCnt;
           }
           console.log("총금액", this.totalPrice);
         } else {
@@ -303,7 +357,10 @@ export default {
         console.log("쿠폰", this.useCoupon);
       }
     },
-
+  },
+  reated() {
+    // 컴포넌트가 생성될 때 getCmCd 메서드 호출하여 데이터 받아오기
+    this.fetchCmCode();
   },
   mounted() {
     this.getOrder(this.orderId);

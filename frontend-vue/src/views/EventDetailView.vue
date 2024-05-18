@@ -8,10 +8,10 @@
             <div class="row event-detail-table justify-content-md-center">
                 <div class="col-2 text-center event-detail-title-th">내용</div>
                 <div class="col-8 event-detail-title-td">
-                    <!-- {{ event.eventContent }} -->
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Provident mollitia necessitatibus, cum ex rem delectus corporis quas voluptates, corrupti eligendi voluptatum, ab reprehenderit quisquam? Ad veniam voluptates quasi vero quia!
+                    {{ event.eventContent }}
                 </div>
             </div>
+            <button v-if="isAdmin" type="button" class="btn btn-danger col-1 event-button" @click="deleteEvent">삭제</button>
             <div class="row text-center">
                 <div class="col-12" v-for="(data, index) in eventImg" :key="index">
                     <img class="img-fluid" :src="data.eventImgUrl" />
@@ -26,6 +26,8 @@ import EventService from "@/services/shop/EventService";
 export default {
     data() {
         return {
+            isAdmin: this.$store.state.user != null && this.$store.state.user.userCode === "AT01",
+            eventId: this.$route.params.eventId,
             event: {},
             eventImg: []
         }
@@ -51,6 +53,17 @@ export default {
                 console.log(e);
             }
         },
+        // 이벤트 삭제
+        async deleteEvent() {
+            try {
+                let response = await EventService.remove(this.eventId);
+                console.log(response.data);
+                // 삭제 후 이벤트 전체 페이지로 이동
+                this.$router.push("/event");
+            } catch (e) {
+                console.log(e);
+            }
+        },
     },
     mounted() {
         this.retrieveEventDetail(this.$route.params.eventId);
@@ -70,7 +83,7 @@ export default {
     font-weight: bold;
     background-color: lightgray;
     border: solid 1px black;
-    border-radius: 5px;  
+    border-radius: 5px;
 }
 
 .event-detail-title-td {
@@ -84,5 +97,10 @@ export default {
 .event-detail-table {
     margin: 3px;
     display: flex;
+}
+
+.event-button {
+    margin: 5px;
+    margin-left: 80px;
 }
 </style>

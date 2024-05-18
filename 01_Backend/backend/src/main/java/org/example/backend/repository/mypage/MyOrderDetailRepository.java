@@ -47,7 +47,6 @@ public interface MyOrderDetailRepository extends JpaRepository<Order, Long> {
             "WHERE O.ORDER_ID = OC.ORDER_ID(+)\n" +
             "AND O.ORDER_ID = OD.ORDER_ID\n" +
             "AND O.ORDER_ID = RE.ORDER_ID(+)\n" +
-            "AND O.STATUS = 'Y'\n" +
             "AND O.ORDER_ID = :orderId",
     nativeQuery = true)
     Optional<IMyOrderDetailDto> findByOrderId(@Param("orderId") Long orderId );
@@ -64,7 +63,6 @@ public interface MyOrderDetailRepository extends JpaRepository<Order, Long> {
             "WHERE P.PD_ID = OP.PD_ID\n" +
             "AND OP.OP_ID = OD.OP_ID\n" +
             "AND O.ORDER_ID = OD.ORDER_ID\n" +
-            "AND O.STATUS = 'Y'\n" +
             "AND O.ORDER_ID = :orderId",
     nativeQuery = true)
     List<IMyOrderDetailDto> findByOrderList(@Param("orderId") Long orderId);
@@ -78,7 +76,6 @@ public interface MyOrderDetailRepository extends JpaRepository<Order, Long> {
             "WHERE UC.CP_ID = C.CP_ID(+)\n" +
             "AND UC.ORDER_ID(+) = O.ORDER_ID\n" +
             "AND O.ORDER_ID = UP.ORDER_ID(+)\n" +
-            "AND O.STATUS = 'Y'\n" +
             "AND O.ORDER_ID = :orderId",
     nativeQuery = true)
     Optional<IMyOrderDetailDto> findByOrderPrice(@Param("orderId") Long orderId);

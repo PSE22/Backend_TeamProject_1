@@ -1,13 +1,10 @@
-package org.example.backend.controller.mypage;
+package org.example.backend.controller.admin;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.backend.model.dto.mypage.IMyOrderDetailDto;
 import org.example.backend.model.dto.mypage.OrderCancelDto;
 import org.example.backend.model.dto.mypage.OrderRefundDto;
-import org.example.backend.model.entity.Order;
-import org.example.backend.model.entity.OrderCancel;
 import org.example.backend.model.entity.OrderDetail;
-import org.example.backend.model.entity.Refund;
 import org.example.backend.service.CmCodeService;
 import org.example.backend.service.mypage.MyOrderCancelService;
 import org.example.backend.service.mypage.MyOrderDetailService;
@@ -22,23 +19,22 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * packageName : org.example.backend.controller.mypage
- * fileName : MyOrderDetailController
- * author : gumiji
- * date : 5/10/24
+ * packageName : org.example.backend.controller.admin
+ * fileName : AdminOrderDetailController
+ * author : kimtaewan
+ * date : 2024-05-18
  * description :
  * 요약 :
  * <p>
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * -----------------------------------------------------------
- * 5/10/24         gumiji          최초 생성
+ * 2024-05-18         kimtaewan          최초 생성
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/mypage")
-public class MyOrderDetailController {
-
+@RequestMapping("/api/admin")
+public class AdminOrderDetailController {
     @Autowired
     MyOrderDetailService myOrderDetailService;
 
@@ -96,7 +92,7 @@ public class MyOrderDetailController {
         }
     }
 
-//    TODO: 주문 결제금액
+    //    TODO: 주문 결제금액
     @GetMapping("/order-price/{orderId}")
     public ResponseEntity<Object> findByOrderPrice(
             @PathVariable Long orderId
@@ -119,7 +115,7 @@ public class MyOrderDetailController {
         }
     }
 
-//    주문 코드
+    //    주문 코드
     @GetMapping("/order-code/{orderId}")
     public ResponseEntity<Object> findByCmCdName(
             @PathVariable Long orderId

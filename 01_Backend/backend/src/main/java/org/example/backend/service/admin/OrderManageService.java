@@ -65,25 +65,25 @@ public class OrderManageService {
                 .orElse(null);
     }
 
-//    public Optional<OrderCancel> getOrderCancelInfo(Long orderId) {
-//        return orderCancelRepository.findById(orderId);
-//    }
-//
-//    public OrderCancel updateOrderCancelCode(Long orderId, String newCancelCode) {
-//        return orderCancelRepository.findById(orderId)
-//                .map(cancel -> {
-//                    cancel.setOcCode(newCancelCode);
-//                    return orderCancelRepository.save(cancel);
-//                })
-//                .orElse(null);
-//    }
+    public Optional<OrderCancel> getOrderCancelInfo(Long orderId) {
+        return orderCancelRepository.findByOrderId(orderId);
+    }
+
+    public OrderCancel updateOrderCancelCode(Long orderId, String newCancelCode) {
+        return orderCancelRepository.findByOrderId(orderId)
+                .map(cancel -> {
+                    cancel.setOcCode(newCancelCode);
+                    return orderCancelRepository.save(cancel);
+                })
+                .orElse(null);
+    }
 
     public Optional<Refund> getRefundInfo(Long orderId) {
-        return refundRepository.findById(orderId);
+        return refundRepository.findByOpId(orderId);
     }
 
     public Refund updateRefundCode(Long orderId, String newRefundCode) {
-        return refundRepository.findById(orderId)
+        return refundRepository.findByOpId(orderId)
                 .map(refund -> {
                     refund.setRefundCode(newRefundCode);
                     return refundRepository.save(refund);

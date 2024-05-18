@@ -30,7 +30,7 @@ public interface OptionRepository extends JpaRepository<Option, Integer> {
             ", OP_PRICE AS opPrice\n" +
             ", OP_STOCK AS opStock\n" +
             "FROM TB_OPTION\n" +
-            "WHERE PD_ID LIKE '%' || :pdId || '%'\n" +
+            "WHERE PD_ID = :pdId\n" +
             "AND STATUS = 'Y'"
     , nativeQuery = true)
     List<IOptionDto> findAllByPdidContaining(@Param("pdId") Integer pdId);

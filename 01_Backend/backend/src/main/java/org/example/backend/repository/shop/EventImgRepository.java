@@ -1,7 +1,9 @@
 package org.example.backend.repository.shop;
 
+import jakarta.transaction.Transactional;
 import org.example.backend.model.entity.EventImg;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -27,4 +29,11 @@ public interface EventImgRepository extends JpaRepository<EventImg, Long> {
             "FROM TB_EVENT_IMG\n" +
             "WHERE EVENT_ID = :eventId", nativeQuery = true)
     List<EventImg> findByEventImg(@Param("eventId") Long eventId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE TB_EVENT_IMG\n" +
+                   "SET STATUS = 'N'\n" +
+                   "WHERE EVENT_ID = :eventId AND STATUS = 'Y'", nativeQuery = true)
+    void deleteByEventId(@Param("eventId") Long eventId);
 }
