@@ -38,7 +38,7 @@ public interface ReviewRepository extends JpaRepository<PdReview, Long> {
             "AND PD.PD_ID = PR.PD_ID\n" +
             "AND PD.STATUS = 'Y'\n" +
             "AND PR.STATUS = 'Y'\n" +
-            "ORDER BY PD.ADD_DATE DESC"
+            "ORDER BY addDate DESC"
     , nativeQuery = true)
     Page<IReviewDto> selectByReviewContaining(@Param("pdId")Long pdId, Pageable pageable);
 }
