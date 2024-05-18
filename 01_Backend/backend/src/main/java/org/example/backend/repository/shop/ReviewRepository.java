@@ -34,10 +34,11 @@ public interface ReviewRepository extends JpaRepository<PdReview, Long> {
             ", PD.PD_NAME AS pdName\n" +
             "FROM TB_PD_REVIEW PR, TB_PD_REVIEW_IMG PRI, TB_PRODUCT PD\n" +
             "WHERE PR.REVIEW_ID = PRI.REVIEW_ID(+)\n" +
-            "AND PD.PD_ID LIKE '%' || :pdId || '%'\n" +
+            "AND PD.PD_ID = :pdId\n" +
             "AND PD.PD_ID = PR.PD_ID\n" +
             "AND PD.STATUS = 'Y'\n" +
-            "AND PR.STATUS = 'Y'"
+            "AND PR.STATUS = 'Y'\n" +
+            "ORDER BY PD.ADD_DATE DESC"
     , nativeQuery = true)
     Page<IReviewDto> selectByReviewContaining(@Param("pdId")Long pdId, Pageable pageable);
 }

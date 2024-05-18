@@ -1,7 +1,6 @@
 package org.example.backend.model.dto.mypage;
 
 import lombok.*;
-import org.example.backend.model.entity.OrderDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +23,10 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderCancelDto {
+public class OrderRefundDto {
     private Long orderId;
     private List<Long> opId = new ArrayList<>();
-    private List<Integer> ocPrice = new ArrayList<>();
-    private String ocCode;
-    private String ocReason;
+    private List<Integer> refundPrice = new ArrayList<>();
+    private String refundCode;
+    private String refundReason;
 }

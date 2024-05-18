@@ -26,7 +26,7 @@ import java.util.List;
 public interface ProductImgRepository extends JpaRepository<ProductImage, Long> {
     @Query(value = "SELECT PD_IMG_URL AS pdImgUrl\n" +
             "FROM TB_PRODUCT_IMAGE\n" +
-            "WHERE PD_ID LIKE '%' || :pdId || '%'\n" +
+            "WHERE PD_ID = :pdId\n" +
             "AND STATUS = 'Y'\n" +
             "ORDER BY PD_IMG_ID"
     , nativeQuery = true)
