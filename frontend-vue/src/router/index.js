@@ -23,7 +23,7 @@ const routes = [
     beforeEnter: [routeGuard],
   },
   {
-    path: '/admin-order/detail',
+    path: '/admin-order/:orderId',
     component: () => import('../views/admin/AdminOrderDetailView.vue'),
     beforeEnter: [routeGuard],
   },
