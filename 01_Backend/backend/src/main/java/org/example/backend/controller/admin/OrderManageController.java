@@ -127,10 +127,10 @@ public class OrderManageController {
         }
     }
 
-    @PostMapping("/orders/{orderId}/{upCmCd}")
-    public ResponseEntity<Object> codeChange(@PathVariable String upCmCd, @RequestParam Long orderId, @RequestParam Long opId) {
+    @PostMapping("/orders/{orderId}/{cmCode}")
+    public ResponseEntity<Object> codeChange(@PathVariable String cmCode, @RequestParam Long orderId, @RequestParam Long opId) {
         try {
-            if (upCmCd.startsWith("OD01")) {
+            if (cmCode.startsWith("OD01")) {
                 Optional<Order> order = orderService.findByOrderId(orderId); // orderId를 사용하여 주문 검색
                 if (order.isPresent()) {
                     orderService.updateOrderCode(order.orElse(null));
@@ -138,7 +138,7 @@ public class OrderManageController {
                 } else {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주문정보를 찾을 수 없습니다.");
                 }
-            }else if (upCmCd.startsWith("OD02")) {
+            }else if (cmCode.startsWith("OD02")) {
                 Optional<OrderCancel> orderCancel = orderCancelService.findByOrderId(orderId); // orderId를 사용하여 주문 검색
                 if (orderCancel.isPresent()) {
                     orderCancelService.updateOrderCancel(orderCancel.orElse(null));
@@ -146,7 +146,7 @@ public class OrderManageController {
                 } else {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주문정보를 찾을 수 없습니다.");
                 }
-            } else if (upCmCd.startsWith("OD03")) {
+            } else if (cmCode.startsWith("OD03")) {
                 Optional<Refund> refund = refundService.findByOpId(opId); // orderId를 사용하여 주문 검색
                 if (refund.isPresent()) {
                     refundService.updateRefund(refund.orElse(null));

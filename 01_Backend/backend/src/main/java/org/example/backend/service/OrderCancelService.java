@@ -31,6 +31,6 @@ public class OrderCancelService {
     }
 
     public Optional<OrderCancel> findByOrderId(Long orderId) {
-        return orderCancelRepository.findById(orderId);
+        return orderCancelRepository.findByOrderId(orderId);
     }
 }

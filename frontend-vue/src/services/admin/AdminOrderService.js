@@ -9,29 +9,18 @@ class AdminOrderService {
             headers: LoginHeader()
         });
     }
-    // // 상세조회
-    // get(orderId) {
-    //     return http.get(`/admin//orders/${orderId}?
-    //     newOrderCode=${orderCode}&
-    //     newOcCode=${ocCode}&
-    //     newRefundCode=${refundCode}`,{
-    //         headers: LoginHeader()
-    //     });
-    // }
-    // 주문상태코드수정
-    // update(orderId, data) {
-    //     return http.put(`/admin/orders/${orderId}?
-    //     newOrderCode=${orderCode}&
-    //     newOcCode=${ocCode}&
-    //     newRefundCode=${refundCode}`, data,{
-    //         headers: LoginHeader()
-    //     });
-    // }
     
     getCmCd() {
         return http.get('/admin/orders/cmcd',
         {headers: LoginHeader()}
         )
+    }
+
+    codeChange(orderId, cmCode, opId) {
+        return http.post(`/orders/${orderId}/${cmCode}`, null, {
+            params: { orderId, opId },
+            headers: LoginHeader()
+        });
     }
 }
 

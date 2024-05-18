@@ -5,6 +5,8 @@ import org.example.backend.model.entity.Refund;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * packageName : org.example.backend.repository
  * fileName : RefundRepository
@@ -20,4 +22,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RefundRepository extends JpaRepository<Refund, OrderIdOpIdPk> {
+    Optional<Refund> findByOpId(Long opId);
 }

@@ -60,7 +60,7 @@ import EventService from "@/services/shop/EventService";
 export default {
   data() {
     return {
-      isAdmin: this.$store.state.user.userId,
+      isAdmin: this.$store.state.user != null && this.$store.state.user.userCode === "AT01",
 
       eventTitle: "",
       eventContent: "",
