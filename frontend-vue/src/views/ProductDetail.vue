@@ -285,10 +285,9 @@
                   <div class="modal-body">
                     <h2 class="fs-5">작성자 : {{ data.userId }}</h2>
                     <p class="text-muted">
-                      상품명 : 필통&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;옵션 : 파란색
+                      {{ product?.pdName }}
                     </p>
                     <p>{{ data.pdQnaContent }}</p>
-                    <img :src="data.pdQnaImgUrl" class="img-thumbnail me-3" />
                     <hr />
                     <h2 class="fs-5">답변 내용</h2>
                     <p>
@@ -556,7 +555,7 @@ export default {
           pdId: this.$route.params.pdId,
           pdName: this.product.pdName,
           pdPrice: this.product.pdPrice,
-          pdThumblail: this.product.pdThumbnail,
+          pdThumbnail: this.product.pdThumbnail,
           userId: this.$store.state.user?.userId,
         };
         if (Object.keys(this.selectOption).length === 0) {

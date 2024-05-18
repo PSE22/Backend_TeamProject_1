@@ -177,24 +177,6 @@
         />
         <label class="form-check-label" for="userCode">일반회원</label>
       </div>
-      <div class="form-check form-check-inline">
-        <label
-          class="form-check-label"
-          for="userCodeAdmin"
-          @click="incrementClickCount"
-          >관리자</label
-        >
-      </div>
-      <div class="form-check form-check-inline" v-if="clickCount >= 3">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="userCode"
-          value="AT01"
-          v-model="user.userCode"
-        />
-        <label class="form-check-label" for="userCodeAdmin">관리자</label>
-      </div>
 
       <!-- 회원가입 -->
       <br />
@@ -230,10 +212,9 @@ export default {
         userEmail: "",
         userPhone: "",
         userPromo: "",
-        userCode: "",
+        userCode: "AT02",
       },
       message: "",
-      clickCount: 0, // 클릭 횟수를 저장할 변수
     };
   },
   // TODO: 함수 정의
@@ -264,6 +245,7 @@ export default {
         let response = await LoginService.signup(this.user);
         this.$store.commit("signUpSuccess");
         this.message = "사용자가 등록되었습니다.";
+        alert("회원가입이 완료되었습니다.");
         this.$router.push("/login");
         console.log(response.data);
       } catch (e) {
@@ -271,9 +253,6 @@ export default {
         this.message = "에러 : " + e;
         console.log(e);
       }
-    },
-    incrementClickCount() {
-      this.clickCount++;
     },
   },
   computed: {
