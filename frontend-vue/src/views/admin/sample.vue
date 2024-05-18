@@ -92,20 +92,19 @@
         <div class="order-sheet-title">주문상태 변경</div>
         <div class="order-sheet-content">
           <div class="row order-content-row">
-            <div class="col-3 row-title pt-3">변경사유</div>
+            <div class="col-3 row-title pt-3">주문상태 변경</div>
             <div class="col-9 row-content">
               <div class="row row-cols-auto">
                 <div class="col"></div>
                 <div class="col ps-0">
-                  <input type="text" class="form-control" v-model="a" />
                   <select class="form-select" v-model="reasonForStatusChange">
                     <option value="">변경할 주문상태</option>
                     <option
-                      v-for="data in cmCode"
-                      :key="data.cmCode"
-                      :value="data.cmCode"
+                      v-for="code in cmCode"
+                      :key="code.cmCode"
+                      :value="code.cmCode"
                     >
-                      {{ data.cmCdName }}
+                      {{ code.cmCdName }}
                     </option>
                   </select>
                 </div>
@@ -114,6 +113,57 @@
           </div>
         </div>
       </div>
+      <!-- 취소신청만 보임 -->
+      <div
+        class="order-sheet-container"
+        v-if="
+          orderDetail.orderCode === 'OD0201' ||
+          orderDetail.orderCode === 'OD0202'
+        "
+      >
+        <!-- 적립금 사용 : 제목 -->
+        <div class="order-sheet-title">취소/환불</div>
+        <!-- 적립금 사용 : 내용 -->
+        <div class="order-sheet-content">
+          <div class="row order-content-row">
+            <div class="col-3 row-title pt-3">취소사유</div>
+            <div class="col-9 row-content">
+              <div class="row row-cols-auto">
+                <div class="col ps-0">
+                  <p style="margin: 5px 0 0 0">{{ orderDetail.ocReason }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 환불신청만 보임 -->
+      <div
+        class="order-sheet-container"
+        v-else-if="
+          orderDetail.orderCode === 'OD0301' ||
+          orderDetail.orderCode === 'OD0302'
+        "
+      >
+        <!-- 적립금 사용 : 제목 -->
+        <div class="order-sheet-title">취소/환불</div>
+        <!-- 적립금 사용 : 내용 -->
+        <div class="order-sheet-content">
+          <div class="row order-content-row">
+            <div class="col-3 row-title pt-3">환불사유</div>
+            <div class="col-9 row-content">
+              <div class="row row-cols-auto">
+                <div class="col ps-0">
+                  <p style="margin: 5px 0 0 0">
+                    {{ orderDetail.refundReason }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- 결제금액 정보 -->
       <div class="card-group justify-content-center">
         <div class="card text-center mb-3" style="max-width: 18rem">
@@ -123,21 +173,21 @@
           </div>
         </div>
         <div class="card text-center mb-3" style="max-width: 18rem">
-          <div class="card-header">할인금액</div>
+          <div class="card-header">쿠폰 할인금액</div>
           <div class="card-body">
-            <h3 class="card-title">{{ shipPrice }} 원</h3>
+            <h3 class="card-title">{{ useCoupon }} 원</h3>
           </div>
         </div>
         <div class="card text-center mb-3" style="max-width: 18rem">
           <div class="card-header">포인트 결제</div>
           <div class="card-body">
-            <h3 class="card-title">{{ totalPrice + shipPrice }} 원</h3>
+            <h3 class="card-title">{{ getUsePoint() }} P</h3>
           </div>
         </div>
         <div class="card text-center mb-3" style="max-width: 18rem">
           <div class="card-header">총 결제금액</div>
           <div class="card-body">
-            <h3 class="card-title">{{ totalPrice + shipPrice }} 원</h3>
+            <h3 class="card-title">{{ orderDetail.orderPrice }} 원</h3>
           </div>
         </div>
       </div>
@@ -145,14 +195,44 @@
         <button
           class="btn btn-outline-dark btn-lg me-md-2 col-2"
           type="button"
-          @click="a"
+          @click="this.$router.push('/mypage/order')"
         >
           목록
+        </button>
+        <!-- 주문, 상품준비중 -->
+        <button
+          v-if="
+            orderDetail.orderCode === 'OD01' ||
+            orderDetail.orderCode === 'OD0101' ||
+            orderDetail.orderCode === 'OD0102'
+          "
+          class="btn btn-outline-dark btn-lg col-2"
+          type="button"
+        >
+          <router-link
+            class="link-custom"
+            :to="`/mypage/order/cancel/${this.orderId}`"
+            >주문취소</router-link
+          >
+        </button>
+        <button
+          v-if="
+            orderDetail.orderCode === 'OD0103' ||
+            orderDetail.orderCode === 'OD0104'
+          "
+          class="btn btn-outline-dark btn-lg col-2"
+          type="button"
+        >
+          <router-link
+            class="link-custom"
+            :to="`/mypage/order/refund/${this.orderId}`"
+            >환불신청</router-link
+          >
         </button>
         <button
           class="btn btn-outline-dark btn-lg col-2"
           type="button"
-          @click="changeOrderStatus"
+          @click="a"
         >
           주문상태 변경
         </button>
@@ -162,8 +242,8 @@
 </template>
 
 <script>
+import MyOrderCheckService from "@/services/mypage/MyOrderCheckService";
 import AdminOrderService from "@/services/admin/AdminOrderService";
-import AdminOrderDetailService from "@/services/admin/AdminOrderDetailService";
 
 export default {
   data() {
@@ -176,7 +256,6 @@ export default {
       useCoupon: 0,
       orderName: "",
       orderTotalPrice: 0,
-
       newOrderCode: "",
       newOcCode: "",
       newRefundCode: "",
@@ -185,9 +264,19 @@ export default {
     };
   },
   methods: {
+    fetchCmCode() {
+      AdminOrderService.getCmCd()
+        .then((response) => {
+          this.cmCode = response.data; // 데이터 저장
+        })
+        .catch((error) => {
+          console.error("주문상태를 확인할 수 없습니다.", error);
+        });
+    },
+    // 주문 상품리스트
     async getOrder(orderId) {
       try {
-        let response = await AdminOrderDetailService.getOrder(orderId);
+        let response = await MyOrderCheckService.getOrder(orderId);
         this.order = response.data; // 데이터를 order에 저장
         this.getTotalPrice();
         this.getUseCoupon();
@@ -200,7 +289,7 @@ export default {
     // 배송지
     async getOrderDetail(orderId) {
       try {
-        let response = await AdminOrderDetailService.getOrderDetail(orderId);
+        let response = await MyOrderCheckService.getOrderDetail(orderId);
         this.orderDetail = response.data; // 데이터를 order에 저장
         console.log(response.data); // 로그 출력
       } catch (e) {
@@ -211,7 +300,7 @@ export default {
     // 주문, 결제금액
     async getOrderPrice(orderId) {
       try {
-        let response = await AdminOrderDetailService.getOrderPrice(orderId);
+        let response = await MyOrderCheckService.getOrderPrice(orderId);
         this.orderPrice = response.data; // 데이터를 order에 저장
         console.log(response.data); // 로그 출력
         this.getUseCoupon();
@@ -241,7 +330,7 @@ export default {
     // 주문 코드
     async getOrderCode(orderId) {
       try {
-        let response = await AdminOrderDetailService.getOrderCode(orderId);
+        let response = await MyOrderCheckService.getOrderCode(orderId);
         this.orderName = response.data; // 데이터를 order에 저장
         console.log(response.data); // 로그 출력
       } catch (e) {
@@ -268,35 +357,8 @@ export default {
         console.log("쿠폰", this.useCoupon);
       }
     },
-    // getCmCd 메서드를 호출하여 cmCodes에 데이터를 저장하는 함수
-    fetchCmCode() {
-      AdminOrderService.getCmCd()
-        .then((response) => {
-          this.cmCode = response.data; // 데이터 저장
-        })
-        .catch((error) => {
-          console.error("Error while fetching cmCodes: ", error);
-        });
-    },
-    async changeOrderStatus() {
-    try {
-      if (!this.reasonForStatusChange) {
-        // If no status is selected, do nothing or show an error message
-        return;
-      }
-      
-      const response = await AdminOrderService.codeChange(
-        this.orderId,
-        this.reasonForStatusChange,
-        this.orderDetail.opId // or appropriate id from your data
-      );
-      console.log('Order status changed:', response.data);
-    } catch (error) {
-      console.error('Error changing order status:', error.response ? error.response.data : error.message);
-    }
-  }
   },
-  created() {
+  reated() {
     // 컴포넌트가 생성될 때 getCmCd 메서드 호출하여 데이터 받아오기
     this.fetchCmCode();
   },
