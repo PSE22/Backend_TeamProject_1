@@ -13,13 +13,13 @@
             <th scope="col">상태</th>
           </tr>
         </thead>
-        <tbody class="table-group-divider align-middle">
+        <tbody class="table-group-divider">
           <tr v-for="(data, index) in inquiry" :key="index">
             <td class="col-4">
               <!-- 문의내역 제목 -->
               <div
                 type="button"
-                class="ms-3 qna-link"
+                class="ms-3 qna-link text-start"
                 data-bs-toggle="modal"
                 :data-bs-target="'#inquiryModal-' + index"
               >
@@ -49,7 +49,7 @@
                     <div class="modal-body">
                       <!-- 모달창 질문자 -->
                       <h2 class="fs-5">질문자</h2>
-                      <p class="text-muted">상품명 : {{data.pdName}}</p>
+                      <p class="text-muted">상품명 : {{ data.pdName }}</p>
                       <p>
                         {{ data.pdQnaContent }}
                       </p>
@@ -60,12 +60,14 @@
                         class="img-thumbnail me-3"
                         style="width: 100px; height: 100px"
                       />
-                      <hr />
                       <!-- 모달창 답변자 -->
-                      <h2 class="fs-5">답변자</h2>
-                      <p>
-                        {{ data.pdQnaReplyContent }}
-                      </p>
+                      <div v-if="data.pdQnaReplyContent">
+                        <hr />
+                        <h2 class="fs-5">답변자</h2>
+                        <p>
+                          {{ data.pdQnaReplyContent }}
+                        </p>
+                      </div>
                     </div>
                     <div class="modal-footer">
                       <button
@@ -80,11 +82,20 @@
                 </div>
               </div>
             </td>
-            <td class="col-1 text-center">{{ data.pdQnaSecret }}</td>
-            <td class="col-2 text-center">{{ data.pqAddDate }}</td>
-            <td class="col-2 text-center">{{ data.pqrAddDate }}</td>
-            <td class="col-2 text-center" v-if="data.pdQnaReplyContent">답변 완료</td>
-            <td class="col-2 text-center" v-else>답변 대기</td>
+            <td class="col-1 text-center align-middle">
+              {{ data.pdQnaSecret }}
+            </td>
+            <td class="col-2 text-center align-middle">{{ data.pqAddDate }}</td>
+            <td class="col-2 text-center align-middle">
+              {{ data.pqrAddDate }}
+            </td>
+            <td
+              class="col-2 text-center align-middle"
+              v-if="data.pdQnaReplyContent"
+            >
+              답변 완료
+            </td>
+            <td class="col-2 text-center align-middle" v-else>답변 대기</td>
           </tr>
         </tbody>
       </table>
@@ -109,31 +120,35 @@ export default {
     MyPageMain,
   },
   data() {
-      return {
-        inquiry: [], // 문의내역 불러오기
-        userId: this.$store.state.user.userId,
-        // 공통 페이징 속성
-        page: 1, // 현재 페이지 번호
-        count: 0, // 전체 데이터 개수
-        pageSize: 10, // 화면에 보여질 개수
-      };
+    return {
+      inquiry: [], // 문의내역 불러오기
+      userId: this.$store.state.user.userId,
+      // 공통 페이징 속성
+      page: 1, // 현재 페이지 번호
+      count: 0, // 전체 데이터 개수
+      pageSize: 10, // 화면에 보여질 개수
+    };
+  },
+  methods: {
+    // 전체조회
+    async allInquiry(userId) {
+      try {
+        // TODO: 공통 전체조회 서비스 함수 실행
+        // TODO: spring 통신 : 비동기 코딩 : async ~ await
+        let response = await MyInquiryService.getAll(
+          userId,
+          this.page - 1,
+          this.pageSize
+        );
+        const { inquiry, totalItems } = response.data;
+        this.inquiry = inquiry; // spring 전달 객체 배열
+        this.count = totalItems; // 전체 페이지 개수
+        // 로깅
+        console.log(response.data); // 웹브라우저 콘솔탭에 spring 전달 객체 배열 표시됨
+      } catch (e) {
+        console.log(e);
+      }
     },
-    methods: {
-      // 전체조회
-      async allInquiry(userId) {
-        try {
-          // TODO: 공통 전체조회 서비스 함수 실행
-          // TODO: spring 통신 : 비동기 코딩 : async ~ await
-          let response = await MyInquiryService.getAll(userId, this.page - 1, this.pageSize);
-          const { inquiry, totalItems } = response.data;
-          this.inquiry = inquiry; // spring 전달 객체 배열
-          this.count = totalItems; // 전체 페이지 개수
-          // 로깅
-          console.log(response.data); // 웹브라우저 콘솔탭에 spring 전달 객체 배열 표시됨
-        } catch (e) {
-          console.log(e);
-        }
-      },
   },
 
   mounted() {

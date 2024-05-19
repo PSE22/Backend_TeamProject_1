@@ -48,9 +48,9 @@ public interface MyOrderCheckRepository extends JpaRepository<OrderDetail, Order
                                               @Param("endDate") String endDate);
 
 //    주문 카운트
-    @Query(value = "SELECT count(*) FROM TB_ORDER o\n" +
-            "WHERE o.USER_ID = :userId\n" +
-            "ORDER BY o.ADD_DATE DESC",
+    @Query(value = "SELECT count(*) FROM TB_ORDER\n" +
+            "WHERE USER_ID = :userId\n" +
+            "AND STATUS='Y'",
             nativeQuery = true)
     Integer orderCount (@Param("userId") String userId);
 }

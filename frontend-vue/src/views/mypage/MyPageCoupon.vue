@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-bottom: 100px;">
     <MyPageMain />
     <h1 style="margin-top: 100px; margin-bottom: 20px">쿠폰함</h1>
     <div class="row">
@@ -25,13 +25,6 @@
             <td class="col-3">{{ data.cpMinPrice }}원 이상 사용가능 (최대 {{ data.cpMaxDcPrice }}원)</td>
             <!-- 사용기간 -->
             <td class="col-3">{{data.addDate }} ~ {{ data.cpExpireDate }}</td>  
-
-            <!-- 테스트 -->
-            <!-- <td class="text-start col-3">쿠폰입니다.</td>
-            <td v-if="false ===true" class="col-2">일번입니다.</td>
-            <td v-else class="col-2">2번입니다.</td>
-            <td class="col-3">30,000원 이하 2,500원 까지 할인</td>
-            <td class="col-3">발급날짜~</td> -->
           </tr>
         </tbody>
       </table>

@@ -25,17 +25,18 @@ import org.springframework.data.repository.query.Param;
 public interface MyCouponRepository extends JpaRepository<UserCoupon, CpIdUserIdPk> {
     @Query(value = "SELECT \n" +
             "UCP.CP_ID AS cpId,\n" +
-            "UCP.ADD_DATE AS addDate,\n" +
+            "SUBSTR(UCP.ADD_DATE, 1, 10) AS addDate,\n" +
             "CP.CP_NAME AS cpName,\n" +
             "CP.CP_DC_PRICE AS cpDcPrice,\n" +
             "CP.CP_DC_RATE AS cpDcRate,\n" +
             "CP.CP_MIN_PRICE AS cpMinPrice,\n" +
             "CP.CP_MAX_DC_PRICE AS cpMaxDcPrice,\n" +
-            "CP.CP_EXPIRE_DATE AS cpExpireDate\n" +
+            "SUBSTR(CP.CP_EXPIRE_DATE, 1, 10) AS cpExpireDate\n" +
             "FROM TB_USER_COUPON UCP, TB_COUPON CP\n" +
             "WHERE UCP.CP_ID = CP.CP_ID " +
             "AND CP.STATUS = 'Y' " +
-            "AND UCP.USER_ID = :userId "
+            "AND UCP.USER_ID = :userId " +
+            "ORDER BY CP.CP_EXPIRE_DATE"
             ,countQuery = "SELECT \n" +
             "count(*)\n" +
             "FROM TB_USER_COUPON UCP, TB_COUPON CP\n" +

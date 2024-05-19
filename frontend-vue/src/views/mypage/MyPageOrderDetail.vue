@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" style="margin-bottom: 100px">
     <!-- 장바구니 타이틀 -->
     <h1 style="margin-top: 80px; margin-bottom: 20px">주문 상세 내역</h1>
     <h5 style="margin-bottom: 20px">
@@ -18,7 +18,7 @@
             <th scope="col">구매가</th>
           </tr>
         </thead>
-        <tbody class="table-group-divider align-middle">
+        <tbody class="table-group-divider">
           <tr v-for="(data, index) in order" :key="index">
             <td class="col-4">
               <div class="d-flex align-items-center text-start">
@@ -28,34 +28,33 @@
                     :src="data.pdThumbnail"
                     class="img-thumbnail me-3"
                     style="width: 100px; height: 100px"
-                    @click="goProduct(data.pdId)"
+                    @click="goProduct(this.pdId)"
                   />
                 </div>
                 <div
                   type="button"
                   class="flex-grow-1 ms-3"
-                  @click="goProduct(data.pdId)"
+                  @click="goProduct(this.pdId)"
                 >
                   {{ data.pdName }}
                 </div>
               </div>
             </td>
-            <td class="col-1">{{ data.opName }}</td>
+            <td class="col-1  align-middle">{{ data.opName }}</td>
 
-            <td class="col-2">
+            <td class="col-2 align-middle">
               <div>
                 <!-- 장바구니 수량 -->
-                <div class="btn-group" role="group" aria-label="Basic example">
-                  <!-- 장바구니 개수 표시 : 버튼 제목 -->
+                <div class="btn-group"  role="group" aria-label="Basic example">
                   {{ data.orderDetailPrice }}
                 </div>
               </div>
             </td>
-            <td class="col-2">
+            <td class="col-2 align-middle">
               {{ data.orderDetailCnt }}
             </td>
-            <td class="col-2">
-              {{ data.orderDetailPrice * data.orderDetailCnt}}
+            <td class="col-2 align-middle">
+              {{ data.orderDetailPrice * data.orderDetailCnt }}
             </td>
           </tr>
         </tbody>
@@ -162,7 +161,7 @@
         <div class="card text-center mb-3" style="max-width: 18rem">
           <div class="card-header">총 결제금액</div>
           <div class="card-body">
-            <h3 class="card-title">{{ orderDetail.orderPrice }} 원</h3>
+            <h3 class="card-title">{{ totalPrice - useCoupon - getUsePoint() }} 원</h3>
           </div>
         </div>
       </div>
@@ -184,7 +183,11 @@
           class="btn btn-outline-dark btn-lg col-2"
           type="button"
         >
-          <router-link class="link-custom" :to="`/mypage/order/cancel/${this.orderId}`">주문취소</router-link>
+          <router-link
+            class="link-custom"
+            :to="`/mypage/order/cancel/${this.orderId}`"
+            >주문취소</router-link
+          >
         </button>
         <button
           v-if="
@@ -194,7 +197,11 @@
           class="btn btn-outline-dark btn-lg col-2"
           type="button"
         >
-          <router-link class="link-custom" :to="`/mypage/order/refund/${this.orderId}`">환불신청</router-link>
+          <router-link
+            class="link-custom"
+            :to="`/mypage/order/refund/${this.orderId}`"
+            >환불신청</router-link
+          >
         </button>
       </div>
     </div>
@@ -213,8 +220,7 @@ export default {
       totalPrice: 0,
       useCoupon: 0,
       orderName: "",
-      orderTotalPrice: 0
-
+      orderTotalPrice: 0,
     };
   },
   methods: {
@@ -242,8 +248,6 @@ export default {
       }
     },
 
-
-
     // 주문, 결제금액
     async getOrderPrice(orderId) {
       try {
@@ -262,8 +266,12 @@ export default {
         if (this.order.length > 0) {
           //   누적합 : totalPrice = totalPrice + 값
           for (const data of this.order) {
-            this.totalPrice = this.totalPrice + data.orderDetailPrice*data.orderDetailCnt;
+            this.totalPrice =
+              this.totalPrice + data.orderDetailPrice * data.orderDetailCnt;
           }
+          if (this.totalPrice < 60000) {
+        this.totalPrice += 3000; 
+      }
           console.log("총금액", this.totalPrice);
         } else {
           this.totalPrice = 0;
@@ -303,7 +311,9 @@ export default {
         console.log("쿠폰", this.useCoupon);
       }
     },
-
+    goProduct(pdId) {
+      this.$router.push(`/product/${pdId}`);
+    },
   },
   mounted() {
     this.getOrder(this.orderId);
