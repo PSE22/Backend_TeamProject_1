@@ -38,9 +38,9 @@ class MyPageService {
       headers: LoginHeader(),
     });
   }
-  // 적립금
+  // 오더코드
   getOrderCode(userId) {
-    return http.get(`/mypage/orderCode/${userId}`, {
+    return http.get(`/mypage/ordercode/${userId}`, {
       headers: LoginHeader(),
     });
   }

@@ -1,8 +1,8 @@
 // 장바구니 // 기능 : 전체선택, 선택삭제, 전제삭제, 주문하기
 <template>
-  <div class="container">
+  <div class="container" style="margin-bottom: 100px;">
     <!-- 장바구니 타이틀 -->
-    <h1 style="margin-top: 80px; margin-bottom: 20px">장바구니</h1>
+    <h1 class="cart-title">장바구니</h1>
     <div>
       <!-- 장바구니 리스트 -->
       <table class="table text-center">
@@ -327,4 +327,10 @@ export default {
 </script>
 
 <style>
+.cart-title {
+    text-align: center;
+    font-family: 'YClover-Bold';
+    margin-bottom:50px;
+    margin-top: 80px;
+}
 </style>

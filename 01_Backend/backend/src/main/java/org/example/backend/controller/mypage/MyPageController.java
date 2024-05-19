@@ -114,7 +114,7 @@ public class MyPageController {
     }
 
     //    주문정보 카운트
-    @GetMapping("/orderCode/{userId}")
+    @GetMapping("/ordercode/{userId}")
     public ResponseEntity<Object> orderCodeCount(
             @PathVariable String userId
     ) {
