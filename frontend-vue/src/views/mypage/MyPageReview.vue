@@ -12,7 +12,7 @@
             <th scope="col">등록일</th>
           </tr>
         </thead>
-        <tbody class="table-group-divider align-middle">
+        <tbody class="table-group-divider">
           <tr v-for="(data, index) in review" :key="index">
             <td class="col-4">
               <div class="d-flex align-items-center text-start">
@@ -36,16 +36,14 @@
               </div>
             </td>
             <!-- 별점 -->
-            <td class="col-1 text-center">{{ data.reviewRate }}</td>
-            <td class="col-4">
+            <td class="col-1 text-center align-middle">{{ data.reviewRate }}</td>
+            <td class="col-4 align-middle">
               <!-- 리뷰 내용 -->
-              <p>
                 {{ data.reviewContent }}
-              </p>
               <img :src="data.reviewImgUrl" class="img-thumbnail me-3" v-if="reviewImgUrl" />
             </td>
             <!-- 등록일 -->
-            <td class="col-2 text-center">{{ data.addDate }}</td>
+            <td class="col-2 text-center align-middle">{{ data.addDate }}</td>
           </tr>
         </tbody>
       </table>
