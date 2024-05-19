@@ -17,4 +17,13 @@ export default {};
 </script>
 
 <style>
+/* 마이페이지 메뉴의 배경색 변경 */
+/* .my-page-title {
+    background-color: #FFEBCC;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: #FF6F61;
+    border: 1px solid #FF6F61;
+} */
 </style>
