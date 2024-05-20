@@ -92,7 +92,7 @@ public class OrderService {
         orderDetailRepository.saveAll(orderDetails);
 
         // 태완님 코드 (주문통계) 호출
-        // orderStatsService.updateStatsOnOrderCreation();
+         orderStatsService.updateOrderStats();
 
         return order2;  // 저장된 주문 객체
     }
