@@ -38,7 +38,7 @@
         >
           <button class="mp-btn">
             <p>적립금</p>
-            <h1>{{ userPoint.resultPoint }}</h1>
+            <h1>{{ userPoint.resultPoint || 0 }}</h1>
           </button>
         </div>
       </div>

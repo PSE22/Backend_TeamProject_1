@@ -27,8 +27,8 @@ public interface MyQnaRepository extends JpaRepository<PdQna, Long> {
     @Query(value = "SELECT\n" +
             "PQ.PD_QNA_TITLE AS pdQnaTitle,\n" +
             "PQ.PD_QNA_CONTENT AS pdQnaContent,\n" +
-            "PQ.ADD_DATE AS pqAddDate,\n" +
-            "PQR.ADD_DATE AS pqrAddDate,\n" +
+            "SUBSTR(PQ.ADD_DATE, 1, 10) AS pqAddDate,\n" +
+            "SUBSTR(PQR.ADD_DATE, 1, 10) AS pqrAddDate,\n" +
             "PQR.PD_QNA_REPLY_CONTENT AS pdQnaReplyContent,\n" +
             "PQ.PD_QNA_SECRET AS pdQnaSecret,\n" +
             "PD.PD_NAME AS pdName " +
@@ -36,7 +36,8 @@ public interface MyQnaRepository extends JpaRepository<PdQna, Long> {
             "WHERE PQ.PD_QNA_ID = PQR.PD_QNA_ID(+)\n" +
             "AND PQ.PD_ID = PD.PD_ID\n" +
             "AND PQ.STATUS = 'Y'\n" +
-            "AND PQ.USER_ID = :userId",
+            "AND PQ.USER_ID = :userId " +
+            "ORDER BY PQ.ADD_DATE DESC",
     countQuery = "SELECT count(*) FROM TB_PD_QNA PQ, TB_PD_QNA_REPLY PQR, TB_PRODUCT PD\n" +
             "WHERE PQ.PD_QNA_ID = PQR.PD_QNA_ID(+)\n" +
             "AND PQ.PD_ID = PD.PD_ID\n" +
@@ -50,9 +51,7 @@ public interface MyQnaRepository extends JpaRepository<PdQna, Long> {
             "WHERE PQ.PD_QNA_ID = PQR.PD_QNA_ID(+)\n" +
             "AND PQ.PD_ID = PD.PD_ID\n" +
             "AND PQ.STATUS = 'Y'\n" +
-            "AND PQ.USER_ID = :userId\n" +
-            "AND PQ.ADD_DATE BETWEEN TO_CHAR(SYSDATE  -30, 'yyyy-MM-dd HH:mm:ss') AND\n" +
-            "TO_CHAR(SYSDATE, 'yyyy-MM-dd HH:mm:ss')",
+            "AND PQ.USER_ID = :userId\n",
             nativeQuery = true)
     Integer inquiryCount(@Param("userId") String userId);
 }

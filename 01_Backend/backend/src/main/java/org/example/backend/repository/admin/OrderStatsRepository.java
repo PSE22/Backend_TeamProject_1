@@ -27,41 +27,38 @@ import java.util.List;
 @Repository
 public interface OrderStatsRepository extends JpaRepository<OrderStats, Long> {
 
-    @Query(value = "SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD') AS OD_STAT_DATE, " +
+    @Query(value = "SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD') AS odStatDate, " +
             "COUNT(CASE WHEN O.ORDER_CODE LIKE 'OD01%' THEN O.ORDER_ID END) - " +
-            "COUNT(CASE WHEN (R.ORDER_ID IS NOT NULL AND O.ORDER_PRICE - R.REFUND_PRICE <= 0) AND R.REFUND_CODE LIKE 'OD0302%' THEN O.ORDER_ID ELSE NULL END) AS DAILY_ORDER_CNT, " +
+            "COUNT(CASE WHEN (R.ORDER_ID IS NOT NULL AND O.ORDER_PRICE - R.REFUND_PRICE <= 0) AND R.REFUND_CODE LIKE 'OD0302%' THEN O.ORDER_ID ELSE NULL END) AS dailyOrderCnt, " +
             "SUM(CASE WHEN O.ORDER_CODE LIKE 'OD01%' THEN O.ORDER_PRICE ELSE 0 END) - " +
-            "SUM(CASE WHEN R.ORDER_ID IS NOT NULL AND R.REFUND_CODE LIKE 'OD0302%' THEN R.REFUND_PRICE ELSE 0 END) AS DAILY_SALES " +
-            "FROM TB_ORDER_STATS OS " +
-            "RIGHT OUTER JOIN TB_ORDER O ON OS.OD_STAT_DATE = O.ADD_DATE" +
-            "LEFT OUTER JOIN TB_REFUND R ON R.ORDER_ID = O.ORDER_ID" +
-            "WHERE O.ADD_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD') " +
-            "GROUP BY OD_STAT_DATE", nativeQuery = true)
-    OrderStats findDailyStats();
-
-    @Query(value = "SELECT TO_CHAR(SYSDATE, 'YYYY-MM') AS OD_STAT_DATE, " +
-            "COUNT(CASE WHEN O.ORDER_CODE LIKE 'OD01%' THEN O.ORDER_ID END) - " +
-            "COUNT(CASE WHEN (R.ORDER_ID IS NOT NULL AND O.ORDER_PRICE - R.REFUND_PRICE <= 0) AND R.REFUND_CODE LIKE 'OD0302%' THEN O.ORDER_ID ELSE NULL END) AS MONTHLY_ORDER_CNT, " +
-            "SUM(CASE WHEN O.ORDER_CODE LIKE 'OD01%' THEN O.ORDER_PRICE ELSE 0 END) - " +
-            "SUM(CASE WHEN R.ORDER_ID IS NOT NULL AND R.REFUND_CODE LIKE 'OD0302%' THEN R.REFUND_PRICE ELSE 0 END) AS MONTHLY_SALES " +
-            "FROM TB_ORDER_STATS OS " +
-            "RIGHT OUTER JOIN TB_ORDER O ON OS.OD_STAT_DATE = TO_CHAR(TO_DATE(O.ADD_DATE, 'YYYY-MM-DD'), 'YYYY-MM') " +
+            "SUM(CASE WHEN R.ORDER_ID IS NOT NULL AND R.REFUND_CODE LIKE 'OD0302%' THEN R.REFUND_PRICE ELSE 0 END) AS dailySales " +
+            "FROM TB_ORDER O " +
             "LEFT OUTER JOIN TB_REFUND R ON R.ORDER_ID = O.ORDER_ID " +
-            "WHERE TO_CHAR(TO_DATE(O.ADD_DATE, 'YYYY-MM-DD'), 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') " +
-            "GROUP BY OD_STAT_DATE ", nativeQuery = true)
-    OrderStats findMonthlyStats();
+            "WHERE SUBSTR(O.ADD_DATE, 1, 10) = TO_CHAR(SYSDATE, 'YYYY-MM-DD') " +
+            "GROUP BY TO_CHAR(SYSDATE, 'YYYY-MM-DD') ", nativeQuery = true)
+    DailyOrderStatsDto findDailyStats();
 
-    @Query(value = "SELECT TO_CHAR(SYSDATE, 'YYYY') AS OD_STAT_DATE, " +
+    @Query(value = "SELECT TO_CHAR(SYSDATE, 'YYYY-MM') AS odStatDate, " +
             "COUNT(CASE WHEN O.ORDER_CODE LIKE 'OD01%' THEN O.ORDER_ID END) - " +
-            "COUNT(CASE WHEN (R.ORDER_ID IS NOT NULL AND O.ORDER_PRICE - R.REFUND_PRICE <= 0) AND R.REFUND_CODE LIKE 'OD0302%' THEN O.ORDER_ID ELSE NULL END) AS YEARLY_ORDER_CNT, " +
+            "COUNT(CASE WHEN (R.ORDER_ID IS NOT NULL AND O.ORDER_PRICE - R.REFUND_PRICE <= 0) AND R.REFUND_CODE LIKE 'OD0302%' THEN O.ORDER_ID ELSE NULL END) AS monthlyOrderCnt, " +
             "SUM(CASE WHEN O.ORDER_CODE LIKE 'OD01%' THEN O.ORDER_PRICE ELSE 0 END) - " +
-            "SUM(CASE WHEN R.ORDER_ID IS NOT NULL AND R.REFUND_CODE LIKE 'OD0302%' THEN R.REFUND_PRICE ELSE 0 END) AS YEARLY_SALES " +
-            "FROM TB_ORDER_STATS OS " +
-            "RIGHT OUTER JOIN TB_ORDER O ON OS.OD_STAT_DATE = TO_CHAR(TO_DATE(O.ADD_DATE, 'YYYY-MM-DD'), 'YYYY') " +
+            "SUM(CASE WHEN R.ORDER_ID IS NOT NULL AND R.REFUND_CODE LIKE 'OD0302%' THEN R.REFUND_PRICE ELSE 0 END) AS monthlySales " +
+            "FROM TB_ORDER O " +
             "LEFT OUTER JOIN TB_REFUND R ON R.ORDER_ID = O.ORDER_ID " +
-            "WHERE TO_CHAR(TO_DATE(O.ADD_DATE, 'YYYY-MM-DD'), 'YYYY') = TO_CHAR(SYSDATE, 'YYYY') " +
-            "GROUP BY OD_STAT_DATE ", nativeQuery = true)
-    OrderStats findYearlyStats();
+            "WHERE SUBSTR(O.ADD_DATE, 1, 7) = TO_CHAR(SYSDATE, 'YYYY-MM') " +
+            "GROUP BY TO_CHAR(SYSDATE, 'YYYY-MM') ", nativeQuery = true)
+    MonthlyOrderStatsDto findMonthlyStats();
+
+    @Query(value = "SELECT TO_CHAR(SYSDATE, 'YYYY') AS odStatDate, " +
+            "COUNT(CASE WHEN O.ORDER_CODE LIKE 'OD01%' THEN O.ORDER_ID END) - " +
+            "COUNT(CASE WHEN (R.ORDER_ID IS NOT NULL AND O.ORDER_PRICE - R.REFUND_PRICE <= 0) AND R.REFUND_CODE LIKE 'OD0302%' THEN O.ORDER_ID ELSE NULL END) AS yearlyOrderCnt, " +
+            "SUM(CASE WHEN O.ORDER_CODE LIKE 'OD01%' THEN O.ORDER_PRICE ELSE 0 END) - " +
+            "SUM(CASE WHEN R.ORDER_ID IS NOT NULL AND R.REFUND_CODE LIKE 'OD0302%' THEN R.REFUND_PRICE ELSE 0 END) AS YearlySales " +
+            "FROM TB_ORDER O " +
+            "LEFT OUTER JOIN TB_REFUND R ON R.ORDER_ID = O.ORDER_ID " +
+            "WHERE SUBSTR(O.ADD_DATE, 1, 4) = TO_CHAR(SYSDATE, 'YYYY') " +
+            "GROUP BY TO_CHAR(SYSDATE, 'YYYY') ", nativeQuery = true)
+    YearlyOrderStatsDto findYearlyStats();
 
     @Query(value = "SELECT SUBSTR(OD_STAT_DATE, 9, 2) AS odStatDate, DAILY_SALES AS dailySales, DAILY_ORDER_CNT AS dailyOrderCnt " +
             "FROM ( " +
@@ -89,6 +86,4 @@ public interface OrderStatsRepository extends JpaRepository<OrderStats, Long> {
             ") " +
             "WHERE RN = 1", nativeQuery = true)
     List<YearlyOrderStatsDto> findYearlyOrderStats();
-
-    List<OrderStats> findByOdStatDate(String odStatDate);
 }

@@ -53,6 +53,13 @@ class OrderService {
     });
   }
 
+  // 배송지 저장
+  createShipAddress(data) {
+    return http.post("/shop/order/ship-address", data, {
+      headers: LoginHeader(),
+    });
+  }
+
   // 장바구니 조회
   getCart(userId) {
     return http.get(`/shop/order/cart/${userId}`, {

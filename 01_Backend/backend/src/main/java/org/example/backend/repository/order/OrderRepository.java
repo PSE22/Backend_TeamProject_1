@@ -37,11 +37,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     );
 
     //    주문정보 카운트
-    @Query(value = "SELECT ORDER_CODE AS orderCode, COUNT(*) AS count FROM TB_ORDER\n" +
-            "WHERE USER_ID = :userId AND ORDER_CODE IN ('PO03', 'OD0101', 'OD0103', 'OD0104')\n" +
-            "AND ADD_DATE BETWEEN TO_CHAR(SYSDATE  -15, 'yyyy-MM-dd') AND\n" +
-            "TO_CHAR(SYSDATE, 'yyyy-MM-dd') " +
-            "GROUP BY ORDER_CODE",
+    @Query(value = "SELECT ORDER_CODE AS orderCode, COUNT(*) AS count FROM TB_ORDER\n " +
+            "WHERE USER_ID = :userId " +
+            "AND ORDER_CODE IN ('PO03', 'OD0101', 'OD0103', 'OD0104')\n" +
+            "GROUP BY ORDER_CODE ",
             nativeQuery = true)
     List<IOrderCodeDto> orderCodeCount(@Param("userId") String userId);
 }
