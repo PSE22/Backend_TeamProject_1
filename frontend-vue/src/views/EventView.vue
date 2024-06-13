@@ -7,8 +7,8 @@
   </div>
 
   <!-- 이벤트 관리 버튼 -->
-  <div v-if="isAdmin" class="row event-button-group">
-    <button type="button" class="btn btn-primary col-1 event-button" data-bs-toggle="modal"
+  <div class="row">
+    <button v-if="isAdmin" type="button" class="btn btn-primary col-1 event-save-button" data-bs-toggle="modal"
       data-bs-target="#eventModal">등록</button>
     <div class="row" id="event-button">
       <form>
@@ -60,7 +60,7 @@ import EventService from "@/services/shop/EventService";
 export default {
   data() {
     return {
-      isAdmin: this.$store.state.user.userId,
+      isAdmin: this.$store.state.user != null && this.$store.state.user.userCode === "AT01",
 
       eventTitle: "",
       eventContent: "",
@@ -72,23 +72,13 @@ export default {
     }
   },
   methods: {
-    // 회원 정보 가져오기
-    // async getUser(userId) {
-    //   try {
-    //     let response = await OrderService.getUser(userId);
-    //     this.user = response.data;
-    //     console.log("로그인된 회원의 정보 : ", response.data);
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // },
-
     // 전체 이벤트 가져오기
     async retrieveEvent() {
       try {
         let response = await EventService.getAll();
         this.event = response.data;
         console.log("전체 이벤트 : ", response.data);
+        console.log("관리자 : ", this.isAdmin);
       } catch (e) {
         console.log(e);
       }
@@ -99,7 +89,7 @@ export default {
       try {
         // 이벤트 객체
         let data = {
-          userId: this.isAdmin,
+          userId: this.this.$store.state.user.userId,
           eventTitle: this.eventTitle,
           eventContent: this.eventContent,
           eventThumbnail: this.eventThumbnail,
@@ -122,14 +112,13 @@ export default {
   },
   mounted() {
     this.retrieveEvent();
-    console.log("유저 : ", this.$store.state.user.userId);
   },
 };
 </script>
 <style>
 @import "@/assets/css/category.css";
 
-.event-button {
+.event-save-button {
   margin-bottom: 30px;
 }
 

@@ -37,7 +37,7 @@ public interface QnaRepository extends JpaRepository<PdQna, Integer> {
             "AND PQ.PD_ID = :pdId\n" +
             "AND PQ.PD_QNA_ID = QR.PD_QNA_ID(+)\n" +
             "AND PQ.STATUS = 'Y'\n" +
-            "ORDER BY PQ.ADD_DATE DESC"
+            "ORDER BY pqAddDate DESC"
     , nativeQuery = true)
     Page<IQnaDto> selectByQnaContaining(@Param("pdId")Long pdId, Pageable pageable);
 }
