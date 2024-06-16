@@ -92,7 +92,7 @@ public class OrderService {
         orderDetailRepository.saveAll(orderDetails);
 
         // 태완님 코드 (주문통계) 호출
-        // orderStatsService.updateStatsOnOrderCreation();
+         orderStatsService.updateOrderStats();
 
         return order2;  // 저장된 주문 객체
     }
@@ -114,6 +114,13 @@ public class OrderService {
         return optionalShipAddress;
     }
 
+    // 새로운 배송지 저장
+    public ShipAddress saveShipAddress(ShipAddress shipAddress) {
+        ShipAddress shipAddress2 = shipAddressRepository.save(shipAddress);
+        return shipAddress2;
+    }
+
+
     // 쿠폰 정보 전체 조회
     public List<IUserCouponDto> findAllByUserCoupon(String userId) {
         List<IUserCouponDto> listIUserCouponDto = userCouponRepository.findAllByUserCoupon(userId);
@@ -127,7 +134,7 @@ public class OrderService {
     }
 
     // 사용 포인트 저장 (insert)
-    public UsePoint save(UsePoint usePoint) {
+    public UsePoint savePoint(UsePoint usePoint) {
         UsePoint usePoint2 = usePointRepository.save(usePoint);
         return usePoint2;
     }

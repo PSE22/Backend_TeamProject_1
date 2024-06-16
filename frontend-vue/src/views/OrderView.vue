@@ -76,7 +76,7 @@
             <div class="form-check form-check-inline">
               <!-- 라디오 버튼 선택시 selectedAddr에 value 값이 들어감 -->
               <input class="form-check-input mt-1" type="radio" id="addrRadio1" value="option1" v-model="selectedAddr"
-                @change="handleRadioChange" />
+                @change="handleRadioChange"/>
               <label class="form-check-label" for="addrRadio1">직접 입력</label>
             </div>
             <div class="form-check form-check-inline">
@@ -98,7 +98,7 @@
                   <input type="test" id="postcode" class="form-control" placeholder="우편번호" v-model="orderPostcode" />
                 </div>
                 <div class="col-3">
-                  <button @click="execDaumPostcode()" type="submit" class="btn btn-primary mb-3">
+                  <button @click="execDaumPostcode()" class="btn btn-primary mb-3">
                     우편번호찾기
                   </button>
                 </div>
@@ -108,7 +108,7 @@
                   <input type="text" id="shipAddr" class="form-control" placeholder="주소 입력" v-model="orderShipAddr1" />
                 </div>
                 <div class="col-6">
-                  <input type="text" id="shipAddr2" class="form-control" placeholder="상세주소 입력"
+                  <input  type="text" id="shipAddr2" class="form-control" placeholder="상세주소 입력"
                     v-model="orderShipAddr2" />
                 </div>
               </div>
@@ -143,22 +143,22 @@
             <div class="col-9 row-content">
               <div class="row">
                 <div class="col-3">
-                  <input type="test" id="postcode" class="form-control" placeholder="우편번호" readonly
+                  <input type="test" class="form-control" placeholder="우편번호" readonly
                     v-model="orderPostcode" />
                 </div>
                 <div class="col-3">
-                  <button @click="execDaumPostcode()" type="submit" class="btn btn-primary mb-3" disabled>
+                  <button type="submit" class="btn btn-primary mb-3" disabled>
                     우편번호찾기
                   </button>
                 </div>
               </div>
               <div class="row">
                 <div class="col-6">
-                  <input type="text" id="shipAddr" class="form-control" placeholder="주소 입력" readonly
+                  <input type="text" class="form-control" placeholder="주소 입력" readonly
                     v-model="orderShipAddr1" />
                 </div>
                 <div class="col-6">
-                  <input type="text" id="shipAddr2" class="form-control" placeholder="상세주소 입력" readonly
+                  <input type="text" class="form-control" placeholder="상세주소 입력" readonly
                     v-model="orderShipAddr2" />
                 </div>
               </div>
@@ -209,7 +209,7 @@
               <div class="col-6">
                 <select class="form-select" v-model="selectCoupon">
                   <!-- 회원 보유 쿠폰 반복문 돌리기 -->
-                  <option v-for="(data, index) in coupon" :key="index" :value="data">
+                  <option v-for="(data, index) in coupon" :key="index" :value="data" selec>
                     {{ data?.cpName }}
                   </option>
                 </select>
@@ -314,7 +314,7 @@ export default {
       userId: this.$store.state.user.userId,
       orderList: [],            // 임시 장바구니 배열(로컬 저장소)
       selectCoupon: {},         // 사용할 쿠폰의 값을 담을 객체
-      selectedAddr: 'option1',  // 배송지 선택 라디오 버튼 값 초기 설정
+      selectedAddr: "option1",  // 배송지 선택 라디오 버튼 값 초기 설정
       discount: 0,              // 할인금액
       tmpPoint: 0,              // 사용할 적립금
       totalPrice: 0,            // 상품 총액
@@ -365,6 +365,7 @@ export default {
           orderCode: "OD0101",                   // 주문상태코드
           postcode: this.orderPostcode,          // 우편번호
         }
+
         let response = await OrderService.create(data);       // 주문 추가(create) 서비스 함수 실행 
         console.log(response.data);
         // 장바구니 삭제 반복문
@@ -375,10 +376,12 @@ export default {
         await this.updateUserCoupon();
         // 사용포인트 저장함수 실행
         await this.saveUsePoint();
+        // 배송지 저장함수 실행
+        await this.createShipAddress();
 
         alert("주문이 완료되었습니다.");
-        // 장바구니 페이지로 이동
-        this.$router.push("/cart");
+        // 주문 상세 페이지로 이동
+        this.$router.push("/mypage/order");
 
       } catch (e) {
         console.log(e);
@@ -389,13 +392,15 @@ export default {
     async saveUsePoint() {
       try {
         let data = {
-          usePointPrice: this.tmpPoint
-        }
+          usePointId: null,                 // 사용 포인트 ID
+          orderId: null,                    // 주문 ID
+          usePointPrice: this.tmpPoint      // 차감금액
+        } 
         let response = await OrderService.createUsePoint(data);
         console.log("사용 포인트 저장 : ", response.data);
 
       } catch (e) {
-        console.log("사용 포인트 저장 실패 : ", e);
+        console.log("사용 포인트 없음 : ", e);
       }
     },
 
@@ -405,7 +410,7 @@ export default {
         let response = await OrderService.updateUserCoupon(this.selectCoupon.cpId, this.$store.state.user.userId);
         console.log("사용 쿠폰 삭제 성공: ", response.data);
       } catch (e) {
-        console.log("사용 쿠폰 삭제 실패", e);
+        console.log("사용 쿠폰 없음", e);
       }
     },
 
@@ -481,6 +486,23 @@ export default {
       }
     },
 
+    // 입력한 배송지 저장 
+    async createShipAddress() {
+      try {
+        let data = {
+          userId: this.userId,                // 회원 ID
+          shipAddr: this.orderShipAddr1,      // 배송지 주소
+          shipAddrName: "배송지명1",           // 배송지명
+          shipAddr2: this.orderShipAddr2,     // 배송지 상세주소
+          postcode: this.orderPostcode,       // 우편번호
+        }
+        let response = await OrderService.createShipAddress(data);
+        console.log("신규 배송지 저장 : ", response.data);
+      } catch (e) {
+        console.log(" 배송지 저장 안됨?: ", e);
+      }
+    },
+
     // 배송지 라디오 버튼 함수
     handleRadioChange() {
       try {
@@ -490,7 +512,7 @@ export default {
           this.orderShipAddr2 = "";
           this.orderName = "";
           this.orderPhone = "";
-          console.log("직접입력이 선택됨");
+          console.log("직접 입력이 선택됨");
 
         } else if (this.selectedAddr === "option2") {
           this.orderPostcode = this.shipAddress.postcode;
@@ -627,6 +649,7 @@ export default {
       }
 
     },
+
   },
   mounted() {
     this.sumOrderAmount();

@@ -83,6 +83,17 @@ public class OrderController {
         }
     }
 
+    // 새로 입력한 배송지 저장
+    @PostMapping("/order/ship-address")
+    public ResponseEntity<Object> createShipAddress(@RequestBody ShipAddress shipAddress) {
+        try {
+            ShipAddress shipAddress2 = orderService.saveShipAddress(shipAddress);
+            return new ResponseEntity<>(shipAddress2, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     // 회원의 쿠폰 정보 전체 조회
     @GetMapping("/order/user-coupon/{userId}")
     public ResponseEntity<Object> findByUserCouponUserId(@PathVariable String userId) {
@@ -133,8 +144,8 @@ public class OrderController {
     @PostMapping("/order/point")
     public ResponseEntity<Object> createUsePoint(@RequestBody UsePoint usePoint) {
         try {
-            UsePoint usePoint2 = orderService.save(usePoint);
-            log.debug("엘11 : ", usePoint2);
+            UsePoint usePoint2 = orderService.savePoint(usePoint);
+            log.debug("로그 : ", usePoint2);
             return new ResponseEntity<>(usePoint2, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

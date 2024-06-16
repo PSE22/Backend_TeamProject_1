@@ -30,9 +30,9 @@ public class OrderStatsService {
     private OrderStatsRepository orderStatsRepository;
 
     public void updateOrderStats() {
-        OrderStats dailyStats = orderStatsRepository.findDailyStats();
-        OrderStats monthlyStats = orderStatsRepository.findMonthlyStats();
-        OrderStats yearlyStats = orderStatsRepository.findYearlyStats();
+        DailyOrderStatsDto dailyStats = orderStatsRepository.findDailyStats();
+        MonthlyOrderStatsDto monthlyStats = orderStatsRepository.findMonthlyStats();
+        YearlyOrderStatsDto yearlyStats = orderStatsRepository.findYearlyStats();
 
         // 모든 통계 정보가 유효한지 확인하고 합치기
         if (dailyStats != null && monthlyStats != null && yearlyStats != null) {
@@ -49,10 +49,6 @@ public class OrderStatsService {
             // 통합된 통계 정보 삽입
             orderStatsRepository.save(combinedStats);
         }
-    }
-
-    public void updateStatsOnOrderCreation() {
-        updateOrderStats();
     }
 
     public List<DailyOrderStatsDto> getDailyOrderStats(String odStatDate) {
